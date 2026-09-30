@@ -7,34 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CC8D734E8F61452D9BCDDA47 /* CreatePassAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FE4A5935F94CDB9F5B61BC /* CreatePassAppIntent.swift */; };
-		F779D65EDDC14D8CBE61688E /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DA983BAA0C45F7AD3D5926 /* PassIntelligence.swift */; };
-		E5092BE9E05C4A0B9924F6AA /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DA983BAA0C45F7AD3D5926 /* PassIntelligence.swift */; };
-		EBA037E18FD64F7FAE31D3A1 /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06F60856FCB43D093BF6B65 /* VaultCrypto.swift */; };
-		0AC1257750B647B3B7DAD0A4 /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06F60856FCB43D093BF6B65 /* VaultCrypto.swift */; };
-		C6769C2838684E74B597F4A6 /* PassVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A2839C9B64679A2608E6A /* PassVaultStore.swift */; };
-		D45B6895DF194B0FA69F0B89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13F47E486BDF4DF9B052DFA0 /* Assets.xcassets */; };
-		494D5510835D499DA7E63FA9 /* SlipTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CCE01F01CC49BA8767A8E4 /* SlipTheme.swift */; };
-		959BBC789FB64F829494210B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F5591548B640D294FAF544 /* DashboardView.swift */; };
-		E01210E2AFE74909871A9434 /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9204BE3CCE247C380EFF307 /* MarketplaceView.swift */; };
-		8E7A6D21D2EC4B53846BE66B /* PassDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B6E4B8D08D41FD90CE7058 /* PassDetailsView.swift */; };
-		3245201C6ADD435EA25C2C2B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CD2C22DD384F59A09F37AB /* SettingsView.swift */; };
 		05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */; };
+		1B6849EA654F4F8CA23D72E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC03091146138679A40E07D /* Assets.xcassets */; };
+		201CE9229718C9CB912FFD14 /* SlipLogo.svg in Resources */ = {isa = PBXBuildFile; fileRef = A7054524AB19D7995A58796D /* SlipLogo.svg */; };
 		2450259A2F21741CCB88C1C6 /* SlipShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		28D3A49DED56189D1F35747B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */; };
+		31E008043173D4EF35CBEDBA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E61E78F71468FD9BF3088AF /* SettingsView.swift */; };
+		3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838354E90A64A84D0180F3CC /* VaultCrypto.swift */; };
 		49E1DCE75087F2404EBD065C /* AddToWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */; };
 		515CCB4E78B8E81D4226EC12 /* ConfirmPassSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */; };
 		59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */; };
 		5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */; };
 		5C81F5632709A406A7E12826 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */; };
 		6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
+		6CF3826AB8ACF6C5F18F5397 /* CreatePassAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */; };
 		9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */; };
+		AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */; };
 		B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
 		B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
 		BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CD80C407F877B0A7E2B75 /* ContentView.swift */; };
+		BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
 		C6F1D4B660C77FC1D24E7CAA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8ABD081C5146E022BBD92 /* Models.swift */; };
 		CC037B5498D3DE35D2815BCE /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8ABD081C5146E022BBD92 /* Models.swift */; };
+		CCF77D5677B4E51D745B71DB /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838354E90A64A84D0180F3CC /* VaultCrypto.swift */; };
+		CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */; };
+		D5FD67DADF8778241937C147 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
+		DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */; };
 		F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2C529080055CAEF318AC1E /* PassAPIClient.swift */; };
+		FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0783491530619C761F358A92 /* SlipTheme.swift */; };
 		FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
+		FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,25 +64,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		80FE4A5935F94CDB9F5B61BC /* CreatePassAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassAppIntent.swift; sourceTree = "<group>"; };
-		04DA983BAA0C45F7AD3D5926 /* PassIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIntelligence.swift; sourceTree = "<group>"; };
-		B06F60856FCB43D093BF6B65 /* VaultCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultCrypto.swift; sourceTree = "<group>"; };
-		8C2A2839C9B64679A2608E6A /* PassVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassVaultStore.swift; sourceTree = "<group>"; };
-		13F47E486BDF4DF9B052DFA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		36CCE01F01CC49BA8767A8E4 /* SlipTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipTheme.swift; sourceTree = "<group>"; };
-		C6F5591548B640D294FAF544 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
-		F9204BE3CCE247C380EFF307 /* MarketplaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceView.swift; sourceTree = "<group>"; };
-		88B6E4B8D08D41FD90CE7058 /* PassDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailsView.swift; sourceTree = "<group>"; };
-		87CD2C22DD384F59A09F37AB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0783491530619C761F358A92 /* SlipTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipTheme.swift; sourceTree = "<group>"; };
+		08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceView.swift; sourceTree = "<group>"; };
 		17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipApp.swift; sourceTree = "<group>"; };
+		1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		2EC03091146138679A40E07D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D621D1E5C43A65B0124382B /* TicketExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExtractor.swift; sourceTree = "<group>"; };
 		4564222B5D2D431FAB5BA55E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		7062E51BFDA810ADEC391AA3 /* Slip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Slip.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SlipShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassAppIntent.swift; sourceTree = "<group>"; };
+		6E61E78F71468FD9BF3088AF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		7062E51BFDA810ADEC391AA3 /* Slip.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Slip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		838354E90A64A84D0180F3CC /* VaultCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultCrypto.swift; sourceTree = "<group>"; };
+		8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SlipShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassVaultStore.swift; sourceTree = "<group>"; };
+		965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailsView.swift; sourceTree = "<group>"; };
 		9ADF376FEA8CA772D0EBD806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A19E44B5EBEAAB8E976B96D1 /* SlipShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipShareExtension.entitlements; sourceTree = "<group>"; };
 		A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletButton.swift; sourceTree = "<group>"; };
+		A7054524AB19D7995A58796D /* SlipLogo.svg */ = {isa = PBXFileReference; path = SlipLogo.svg; sourceTree = "<group>"; };
 		A8A1913386BDCCF6EE9FE503 /* Slip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Slip.entitlements; sourceTree = "<group>"; };
 		B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandClassifier.swift; sourceTree = "<group>"; };
 		C27CD80C407F877B0A7E2B75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		C8B8ABD081C5146E022BBD92 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		DB2C529080055CAEF318AC1E /* PassAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAPIClient.swift; sourceTree = "<group>"; };
 		DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPassSheet.swift; sourceTree = "<group>"; };
+		EC254EF101ED57713178447A /* PassIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIntelligence.swift; sourceTree = "<group>"; };
 		F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,11 +120,11 @@
 		71F3FC9A405A26BBEFCE1ED3 /* SlipShared */ = {
 			isa = PBXGroup;
 			children = (
-				B06F60856FCB43D093BF6B65 /* VaultCrypto.swift */,
 				B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */,
-				04DA983BAA0C45F7AD3D5926 /* PassIntelligence.swift */,
 				C8B8ABD081C5146E022BBD92 /* Models.swift */,
+				EC254EF101ED57713178447A /* PassIntelligence.swift */,
 				3D621D1E5C43A65B0124382B /* TicketExtractor.swift */,
+				838354E90A64A84D0180F3CC /* VaultCrypto.swift */,
 			);
 			path = SlipShared;
 			sourceTree = "<group>";
@@ -128,24 +132,26 @@
 		CF877F8ABF8469D02942E9C2 /* Slip */ = {
 			isa = PBXGroup;
 			children = (
-				8C2A2839C9B64679A2608E6A /* PassVaultStore.swift */,
-				13F47E486BDF4DF9B052DFA0 /* Assets.xcassets */,
-				36CCE01F01CC49BA8767A8E4 /* SlipTheme.swift */,
-				C6F5591548B640D294FAF544 /* DashboardView.swift */,
-				F9204BE3CCE247C380EFF307 /* MarketplaceView.swift */,
-				88B6E4B8D08D41FD90CE7058 /* PassDetailsView.swift */,
-				87CD2C22DD384F59A09F37AB /* SettingsView.swift */,
+				F6F60A4757ADBE3E0F20ED43 /* Resources */,
 				A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */,
 				F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */,
-				80FE4A5935F94CDB9F5B61BC /* CreatePassAppIntent.swift */,
+				2EC03091146138679A40E07D /* Assets.xcassets */,
 				C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */,
 				DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */,
 				C27CD80C407F877B0A7E2B75 /* ContentView.swift */,
+				69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */,
+				1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */,
 				4564222B5D2D431FAB5BA55E /* Info.plist */,
 				C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */,
+				08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */,
 				DB2C529080055CAEF318AC1E /* PassAPIClient.swift */,
+				965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */,
+				946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */,
+				526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */,
+				6E61E78F71468FD9BF3088AF /* SettingsView.swift */,
 				A8A1913386BDCCF6EE9FE503 /* Slip.entitlements */,
 				17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */,
+				0783491530619C761F358A92 /* SlipTheme.swift */,
 			);
 			path = Slip;
 			sourceTree = "<group>";
@@ -157,6 +163,14 @@
 				8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F6F60A4757ADBE3E0F20ED43 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A7054524AB19D7995A58796D /* SlipLogo.svg */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,7 +198,7 @@
 			buildConfigurationList = A74054958591834E1D9CAD16 /* Build configuration list for PBXNativeTarget "Slip" */;
 			buildPhases = (
 				5A16E896C6B46360FDC5E756 /* Sources */,
-				658A6DEA50F144C5A75AB932 /* Resources */,
+				F6EA1B1CEC26A332012AD74E /* Resources */,
 				D7E93DBB1401BB7DBF9B9963 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -206,10 +220,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2660;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					45D3F0493594B4B18BF193D0 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 9HSMVVUMVX;
+						ProvisioningStyle = Automatic;
+					};
+					90E8F132BEC9C451FC98140C = {
+						DevelopmentTeam = 9HSMVVUMVX;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -234,11 +253,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		658A6DEA50F144C5A75AB932 /* Resources */ = {
+		F6EA1B1CEC26A332012AD74E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D45B6895DF194B0FA69F0B89 /* Assets.xcassets in Resources */,
+				1B6849EA654F4F8CA23D72E9 /* Assets.xcassets in Resources */,
+				28D3A49DED56189D1F35747B /* PrivacyInfo.xcprivacy in Resources */,
+				201CE9229718C9CB912FFD14 /* SlipLogo.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,26 +270,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBA037E18FD64F7FAE31D3A1 /* VaultCrypto.swift in Sources */,
-				C6769C2838684E74B597F4A6 /* PassVaultStore.swift in Sources */,
-				494D5510835D499DA7E63FA9 /* SlipTheme.swift in Sources */,
-				959BBC789FB64F829494210B /* DashboardView.swift in Sources */,
-				E01210E2AFE74909871A9434 /* MarketplaceView.swift in Sources */,
-				8E7A6D21D2EC4B53846BE66B /* PassDetailsView.swift in Sources */,
-				3245201C6ADD435EA25C2C2B /* SettingsView.swift in Sources */,
 				49E1DCE75087F2404EBD065C /* AddToWalletButton.swift in Sources */,
 				5C81F5632709A406A7E12826 /* AppModel.swift in Sources */,
-				CC8D734E8F61452D9BCDDA47 /* CreatePassAppIntent.swift in Sources */,
 				6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */,
-				F779D65EDDC14D8CBE61688E /* PassIntelligence.swift in Sources */,
 				05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */,
 				515CCB4E78B8E81D4226EC12 /* ConfirmPassSheet.swift in Sources */,
 				BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */,
+				6CF3826AB8ACF6C5F18F5397 /* CreatePassAppIntent.swift in Sources */,
+				CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */,
 				9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */,
+				AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */,
 				C6F1D4B660C77FC1D24E7CAA /* Models.swift in Sources */,
 				F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */,
+				DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */,
+				BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */,
+				FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */,
+				31E008043173D4EF35CBEDBA /* SettingsView.swift in Sources */,
 				5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */,
+				FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */,
 				B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */,
+				3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,12 +297,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AC1257750B647B3B7DAD0A4 /* VaultCrypto.swift in Sources */,
 				FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */,
-				E5092BE9E05C4A0B9924F6AA /* PassIntelligence.swift in Sources */,
 				CC037B5498D3DE35D2815BCE /* Models.swift in Sources */,
+				D5FD67DADF8778241937C147 /* PassIntelligence.swift in Sources */,
 				59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */,
 				B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */,
+				CCF77D5677B4E51D745B71DB /* VaultCrypto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,23 +321,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
 				CODE_SIGN_ENTITLEMENTS = Slip/Slip.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Slip/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip;
 				PRODUCT_NAME = Slip;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -324,7 +345,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BASE_SDK = iphoneos;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -355,12 +375,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -381,7 +401,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -392,20 +411,19 @@
 		7F40CE6A7AF1D8DA3B484827 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.share;
 				PRODUCT_NAME = SlipShareExtension;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -413,43 +431,42 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
 				CODE_SIGN_ENTITLEMENTS = Slip/Slip.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Slip/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip;
 				PRODUCT_NAME = Slip;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		D8F25CD9F1ACA686BA0971F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.share;
 				PRODUCT_NAME = SlipShareExtension;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -457,7 +474,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BASE_SDK = iphoneos;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -488,12 +504,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -507,7 +523,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;

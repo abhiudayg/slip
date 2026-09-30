@@ -31,12 +31,24 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>161.33.86.15</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Slip scans membership barcodes and QR tickets to build Wallet passes.</string>
@@ -45,7 +57,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Slip reads QR codes from screenshots you share.</string>
 	<key>SlipAPIBaseURL</key>
-	<string>http://127.0.0.1:8080</string>
+	<string>http://161.33.86.15:8080</string>
 	<key>SlipAppGroup</key>
 	<string>group.com.aeswibon.slip</string>
 	<key>UILaunchScreen</key>

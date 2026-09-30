@@ -35,3 +35,7 @@ ios/**/*.dSYM
 # Logs / temp
 *.log
 /tmp/
+
+# iOS local archives
+ios/build/
+**/*.xcarchive/

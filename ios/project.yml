@@ -6,11 +6,12 @@ options:
   createIntermediateGroups: true
   groupSortPosition: top
 settings:
-  BASE_SDK: iphoneos
-  CODE_SIGN_STYLE: Automatic
-  DEVELOPMENT_TEAM: "9HSMVVUMVX"
-  TARGETED_DEVICE_FAMILY: "1"
-  SWIFT_VERSION: "5.0"
+  base:
+    BASE_SDK: iphoneos
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "9HSMVVUMVX"
+    TARGETED_DEVICE_FAMILY: "1"
+    SWIFT_VERSION: "5.0"
 configs:
   Debug: debug
   Release: release
@@ -23,19 +24,25 @@ targets:
       - path: Slip
       - path: SlipShared
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.aeswibon.slip
-      INFOPLIST_FILE: Slip/Info.plist
-      CODE_SIGN_ENTITLEMENTS: Slip/Slip.entitlements
-      PRODUCT_NAME: Slip
-      MARKETING_VERSION: "1.0"
-      CURRENT_PROJECT_VERSION: "1"
-      GENERATE_INFOPLIST_FILE: false
-      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aeswibon.slip
+        INFOPLIST_FILE: Slip/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Slip/Slip.entitlements
+        PRODUCT_NAME: Slip
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "2"
+        GENERATE_INFOPLIST_FILE: false
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: false
+        DEVELOPMENT_TEAM: "9HSMVVUMVX"
+        CODE_SIGN_STYLE: Automatic
     dependencies:
       - target: SlipShareExtension
         embed: true
     scheme:
       testTargets: []
+      gatherCoverageData: false
 
   SlipShareExtension:
     type: app-extension
@@ -44,9 +51,16 @@ targets:
       - path: SlipShareExtension
       - path: SlipShared
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: com.aeswibon.slip.share
-      INFOPLIST_FILE: SlipShareExtension/Info.plist
-      CODE_SIGN_ENTITLEMENTS: SlipShareExtension/SlipShareExtension.entitlements
-      PRODUCT_NAME: SlipShareExtension
-      GENERATE_INFOPLIST_FILE: false
-      LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aeswibon.slip.share
+        INFOPLIST_FILE: SlipShareExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: SlipShareExtension/SlipShareExtension.entitlements
+        PRODUCT_NAME: SlipShareExtension
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "2"
+        GENERATE_INFOPLIST_FILE: false
+        SKIP_INSTALL: true
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
+        TARGETED_DEVICE_FAMILY: "1"
+        DEVELOPMENT_TEAM: "9HSMVVUMVX"
+        CODE_SIGN_STYLE: Automatic
