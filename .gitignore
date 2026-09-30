@@ -39,3 +39,6 @@ ios/**/*.dSYM
 # iOS local archives
 ios/build/
 **/*.xcarchive/
+
+# Local icon tooling
+ios/.icon-backup/
