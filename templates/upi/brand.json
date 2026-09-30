@@ -1,15 +1,23 @@
 {
   "id": "upi",
-  "displayName": "UPI Get Paid",
+  "displayName": "UPI PayPass",
   "category": "everyday_pay",
-  "appleStyle": "generic",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["name", "qr_data"],
-  "optionalFields": [],
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "vpa",
+    "bank"
+  ],
   "supportsLocations": false,
   "supportsRelevantDate": false,
-  "accentHint": "rgb(16, 185, 129)",
-  "summary": "Personal UPI QR for receiving payments from Wallet.",
+  "accentHint": "rgb(249, 115, 22)",
+  "summary": "UPI receive/pay QR (Bharat QR / NPCI) for Apple Wallet.",
   "badge": "UPI",
   "iconHint": "qrcode"
 }

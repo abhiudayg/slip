@@ -1,0 +1,47 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "District",
+  "description": "District festival pass",
+  "logoText": "District",
+  "backgroundColor": "rgb(12, 4, 18)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(178, 255, 68)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "eventTicket": {
+    "headerFields": [
+      { "key": "tier", "label": "TIER", "value": "{{tier}}" }
+    ],
+    "primaryFields": [
+      { "key": "event", "label": "EVENT", "value": "{{event}}" }
+    ],
+    "secondaryFields": [
+      { "key": "venue", "label": "VENUE", "value": "{{venue}}" },
+      { "key": "gate", "label": "FAST ENTRY", "value": "{{gate}}" }
+    ],
+    "auxiliaryFields": [
+      { "key": "time", "label": "GATES OPEN", "value": "{{time}}" },
+      { "key": "zone", "label": "ZONE", "value": "{{zone}}" },
+      { "key": "passholder", "label": "PASSHOLDER", "value": "{{passholder}}" },
+      { "key": "booking", "label": "WRISTBAND", "value": "{{booking_id}}" }
+    ],
+    "backFields": [
+      {
+        "key": "about",
+        "label": "About",
+        "value": "District all-access festival pass. Tap iPhone at the turnstile NFC scanner when available, or present the QR for Express entry."
+      },
+      {
+        "key": "nfc",
+        "label": "Entry",
+        "value": "Apple VAS / Express turnstile when supported. Zero-friction NFC wristband mode."
+      }
+    ]
+  }
+}

@@ -3,9 +3,9 @@
   "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
   "teamIdentifier": "{{TEAM_IDENTIFIER}}",
   "organizationName": "Airbnb",
-  "description": "Airbnb reservation",
+  "description": "Airbnb room key & access pass",
   "logoText": "Airbnb",
-  "backgroundColor": "rgb(35, 10, 18)",
+  "backgroundColor": "rgb(33, 18, 22)",
   "foregroundColor": "rgb(255, 255, 255)",
   "labelColor": "rgb(255, 150, 170)",
   "barcode": {
@@ -15,6 +15,9 @@
     "altText": "{{booking_id}}"
   },
   "generic": {
+    "headerFields": [
+      { "key": "status", "label": "KEY STATUS", "value": "ACTIVE" }
+    ],
     "primaryFields": [
       { "key": "property", "label": "STAY", "value": "{{property}}" }
     ],
@@ -24,10 +27,11 @@
     ],
     "auxiliaryFields": [
       { "key": "guest", "label": "GUEST", "value": "{{guest}}" },
-      { "key": "booking", "label": "CONFIRMATION", "value": "{{booking_id}}" }
+      { "key": "pin", "label": "DOOR PIN", "value": "{{door_pin}}" }
     ],
     "backFields": [
-      { "key": "about", "label": "About", "value": "Your Airbnb reservation confirmation for check-in." }
+      { "key": "booking", "label": "Confirmation", "value": "{{booking_id}}" },
+      { "key": "about", "label": "Access", "value": "Hold near the door lock for Apple VAS NFC unlock when available. Use door PIN as backup." }
     ]
   }
 }

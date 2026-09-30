@@ -50,11 +50,18 @@ struct BrandSummary: Codable, Identifiable, Hashable {
                      summary: "IRCTC e-tickets from booking PDFs with PNR and coach details.",
                      badge: "Rail", iconHint: "train.side.front.car"),
         BrandSummary(id: "bookmyshow", displayName: "BookMyShow", category: "entertainment", appleStyle: "eventTicket",
-                     requiredFields: ["event", "seat", "qr_data"], optionalFields: ["venue", "booking_id"],
+                     requiredFields: ["event", "seat", "qr_data"], optionalFields: ["venue", "booking_id", "time"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(220, 38, 38)",
                      stationCatalog: nil,
                      summary: "Cinema and event tickets with seat and booking QR.", badge: "Event",
                      iconHint: "ticket.fill"),
+        BrandSummary(id: "district", displayName: "District", category: "entertainment", appleStyle: "eventTicket",
+                     requiredFields: ["event", "qr_data"],
+                     optionalFields: ["venue", "seat", "tier", "gate", "zone", "passholder", "booking_id", "time"],
+                     supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(124, 58, 237)",
+                     stationCatalog: nil,
+                     summary: "District festival and nightlife NFC wristband passes.", badge: "Festival",
+                     iconHint: "bolt.fill"),
         BrandSummary(id: "indigo", displayName: "IndiGo", category: "travel", appleStyle: "boardingPass",
                      requiredFields: ["origin", "destination", "qr_data"],
                      optionalFields: ["passenger", "flight", "seat", "pnr", "gate"],
@@ -62,23 +69,23 @@ struct BrandSummary: Codable, Identifiable, Hashable {
                      stationCatalog: nil,
                      summary: "Flight boarding passes from IndiGo booking PDFs and screenshots.",
                      badge: "Flight", iconHint: "airplane.departure"),
-        BrandSummary(id: "easydiner", displayName: "EazyDiner", category: "dining", appleStyle: "eventTicket",
-                     requiredFields: ["restaurant", "qr_data"],
-                     optionalFields: ["time", "party_size", "booking_id"],
+        BrandSummary(id: "easydiner", displayName: "EazyDiner", category: "dining", appleStyle: "storeCard",
+                     requiredFields: ["restaurant", "booking_id"],
+                     optionalFields: ["time", "party_size", "qr_data"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(255, 107, 0)",
                      stationCatalog: nil,
-                     summary: "Restaurant table reservations with booking QR.", badge: "Dining",
+                     summary: "EazyDiner Prime VIP store card for restaurant reservations.", badge: "VIP",
                      iconHint: "fork.knife"),
-        BrandSummary(id: "zomato-dineout", displayName: "Zomato Dineout", category: "dining", appleStyle: "eventTicket",
-                     requiredFields: ["restaurant", "qr_data"],
-                     optionalFields: ["time", "party_size", "booking_id"],
+        BrandSummary(id: "zomato-dineout", displayName: "Zomato Dineout", category: "dining", appleStyle: "storeCard",
+                     requiredFields: ["restaurant", "booking_id"],
+                     optionalFields: ["time", "party_size", "qr_data"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(226, 55, 68)",
                      stationCatalog: nil,
                      summary: "Zomato Dineout restaurant reservations and offers.", badge: "Dining",
                      iconHint: "fork.knife.circle.fill"),
-        BrandSummary(id: "swiggy-dineout", displayName: "Swiggy Dineout", category: "dining", appleStyle: "eventTicket",
-                     requiredFields: ["restaurant", "qr_data"],
-                     optionalFields: ["time", "party_size", "booking_id"],
+        BrandSummary(id: "swiggy-dineout", displayName: "Swiggy Dineout", category: "dining", appleStyle: "storeCard",
+                     requiredFields: ["restaurant", "booking_id"],
+                     optionalFields: ["time", "party_size", "qr_data"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(252, 128, 25)",
                      stationCatalog: nil,
                      summary: "Swiggy Dineout table bookings and deals.", badge: "Dining",
@@ -90,30 +97,31 @@ struct BrandSummary: Codable, Identifiable, Hashable {
                      stationCatalog: nil,
                      summary: "Airbnb stay confirmations with check-in details.", badge: "Stay",
                      iconHint: "house.fill"),
-        BrandSummary(id: "namma-metro", displayName: "Metro", category: "transit", appleStyle: "boardingPass",
-                     requiredFields: ["origin", "destination", "qr_data"], optionalFields: ["passenger"],
+        BrandSummary(id: "namma-metro", displayName: "Namma Metro", category: "transit", appleStyle: "boardingPass",
+                     requiredFields: ["origin", "destination", "qr_data"],
+                     optionalFields: ["passenger", "dep", "arr", "time", "duration"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(124, 58, 237)",
                      stationCatalog: "namma-metro",
-                     summary: "Metro QR tickets with station geofence surfacing.", badge: "Metro",
-                     iconHint: "tram.fill"),
-        BrandSummary(id: "upi", displayName: "UPI Get Paid", category: "everyday_pay", appleStyle: "generic",
-                     requiredFields: ["name", "qr_data"], optionalFields: [], supportsLocations: false,
-                     supportsRelevantDate: false, accentHint: "rgb(16, 185, 129)", stationCatalog: nil,
-                     summary: "Personal UPI QR for receiving payments from Wallet.", badge: "UPI", iconHint: "qrcode"),
+                     summary: "Namma Metro QR single-journey tickets with station geofence surfacing.",
+                     badge: "Metro", iconHint: "tram.fill"),
+        BrandSummary(id: "upi", displayName: "UPI PayPass", category: "everyday_pay", appleStyle: "storeCard",
+                     requiredFields: ["name", "qr_data"], optionalFields: ["vpa", "bank"], supportsLocations: false,
+                     supportsRelevantDate: false, accentHint: "rgb(249, 115, 22)", stationCatalog: nil,
+                     summary: "UPI receive/pay QR (Bharat QR / NPCI) for Apple Wallet.", badge: "UPI", iconHint: "qrcode"),
         BrandSummary(id: "redbus", displayName: "redBus", category: "transit", appleStyle: "boardingPass",
                      requiredFields: ["origin", "destination", "qr_data"],
-                     optionalFields: ["passenger", "seat", "pnr", "bus"],
+                     optionalFields: ["passenger", "seat", "pnr", "bus", "dep", "arr", "duration", "time"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(216, 67, 21)",
                      stationCatalog: nil,
-                     summary: "Intercity bus tickets with seat and PNR.", badge: "Bus",
-                     iconHint: "bus.fill"),
+                     summary: "Intercity bus tickets with seat, PNR, and live boarding window.",
+                     badge: "Bus", iconHint: "bus.fill"),
         BrandSummary(id: "zoomcar", displayName: "Zoomcar", category: "travel", appleStyle: "generic",
-                     requiredFields: ["vehicle", "qr_data"],
-                     optionalFields: ["pickup", "booking_id", "guest"],
-                     supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(16, 185, 129)",
+                     requiredFields: ["vehicle", "booking_id"],
+                     optionalFields: ["pickup", "drop_off", "guest", "qr_data"],
+                     supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(132, 204, 22)",
                      stationCatalog: nil,
-                     summary: "Self-drive car reservations with pickup details.", badge: "Car",
-                     iconHint: "car.fill")
+                     summary: "Zoomcar keyless self-drive pass with pickup and unlock details.",
+                     badge: "Keyless", iconHint: "car.fill")
     ]
 }
 
@@ -144,6 +152,7 @@ struct CreatePassRequest: Codable {
     var locations: [PassLocation]?
     var stationIds: [String]?
     var relevantDate: String?
+    var expirationDate: String?
     var barcodeFormat: String?
 }
 
@@ -161,15 +170,33 @@ enum PassAPIError: LocalizedError {
     }
 }
 
+struct HealthResponse: Codable, Hashable {
+    let status: String
+    let service: String
+    let devMode: Bool
+}
+
 final class PassAPIClient {
     private let baseURL: URL
     private let session: URLSession
 
+    /// OCI Always Free pass-engine (Neon-backed). Prefer Info.plist `SlipAPIBaseURL`.
+    static let cloudDefaultBaseURL = "http://161.33.86.15:8080"
+
+    var baseURLString: String { baseURL.absoluteString }
+
     init(session: URLSession = .shared) {
         let raw = Bundle.main.object(forInfoDictionaryKey: "SlipAPIBaseURL") as? String
-            ?? "http://127.0.0.1:8080"
-        self.baseURL = URL(string: raw)!
+            ?? Self.cloudDefaultBaseURL
+        self.baseURL = URL(string: raw) ?? URL(string: Self.cloudDefaultBaseURL)!
         self.session = session
+    }
+
+    func fetchHealth() async throws -> HealthResponse {
+        let url = baseURL.appendingPathComponent("v1/health")
+        let (data, response) = try await session.data(from: url)
+        try Self.throwIfNeeded(response, data: data)
+        return try JSONDecoder().decode(HealthResponse.self, from: data)
     }
 
     func fetchBrands() async throws -> [BrandSummary] {

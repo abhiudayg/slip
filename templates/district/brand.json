@@ -1,0 +1,15 @@
+{
+  "id": "district",
+  "displayName": "District",
+  "category": "entertainment",
+  "appleStyle": "eventTicket",
+  "barcodeFormats": ["PKBarcodeFormatQR", "PKBarcodeFormatAztec"],
+  "requiredFields": ["event", "qr_data"],
+  "optionalFields": ["venue", "tier", "gate", "zone", "passholder", "booking_id", "time"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(124, 58, 237)",
+  "summary": "District festival and nightlife NFC wristband passes (Sunburn, Boiler Room, arena events).",
+  "badge": "Festival",
+  "iconHint": "bolt.fill"
+}

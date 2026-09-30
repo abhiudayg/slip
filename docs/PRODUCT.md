@@ -11,6 +11,8 @@ Cut QR present-time for Indian iPhone users from ~15s to ~1s (double-click Side 
 
 ## Locked decisions
 
+- Always free — no Pro / paid subscription tier
+- iOS (iPhone) only for v1; Android and desktop are out of scope initially
 - No freeform canvas; Apple PassKit zones only
 - No DIY branding; brand grid only
 - iOS gathers data; Spring Boot signs `.pkpass` **ephemerally** (no pass vault DB on server)
@@ -23,12 +25,13 @@ Cut QR present-time for Indian iPhone users from ~15s to ~1s (double-click Side 
 |-------|-------------|-------------|
 | IRCTC Rail | `irctc` | boardingPass |
 | BookMyShow | `bookmyshow` | eventTicket |
+| District | `district` | eventTicket |
 | IndiGo | `indigo` | boardingPass |
-| EazyDiner | `easydiner` | eventTicket |
+| EazyDiner | `easydiner` | storeCard |
 | Zomato Dineout | `zomato-dineout` | eventTicket |
 | Swiggy Dineout | `swiggy-dineout` | eventTicket |
 | Airbnb | `airbnb` | generic |
-| Metro | `namma-metro` | boardingPass |
+| Namma Metro | `namma-metro` | boardingPass |
 | UPI (Get Paid) | `upi` | generic |
 | redBus | `redbus` | boardingPass |
 | Zoomcar | `zoomcar` | generic |

@@ -1,3 +1,4 @@
+import PassKit
 import SwiftUI
 
 /// Artboard 4 — Pass Customization & Live Wallet Preview
@@ -5,8 +6,10 @@ struct PassDetailsView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var vault: PassVaultStore
+    @EnvironmentObject private var geofence: PassGeofenceManager
 
     let brand: BrandSummary
+    var onReturnHome: (() -> Void)? = nil
     @State private var fields: [String: String]
     @State private var autoSurface = true
     @State private var triggerMode: TriggerMode = .geofence
@@ -15,20 +18,26 @@ struct PassDetailsView: View {
     @State private var passData: Data?
     @State private var showWallet = false
     @State private var vaultRecordId: String?
+    @State private var showFieldEditor = false
+    @State private var alreadyInAppleWallet = false
+    @State private var latestPKPass: PKPass?
 
     enum TriggerMode: String, CaseIterable {
         case geofence = "GPS Geofence"
         case departure = "Departure Time"
     }
 
-    init(brand: BrandSummary, fields: [String: String] = [:]) {
+    init(brand: BrandSummary, fields: [String: String] = [:], onReturnHome: (() -> Void)? = nil) {
         self.brand = brand
-        var merged: [String: String] = [:]
-        for key in brand.requiredFields + brand.optionalFields {
-            merged[key] = fields[key] ?? ""
-        }
-        for (k, v) in fields where merged[k] == nil {
-            merged[k] = v
+        self.onReturnHome = onReturnHome
+        var merged = BrandFields.prune(fields, templateId: brand.id)
+        if (merged["booking_id"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+           let qr = merged["qr_data"], !qr.isEmpty {
+            let first = qr.split(separator: ",").first.map(String.init)?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            if first.range(of: #"^[A-Z0-9]{5,12}$"#, options: .regularExpression) != nil {
+                merged["booking_id"] = first.uppercased()
+            }
         }
         _fields = State(initialValue: merged)
     }
@@ -58,8 +67,12 @@ struct PassDetailsView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Image(systemName: "person.crop.circle.fill")
-                        .foregroundStyle(SlipTheme.indigo)
+                    Button {
+                        showFieldEditor = true
+                    } label: {
+                        Image(systemName: "pencil")
+                            .foregroundStyle(SlipTheme.accentSoft)
+                    }
                 }
             }
             .toolbarBackground(.hidden, for: .navigationBar)
@@ -67,28 +80,91 @@ struct PassDetailsView: View {
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
             )) {
+                Button("Edit fields") { showFieldEditor = true }
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(errorMessage ?? "")
+            }
+            .sheet(isPresented: $showFieldEditor) {
+                NavigationStack {
+                    Form {
+                        Section("Required") {
+                            ForEach(BrandFields.schema(for: brand.id).required, id: \.self) { key in
+                                LabeledContent(fieldLabel(key)) {
+                                    TextField(fieldLabel(key), text: binding(for: key), axis: key == "qr_data" ? .vertical : .horizontal)
+                                        .multilineTextAlignment(.trailing)
+                                        .textInputAutocapitalization(.never)
+                                }
+                            }
+                        }
+                        let optional = BrandFields.schema(for: brand.id).optional
+                        if !optional.isEmpty {
+                            Section("Optional") {
+                                ForEach(optional, id: \.self) { key in
+                                    LabeledContent(fieldLabel(key)) {
+                                        TextField(fieldLabel(key), text: binding(for: key))
+                                            .multilineTextAlignment(.trailing)
+                                            .textInputAutocapitalization(.never)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .navigationTitle("Edit Pass Fields")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { showFieldEditor = false }
+                        }
+                    }
+                }
+                .presentationDetents([.medium, .large])
             }
             .sheet(isPresented: $showWallet) {
                 if let passData {
                     NavigationStack {
                         VStack(spacing: 20) {
-                            Text("Pass ready")
+                            Image(systemName: walletSheetIcon)
+                                .font(.system(size: 44))
+                                .foregroundStyle(walletSheetTint)
+                            Text(walletSheetTitle)
                                 .font(.title2.weight(.semibold))
-                            AddToWalletButton(passData: passData) {
-                                showWallet = false
-                                dismiss()
+                                .foregroundStyle(SlipTheme.ink)
+                            Text(walletSheetSubtitle)
+                                .font(.footnote)
+                                .foregroundStyle(SlipTheme.muted)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 8)
+
+                            if PKAddPassesViewController.canAddPasses() {
+                                AddToWalletButton(passData: passData) { pass in
+                                    latestPKPass = pass
+                                    finishAfterWalletAdd(pass: pass)
+                                }
+                            } else {
+                                Text("This device can’t add passes to Apple Wallet (Simulator or restricted PassKit). The pass is still saved in your Slip vault.")
+                                    .font(.footnote)
+                                    .foregroundStyle(SlipTheme.muted)
+                                    .multilineTextAlignment(.center)
+                                Button("Back to Home") {
+                                    finishAfterWalletAdd(pass: latestPKPass)
+                                }
+                                .buttonStyle(.borderedProminent)
                             }
                         }
                         .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(MeshBackground().ignoresSafeArea())
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
-                                Button("Done") { showWallet = false; dismiss() }
+                                Button("Done") {
+                                    showWallet = false
+                                }
                             }
                         }
                     }
+                    .presentationDetents([.medium, .large])
+                    .onAppear { refreshWalletPresence(passData: passData) }
                 }
             }
         }
@@ -110,86 +186,54 @@ struct PassDetailsView: View {
     }
 
     private var livePassCard: some View {
-        VStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack {
-                    iconBadge(systemName: brandIcon, tint: brandTint)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(brand.displayName.uppercased())
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(SlipTheme.muted)
-                        Text(headline)
-                            .font(.title3.weight(.bold))
-                            .foregroundStyle(SlipTheme.ink)
-                    }
-                    Spacer()
-                    Text(styleBadge)
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(SlipTheme.muted)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 6)
-                        .background(Capsule().fill(Color.white.opacity(0.1)))
-                }
+        VStack(spacing: 14) {
+            WalletPassPreview(
+                brandId: brand.id,
+                displayName: brand.displayName,
+                fields: fields,
+                accentRGB: brand.accentHint
+            )
 
-                HStack {
-                    routeEndpoint(code: originCode, name: originName)
-                    VStack(spacing: 4) {
-                        Image(systemName: "arrow.right")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(SlipTheme.accentSoft)
-                        Text(durationLabel)
-                            .font(.caption2)
-                            .foregroundStyle(SlipTheme.muted)
-                    }
+            // Stitch artboard 4 — Add to Wallet CTA under the pass card
+            HStack(spacing: 10) {
+                Label("Add to Apple Wallet", systemImage: "wallet.pass.fill")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.black)
                     .frame(maxWidth: .infinity)
-                    routeEndpoint(code: destCode, name: destName)
-                }
-
-                HStack(spacing: 8) {
-                    metaCell("Dep Time", value(for: ["dep", "departure", "time"], fallback: "14:30"))
-                    metaCell("Seat / Coach", seatCoach)
-                    metaCell("Passenger", value(for: ["passenger", "name"], fallback: "Guest"))
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Status")
-                            .font(.caption2)
-                            .foregroundStyle(SlipTheme.muted)
-                        StatusPill(title: "CNF", tint: SlipTheme.accent)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
-            .padding(18)
-
-            HStack(spacing: 14) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white)
-                    .frame(width: 88, height: 88)
-                    .overlay(
-                        Image(systemName: "qrcode")
-                            .font(.largeTitle)
-                            .foregroundStyle(.black)
+                    .padding(.vertical, 14)
+                    .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.white))
+                Text(".pkpass")
+                    .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(SlipTheme.muted)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 14)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(Color.white.opacity(0.06))
+                            .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
                     )
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("PNR RECORD")
-                        .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.black.opacity(0.5))
-                    Text(pnr)
-                        .font(.title3.weight(.bold).monospaced())
-                        .foregroundStyle(.black)
-                    Label("Apple Wallet NFC Ready", systemImage: "wave.3.right")
-                        .font(.caption2.weight(.medium))
-                        .foregroundStyle(.black.opacity(0.65))
-                }
-                Spacer()
             }
-            .padding(16)
-            .background(Color.white)
+            .allowsHitTesting(false) // real CTA remains in addButton below
         }
-        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
-        )
+    }
+
+
+
+    private var isDiningStyle: Bool {
+        ["easydiner", "zomato-dineout", "swiggy-dineout"].contains(brand.id) || brand.category == "dining"
+    }
+
+    private var isEventStyle: Bool {
+        if isDiningStyle { return false }
+        return brand.id == "bookmyshow" || brand.appleStyle == "eventTicket" || brand.category == "entertainment"
+    }
+
+    private var isRouteStyle: Bool {
+        ["irctc", "indigo", "namma-metro", "redbus"].contains(brand.id) || brand.appleStyle == "boardingPass"
+    }
+
+    private var isStayStyle: Bool {
+        brand.id == "airbnb"
     }
 
     private var lockScreenTrigger: some View {
@@ -238,13 +282,15 @@ struct PassDetailsView: View {
                             .shadow(color: SlipTheme.indigo, radius: 8)
                     }
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(originName)
+                        Text(isStayStyle
+                             ? value(for: ["property"], fallback: brand.displayName)
+                             : (isEventStyle ? value(for: ["venue"], fallback: brand.displayName) : originName))
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(SlipTheme.ink)
-                        Text("500m Active")
+                        Text("350m · \(geofence.shortLabel)")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(SlipTheme.accentSoft)
-                        Text("Card automatically displays on Dynamic Island & lock display when arriving near platforms.")
+                        Text(geofenceHelpText)
                             .font(.caption2)
                             .foregroundStyle(SlipTheme.muted)
                             .fixedSize(horizontal: false, vertical: true)
@@ -262,8 +308,60 @@ struct PassDetailsView: View {
                     }
                 }
                 .tint(SlipTheme.indigo)
+                .onChange(of: autoSurface) { _, _ in syncSurfaceTriggers() }
+                .onChange(of: triggerMode) { _, _ in syncSurfaceTriggers() }
             }
         }
+        .onAppear { syncSurfaceTriggers() }
+    }
+
+    private var geofenceHelpText: String {
+        if triggerMode == .departure {
+            return "Departure-time Lock Screen priority uses the ticket time when available. Geofences stay off in this mode."
+        }
+        switch geofence.authorizationStatus {
+        case .authorizedAlways:
+            if geofence.monitoredRegionCount > 0 {
+                let plural = geofence.monitoredRegionCount == 1 ? "" : "s"
+                return "Monitoring \(geofence.monitoredRegionCount) nearby station region\(plural). You’ll get a notification on entry."
+            }
+            return "Always location granted. No matching metro stations found for this pass yet."
+        case .authorizedWhenInUse:
+            return "While Using is not enough for background wakeups — Slip will ask for Always when you enable auto-surface."
+        case .denied, .restricted:
+            return "Location is blocked. Enable Always for Slip in iOS Settings → Privacy → Location."
+        case .notDetermined:
+            return "Enable auto-surface to request Always location for station geofences."
+        @unknown default:
+            return "Location status unknown."
+        }
+    }
+
+    private func syncSurfaceTriggers() {
+        guard autoSurface, triggerMode == .geofence else { return }
+        if geofence.authorizationStatus == .notDetermined
+            || geofence.authorizationStatus == .authorizedWhenInUse {
+            geofence.requestAccess()
+        }
+        let classification = ClassificationResult(
+            templateId: brand.id,
+            displayName: brand.displayName,
+            confidence: 1,
+            fields: fields,
+            stationIds: [],
+            relevantDateISO8601: fields["date"] ?? fields["departure"],
+            rationale: "pass-details",
+            needsManualBrandPick: false,
+            extracted: ExtractedTicket(
+                qrPayload: fields["qr_data"],
+                barcodeSymbology: nil,
+                recognizedText: "",
+                tokens: [],
+                createdAt: Date()
+            ),
+            createdAt: Date()
+        )
+        geofence.register(for: classification)
     }
 
     private var addButton: some View {
@@ -276,7 +374,7 @@ struct PassDetailsView: View {
                         ProgressView().tint(.black)
                     } else {
                         Image(systemName: "wallet.pass.fill")
-                        Text("Add to Apple Wallet")
+                        Text("Generate Pass")
                             .font(.headline)
                     }
                 }
@@ -288,10 +386,15 @@ struct PassDetailsView: View {
             .disabled(isSubmitting)
             .buttonStyle(.plain)
 
-            Label("Stored in Apple Secure Enclave · Syncs to Apple Watch", systemImage: "lock.shield")
-                .font(.caption2)
-                .foregroundStyle(SlipTheme.muted)
-                .frame(maxWidth: .infinity)
+            Label(
+                PKAddPassesViewController.canAddPasses()
+                    ? "Saves to vault after generate · then Add to Apple Wallet"
+                    : "Saves to vault after generate · this device can’t add Wallet passes",
+                systemImage: PKAddPassesViewController.canAddPasses() ? "lock.shield" : "exclamationmark.triangle"
+            )
+            .font(.caption2)
+            .foregroundStyle(SlipTheme.muted)
+            .frame(maxWidth: .infinity)
         }
     }
 
@@ -309,15 +412,17 @@ struct PassDetailsView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private func metaCell(_ title: String, _ value: String) -> some View {
+    /// Stitch live wallet preview: info cells are inline-editable.
+    private func metaCell(_ title: String, key: String, placeholder: String = "") -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.caption2)
                 .foregroundStyle(SlipTheme.muted)
-            Text(value)
+            TextField(placeholder.isEmpty ? title : placeholder, text: binding(for: key))
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(SlipTheme.ink)
                 .lineLimit(1)
+                .textInputAutocapitalization(.never)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -341,7 +446,7 @@ struct PassDetailsView: View {
         case "zoomcar": return "car.fill"
         case "namma-metro": return "tram.fill"
         case "indigo": return "airplane"
-        case "bookmyshow": return "ticket.fill"
+        case "bookmyshow", "district": return "ticket.fill"
         case "upi": return "qrcode"
         default: return "train.side.front.car"
         }
@@ -356,42 +461,130 @@ struct PassDetailsView: View {
         }
     }
 
+    private var headlineKey: String {
+        if isEventStyle { return "event" }
+        if isStayStyle { return "property" }
+        if isRouteStyle { return "origin" }
+        return genericTitleKey
+    }
+
+    private var genericTitleKey: String {
+        switch brand.id {
+        case "easydiner", "zomato-dineout", "swiggy-dineout": return "restaurant"
+        case "zoomcar": return "vehicle"
+        case "upi": return "name"
+        case "airbnb": return "property"
+        default: return "name"
+        }
+    }
+
+    private var genericTitlePlaceholder: String {
+        switch brand.id {
+        case "easydiner", "zomato-dineout", "swiggy-dineout": return "Restaurant"
+        case "zoomcar": return "Vehicle"
+        case "upi": return "Payee"
+        default: return "Title"
+        }
+    }
+
+    private var genericWhenKey: String {
+        switch brand.id {
+        case "zoomcar": return "pickup"
+        case "airbnb": return "check_in"
+        default: return "time"
+        }
+    }
+
+    private var genericWhenLabel: String {
+        switch brand.id {
+        case "zoomcar": return "Pickup"
+        case "airbnb": return "Check-in"
+        default: return "When"
+        }
+    }
+
+    private var genericPartyKey: String {
+        switch brand.id {
+        case "zoomcar": return "guest"
+        default: return "party_size"
+        }
+    }
+
+    private var genericPartyLabel: String {
+        switch brand.id {
+        case "zoomcar": return "Guest"
+        default: return "Party"
+        }
+    }
+
+    private var passengerKey: String {
+        BrandFields.schema(for: brand.id).allowed.contains("passenger") ? "passenger" : "name"
+    }
+
+    private var passIdKey: String {
+        let allowed = BrandFields.schema(for: brand.id).allowed
+        if allowed.contains("booking_id") { return "booking_id" }
+        if allowed.contains("pnr") { return "pnr" }
+        if allowed.contains("qr_data") { return "qr_data" }
+        return "booking_id"
+    }
+
     private var headline: String {
+        if brand.id == "bookmyshow" || brand.appleStyle == "eventTicket" {
+            return value(for: ["event"], fallback: brand.displayName)
+        }
+        if brand.id == "airbnb" {
+            return value(for: ["property"], fallback: brand.displayName)
+        }
         if brand.id == "irctc" {
-            return value(for: ["train", "flight"], fallback: "12640 BRINDAVAN EXP")
+            return value(for: ["train", "flight"], fallback: brand.displayName)
         }
         if brand.id == "indigo" {
-            return value(for: ["flight"], fallback: "6E 524")
+            return value(for: ["flight"], fallback: brand.displayName)
         }
         return brand.displayName
     }
 
     private var originCode: String {
-        abbreviate(value(for: ["origin"], fallback: "SBC"))
+        let raw = value(for: ["origin"], fallback: "")
+        return raw.isEmpty ? "—" : abbreviate(raw)
     }
 
     private var destCode: String {
-        abbreviate(value(for: ["destination"], fallback: "MAS"))
+        let raw = value(for: ["destination"], fallback: "")
+        return raw.isEmpty ? "—" : abbreviate(raw)
     }
 
     private var originName: String {
-        value(for: ["origin"], fallback: "Bengaluru City Jn")
+        value(for: ["origin"], fallback: "Origin")
     }
 
     private var destName: String {
-        value(for: ["destination"], fallback: "Chennai Central")
+        value(for: ["destination"], fallback: "Destination")
     }
 
-    private var durationLabel: String { "5h 45m" }
+    private var durationLabel: String {
+        value(for: ["duration"], fallback: "—")
+    }
 
     private var seatCoach: String {
-        let seat = value(for: ["seat", "coach"], fallback: "C2 · 44")
-        return seat
+        value(for: ["seat", "coach"], fallback: "—")
     }
 
-    private var pnr: String {
-        value(for: ["pnr", "booking_id", "qr_data"], fallback: "4218-9032-11")
+    private var passIdValue: String {
+        switch brand.id {
+        case "upi":
+            return value(for: ["name", "qr_data"], fallback: "—")
+        case "bookmyshow", "district", "easydiner", "zomato-dineout", "swiggy-dineout", "zoomcar", "airbnb":
+            return value(for: ["booking_id"], fallback: "—")
+        case "irctc", "indigo", "redbus":
+            return value(for: ["pnr"], fallback: "—")
+        default:
+            return value(for: ["booking_id", "pnr", "name"], fallback: "—")
+        }
     }
+
+    private var pnr: String { passIdValue }
 
     private func value(for keys: [String], fallback: String) -> String {
         for key in keys {
@@ -400,6 +593,36 @@ struct PassDetailsView: View {
             }
         }
         return fallback
+    }
+
+    private func binding(for key: String) -> Binding<String> {
+        Binding(
+            get: { fields[key] ?? "" },
+            set: { fields[key] = $0 }
+        )
+    }
+
+    private func fieldLabel(_ key: String) -> String {
+        switch key {
+        case "qr_data": return "QR / barcode payload"
+        case "booking_id": return brand.id == "airbnb" ? "Reservation code" : "Booking ID"
+        case "event": return "Event / movie"
+        case "venue": return "Venue"
+        case "seat": return "Seat"
+        case "time": return "Showtime"
+        case "property": return "Property"
+        case "check_in": return "Check-in"
+        case "check_out": return "Check-out"
+        case "guest": return brand.id == "zoomcar" ? "Driver" : "Guests"
+        case "vpa": return "UPI ID (VPA)"
+        case "drop_off": return "Drop-off"
+        case "pickup": return "Pickup"
+        case "vehicle": return "Vehicle"
+        case "bank": return "Bank"
+        case "restaurant": return "Restaurant"
+        case "party_size": return "Guests"
+        default: return key.replacingOccurrences(of: "_", with: " ").capitalized
+        }
     }
 
     private func abbreviate(_ text: String) -> String {
@@ -414,39 +637,157 @@ struct PassDetailsView: View {
     private func createPass() async {
         isSubmitting = true
         defer { isSubmitting = false }
+
+        // Backfill movie title into required `event` when the preview headline has it.
+        if isEventStyle {
+            let event = fields["event"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            if event.isEmpty {
+                let fallback = headline.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !fallback.isEmpty, fallback.lowercased() != brand.displayName.lowercased() {
+                    fields["event"] = fallback
+                }
+            }
+            if (fields["booking_id"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+               let qr = fields["qr_data"], !qr.isEmpty {
+                let first = qr.split(separator: ",").first.map(String.init)?
+                    .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                if first.range(of: #"^[A-Z0-9]{5,12}$"#, options: .regularExpression) != nil {
+                    fields["booking_id"] = first.uppercased()
+                }
+            }
+        }
+
+        // Airbnb / dining confirmations rarely include a QR — Wallet barcode uses the booking id.
+        if brand.id == "airbnb"
+            || brand.id == "zoomcar"
+            || ["easydiner", "zomato-dineout", "swiggy-dineout"].contains(brand.id) {
+            let qr = fields["qr_data"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            let booking = fields["booking_id"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            if qr.isEmpty, !booking.isEmpty {
+                fields["qr_data"] = booking
+            }
+        }
+
+        let pruned = BrandFields.prune(fields, templateId: brand.id)
+        fields = pruned
+
+        let missing = BrandFields.schema(for: brand.id).required.filter {
+            (pruned[$0] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+        if !missing.isEmpty {
+            errorMessage = "Fill required fields first: \(missing.map { $0.replacingOccurrences(of: "_", with: " ") }.joined(separator: ", "))"
+            showFieldEditor = true
+            return
+        }
+
         do {
-            // Seal into vault before leaving device memory for the signing round-trip.
-            let payload = PassVaultPayload(
+            let relevantISO = PassExpiration.relevantDateISO8601(
                 templateId: brand.id,
-                displayName: brand.displayName,
-                fields: fields,
-                stationIds: [],
-                relevantDateISO8601: nil,
-                rationale: "Saved from pass details",
-                confidence: 1,
-                qrPayload: fields["qr_data"],
-                barcodeSymbology: nil,
-                recognizedText: nil
+                fields: pruned
             )
-            let record = try vault.save(payload: payload, walletAdded: false)
-            vaultRecordId = record.id
+            let expires = PassExpiration.expiresAt(
+                templateId: brand.id,
+                fields: pruned,
+                relevantDateISO8601: relevantISO
+            )
+            let expirationISO = expires.map { PassExpiration.iso8601String(from: $0) }
 
             let request = CreatePassRequest(
                 template: brand.id,
-                fields: fields,
+                fields: pruned,
                 locations: nil,
                 stationIds: nil,
-                relevantDate: nil,
+                relevantDate: relevantISO,
+                expirationDate: expirationISO,
                 barcodeFormat: nil
             )
-            passData = try await model.api.createPass(request)
-            if let vaultRecordId,
-               let saved = vault.records.first(where: { $0.id == vaultRecordId }) {
-                try? vault.markWalletAdded(saved)
-            }
+            // Generate signed .pkpass first — vault only after success.
+            let data = try await model.api.createPass(request)
+            passData = data
+
+            let displayName: String = {
+                if brand.id == "airbnb", let property = pruned["property"], !property.isEmpty {
+                    return property
+                }
+                if let event = pruned["event"], !event.isEmpty { return event }
+                return brand.displayName
+            }()
+
+            let pkPass = try? PKPass(data: data)
+            latestPKPass = pkPass
+            let inWallet = pkPass.map { PKPassLibrary().containsPass($0) } ?? false
+            alreadyInAppleWallet = inWallet
+
+            let payload = PassVaultPayload(
+                templateId: brand.id,
+                displayName: displayName,
+                fields: pruned,
+                stationIds: [],
+                relevantDateISO8601: relevantISO,
+                rationale: "Generated pass",
+                confidence: 1,
+                qrPayload: pruned["qr_data"],
+                barcodeSymbology: nil,
+                recognizedText: nil
+            )
+            let record = try vault.save(payload: payload, walletAdded: inWallet, walletPass: pkPass)
+            vaultRecordId = record.id
             showWallet = true
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    private var walletSheetIcon: String {
+        alreadyInAppleWallet ? "wallet.pass.fill" : "checkmark.seal.fill"
+    }
+
+    private var walletSheetTint: Color {
+        alreadyInAppleWallet ? SlipTheme.indigo : SlipTheme.upiGreen
+    }
+
+    private var walletSheetTitle: String {
+        alreadyInAppleWallet ? "Already in Apple Wallet" : "Pass ready"
+    }
+
+    private var walletSheetSubtitle: String {
+        if alreadyInAppleWallet {
+            return "This pass is already in Apple Wallet and sealed in your Slip vault."
+        }
+        if !PKAddPassesViewController.canAddPasses() {
+            return "Pass generated and sealed in your Slip vault. This device can’t open Add to Wallet."
+        }
+        return "Sealed in your Slip vault. Use Add to Apple Wallet to store it in PassKit — requires a signed .pkpass from pass-engine."
+    }
+
+    private func refreshWalletPresence(passData: Data) {
+        guard let pass = try? PKPass(data: passData) else {
+            alreadyInAppleWallet = false
+            return
+        }
+        latestPKPass = pass
+        let present = PKPassLibrary().containsPass(pass)
+        alreadyInAppleWallet = present
+        if present {
+            markVaultWalletAdded(pass: pass)
+        }
+    }
+
+    private func markVaultWalletAdded(pass: PKPass? = nil) {
+        guard let vaultRecordId,
+              let saved = vault.records.first(where: { $0.id == vaultRecordId }) else { return }
+        try? vault.markWalletAdded(saved, pass: pass ?? latestPKPass)
+        alreadyInAppleWallet = true
+    }
+
+    /// Close Wallet sheet + Pass Details (+ parent confirm sheet via callback) and return home.
+    private func finishAfterWalletAdd(pass: PKPass?) {
+        markVaultWalletAdded(pass: pass ?? latestPKPass)
+        showWallet = false
+        // Let the wallet sheet finish dismissing before popping parents.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            dismiss()
+            onReturnHome?()
         }
     }
 }

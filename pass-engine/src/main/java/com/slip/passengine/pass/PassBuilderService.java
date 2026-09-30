@@ -121,6 +121,10 @@ public class PassBuilderService {
     if (request.relevantDate() != null && !request.relevantDate().isBlank()) {
       passJson.put("relevantDate", request.relevantDate());
     }
+    if (request.expirationDate() != null && !request.expirationDate().isBlank()) {
+      // Apple Wallet moves the pass to Expired after this timestamp.
+      passJson.put("expirationDate", request.expirationDate());
+    }
 
     try {
       Map<String, byte[]> files = new HashMap<>();

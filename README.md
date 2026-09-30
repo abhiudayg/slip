@@ -74,6 +74,7 @@ Scripts under `deploy/oci/` provision a free-tier VM and wire Neon. Secrets (`de
 |-------|-------------|------------|
 | IRCTC Rail | `irctc` | boardingPass |
 | BookMyShow | `bookmyshow` | eventTicket |
+| District | `district` | eventTicket |
 | IndiGo | `indigo` | boardingPass |
 | EazyDiner | `easydiner` | eventTicket |
 | Zomato Dineout | `zomato-dineout` | eventTicket |

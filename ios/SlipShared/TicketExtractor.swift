@@ -62,6 +62,17 @@ enum TicketExtractor {
             }
         }
 
+        // Mail-exported PDFs often put train/PNR only in the document title/subject.
+        if let attrs = document.documentAttributes {
+            let titleBits = [attrs[PDFDocumentAttribute.titleAttribute] as? String,
+                             attrs[PDFDocumentAttribute.subjectAttribute] as? String]
+                .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+            if !titleBits.isEmpty {
+                combined = (titleBits + [combined]).joined(separator: "\n")
+            }
+        }
+
         return makeTicket(qr: hit?.message, symbology: hit?.symbology, text: combined)
     }
 
@@ -160,6 +171,16 @@ enum TicketExtractor {
     private static func render(page: PDFPage, scale: CGFloat) -> UIImage? {
         let bounds = page.bounds(for: .mediaBox)
         guard bounds.width > 1, bounds.height > 1 else { return nil }
+        // PDFKit thumbnail respects page rotation/transform (email PDFs / scanned pages).
+        let maxEdge: CGFloat = 1600
+        let target = CGSize(
+            width: min(bounds.width * scale, maxEdge),
+            height: min(bounds.height * scale, maxEdge)
+        )
+        let thumb = page.thumbnail(of: target, for: .mediaBox)
+        if thumb.size.width > 1, thumb.size.height > 1 {
+            return thumb
+        }
         let size = CGSize(width: bounds.width * scale, height: bounds.height * scale)
         let format = UIGraphicsImageRendererFormat.default()
         format.scale = 1

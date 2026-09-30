@@ -9,6 +9,7 @@ struct MarketplaceView: View {
     var onClose: (() -> Void)? = nil
     var onSelectBrand: (BrandSummary) -> Void
     var onScanScreenshot: () -> Void
+    var onImportPDF: (() -> Void)? = nil
 
     private let categories = ["All Passes", "Transit", "Fitness", "Travel", "Events", "Personal UPI"]
 
@@ -32,32 +33,26 @@ struct MarketplaceView: View {
     }
 
     private var topBar: some View {
-        HStack {
+        Group {
             if let onClose {
-                Button(action: onClose) {
-                    Image(systemName: "xmark")
-                        .font(.subheadline.weight(.semibold))
+                HStack {
+                    Button(action: onClose) {
+                        Image(systemName: "xmark")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                            .frame(width: 36, height: 36)
+                            .background(Circle().fill(Color.white.opacity(0.08)))
+                    }
+                    Spacer()
+                    Text("Templates")
+                        .font(.headline)
                         .foregroundStyle(SlipTheme.ink)
-                        .frame(width: 36, height: 36)
-                        .background(Circle().fill(Color.white.opacity(0.08)))
+                    Spacer()
+                    Color.clear.frame(width: 36, height: 36)
                 }
             } else {
-                HStack(spacing: 8) {
-                    SlipBrandMark(size: 26)
-                    Text("New Pass")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(SlipTheme.ink)
-                }
+                StudioTopBar(title: "New Pass")
             }
-            Spacer()
-            Text("Templates")
-                .font(.headline)
-                .foregroundStyle(SlipTheme.ink)
-            Spacer()
-            Image(systemName: "person.crop.circle.fill")
-                .font(.title2)
-                .foregroundStyle(SlipTheme.indigo)
-                .opacity(0.9)
         }
     }
 
@@ -91,15 +86,15 @@ struct MarketplaceView: View {
                         selectedCategory = cat
                     } label: {
                         Text(cat)
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(selected ? SlipTheme.canvasDeep : SlipTheme.ink)
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 10)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(selected ? SlipTheme.ink : SlipTheme.muted)
+                            .padding(.horizontal, selected ? 16 : 14)
+                            .frame(height: 32)
                             .background(
-                                Capsule().fill(selected ? Color.white.opacity(0.95) : Color.white.opacity(0.08))
+                                Capsule().fill(selected ? Color.white.opacity(0.15) : SlipTheme.cardHigh.opacity(0.55))
                             )
                             .overlay(
-                                Capsule().strokeBorder(Color.white.opacity(selected ? 0 : 0.1), lineWidth: 1)
+                                Capsule().strokeBorder(Color.white.opacity(selected ? 0.18 : 0.06), lineWidth: 1)
                             )
                     }
                     .buttonStyle(.plain)
@@ -109,19 +104,25 @@ struct MarketplaceView: View {
     }
 
     private var curatedHeader: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
+        HStack(alignment: .firstTextBaseline) {
+            HStack(spacing: 8) {
                 Text("Curated Templates")
-                    .font(.title3.weight(.semibold))
+                    .font(.system(size: 17, weight: .semibold))
+                    .tracking(-0.2)
                     .foregroundStyle(SlipTheme.ink)
                 Text("Verified Spec")
-                    .font(.caption)
+                    .font(.system(size: 10, weight: .semibold))
+                    .tracking(0.6)
+                    .textCase(.uppercase)
                     .foregroundStyle(SlipTheme.muted)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Capsule().fill(SlipTheme.cardHigh))
             }
             Spacer()
             Text("\(filteredBrands.count) Available")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(SlipTheme.accentSoft)
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(SlipTheme.muted)
         }
     }
 
@@ -207,26 +208,39 @@ struct MarketplaceView: View {
 
     private var aiPrompt: some View {
         GlassCard(cornerRadius: 22, padding: 16) {
-            HStack(spacing: 12) {
-                Image(systemName: "sparkles")
-                    .foregroundStyle(SlipTheme.amber)
-                    .frame(width: 40, height: 40)
-                    .background(Circle().fill(SlipTheme.amber.opacity(0.15)))
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Have a Screenshot?")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(SlipTheme.ink)
-                    Text("Slip AI detects tickets automatically")
-                        .font(.caption)
-                        .foregroundStyle(SlipTheme.muted)
+            VStack(alignment: .leading, spacing: 14) {
+                HStack(spacing: 12) {
+                    Image(systemName: "sparkles")
+                        .foregroundStyle(SlipTheme.amber)
+                        .frame(width: 40, height: 40)
+                        .background(Circle().fill(SlipTheme.amber.opacity(0.15)))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Have a ticket?")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                        Text("Import a screenshot or booking PDF — Slip extracts QR and fields on-device.")
+                            .font(.caption)
+                            .foregroundStyle(SlipTheme.muted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
-                Spacer()
-                Button("Scan", action: onScanScreenshot)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                    .background(Capsule().fill(SlipTheme.accent))
+                HStack(spacing: 10) {
+                    Button("Scan", action: onScanScreenshot)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(Capsule().fill(SlipTheme.accent))
+                    if let onImportPDF {
+                        Button("Import PDF", action: onImportPDF)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 10)
+                            .background(Capsule().fill(Color.white.opacity(0.1)))
+                            .overlay(Capsule().strokeBorder(Color.white.opacity(0.16), lineWidth: 1))
+                    }
+                }
             }
         }
     }

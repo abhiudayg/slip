@@ -42,3 +42,7 @@ ios/build/
 
 # Local icon tooling
 ios/.icon-backup/
+
+# Pass signing secrets (never commit)
+*.p12
+deploy/oci/pass-signing.env

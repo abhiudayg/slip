@@ -32,6 +32,27 @@ source deploy/oci/.env.neon
 ./deploy/oci/deploy-app.sh
 ```
 
+## 3. Pass Type ID certificate (Wallet signing)
+
+On the VM (`/opt/slip/certs/` + `/opt/slip/etc/pass-engine.env`):
+
+```bash
+source deploy/oci/state.env
+scp /path/to/pass_cert.p12 /path/to/AppleWWDRCAG4.cer ubuntu@$PUBLIC_IP:/opt/slip/certs/
+ssh ubuntu@$PUBLIC_IP 'sudo chown slip:slip /opt/slip/certs/pass_cert.p12 /opt/slip/certs/AppleWWDRCAG4.cer && sudo chmod 600 /opt/slip/certs/pass_cert.p12'
+```
+
+Set in `/opt/slip/etc/pass-engine.env` (never commit):
+
+- `PASS_ENGINE_DEV_MODE=false`
+- `PASS_TYPE_IDENTIFIER=pass.com.aeswibon.slip`
+- `TEAM_IDENTIFIER=9HSMVVUMVX`
+- `PASS_CERTIFICATE_PATH=/opt/slip/certs/pass_cert.p12`
+- `PASS_CERTIFICATE_PASSWORD=...`
+- `WWDR_CERTIFICATE_PATH=/opt/slip/certs/AppleWWDRCAG4.cer`
+
+Then `sudo systemctl restart slip-pass-engine`. Health should report `"devMode":false`. A `/v1/passes` response `.pkpass` must contain a non-empty `signature`.
+
 ## 3. Local with Neon
 
 ```bash

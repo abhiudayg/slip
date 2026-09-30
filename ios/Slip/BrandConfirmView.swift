@@ -123,7 +123,7 @@ struct BrandConfirmView: View {
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.secondary)
                         if let passData {
-                            AddToWalletButton(passData: passData) {
+                            AddToWalletButton(passData: passData) { _ in
                                 showAddPasses = false
                                 dismiss()
                             }
@@ -197,12 +197,15 @@ struct BrandConfirmView: View {
                 locations: nil,
                 stationIds: selectedStationIds.isEmpty ? nil : Array(selectedStationIds),
                 relevantDate: nil,
+                expirationDate: nil,
                 barcodeFormat: nil
             )
             if includeRelevantDate {
                 let formatter = ISO8601DateFormatter()
                 formatter.formatOptions = [.withInternetDateTime]
                 request.relevantDate = formatter.string(from: relevantDate)
+                let expires = relevantDate.addingTimeInterval(6 * 3600)
+                request.expirationDate = formatter.string(from: expires)
             }
             let data = try await model.api.createPass(request)
             passData = data

@@ -1,11 +1,17 @@
+import PassKit
 import SwiftUI
+import UIKit
 
 /// Artboard 1 — Main Dashboard (My Passes Hub)
 struct DashboardView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var vault: PassVaultStore
+    @EnvironmentObject private var auth: AuthSession
     @State private var revealedPayload: PassVaultPayload?
     @State private var revealError: String?
+    @State private var failedRevealRecord: PassVaultRecord?
+    @State private var revealedRecord: PassVaultRecord?
+    @State private var recordPendingDelete: PassVaultRecord?
     var onOpenSettings: () -> Void
     var onOpenMarketplace: () -> Void
     var onSelectBrand: (BrandSummary) -> Void
@@ -14,22 +20,28 @@ struct DashboardView: View {
         model.brands.isEmpty ? BrandSummary.fallbackCatalog : model.brands
     }
 
+    private var activeRecords: [PassVaultRecord] {
+        vault.records.filter { !$0.isExpired }.sorted { $0.updatedAt > $1.updatedAt }
+    }
+
+    private var expiredRecords: [PassVaultRecord] {
+        vault.records.filter(\.isExpired).sorted { ($0.expiresAt ?? $0.updatedAt) > ($1.expiresAt ?? $1.updatedAt) }
+    }
+
     private var transitRecords: [PassVaultRecord] {
-        vault.records.filter { record in
+        activeRecords.filter { record in
             catalog.first(where: { $0.id == record.templateId })?.category == "transit"
                 || record.templateId.contains("metro")
                 || record.templateId.contains("transit")
         }
-        .sorted { $0.updatedAt > $1.updatedAt }
     }
 
     private var upiRecords: [PassVaultRecord] {
-        vault.records.filter { $0.templateId == "upi" }
-            .sorted { $0.updatedAt > $1.updatedAt }
+        activeRecords.filter { $0.templateId == "upi" }
     }
 
     private var recentRecords: [PassVaultRecord] {
-        vault.records.sorted { $0.updatedAt > $1.updatedAt }
+        activeRecords
     }
 
     var body: some View {
@@ -38,6 +50,9 @@ struct DashboardView: View {
                 topBar
                 heroHeader
                 vaultPassesSection
+                if !expiredRecords.isEmpty {
+                    expiredPassesSection
+                }
                 featuredTransitSection
                 allPassesSection
                 upiSection
@@ -47,24 +62,72 @@ struct DashboardView: View {
             .padding(.top, 8)
             .padding(.bottom, 120)
         }
+        .onAppear { vault.syncWalletPresence() }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("PKPassLibraryDidChangeNotification"))) { _ in
+            vault.syncWalletPresence()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            vault.syncWalletPresence()
+        }
         .alert("Vault", isPresented: Binding(
             get: { revealError != nil },
-            set: { if !$0 { revealError = nil } }
+            set: { if !$0 { revealError = nil; failedRevealRecord = nil } }
         )) {
-            Button("OK", role: .cancel) {}
+            if failedRevealRecord != nil {
+                Button("Delete unreadable pass", role: .destructive) {
+                    if let record = failedRevealRecord {
+                        try? vault.delete(record)
+                    }
+                    failedRevealRecord = nil
+                    revealError = nil
+                }
+            }
+            Button("OK", role: .cancel) {
+                failedRevealRecord = nil
+            }
         } message: {
             Text(revealError ?? "")
         }
+        .confirmationDialog(
+            "Delete pass?",
+            isPresented: Binding(
+                get: { recordPendingDelete != nil },
+                set: { if !$0 { recordPendingDelete = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let record = recordPendingDelete {
+                    try? vault.delete(record)
+                    if revealedRecord?.id == record.id {
+                        revealedPayload = nil
+                        revealedRecord = nil
+                    }
+                }
+                recordPendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) {
+                recordPendingDelete = nil
+            }
+        } message: {
+            Text("Removes \"\(recordPendingDelete?.displayName ?? "this pass")\" from the encrypted vault. This cannot be undone.")
+        }
         .sheet(item: Binding(
-            get: { revealedPayload.map { RevealedPass(payload: $0) } },
-            set: { revealedPayload = $0?.payload }
+            get: { revealedPayload.map { RevealedPass(payload: $0, recordId: revealedRecord?.id) } },
+            set: { newValue in
+                revealedPayload = newValue?.payload
+                if newValue == nil { revealedRecord = nil }
+            }
         )) { item in
             NavigationStack {
                 List {
                     LabeledContent("Brand", value: item.payload.displayName)
                     LabeledContent("Template", value: item.payload.templateId)
-                    ForEach(item.payload.fields.keys.sorted(), id: \.self) { key in
-                        LabeledContent(key, value: item.payload.fields[key] ?? "")
+                    ForEach(BrandFields.schema(for: item.payload.templateId).all, id: \.self) { key in
+                        let value = item.payload.fields[key] ?? ""
+                        if !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            LabeledContent(key.replacingOccurrences(of: "_", with: " ").capitalized, value: value)
+                        }
                     }
                 }
                 .navigationTitle("Secure Pass")
@@ -72,7 +135,19 @@ struct DashboardView: View {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Lock") {
                             revealedPayload = nil
+                            revealedRecord = nil
                             vault.lock()
+                        }
+                    }
+                    ToolbarItem(placement: .destructiveAction) {
+                        Button("Delete", role: .destructive) {
+                            if let record = revealedRecord {
+                                revealedPayload = nil
+                                revealedRecord = nil
+                                DispatchQueue.main.async {
+                                    recordPendingDelete = record
+                                }
+                            }
                         }
                     }
                 }
@@ -84,10 +159,10 @@ struct DashboardView: View {
     private var vaultPassesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("Encrypted Vault")
+                Text("Active Passes")
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(SlipTheme.ink)
-                Text("\(vault.records.count)")
+                Text("\(activeRecords.count)")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(SlipTheme.muted)
                     .padding(.horizontal, 10)
@@ -99,38 +174,96 @@ struct DashboardView: View {
                     .foregroundStyle(SlipTheme.accentSoft)
             }
 
-            if vault.records.isEmpty {
+            if activeRecords.isEmpty {
                 GlassCard(cornerRadius: 18, padding: 14) {
-                    Text("Passes you confirm are sealed with AES-256-GCM and sync as ciphertext via iCloud.")
+                    Text(vault.records.isEmpty
+                         ? "Passes you generate are sealed with AES-256-GCM and sync as ciphertext via iCloud."
+                         : "No active passes — expired ones are listed below.")
                         .font(.caption)
                         .foregroundStyle(SlipTheme.muted)
                 }
             } else {
-                ForEach(vault.records, id: \.id) { record in
-                    Button {
-                        Task { await reveal(record) }
-                    } label: {
-                        GlassCard(cornerRadius: 18, padding: 14) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(record.displayName)
-                                        .font(.subheadline.weight(.semibold))
-                                        .foregroundStyle(SlipTheme.ink)
-                                    Text(record.templateId)
-                                        .font(.caption)
-                                        .foregroundStyle(SlipTheme.muted)
-                                }
-                                Spacer()
-                                if record.walletAdded {
-                                    StatusPill(title: "In Wallet", tint: SlipTheme.upiGreen)
-                                }
-                                Image(systemName: "lock.shield.fill")
-                                    .foregroundStyle(SlipTheme.accentSoft)
+                ForEach(activeRecords, id: \.id) { record in
+                    vaultRow(record, expired: false)
+                }
+            }
+        }
+    }
+
+    private var expiredPassesSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Expired Passes")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(SlipTheme.ink)
+                Text("\(expiredRecords.count)")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(SlipTheme.muted)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color.white.opacity(0.08)))
+                Spacer()
+            }
+
+            ForEach(expiredRecords, id: \.id) { record in
+                vaultRow(record, expired: true)
+            }
+        }
+    }
+
+    private func vaultRow(_ record: PassVaultRecord, expired: Bool) -> some View {
+        HStack(spacing: 10) {
+            Button {
+                Task { await reveal(record) }
+            } label: {
+                GlassCard(cornerRadius: 18, padding: 14) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(record.displayName)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(expired ? SlipTheme.muted : SlipTheme.ink)
+                            Text(record.templateId)
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                            if let expires = record.expiresAt {
+                                Text(expired
+                                     ? "Expired \(relativeDate(expires))"
+                                     : "Expires \(relativeDate(expires))")
+                                    .font(.caption2)
+                                    .foregroundStyle(expired ? Color.orange.opacity(0.9) : SlipTheme.accentSoft)
                             }
                         }
+                        Spacer()
+                        if expired && record.walletAdded {
+                            StatusPill(title: "Expired · Wallet", tint: Color.orange)
+                        } else if expired {
+                            StatusPill(title: "Expired", tint: Color.orange)
+                        } else if record.walletAdded {
+                            StatusPill(title: "In Wallet", tint: SlipTheme.upiGreen)
+                        }
+                        Image(systemName: expired ? "clock.badge.xmark" : "lock.shield.fill")
+                            .foregroundStyle(expired ? Color.orange.opacity(0.8) : SlipTheme.accentSoft)
                     }
-                    .buttonStyle(.plain)
                 }
+                .opacity(expired ? 0.85 : 1)
+            }
+            .buttonStyle(.plain)
+
+            Button(role: .destructive) {
+                recordPendingDelete = record
+            } label: {
+                Image(systemName: "trash")
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 44, height: 44)
+                    .background(Circle().fill(Color(hex: 0x93000A).opacity(0.9)))
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Delete pass")
+        }
+        .contextMenu {
+            Button("Delete Pass", role: .destructive) {
+                recordPendingDelete = record
             }
         }
     }
@@ -140,96 +273,83 @@ struct DashboardView: View {
             let unlocked = await vault.unlock()
             guard unlocked else {
                 revealError = "Authentication required to decrypt pass data."
+                failedRevealRecord = nil
                 return
             }
         }
         do {
             revealedPayload = try vault.decrypt(record)
+            revealedRecord = record
+            failedRevealRecord = nil
         } catch {
-            revealError = error.localizedDescription
+            revealedRecord = nil
+            failedRevealRecord = record
+            revealError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
         }
     }
 
     private var topBar: some View {
-        HStack {
-            HStack(spacing: 8) {
-                SlipBrandMark(size: 28)
-                Text("Slip")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(SlipTheme.ink)
-            }
-            Spacer()
-            Button(action: onOpenMarketplace) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(SlipTheme.muted)
-                    .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.white.opacity(0.06)))
-            }
+        StudioTopBar(title: "Slip Studio", onSearch: onOpenMarketplace) {
             Button(action: onOpenSettings) {
-                Image(systemName: "person.crop.circle.fill")
-                    .font(.title2)
-                    .foregroundStyle(SlipTheme.indigo)
-                    .overlay(alignment: .bottomTrailing) {
-                        Circle()
-                            .fill(SlipTheme.accent)
-                            .frame(width: 10, height: 10)
-                            .overlay(Circle().stroke(SlipTheme.canvas, lineWidth: 2))
-                    }
+                ProfileAvatarView(
+                    image: auth.avatarImage,
+                    monogram: auth.monogram,
+                    size: 32
+                )
             }
+            .buttonStyle(.plain)
         }
     }
 
     private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .firstTextBaseline) {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .center, spacing: 10) {
                 Text("Slip")
                     .font(.system(size: 34, weight: .bold))
-                    .tracking(-0.6)
+                    .tracking(-0.85)
                     .foregroundStyle(SlipTheme.ink)
-                StatusPill(title: syncStatusTitle, tint: syncStatusTint)
-                Spacer()
+                StatusPill(
+                    title: syncStatusTitle,
+                    tint: syncStatusTint,
+                    systemImage: syncStatusImage
+                )
+                Spacer(minLength: 0)
             }
             Text(heroSubtitle)
-                .font(.subheadline)
+                .font(.system(size: 13, weight: .regular))
                 .foregroundStyle(SlipTheme.muted)
-            HStack {
-                StatusPill(
-                    title: vault.records.isEmpty ? "No passes yet" : "\(vault.records.count) sealed",
-                    tint: SlipTheme.accentSoft
-                )
-                Spacer()
-                if model.isLoadingBrands {
-                    ProgressView()
-                        .tint(SlipTheme.accentSoft)
-                } else {
-                    Label("\(catalog.count) templates", systemImage: "square.stack.3d.up.fill")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(SlipTheme.accentSoft)
-                }
-            }
+            Text("Ready On Lock Screen")
+                .font(.system(size: 11, weight: .semibold))
+                .tracking(1.2)
+                .textCase(.uppercase)
+                .foregroundStyle(SlipTheme.secondary)
+                .padding(.top, 2)
         }
     }
 
     private var syncStatusTitle: String {
         if model.isLoadingBrands { return "Syncing" }
         if model.errorMessage != nil && model.brands.isEmpty { return "Offline" }
-        return "Live"
+        return "Synced"
     }
 
     private var syncStatusTint: Color {
         if model.isLoadingBrands { return SlipTheme.amber }
         if model.errorMessage != nil && model.brands.isEmpty { return SlipTheme.magenta }
-        return SlipTheme.upiGreen
+        return SlipTheme.accentSoft
+    }
+
+    private var syncStatusImage: String? {
+        if model.isLoadingBrands { return "arrow.triangle.2.circlepath" }
+        if model.errorMessage != nil && model.brands.isEmpty { return "icloud.slash" }
+        return "checkmark.icloud.fill"
     }
 
     private var heroSubtitle: String {
-        if let err = model.errorMessage, model.brands.isEmpty {
-            return "Couldn't reach pass-engine — showing offline catalog. \(err)"
+        if model.errorMessage != nil && model.brands.isEmpty {
+            return "Couldn't reach pass-engine — showing offline catalog."
         }
-        if vault.records.isEmpty {
-            return "Scan a ticket or pick a template from the marketplace."
-        }
-        return "Your passes are encrypted on-device and synced as ciphertext via iCloud."
+        return "Urban Transit & Identity Credentials"
     }
 
     @ViewBuilder
@@ -238,30 +358,54 @@ struct DashboardView: View {
             featuredTransitCard(record: record)
         } else if let metro = brand(id: "namma-metro") {
             GlassCard(cornerRadius: 28, padding: 18) {
-                HStack(alignment: .top, spacing: 12) {
-                    iconBadge(metro.sfSymbol, tint: SlipTheme.indigo)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(metro.displayName)
-                            .font(.headline)
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack(alignment: .top, spacing: 12) {
+                        iconBadge(metro.sfSymbol, tint: SlipTheme.indigo)
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(spacing: 8) {
+                                Text(metro.displayName)
+                                    .font(.headline)
+                                    .foregroundStyle(SlipTheme.ink)
+                                Text("PURPLE LINE")
+                                    .font(.system(size: 10, weight: .bold))
+                                    .tracking(0.6)
+                                    .foregroundStyle(SlipTheme.accentSoft)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 3)
+                                    .background(Capsule().fill(SlipTheme.accent.opacity(0.28)))
+                            }
+                            Text(metro.summary ?? "WhatsApp QR to Dynamic Lock Screen ticket.")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                        Spacer()
+                        Button {
+                            onSelectBrand(metro)
+                        } label: {
+                            Text("Add")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(Capsule().fill(SlipTheme.accent))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    HStack(spacing: 8) {
+                        Image(systemName: "wave.3.right")
+                            .foregroundStyle(SlipTheme.accentSoft)
+                        Text("Turnstile Tap")
+                            .font(.subheadline.weight(.semibold))
                             .foregroundStyle(SlipTheme.ink)
-                        Text(metro.summary ?? "Add a metro ticket from a QR screenshot.")
+                        Spacer()
+                        Text("Double-click side button to open")
                             .font(.caption)
                             .foregroundStyle(SlipTheme.muted)
                     }
-                    Spacer()
-                    Button {
-                        onSelectBrand(metro)
-                    } label: {
-                        Text("Add")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 14)
-                            .padding(.vertical, 8)
-                            .background(Capsule().fill(SlipTheme.accent))
-                    }
-                    .buttonStyle(.plain)
                 }
             }
+        } else {
+            EmptyView()
         }
     }
 
@@ -299,10 +443,14 @@ struct DashboardView: View {
 
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Label(record.walletAdded ? "In Apple Wallet" : "Ready to add", systemImage: "wave.3.right")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(SlipTheme.ink)
-                        Text("Double-click side button after Wallet add")
+                        HStack(spacing: 6) {
+                            Image(systemName: "wave.3.right")
+                                .foregroundStyle(SlipTheme.accentSoft)
+                            Text(walletStatusLabel(record))
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(SlipTheme.ink)
+                        }
+                        Text("Double-click side button to open")
                             .font(.caption)
                             .foregroundStyle(SlipTheme.muted)
                     }
@@ -310,14 +458,19 @@ struct DashboardView: View {
                     Button {
                         Task { await reveal(record) }
                     } label: {
-                        Image(systemName: "lock.open.fill")
+                        Image(systemName: "arrow.up.left.and.arrow.down.right")
                             .font(.title3.weight(.semibold))
                             .foregroundStyle(.white)
                             .frame(width: 52, height: 52)
-                            .background(Circle().fill(SlipTheme.accent))
+                            .background(Circle().fill(SlipTheme.accent).shadow(color: SlipTheme.accent.opacity(0.45), radius: 10, y: 4))
                     }
                     .buttonStyle(.plain)
                 }
+            }
+        }
+        .contextMenu {
+            Button("Delete Pass", role: .destructive) {
+                recordPendingDelete = record
             }
         }
         .overlay(alignment: .top) {
@@ -370,17 +523,18 @@ struct DashboardView: View {
                 }
             } else {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                    ForEach(vault.records, id: \.id) { record in
+                    ForEach(activeRecords, id: \.id) { record in
                         let meta = brand(id: record.templateId)
                         let glow = SlipTheme.color(fromRGB: meta?.accentHint) ?? SlipTheme.accent
                         passMiniCard(
                             title: record.displayName.uppercased(),
                             subtitle: meta?.badge ?? record.templateId,
-                            badge: record.walletAdded ? "WALLET" : "VAULT",
-                            badgeTint: record.walletAdded ? SlipTheme.upiGreen : glow,
+                            badge: vaultStatusBadge(record).title,
+                            badgeTint: vaultStatusBadge(record).tint,
                             meta: relativeDate(record.updatedAt),
                             icon: meta?.sfSymbol ?? "lock.shield.fill",
-                            glow: glow
+                            glow: glow,
+                            onDelete: { recordPendingDelete = record }
                         ) {
                             Task { await reveal(record) }
                         }
@@ -406,7 +560,7 @@ struct DashboardView: View {
                             .padding(.vertical, 4)
                             .background(Capsule().fill(SlipTheme.indigo))
                         Spacer()
-                        Text(record.walletAdded ? "In Wallet" : "Sealed")
+                        Text(walletStatusLabel(record))
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(SlipTheme.accentSoft)
                     }
@@ -439,6 +593,11 @@ struct DashboardView: View {
                         )
                     }
                     .buttonStyle(.plain)
+                }
+            }
+            .contextMenu {
+                Button("Delete Pass", role: .destructive) {
+                    recordPendingDelete = record
                 }
             }
         } else if let upi = brand(id: "upi") {
@@ -512,6 +671,11 @@ struct DashboardView: View {
                     }
                 }
                 .buttonStyle(.plain)
+                .contextMenu {
+                    Button("Delete Pass", role: .destructive) {
+                        recordPendingDelete = latest
+                    }
+                }
             }
         }
     }
@@ -525,6 +689,7 @@ struct DashboardView: View {
         icon: String,
         glow: Color,
         status: String? = nil,
+        onDelete: (() -> Void)? = nil,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
@@ -573,6 +738,24 @@ struct DashboardView: View {
             }
         }
         .buttonStyle(.plain)
+        .overlay(alignment: .topTrailing) {
+            if let onDelete {
+                Button(role: .destructive, action: onDelete) {
+                    Image(systemName: "trash.circle.fill")
+                        .font(.title2)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.white, Color(hex: 0x93000A))
+                }
+                .buttonStyle(.plain)
+                .padding(8)
+                .accessibilityLabel("Delete pass")
+            }
+        }
+        .contextMenu {
+            if let onDelete {
+                Button("Delete Pass", role: .destructive, action: onDelete)
+            }
+        }
     }
 
     private func iconBadge(_ systemName: String, tint: Color) -> some View {
@@ -590,9 +773,36 @@ struct DashboardView: View {
     private func relativeDate(_ date: Date) -> String {
         RelativeDateTimeFormatter().localizedString(for: date, relativeTo: Date())
     }
+
+    private func vaultStatusBadge(_ record: PassVaultRecord) -> (title: String, tint: Color) {
+        if record.isExpired && record.walletAdded {
+            return ("EXPIRED · WALLET", Color.orange)
+        }
+        if record.isExpired {
+            return ("EXPIRED", Color.orange)
+        }
+        if record.walletAdded {
+            return ("WALLET", SlipTheme.upiGreen)
+        }
+        return ("VAULT", SlipTheme.indigo)
+    }
+
+    private func walletStatusLabel(_ record: PassVaultRecord) -> String {
+        if record.isExpired && record.walletAdded {
+            return "Expired · still in Wallet"
+        }
+        if record.isExpired {
+            return "Expired"
+        }
+        if record.walletAdded {
+            return "In Apple Wallet"
+        }
+        return "Sealed"
+    }
 }
 
 private struct RevealedPass: Identifiable {
-    var id: String { payload.templateId + (payload.qrPayload ?? UUID().uuidString) }
+    var id: String { recordId ?? (payload.templateId + (payload.qrPayload ?? UUID().uuidString)) }
     var payload: PassVaultPayload
+    var recordId: String?
 }

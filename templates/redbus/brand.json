@@ -3,13 +3,28 @@
   "displayName": "redBus",
   "category": "transit",
   "appleStyle": "boardingPass",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["origin", "destination", "qr_data"],
-  "optionalFields": ["passenger", "seat", "pnr", "bus"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "seat",
+    "pnr",
+    "bus",
+    "dep",
+    "arr",
+    "duration",
+    "time"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(216, 67, 21)",
-  "summary": "Intercity bus tickets with seat and PNR.",
+  "summary": "Intercity bus tickets with seat, PNR, and live boarding window.",
   "badge": "Bus",
   "iconHint": "bus.fill"
 }

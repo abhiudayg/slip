@@ -2,12 +2,27 @@ import Foundation
 import CryptoKit
 import Security
 
-enum VaultCryptoError: Error {
+enum VaultCryptoError: LocalizedError {
     case keychainFailed(OSStatus)
     case invalidKey
     case encryptionFailed
     case decryptionFailed
     case encodingFailed
+
+    var errorDescription: String? {
+        switch self {
+        case .keychainFailed(let status):
+            return "Vault keychain error (\(status))."
+        case .invalidKey:
+            return "Vault master key is invalid."
+        case .encryptionFailed:
+            return "Could not encrypt pass into the vault."
+        case .decryptionFailed:
+            return "Could not decrypt this pass. The vault key may have changed — delete it and import again."
+        case .encodingFailed:
+            return "Could not encode vault payload."
+        }
+    }
 }
 
 /// Syncable master key (iCloud Keychain) + AES-256-GCM for pass payloads.
@@ -28,10 +43,14 @@ enum VaultCrypto {
     }
 
     private static func loadMasterKey() throws -> SymmetricKey? {
+        // Must include synchronizable scope — keys are stored with iCloud Keychain sync.
+        // Without this, SecItemCopyMatching only sees local items and we mint a new key
+        // on every call, making earlier ciphertext permanently undecryptable.
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: mkService,
             kSecAttrAccount as String: mkAccount,
+            kSecAttrSynchronizable as String: kSecAttrSynchronizableAny,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
@@ -47,6 +66,15 @@ enum VaultCrypto {
 
     private static func storeMasterKey(_ key: SymmetricKey) throws {
         let data = key.withUnsafeBytes { Data($0) }
+        // Clear both sync and non-sync leftovers before writing the canonical syncable key.
+        for syncFlag: Any in [kCFBooleanTrue as Any, kCFBooleanFalse as Any, kSecAttrSynchronizableAny] {
+            SecItemDelete([
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrService as String: mkService,
+                kSecAttrAccount as String: mkAccount,
+                kSecAttrSynchronizable as String: syncFlag
+            ] as CFDictionary)
+        }
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: mkService,
@@ -55,12 +83,6 @@ enum VaultCrypto {
             kSecAttrSynchronizable as String: kCFBooleanTrue as Any,
             kSecValueData as String: data
         ]
-        SecItemDelete([
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: mkService,
-            kSecAttrAccount as String: mkAccount,
-            kSecAttrSynchronizable as String: kCFBooleanTrue as Any
-        ] as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else {
             throw VaultCryptoError.keychainFailed(status)
@@ -105,18 +127,24 @@ enum VaultCrypto {
 
     static func open<T: Decodable>(_ box: SealedBox, as type: T.Type) throws -> T {
         let mk = try masterKey()
-        let wrappedBox = try AES.GCM.SealedBox(combined: box.wrappedDEK)
-        let dekBytes = try AES.GCM.open(wrappedBox, using: mk)
-        guard dekBytes.count == 32 else { throw VaultCryptoError.invalidKey }
-        let dek = SymmetricKey(data: dekBytes)
-
-        var combined = Data()
-        combined.append(box.nonce)
-        combined.append(box.ciphertext)
-        let sealed = try AES.GCM.SealedBox(combined: combined)
-        let plain = try AES.GCM.open(sealed, using: dek)
         do {
+            let wrappedBox = try AES.GCM.SealedBox(combined: box.wrappedDEK)
+            let dekBytes = try AES.GCM.open(wrappedBox, using: mk)
+            guard dekBytes.count == 32 else { throw VaultCryptoError.invalidKey }
+            let dek = SymmetricKey(data: dekBytes)
+
+            var combined = Data()
+            combined.append(box.nonce)
+            combined.append(box.ciphertext)
+            let sealed = try AES.GCM.SealedBox(combined: combined)
+            let plain = try AES.GCM.open(sealed, using: dek)
             return try JSONDecoder().decode(T.self, from: plain)
+        } catch is VaultCryptoError {
+            throw VaultCryptoError.decryptionFailed
+        } catch let error as CryptoKitError {
+            // error 3 == authenticationFailure — wrong key or corrupted box
+            _ = error
+            throw VaultCryptoError.decryptionFailed
         } catch {
             throw VaultCryptoError.decryptionFailed
         }

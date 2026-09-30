@@ -2,6 +2,7 @@ import Foundation
 import SwiftData
 import LocalAuthentication
 import CloudKit
+import PassKit
 
 @Model
 final class PassVaultRecord {
@@ -11,6 +12,11 @@ final class PassVaultRecord {
     var createdAt: Date
     var updatedAt: Date
     var walletAdded: Bool
+    /// When set and now >= expiresAt, the pass is shown under Expired.
+    var expiresAt: Date?
+    /// PassKit serial used to detect removal from Apple Wallet.
+    var walletSerialNumber: String?
+    var walletPassTypeIdentifier: String?
     var schemaVersion: Int
     var ciphertext: Data
     var nonce: Data
@@ -23,6 +29,9 @@ final class PassVaultRecord {
         displayName: String,
         sealed: VaultCrypto.SealedBox,
         walletAdded: Bool = false,
+        expiresAt: Date? = nil,
+        walletSerialNumber: String? = nil,
+        walletPassTypeIdentifier: String? = nil,
         createdAt: Date = Date(),
         updatedAt: Date = Date()
     ) {
@@ -32,11 +41,18 @@ final class PassVaultRecord {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.walletAdded = walletAdded
+        self.expiresAt = expiresAt
+        self.walletSerialNumber = walletSerialNumber
+        self.walletPassTypeIdentifier = walletPassTypeIdentifier
         self.schemaVersion = sealed.schemaVersion
         self.ciphertext = sealed.ciphertext
         self.nonce = sealed.nonce
         self.wrappedDEK = sealed.wrappedDEK
         self.cloudKitRecordName = id
+    }
+
+    var isExpired: Bool {
+        PassExpiration.isExpired(expiresAt)
     }
 
     var sealedBox: VaultCrypto.SealedBox {
@@ -119,12 +135,17 @@ final class PassVaultStore: ObservableObject {
 
     @discardableResult
     func save(from classification: ClassificationResult, walletAdded: Bool = false) throws -> PassVaultRecord {
+        let relevant = PassExpiration.relevantDateISO8601(
+            templateId: classification.templateId,
+            fields: classification.fields,
+            existing: classification.relevantDateISO8601
+        )
         let payload = PassVaultPayload(
             templateId: classification.templateId,
             displayName: classification.displayName,
             fields: classification.fields,
             stationIds: classification.stationIds,
-            relevantDateISO8601: classification.relevantDateISO8601,
+            relevantDateISO8601: relevant,
             rationale: classification.rationale,
             confidence: classification.confidence,
             qrPayload: classification.extracted.qrPayload,
@@ -135,13 +156,25 @@ final class PassVaultStore: ObservableObject {
     }
 
     @discardableResult
-    func save(payload: PassVaultPayload, walletAdded: Bool = false) throws -> PassVaultRecord {
+    func save(
+        payload: PassVaultPayload,
+        walletAdded: Bool = false,
+        walletPass: PKPass? = nil
+    ) throws -> PassVaultRecord {
         let sealed = try VaultCrypto.seal(payload)
+        let expires = PassExpiration.expiresAt(
+            templateId: payload.templateId,
+            fields: payload.fields,
+            relevantDateISO8601: payload.relevantDateISO8601
+        )
         let record = PassVaultRecord(
             templateId: payload.templateId,
             displayName: payload.displayName.isEmpty ? payload.templateId : payload.displayName,
             sealed: sealed,
-            walletAdded: walletAdded
+            walletAdded: walletAdded,
+            expiresAt: expires,
+            walletSerialNumber: walletPass?.serialNumber,
+            walletPassTypeIdentifier: walletPass?.passTypeIdentifier
         )
         context.insert(record)
         try context.save()
@@ -154,12 +187,60 @@ final class PassVaultStore: ObservableObject {
         try VaultCrypto.open(record.sealedBox, as: PassVaultPayload.self)
     }
 
-    func markWalletAdded(_ record: PassVaultRecord) throws {
+    func markWalletAdded(_ record: PassVaultRecord, pass: PKPass? = nil) throws {
         record.walletAdded = true
+        if let pass {
+            record.walletSerialNumber = pass.serialNumber
+            record.walletPassTypeIdentifier = pass.passTypeIdentifier
+        }
         record.updatedAt = Date()
         try context.save()
         refresh()
         Task { await pushToCloud(record) }
+    }
+
+    func clearWalletAdded(_ record: PassVaultRecord) throws {
+        guard record.walletAdded else { return }
+        record.walletAdded = false
+        record.updatedAt = Date()
+        try context.save()
+        refresh()
+        Task { await pushToCloud(record) }
+    }
+
+    /// Reconcile `walletAdded` with PassKit (clears badge when user deletes the pass from Wallet).
+    @discardableResult
+    func syncWalletPresence() -> Int {
+        let library = PKPassLibrary()
+        let passes = library.passes()
+        var changed = 0
+
+        for record in records {
+            guard let serial = record.walletSerialNumber?
+                .trimmingCharacters(in: .whitespacesAndNewlines),
+                  !serial.isEmpty else {
+                continue
+            }
+
+            let present = passes.contains { pass in
+                pass.serialNumber == serial
+                    && (record.walletPassTypeIdentifier == nil
+                        || record.walletPassTypeIdentifier == pass.passTypeIdentifier)
+            }
+
+            if record.walletAdded != present {
+                record.walletAdded = present
+                record.updatedAt = Date()
+                changed += 1
+                Task { await pushToCloud(record) }
+            }
+        }
+
+        if changed > 0 {
+            try? context.save()
+            refresh()
+        }
+        return changed
     }
 
     func delete(_ record: PassVaultRecord) throws {
@@ -195,6 +276,15 @@ final class PassVaultStore: ObservableObject {
         ck["createdAt"] = record.createdAt as CKRecordValue
         ck["updatedAt"] = record.updatedAt as CKRecordValue
         ck["walletAdded"] = (record.walletAdded ? 1 : 0) as CKRecordValue
+        if let expiresAt = record.expiresAt {
+            ck["expiresAt"] = expiresAt as CKRecordValue
+        }
+        if let serial = record.walletSerialNumber {
+            ck["walletSerialNumber"] = serial as CKRecordValue
+        }
+        if let passType = record.walletPassTypeIdentifier {
+            ck["walletPassTypeIdentifier"] = passType as CKRecordValue
+        }
         ck["schemaVersion"] = record.schemaVersion as CKRecordValue
         ck["ciphertext"] = record.ciphertext as CKRecordValue
         ck["nonce"] = record.nonce as CKRecordValue
@@ -245,6 +335,9 @@ final class PassVaultStore: ObservableObject {
             existing.displayName = (ck["displayName"] as? String) ?? templateId
             existing.updatedAt = remoteUpdated
             existing.walletAdded = ((ck["walletAdded"] as? Int) ?? 0) != 0
+            existing.expiresAt = ck["expiresAt"] as? Date
+            existing.walletSerialNumber = ck["walletSerialNumber"] as? String
+            existing.walletPassTypeIdentifier = ck["walletPassTypeIdentifier"] as? String
             existing.schemaVersion = sealed.schemaVersion
             existing.ciphertext = sealed.ciphertext
             existing.nonce = sealed.nonce
@@ -256,6 +349,9 @@ final class PassVaultStore: ObservableObject {
                 displayName: (ck["displayName"] as? String) ?? templateId,
                 sealed: sealed,
                 walletAdded: ((ck["walletAdded"] as? Int) ?? 0) != 0,
+                expiresAt: ck["expiresAt"] as? Date,
+                walletSerialNumber: ck["walletSerialNumber"] as? String,
+                walletPassTypeIdentifier: ck["walletPassTypeIdentifier"] as? String,
                 createdAt: (ck["createdAt"] as? Date) ?? remoteUpdated,
                 updatedAt: remoteUpdated
             )

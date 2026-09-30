@@ -55,7 +55,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Slip uses Face ID to unlock your encrypted pass vault.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Slip reads QR codes from screenshots you share.</string>
+	<string>Slip shows recent screenshots so you can pick a ticket photo, and reads QR codes from images you select.</string>
 	<key>SlipAPIBaseURL</key>
 	<string>http://161.33.86.15:8080</string>
 	<key>SlipAppGroup</key>
@@ -69,6 +69,19 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>NSSupportsLiveActivitiesFrequentUpdates</key>
+	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Slip uses your location to surface the right pass when you are near a metro station or venue.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Slip needs Always location access so geofences can wake the app near stations and remind you to open Wallet — even when Slip is in the background.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>fetch</string>
 	</array>
 </dict>
 </plist>

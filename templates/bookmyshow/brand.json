@@ -5,7 +5,7 @@
   "appleStyle": "eventTicket",
   "barcodeFormats": ["PKBarcodeFormatQR"],
   "requiredFields": ["event", "seat", "qr_data"],
-  "optionalFields": ["venue", "booking_id"],
+  "optionalFields": ["venue", "booking_id", "time"],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(220, 38, 38)",

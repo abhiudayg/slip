@@ -4,12 +4,12 @@
   "category": "travel",
   "appleStyle": "generic",
   "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["property", "qr_data"],
-  "optionalFields": ["guest", "check_in", "check_out", "booking_id"],
+  "requiredFields": ["property", "booking_id"],
+  "optionalFields": ["guest", "check_in", "check_out", "door_pin", "qr_data"],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(255, 56, 92)",
-  "summary": "Airbnb stay confirmations with check-in details.",
-  "badge": "Stay",
+  "summary": "Airbnb room key & access pass with check-in details.",
+  "badge": "Room Key",
   "iconHint": "house.fill"
 }

@@ -1,6 +1,6 @@
 {
   "id": "namma-metro",
-  "displayName": "Metro",
+  "displayName": "Namma Metro",
   "category": "transit",
   "appleStyle": "boardingPass",
   "barcodeFormats": [
@@ -12,13 +12,17 @@
     "qr_data"
   ],
   "optionalFields": [
-    "passenger"
+    "passenger",
+    "dep",
+    "arr",
+    "time",
+    "duration"
   ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "stationCatalog": "namma-metro",
   "accentHint": "rgb(124, 58, 237)",
-  "summary": "Metro QR tickets with station geofence surfacing (Namma Metro catalog).",
+  "summary": "Namma Metro QR single-journey tickets with station geofence surfacing.",
   "badge": "Metro",
   "iconHint": "tram.fill"
 }

@@ -3,13 +3,23 @@
   "displayName": "Zoomcar",
   "category": "travel",
   "appleStyle": "generic",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["vehicle", "qr_data"],
-  "optionalFields": ["pickup", "booking_id", "guest"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "vehicle",
+    "booking_id"
+  ],
+  "optionalFields": [
+    "pickup",
+    "drop_off",
+    "guest",
+    "qr_data"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
-  "accentHint": "rgb(16, 185, 129)",
-  "summary": "Self-drive car reservations with pickup details.",
-  "badge": "Car",
+  "accentHint": "rgb(132, 204, 22)",
+  "summary": "Zoomcar keyless self-drive pass with pickup and unlock details.",
+  "badge": "Keyless",
   "iconHint": "car.fill"
 }

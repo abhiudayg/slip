@@ -16,18 +16,20 @@ public final class PassDtos {
       List<LocationDto> locations,
       List<String> stationIds,
       String relevantDate,
+      String expirationDate,
       String barcodeFormat
   ) {
     /** Never log QR / PNR / UPI payloads. */
     @Override
     public String toString() {
       int fieldCount = fields == null ? 0 : fields.size();
-      return "CreatePassRequest{template='%s', fieldCount=%d, stations=%d, hasRelevantDate=%s}"
+      return "CreatePassRequest{template='%s', fieldCount=%d, stations=%d, hasRelevantDate=%s, hasExpirationDate=%s}"
           .formatted(
               template,
               fieldCount,
               stationIds == null ? 0 : stationIds.size(),
-              relevantDate != null && !relevantDate.isBlank()
+              relevantDate != null && !relevantDate.isBlank(),
+              expirationDate != null && !expirationDate.isBlank()
           );
     }
   }

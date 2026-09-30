@@ -3,30 +3,33 @@
   "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
   "teamIdentifier": "{{TEAM_IDENTIFIER}}",
   "organizationName": "EazyDiner",
-  "description": "EazyDiner reservation",
+  "description": "EazyDiner Prime VIP store card",
   "logoText": "EazyDiner",
-  "backgroundColor": "rgb(30, 20, 10)",
+  "backgroundColor": "rgb(28, 20, 10)",
   "foregroundColor": "rgb(255, 255, 255)",
-  "labelColor": "rgb(255, 170, 120)",
+  "labelColor": "rgb(220, 180, 90)",
   "barcode": {
     "format": "PKBarcodeFormatQR",
     "message": "{{qr_data}}",
     "messageEncoding": "iso-8859-1",
     "altText": "{{booking_id}}"
   },
-  "eventTicket": {
+  "storeCard": {
+    "headerFields": [
+      { "key": "tier", "label": "STATUS", "value": "PRIME" }
+    ],
     "primaryFields": [
-      { "key": "restaurant", "label": "RESTAURANT", "value": "{{restaurant}}" }
+      { "key": "restaurant", "label": "VENUE", "value": "{{restaurant}}" }
     ],
     "secondaryFields": [
-      { "key": "time", "label": "TIME", "value": "{{time}}" },
+      { "key": "time", "label": "RESERVATION", "value": "{{time}}" },
       { "key": "party", "label": "GUESTS", "value": "{{party_size}}" }
     ],
     "auxiliaryFields": [
-      { "key": "booking", "label": "BOOKING", "value": "{{booking_id}}" }
+      { "key": "booking", "label": "MEMBER / BOOKING", "value": "{{booking_id}}" }
     ],
     "backFields": [
-      { "key": "about", "label": "About", "value": "Show this pass at the restaurant. Surfaces near your reservation time." }
+      { "key": "about", "label": "PayEazy", "value": "Scan at bill settlement for Prime discounts." }
     ]
   }
 }

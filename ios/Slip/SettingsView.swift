@@ -1,12 +1,52 @@
+import PhotosUI
 import SwiftUI
 
 /// Artboard 5 — Account, Sync & APNs Settings
 struct SettingsView: View {
+    @EnvironmentObject private var auth: AuthSession
+    @EnvironmentObject private var vault: PassVaultStore
+    @EnvironmentObject private var geofence: PassGeofenceManager
     @AppStorage("slip.settings.gateAlerts") private var gateAlerts = true
     @AppStorage("slip.settings.liveActivity") private var liveActivity = true
     @AppStorage("slip.settings.watchMirroring") private var watchMirroring = true
     @AppStorage("slip.settings.expressTransit") private var expressTransit = true
+    @State private var avatarPickerItem: PhotosPickerItem?
+    @State private var isEditingName = false
+    @State private var draftName = ""
     var onDone: (() -> Void)? = nil
+
+    private var profileName: String {
+        let name = auth.displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !name.isEmpty { return name }
+        if !auth.email.isEmpty { return auth.email }
+        return "Add your name"
+    }
+
+    private var liveActivitySubtitle: String {
+        if !liveActivity {
+            return "Off — new passes will not start a Dynamic Island Live Activity"
+        }
+        if PassLiveActivityController.areActivitiesEnabled {
+            return "On — Slip starts a Lock Screen / Dynamic Island activity when you generate a pass"
+        }
+        return "Enabled in Slip, but Live Activities are turned off in iOS Settings → Slip"
+    }
+
+    private var geofenceSubtitle: String {
+        switch geofence.authorizationStatus {
+        case .authorizedAlways:
+            let plural = geofence.monitoredRegionCount == 1 ? "" : "s"
+            return "Always on — monitoring \(geofence.monitoredRegionCount) station region\(plural)"
+        case .authorizedWhenInUse:
+            return "While Using only — tap to upgrade to Always for background geofence wakeups"
+        case .denied, .restricted:
+            return "Blocked — enable Location → Always for Slip in iOS Settings"
+        case .notDetermined:
+            return "Tap to allow Always location so Slip can surface passes near metro stations"
+        @unknown default:
+            return "Location status unknown"
+        }
+    }
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -27,31 +67,56 @@ struct SettingsView: View {
                         icon: "rectangle.on.rectangle.angled",
                         tint: SlipTheme.indigo,
                         title: "Live Activity & Island",
-                        subtitle: "Persistent transit countdown timers on Lock Screen & Dynamic Island",
+                        subtitle: liveActivitySubtitle,
                         isOn: $liveActivity
                     )
                 }
                 section(title: "Spatial Awareness & Proximity") {
+                    Button {
+                        geofence.requestAccess()
+                    } label: {
+                        HStack(alignment: .top, spacing: 12) {
+                            iconCircle("location.north.line.fill", tint: SlipTheme.accent)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Geofence Wakeup")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(SlipTheme.ink)
+                                Text(geofenceSubtitle)
+                                    .font(.caption)
+                                    .foregroundStyle(SlipTheme.muted)
+                                    .multilineTextAlignment(.leading)
+                                if let err = geofence.lastError {
+                                    Text(err)
+                                        .font(.caption2)
+                                        .foregroundStyle(.orange)
+                                }
+                            }
+                            Spacer()
+                            Text(geofence.shortLabel)
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(geofence.isGranted ? SlipTheme.upiGreen : SlipTheme.muted)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 8)
+                                .background(Capsule().fill(Color.white.opacity(0.08)))
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
+                section(title: "Apple Ecosystem") {
                     HStack(alignment: .top, spacing: 12) {
-                        iconCircle("location.north.line.fill", tint: SlipTheme.accent)
+                        iconCircle("iphone", tint: SlipTheme.accent)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Geofence Wakeup")
+                            Text("iOS only (v1)")
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(SlipTheme.ink)
-                            Text("Auto-presents passes within 100m radius of transit turnstiles")
+                            Text("Slip ships for iPhone first. Android and desktop are not supported yet.")
                                 .font(.caption)
                                 .foregroundStyle(SlipTheme.muted)
                         }
                         Spacer()
-                        Label("Always Allow", systemImage: "location.fill")
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(SlipTheme.muted)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(Capsule().fill(Color.white.opacity(0.08)))
+                        StatusPill(title: "iOS", tint: SlipTheme.upiGreen, filled: true)
                     }
-                }
-                section(title: "Apple Ecosystem") {
+                    divider
                     toggleRow(
                         icon: "applewatch",
                         tint: SlipTheme.indigo,
@@ -127,8 +192,11 @@ struct SettingsView: View {
                     }
                 }
 
-                Button {} label: {
-                    Label("Sign Out of iCloud Sync", systemImage: "rectangle.portrait.and.arrow.right")
+                Button {
+                    vault.lock()
+                    auth.signOut()
+                } label: {
+                    Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
@@ -138,7 +206,7 @@ struct SettingsView: View {
                 .buttonStyle(.plain)
 
                 VStack(spacing: 4) {
-                    Text("Slip v1.0")
+                    Text("Slip v1.0 · Built for iOS")
                         .font(.caption2.weight(.semibold))
                         .tracking(0.6)
                         .textCase(.uppercase)
@@ -155,35 +223,34 @@ struct SettingsView: View {
             .padding(.top, 8)
             .padding(.bottom, 120)
         }
+        .onChange(of: avatarPickerItem) { _, item in
+            guard let item else { return }
+            Task {
+                await applyPickedAvatar(item)
+            }
+        }
     }
 
     private var topBar: some View {
-        HStack {
-            HStack(spacing: 8) {
-                SlipBrandMark(size: 26)
-                Text("Settings")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(SlipTheme.ink)
-            }
-            Spacer()
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(SlipTheme.muted)
-            Image(systemName: "person.crop.circle.fill")
-                .font(.title2)
-                .foregroundStyle(SlipTheme.indigo)
+        StudioTopBar(title: "Settings", onSearch: {}) {
+            ProfileAvatarView(
+                image: auth.avatarImage,
+                monogram: auth.monogram,
+                size: 32
+            )
         }
     }
 
     private var titleBlock: some View {
-        HStack(alignment: .firstTextBaseline) {
+        HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Settings & Sync")
-                    .font(.system(size: 30, weight: .bold))
+                    .font(.system(size: 28, weight: .semibold))
                     .tracking(-0.5)
                     .foregroundStyle(SlipTheme.ink)
-                Text("Slip Hub")
-                    .font(.caption.weight(.semibold))
-                    .tracking(0.8)
+                Text("Slip iOS Hub")
+                    .font(.system(size: 11, weight: .semibold))
+                    .tracking(0.9)
                     .textCase(.uppercase)
                     .foregroundStyle(SlipTheme.muted)
             }
@@ -191,10 +258,11 @@ struct SettingsView: View {
             if let onDone {
                 Button("Done", action: onDone)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(SlipTheme.canvasDeep)
+                    .foregroundStyle(SlipTheme.ink)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 8)
-                    .background(Capsule().fill(Color.white.opacity(0.95)))
+                    .background(Capsule().fill(SlipTheme.cardHigh))
+                    .overlay(Capsule().strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
             }
         }
     }
@@ -203,44 +271,140 @@ struct SettingsView: View {
         GlassCard(cornerRadius: 24, padding: 16) {
             VStack(alignment: .leading, spacing: 14) {
                 HStack(spacing: 12) {
-                    Circle()
-                        .fill(SlipTheme.indigo.opacity(0.4))
-                        .frame(width: 54, height: 54)
-                        .overlay(
-                            Text("A")
-                                .font(.title2.weight(.bold))
-                                .foregroundStyle(.white)
-                        )
+                    profileAvatarPicker
+
                     VStack(alignment: .leading, spacing: 4) {
-                        HStack(spacing: 6) {
-                            Text("Abhiuday")
-                                .font(.headline)
-                                .foregroundStyle(SlipTheme.ink)
-                            Image(systemName: "checkmark.seal.fill")
-                                .foregroundStyle(SlipTheme.accent)
+                        Button {
+                            draftName = auth.needsDisplayName ? "" : auth.displayName
+                            isEditingName = true
+                        } label: {
+                            HStack(spacing: 6) {
+                                Text(profileName)
+                                    .font(.headline)
+                                    .foregroundStyle(SlipTheme.ink)
+                                Image(systemName: "pencil")
+                                    .font(.caption.weight(.semibold))
+                                    .foregroundStyle(SlipTheme.muted)
+                                Image(systemName: "checkmark.seal.fill")
+                                    .foregroundStyle(SlipTheme.accent)
+                            }
                         }
-                        Text("abhiuday@icloud.com")
-                            .font(.caption)
+                        .buttonStyle(.plain)
+
+                        if !auth.email.isEmpty {
+                            Text(auth.email)
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                                .lineLimit(1)
+                        } else {
+                            Text(auth.isSignedIn ? "Signed in with Apple" : "Not signed in")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                        if auth.isSignedIn {
+                            Text("Apple ID Verified")
+                                .font(.system(size: 11, weight: .semibold))
+                                .tracking(0.5)
+                                .textCase(.uppercase)
+                                .foregroundStyle(SlipTheme.accentSoft)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Capsule().fill(SlipTheme.accent.opacity(0.18)))
+                        }
+                        Text(auth.avatarImage == nil
+                             ? "Tap avatar to add a photo (Apple Sign In doesn’t provide one)"
+                             : "Tap name to edit · tap camera to change photo")
+                            .font(.caption2)
                             .foregroundStyle(SlipTheme.muted)
-                        Text("Apple ID Verified")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(SlipTheme.indigo)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                HStack {
-                    Label("Slip Pro", systemImage: "crown.fill")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(SlipTheme.ink)
-                    Text("iCloud Vault Active")
-                        .font(.caption2)
-                        .foregroundStyle(SlipTheme.muted)
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundStyle(SlipTheme.accentSoft)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Always Free")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                        Text("iCloud Vault Active")
+                            .font(.system(size: 11, weight: .semibold))
+                            .tracking(0.4)
+                            .textCase(.uppercase)
+                            .foregroundStyle(SlipTheme.muted)
+                    }
                     Spacer()
-                    StatusPill(title: "Synced", tint: SlipTheme.upiGreen)
+                    StatusPill(title: "Synced", tint: SlipTheme.accentSoft, systemImage: "checkmark.icloud.fill")
                 }
                 .padding(.top, 4)
                 .padding(.horizontal, 4)
             }
         }
+        .alert("Your name", isPresented: $isEditingName) {
+            TextField("Name", text: $draftName)
+                .textInputAutocapitalization(.words)
+            Button("Save") {
+                auth.updateDisplayName(draftName)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Apple only sends your name the first time you sign in. You can set or fix it here anytime.")
+        }
+    }
+
+    @ViewBuilder
+    private var profileAvatarPicker: some View {
+        let image = auth.avatarImage
+        let monogram = auth.monogram
+        let signedIn = auth.isSignedIn
+        PhotosPicker(selection: $avatarPickerItem, matching: .images, photoLibrary: .shared()) {
+            ZStack(alignment: .bottomTrailing) {
+                ProfileAvatarView(
+                    image: image,
+                    monogram: monogram,
+                    size: 64
+                )
+                .overlay(
+                    Circle()
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [SlipTheme.accentSoft.opacity(0.7), SlipTheme.accent.opacity(0.2)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 2
+                        )
+                )
+                Image(systemName: signedIn ? "checkmark.icloud.fill" : "camera.fill")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.white)
+                    .padding(5)
+                    .background(Circle().fill(SlipTheme.accent))
+                    .overlay(Circle().strokeBorder(SlipTheme.canvasDeep, lineWidth: 2))
+                    .offset(x: 2, y: 2)
+            }
+        }
+        .buttonStyle(.plain)
+        .contextMenu {
+            if image != nil {
+                Button("Remove Photo", role: .destructive) {
+                    auth.updateAvatar(nil)
+                }
+            }
+        }
+        .accessibilityLabel("Change profile photo")
+    }
+
+    private func applyPickedAvatar(_ item: PhotosPickerItem) async {
+
+        do {
+            if let data = try await item.loadTransferable(type: Data.self),
+               let image = UIImage(data: data) {
+                auth.updateAvatar(image)
+            }
+        } catch {
+            // Keep existing avatar on failure.
+        }
+        avatarPickerItem = nil
     }
 
     private func section<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
@@ -278,6 +442,8 @@ struct SettingsView: View {
             Spacer(minLength: 8)
             Toggle("", isOn: isOn)
                 .labelsHidden()
+                .tint(SlipTheme.accent)
+                        .tint(SlipTheme.accent)
                 .tint(SlipTheme.indigo)
         }
     }

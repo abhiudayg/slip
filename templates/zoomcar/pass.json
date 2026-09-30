@@ -3,11 +3,11 @@
   "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
   "teamIdentifier": "{{TEAM_IDENTIFIER}}",
   "organizationName": "Zoomcar",
-  "description": "Zoomcar reservation",
+  "description": "Zoomcar keyless self-drive pass",
   "logoText": "Zoomcar",
-  "backgroundColor": "rgb(8, 35, 28)",
+  "backgroundColor": "rgb(12, 28, 20)",
   "foregroundColor": "rgb(255, 255, 255)",
-  "labelColor": "rgb(134, 239, 172)",
+  "labelColor": "rgb(80, 220, 140)",
   "barcode": {
     "format": "PKBarcodeFormatQR",
     "message": "{{qr_data}}",
@@ -15,18 +15,22 @@
     "altText": "{{booking_id}}"
   },
   "generic": {
+    "headerFields": [
+      { "key": "status", "label": "KEY STATUS", "value": "READY TO UNLOCK" }
+    ],
     "primaryFields": [
       { "key": "vehicle", "label": "VEHICLE", "value": "{{vehicle}}" }
     ],
     "secondaryFields": [
-      { "key": "pickup", "label": "PICKUP", "value": "{{pickup}}" }
+      { "key": "pickup", "label": "PICKUP & UNLOCK", "value": "{{pickup}}" },
+      { "key": "drop", "label": "DROP OFF & LOCK", "value": "{{drop_off}}" }
     ],
     "auxiliaryFields": [
       { "key": "guest", "label": "DRIVER", "value": "{{guest}}" },
-      { "key": "booking", "label": "BOOKING", "value": "{{booking_id}}" }
+      { "key": "booking", "label": "BOOKING / PIN", "value": "{{booking_id}}" }
     ],
     "backFields": [
-      { "key": "about", "label": "About", "value": "Your Zoomcar self-drive booking for pickup." }
+      { "key": "about", "label": "Keyless access", "value": "Hold iPhone near the windshield reader. Use booking PIN on the driver-pillar keypad if needed." }
     ]
   }
 }

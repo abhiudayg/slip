@@ -5,34 +5,66 @@
   "organizationName": "IndiGo",
   "description": "IndiGo boarding pass",
   "logoText": "IndiGo",
-  "backgroundColor": "rgb(10, 35, 80)",
+  "backgroundColor": "rgb(0, 29, 49)",
   "foregroundColor": "rgb(255, 255, 255)",
   "labelColor": "rgb(170, 199, 255)",
   "transitType": "PKTransitTypeAir",
   "barcode": {
-    "format": "PKBarcodeFormatQR",
+    "format": "PKBarcodeFormatAztec",
     "message": "{{qr_data}}",
     "messageEncoding": "iso-8859-1",
     "altText": "{{pnr}}"
   },
   "boardingPass": {
     "headerFields": [
-      { "key": "flight", "label": "FLIGHT", "value": "{{flight}}" },
-      { "key": "gate", "label": "GATE", "value": "{{gate}}" }
+      {
+        "key": "flight",
+        "label": "FLIGHT",
+        "value": "{{flight}}"
+      },
+      {
+        "key": "gate",
+        "label": "GATE",
+        "value": "{{gate}}"
+      }
     ],
     "primaryFields": [
-      { "key": "origin", "label": "FROM", "value": "{{origin}}" },
-      { "key": "destination", "label": "TO", "value": "{{destination}}" }
+      {
+        "key": "origin",
+        "label": "FROM",
+        "value": "{{origin}}"
+      },
+      {
+        "key": "destination",
+        "label": "TO",
+        "value": "{{destination}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "passenger", "label": "PASSENGER", "value": "{{passenger}}" },
-      { "key": "seat", "label": "SEAT", "value": "{{seat}}" }
+      {
+        "key": "passenger",
+        "label": "PASSENGER",
+        "value": "{{passenger}}"
+      },
+      {
+        "key": "seat",
+        "label": "SEAT",
+        "value": "{{seat}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "pnr", "label": "PNR", "value": "{{pnr}}" }
+      {
+        "key": "pnr",
+        "label": "PNR",
+        "value": "{{pnr}}"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "About", "value": "Built from your booking PDF or screenshot. Surfaces near departure." }
+      {
+        "key": "about",
+        "label": "About",
+        "value": "Built from your booking PDF or screenshot. Surfaces near departure."
+      }
     ]
   }
 }

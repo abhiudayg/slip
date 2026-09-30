@@ -31,6 +31,25 @@ struct ClassificationResult: Codable, Equatable, Identifiable, Sendable {
     static let storageKey = "slip.pending.classification"
 }
 
+/// Held between OCR/QR ingest and brand confirmation — extraction runs only after Next.
+struct PendingImport: Identifiable, Equatable, Sendable {
+    let id: UUID
+    var ticket: ExtractedTicket
+    var suggestedTemplateId: String
+    var suggestedDisplayName: String
+    var confidence: Double
+    var rationale: String
+
+    init(id: UUID = UUID(), ticket: ExtractedTicket, suggestion: ClassificationResult) {
+        self.id = id
+        self.ticket = ticket
+        self.suggestedTemplateId = suggestion.templateId
+        self.suggestedDisplayName = suggestion.displayName.isEmpty ? "Unknown" : suggestion.displayName
+        self.confidence = suggestion.confidence
+        self.rationale = suggestion.rationale
+    }
+}
+
 enum SharedInbox {
     static let appGroupId = "group.com.aeswibon.slip"
 

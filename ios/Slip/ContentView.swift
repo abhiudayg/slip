@@ -29,7 +29,13 @@ struct ContentView: View {
                 case .marketplace:
                     MarketplaceView(
                         onSelectBrand: { selectedBrand = $0 },
-                        onScanScreenshot: { showImportMenu = true }
+                        onScanScreenshot: { showScanner = true },
+                        onImportPDF: {
+                            Task { @MainActor in
+                                await Task.yield()
+                                showFileImporter = true
+                            }
+                        }
                     )
                 case .settings:
                     SettingsView(onDone: { tab = .home })
@@ -40,9 +46,9 @@ struct ContentView: View {
                 Spacer()
                 FloatingDock(
                     tab: $tab,
-                    onCamera: { showImportMenu = true },
                     onScan: { showScanner = true },
-                    onNewPass: { tab = .marketplace }
+                    onNewPass: { showImportMenu = true },
+                    onImport: { showImportMenu = true }
                 )
                 .padding(.horizontal, 20)
                 .padding(.bottom, 10)
@@ -51,9 +57,23 @@ struct ContentView: View {
         .preferredColorScheme(.dark)
         .task { await model.bootstrap() }
         .sheet(item: $selectedBrand) { brand in
-            PassDetailsView(brand: brand)
+            PassDetailsView(
+                brand: brand,
+                onReturnHome: {
+                    selectedBrand = nil
+                    tab = .home
+                }
+            )
+            .environmentObject(model)
+            .environmentObject(vault)
+            .environmentObject(PassGeofenceManager.shared)
+        }
+        .sheet(item: $model.pendingImport) { pending in
+            BrandSelectSheet(pending: pending)
                 .environmentObject(model)
-                .environmentObject(vault)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.hidden)
+                .interactiveDismissDisabled(false)
         }
         .sheet(item: $model.pendingClassification) { classification in
             ConfirmPassSheet(classification: classification)
@@ -63,16 +83,29 @@ struct ContentView: View {
                 .presentationDragIndicator(.hidden)
         }
         .fullScreenCover(isPresented: $showScanner) {
-            LiveScannerView { message, symbology in
-                showScanner = false
-                model.classifyScanned(payload: message, symbology: symbology)
-            } onCancel: {
-                showScanner = false
-            }
+            LiveScannerView(
+                onCode: { message, symbology in
+                    showScanner = false
+                    model.classifyScanned(payload: message, symbology: symbology)
+                },
+                onImage: { image in
+                    showScanner = false
+                    Task { await model.classifyImage(image) }
+                },
+                onPDF: { data in
+                    showScanner = false
+                    Task { await model.classifyPDF(data) }
+                },
+                onCancel: {
+                    showScanner = false
+                }
+            )
         }
         .confirmationDialog("Import ticket", isPresented: $showImportMenu, titleVisibility: .visible) {
+            Button("Scan QR / barcode") {
+                showScanner = true
+            }
             Button("Photo / screenshot") {
-                // Defer so we don't publish while the dialog dismisses.
                 Task { @MainActor in
                     await Task.yield()
                     showPhotoPicker = true
@@ -84,15 +117,17 @@ struct ContentView: View {
                     showFileImporter = true
                 }
             }
+            Button("Browse templates") {
+                tab = .marketplace
+            }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Share a screenshot or booking PDF to extract QR and fields.")
+            Text("Import a screenshot or booking PDF, scan a code, or pick a template.")
         }
         .photosPicker(isPresented: $showPhotoPicker, selection: $photoItem, matching: .images)
         .onChange(of: photoItem) { _, item in
             guard let item else { return }
             Task { @MainActor in
-                // Leave the PhotosPicker binding update before publishing AppModel state.
                 await Task.yield()
                 defer { photoItem = nil }
                 if let data = try? await item.loadTransferable(type: Data.self),
@@ -139,10 +174,53 @@ struct ContentView: View {
         }
         .overlay {
             if model.isLoadingBrands || model.isExtracting {
-                ProgressView(model.isExtracting ? "Reading ticket…" : "Loading…")
-                    .padding(20)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                ZStack {
+                    // Fully obscure vault cards / pass data while work is in flight.
+                    SlipTheme.canvasDeep.opacity(0.92)
+                        .ignoresSafeArea()
+                    MeshBackground()
+                        .opacity(0.55)
+                        .ignoresSafeArea()
+                        .allowsHitTesting(false)
+
+                    VStack(spacing: 18) {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(SlipTheme.accentSoft)
+                            .scaleEffect(1.25)
+
+                        Text(model.isExtracting ? model.extractingStatus : "Syncing Slip")
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(SlipTheme.ink)
+
+                        Text(model.isExtracting
+                             ? (model.extractingStatus == "Extracting pass fields"
+                                ? "Running brand extraction and on-device fill…"
+                                : "Reading your screenshot or PDF on-device…")
+                             : "Refreshing templates and vault status…")
+                            .font(.caption)
+                            .foregroundStyle(SlipTheme.muted)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 28)
+                    }
+                    .padding(.horizontal, 28)
+                    .padding(.vertical, 32)
+                    .frame(maxWidth: 320)
+                    .background {
+                        RoundedRectangle(cornerRadius: 24, style: .continuous)
+                            .fill(SlipTheme.card.opacity(0.95))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                            )
+                            .shadow(color: .black.opacity(0.45), radius: 28, y: 12)
+                    }
+                }
+                .transition(.opacity)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(model.isExtracting ? model.extractingStatus : "Loading")
             }
         }
+        .animation(.easeInOut(duration: 0.2), value: model.isLoadingBrands || model.isExtracting)
     }
 }

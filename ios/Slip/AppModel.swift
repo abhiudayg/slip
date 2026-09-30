@@ -8,8 +8,13 @@ final class AppModel: ObservableObject {
     @Published var stations: [Station] = []
     @Published var isLoadingBrands = false
     @Published var errorMessage: String?
+    /// Brand pick step — OCR/QR done, field extraction not yet.
+    @Published var pendingImport: PendingImport?
+    /// After brand confirmed + extraction — review/edit fields.
     @Published var pendingClassification: ClassificationResult?
     @Published var isExtracting = false
+    /// Overlay copy while OCR vs field extraction.
+    @Published var extractingStatus: String = "Reading ticket"
 
     let api: PassAPIClient
     let appGroup = Bundle.main.object(forInfoDictionaryKey: "SlipAppGroup") as? String ?? SharedInbox.appGroupId
@@ -37,6 +42,7 @@ final class AppModel: ObservableObject {
 
     func consumeSharedPayloadIfNeeded() {
         if let result = SharedInbox.consumeClassification() {
+            // Share extension already classified — skip brand step and open confirm.
             pendingClassification = result
             SharedInbox.wipeAll()
             return
@@ -52,7 +58,7 @@ final class AppModel: ObservableObject {
                 symbology: payload.symbology
             )
             Task { @MainActor in
-                pendingClassification = await IntelligentBrandClassifier.classify(extracted)
+                presentBrandStep(for: extracted)
             }
         }
     }
@@ -60,24 +66,48 @@ final class AppModel: ObservableObject {
     func classifyScanned(payload: String, symbology: String) {
         let extracted = TicketExtractor.extract(payload: payload, symbology: symbology)
         Task { @MainActor in
-            isExtracting = true
-            defer { isExtracting = false }
-            pendingClassification = await IntelligentBrandClassifier.classify(extracted)
+            presentBrandStep(for: extracted)
         }
     }
 
     func classifyPDF(_ data: Data) async {
+        extractingStatus = "Reading ticket"
         isExtracting = true
         defer { isExtracting = false }
         let extracted = await TicketExtractor.extract(fromPDF: data)
-        pendingClassification = await IntelligentBrandClassifier.classify(extracted)
+        presentBrandStep(for: extracted)
     }
 
     func classifyImage(_ image: UIImage) async {
+        extractingStatus = "Reading ticket"
         isExtracting = true
         defer { isExtracting = false }
         let extracted = await TicketExtractor.extract(from: image)
-        pendingClassification = await IntelligentBrandClassifier.classify(extracted)
+        presentBrandStep(for: extracted)
+    }
+
+    /// Rules/AI brand guess only — field extraction waits for confirmBrandAndExtract.
+    func presentBrandStep(for ticket: ExtractedTicket) {
+        let suggestion = IntelligentBrandClassifier.suggestBrand(ticket)
+        pendingImport = PendingImport(ticket: ticket, suggestion: suggestion)
+    }
+
+    /// User confirmed brand → run brand-specific extraction (+ on-device AI fill).
+    func confirmBrandAndExtract(templateId: String) async {
+        guard let pending = pendingImport else { return }
+        let ticket = pending.ticket
+        // Dismiss brand sheet before overlay / confirm sheet to avoid stacked presentation glitches.
+        pendingImport = nil
+        extractingStatus = "Extracting pass fields"
+        isExtracting = true
+        defer { isExtracting = false }
+        let result = await IntelligentBrandClassifier.classify(
+            ticket,
+            forcedTemplateId: templateId
+        )
+        // Let brand sheet finish dismissing.
+        try? await Task.sleep(nanoseconds: 320_000_000)
+        pendingClassification = result
     }
 
     private struct LegacySharedBarcode: Codable {
