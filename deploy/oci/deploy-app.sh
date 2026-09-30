@@ -13,7 +13,13 @@ SSH=(ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$PUBLIC_IP")
 
 echo "==> Building jar"
 (cd "$ROOT/pass-engine" && mvn -q -DskipTests package)
-JAR=$(ls "$ROOT/pass-engine/target/pass-engine-"*.jar | head -1)
+# Prefer non-SNAPSHOT boot jar; fall back to newest mtime.
+JAR=$(ls -t "$ROOT/pass-engine/target"/pass-engine-*.jar 2>/dev/null | grep -v original | grep -v SNAPSHOT | head -1)
+if [[ -z "${JAR:-}" ]]; then
+  JAR=$(ls -t "$ROOT/pass-engine/target"/pass-engine-*.jar 2>/dev/null | grep -v original | head -1)
+fi
+[[ -n "${JAR:-}" ]] || { echo "No pass-engine jar in target/"; exit 1; }
+echo "Using jar: $JAR"
 
 echo "==> Uploading to $PUBLIC_IP"
 "${SSH[@]}" "sudo mkdir -p /opt/slip/{bin,templates,stations,certs} && sudo chown -R \$USER /opt/slip"
