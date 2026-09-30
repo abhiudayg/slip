@@ -1,0 +1,15 @@
+{
+  "id": "redbus",
+  "displayName": "redBus",
+  "category": "transit",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["origin", "destination", "qr_data"],
+  "optionalFields": ["passenger", "seat", "pnr", "bus"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(216, 67, 21)",
+  "summary": "Intercity bus tickets with seat and PNR.",
+  "badge": "Bus",
+  "iconHint": "bus.fill"
+}

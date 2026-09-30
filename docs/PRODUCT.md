@@ -17,14 +17,21 @@ Cut QR present-time for Indian iPhone users from ~15s to ~1s (double-click Side 
 - Templates are boilerplates under `templates/{id}/`
 - **Security (1C + iCloud):** Sensitive pass payloads sealed on-device with AES-256-GCM; master key syncs via iCloud Keychain; ciphertext syncs via CloudKit private DB. pass-engine never persists QR/PNR/UPI fields.
 
-## MVP brand pack
+## Default brand pack
 
 | Brand | Template id | Apple style |
 |-------|-------------|-------------|
-| UPI (Get Paid) | `upi` | generic |
-| Cult.fit | `cult` | storeCard |
-| Namma Metro | `namma-metro` | boardingPass |
+| IRCTC Rail | `irctc` | boardingPass |
 | BookMyShow | `bookmyshow` | eventTicket |
+| IndiGo | `indigo` | boardingPass |
+| EazyDiner | `easydiner` | eventTicket |
+| Zomato Dineout | `zomato-dineout` | eventTicket |
+| Swiggy Dineout | `swiggy-dineout` | eventTicket |
+| Airbnb | `airbnb` | generic |
+| Metro | `namma-metro` | boardingPass |
+| UPI (Get Paid) | `upi` | generic |
+| redBus | `redbus` | boardingPass |
+| Zoomcar | `zoomcar` | generic |
 
 ## Pillars
 

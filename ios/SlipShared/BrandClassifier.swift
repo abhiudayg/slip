@@ -7,12 +7,15 @@ enum BrandClassifier {
         let qr = ticket.qrPayload?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
         if let upi = classifyUPI(qr: qr, hay: hay, ticket: ticket) { return upi }
-        if let cult = classifyCult(qr: qr, hay: hay, ticket: ticket) { return cult }
-        if let metro = classifyNammaMetro(qr: qr, hay: hay, ticket: ticket) { return metro }
-        if let bms = classifyBookMyShow(qr: qr, hay: hay, ticket: ticket) { return bms }
         if let irctc = classifyIRCTC(qr: qr, hay: hay, ticket: ticket) { return irctc }
         if let indigo = classifyIndigo(qr: qr, hay: hay, ticket: ticket) { return indigo }
         if let airline = classifyAirlineHint(qr: qr, hay: hay, ticket: ticket) { return airline }
+        if let redbus = classifyRedBus(qr: qr, hay: hay, ticket: ticket) { return redbus }
+        if let metro = classifyNammaMetro(qr: qr, hay: hay, ticket: ticket) { return metro }
+        if let bms = classifyBookMyShow(qr: qr, hay: hay, ticket: ticket) { return bms }
+        if let dine = classifyDining(qr: qr, hay: hay, ticket: ticket) { return dine }
+        if let airbnb = classifyAirbnb(qr: qr, hay: hay, ticket: ticket) { return airbnb }
+        if let zoom = classifyZoomcar(qr: qr, hay: hay, ticket: ticket) { return zoom }
 
         // Low confidence fallback — force Marketplace pick in UI
         var fields: [String: String] = [:]
@@ -359,6 +362,119 @@ enum BrandClassifier {
             extracted: ticket,
             createdAt: Date()
         )
+    }
+
+
+    private static func classifyDining(qr: String, hay: String, ticket: ExtractedTicket) -> ClassificationResult? {
+        let h = hay.lowercased()
+        let templateId: String
+        let displayName: String
+        if h.contains("easydiner") || h.contains("eazydiner") {
+            templateId = "easydiner"; displayName = "EazyDiner"
+        } else if h.contains("zomato") && (h.contains("dineout") || h.contains("dine out") || h.contains("reservation") || h.contains("table")) {
+            templateId = "zomato-dineout"; displayName = "Zomato Dineout"
+        } else if h.contains("swiggy") && (h.contains("dineout") || h.contains("dine out") || h.contains("reservation") || h.contains("table")) {
+            templateId = "swiggy-dineout"; displayName = "Swiggy Dineout"
+        } else if h.contains("dineout") {
+            templateId = "zomato-dineout"; displayName = "Zomato Dineout"
+        } else {
+            return nil
+        }
+
+        var fields: [String: String] = [:]
+        if !qr.isEmpty { fields["qr_data"] = qr }
+        if let restaurant = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:restaurant|venue|outlet)\s*[:\-]?\s*(.+)"#) {
+            fields["restaurant"] = restaurant
+        }
+        if let time = firstMatch(in: ticket.recognizedText, pattern: #"\b([01]?\d|2[0-3])[:.][0-5]\d\s*(?:AM|PM|am|pm)?\b"#) {
+            fields["time"] = time
+        }
+        if let party = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:guests?|pax|party)\s*[:\-]?\s*(\d{1,2})"#) {
+            fields["party_size"] = party
+        }
+        if let booking = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:booking|reservation|conf(?:irmation)?)\s*(?:id|no\.?|#)?\s*[:\-]?\s*([A-Z0-9\-]{4,})"#) {
+            fields["booking_id"] = booking
+            if fields["qr_data"] == nil { fields["qr_data"] = booking }
+        }
+        guard fields["qr_data"] != nil || fields["restaurant"] != nil else { return nil }
+        return result(templateId: templateId, displayName: displayName, confidence: 0.78,
+                      fields: fields, stationIds: [], relevantDateISO8601: nil,
+                      rationale: "Matched \(displayName) reservation text.", ticket: ticket)
+    }
+
+    private static func classifyAirbnb(qr: String, hay: String, ticket: ExtractedTicket) -> ClassificationResult? {
+        let h = hay.lowercased()
+        guard h.contains("airbnb") || h.contains("airbnb.com") else { return nil }
+        var fields: [String: String] = [:]
+        if !qr.isEmpty { fields["qr_data"] = qr }
+        if let property = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:listing|property|stay|home)\s*[:\-]?\s*(.+)"#) {
+            fields["property"] = property
+        }
+        if let guest = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:guest)\s*[:\-]?\s*([A-Za-z .]{3,})"#) {
+            fields["guest"] = guest
+        }
+        if let checkIn = firstMatch(in: ticket.recognizedText, pattern: #"(?i)check[\s\-]?in\s*[:\-]?\s*([^\n]+)"#) {
+            fields["check_in"] = checkIn
+        }
+        if let checkOut = firstMatch(in: ticket.recognizedText, pattern: #"(?i)check[\s\-]?out\s*[:\-]?\s*([^\n]+)"#) {
+            fields["check_out"] = checkOut
+        }
+        if let booking = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:confirmation|reservation)\s*(?:code|id)?\s*[:\-]?\s*([A-Z0-9]{6,})"#) {
+            fields["booking_id"] = booking
+            if fields["qr_data"] == nil { fields["qr_data"] = booking }
+        }
+        guard fields["qr_data"] != nil || fields["property"] != nil else { return nil }
+        return result(templateId: "airbnb", displayName: "Airbnb", confidence: 0.8,
+                      fields: fields, stationIds: [], relevantDateISO8601: nil,
+                      rationale: "Matched Airbnb reservation.", ticket: ticket)
+    }
+
+    private static func classifyRedBus(qr: String, hay: String, ticket: ExtractedTicket) -> ClassificationResult? {
+        let h = hay.lowercased()
+        guard h.contains("redbus") || h.contains("red bus") else { return nil }
+        var fields: [String: String] = [:]
+        if !qr.isEmpty { fields["qr_data"] = qr }
+        if let origin = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:from|boarding)\s*[:\-]?\s*([A-Za-z .]{3,})"#) {
+            fields["origin"] = origin
+        }
+        if let dest = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:to|dropping)\s*[:\-]?\s*([A-Za-z .]{3,})"#) {
+            fields["destination"] = dest
+        }
+        if let seat = firstMatch(in: ticket.recognizedText, pattern: #"(?i)seat\s*[:\-]?\s*([A-Z0-9,\- ]{1,12})"#) {
+            fields["seat"] = seat
+        }
+        if let pnr = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:pnr|ticket\s*(?:no|number)|booking\s*id)\s*[:\-]?\s*([A-Z0-9]{6,})"#) {
+            fields["pnr"] = pnr
+            if fields["qr_data"] == nil { fields["qr_data"] = pnr }
+        }
+        if let passenger = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:passenger|traveller)\s*[:\-]?\s*([A-Za-z .]{3,})"#) {
+            fields["passenger"] = passenger
+        }
+        guard fields["qr_data"] != nil || (fields["origin"] != nil && fields["destination"] != nil) else { return nil }
+        return result(templateId: "redbus", displayName: "redBus", confidence: 0.82,
+                      fields: fields, stationIds: [], relevantDateISO8601: nil,
+                      rationale: "Matched redBus ticket.", ticket: ticket)
+    }
+
+    private static func classifyZoomcar(qr: String, hay: String, ticket: ExtractedTicket) -> ClassificationResult? {
+        let h = hay.lowercased()
+        guard h.contains("zoomcar") else { return nil }
+        var fields: [String: String] = [:]
+        if !qr.isEmpty { fields["qr_data"] = qr }
+        if let vehicle = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:car|vehicle|model)\s*[:\-]?\s*([^\n]+)"#) {
+            fields["vehicle"] = vehicle
+        }
+        if let pickup = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:pickup|pick[\s\-]?up|location)\s*[:\-]?\s*([^\n]+)"#) {
+            fields["pickup"] = pickup
+        }
+        if let booking = firstMatch(in: ticket.recognizedText, pattern: #"(?i)(?:booking|reservation)\s*(?:id|no\.?)?\s*[:\-]?\s*([A-Z0-9\-]{5,})"#) {
+            fields["booking_id"] = booking
+            if fields["qr_data"] == nil { fields["qr_data"] = booking }
+        }
+        guard fields["qr_data"] != nil || fields["vehicle"] != nil else { return nil }
+        return result(templateId: "zoomcar", displayName: "Zoomcar", confidence: 0.8,
+                      fields: fields, stationIds: [], relevantDateISO8601: nil,
+                      rationale: "Matched Zoomcar reservation.", ticket: ticket)
     }
 
     private static func upiQueryValue(_ qr: String, key: String) -> String? {

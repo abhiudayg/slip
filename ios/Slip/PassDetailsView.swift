@@ -335,7 +335,10 @@ struct PassDetailsView: View {
 
     private var brandIcon: String {
         switch brand.id {
-        case "cult": return "figure.run"
+        case "easydiner", "zomato-dineout", "swiggy-dineout": return "fork.knife"
+        case "airbnb": return "house.fill"
+        case "redbus": return "bus.fill"
+        case "zoomcar": return "car.fill"
         case "namma-metro": return "tram.fill"
         case "indigo": return "airplane"
         case "bookmyshow": return "ticket.fill"

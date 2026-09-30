@@ -50,6 +50,8 @@ curl -X POST http://localhost:8080/v1/passes \
 
 ## iOS (Slip)
 
+For **TestFlight** setup (API URL, signing, upload steps) see [`ios/TESTFLIGHT.md`](ios/TESTFLIGHT.md).
+
 1. Open `ios/Slip.xcodeproj` in Xcode 16+.
 2. Set your Team and App Group `group.com.aeswibon.slip`.
 3. Point `SlipAPIBaseURL` in `Info.plist` at pass-engine (local or OCI).
@@ -66,15 +68,25 @@ Scripts under `deploy/oci/` provision a free-tier VM and wire Neon. Secrets (`de
 ./deploy/oci/deploy-app.sh
 ```
 
-## MVP brands
+## Default brands
 
 | Brand | Template id | Pass style |
 |-------|-------------|------------|
-| UPI (Get Paid) | `upi` | generic |
-| Cult.fit | `cult` | storeCard |
-| Namma Metro | `namma-metro` | boardingPass |
+| IRCTC Rail | `irctc` | boardingPass |
 | BookMyShow | `bookmyshow` | eventTicket |
-| Indigo / IRCTC | `indigo` / `irctc` | boardingPass |
+| IndiGo | `indigo` | boardingPass |
+| EazyDiner | `easydiner` | eventTicket |
+| Zomato Dineout | `zomato-dineout` | eventTicket |
+| Swiggy Dineout | `swiggy-dineout` | eventTicket |
+| Airbnb | `airbnb` | generic |
+| Metro | `namma-metro` | boardingPass |
+| UPI (Get Paid) | `upi` | generic |
+| redBus | `redbus` | boardingPass |
+| Zoomcar | `zoomcar` | generic |
+
+## CI/CD & releases
+
+GitHub Actions bumps versions, generates release notes, publishes the GitHub Release (jar + templates), Maven package, and GHCR image. See [`docs/RELEASE.md`](docs/RELEASE.md).
 
 ## License
 

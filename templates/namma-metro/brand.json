@@ -1,16 +1,24 @@
 {
   "id": "namma-metro",
-  "displayName": "Namma Metro",
+  "displayName": "Metro",
   "category": "transit",
   "appleStyle": "boardingPass",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["origin", "destination", "qr_data"],
-  "optionalFields": ["passenger"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "stationCatalog": "namma-metro",
   "accentHint": "rgb(124, 58, 237)",
-  "summary": "Bangalore metro QR tickets with station geofence surfacing.",
-  "badge": "Transit",
+  "summary": "Metro QR tickets with station geofence surfacing (Namma Metro catalog).",
+  "badge": "Metro",
   "iconHint": "tram.fill"
 }

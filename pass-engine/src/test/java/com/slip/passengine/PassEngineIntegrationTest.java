@@ -27,6 +27,15 @@ class PassEngineIntegrationTest {
     registry.add("slip.templates-dir", () -> root.resolve("templates").toString());
     registry.add("slip.stations-dir", () -> root.resolve("stations").toString());
     registry.add("slip.dev-mode", () -> "true");
+    // Isolate from developer Neon/OCI shell env so CI and local tests both use H2.
+    registry.add(
+        "spring.datasource.url",
+        () -> "jdbc:h2:mem:slip_test;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1");
+    registry.add("spring.datasource.username", () -> "sa");
+    registry.add("spring.datasource.password", () -> "");
+    registry.add("spring.datasource.driver-class-name", () -> "org.h2.Driver");
+    registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
+    registry.add("spring.flyway.enabled", () -> "false");
   }
 
   @Test
@@ -34,7 +43,9 @@ class PassEngineIntegrationTest {
     mockMvc.perform(get("/v1/brands"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[?(@.id=='upi')]").exists())
-        .andExpect(jsonPath("$[?(@.id=='cult')]").exists())
+        .andExpect(jsonPath("$[?(@.id=='easydiner')]").exists())
+        .andExpect(jsonPath("$[?(@.id=='redbus')]").exists())
+        .andExpect(jsonPath("$[?(@.id=='irctc')]").exists())
         .andExpect(jsonPath("$[?(@.id=='namma-metro')]").exists())
         .andExpect(jsonPath("$[?(@.id=='bookmyshow')]").exists());
   }

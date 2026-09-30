@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "Zomato Dineout",
+  "description": "Zomato Dineout reservation",
+  "logoText": "Dineout",
+  "backgroundColor": "rgb(40, 10, 14)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(255, 160, 168)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "eventTicket": {
+    "primaryFields": [
+      { "key": "restaurant", "label": "RESTAURANT", "value": "{{restaurant}}" }
+    ],
+    "secondaryFields": [
+      { "key": "time", "label": "TIME", "value": "{{time}}" },
+      { "key": "party", "label": "GUESTS", "value": "{{party_size}}" }
+    ],
+    "auxiliaryFields": [
+      { "key": "booking", "label": "BOOKING", "value": "{{booking_id}}" }
+    ],
+    "backFields": [
+      { "key": "about", "label": "About", "value": "Present at the restaurant for your Zomato Dineout booking." }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "swiggy-dineout",
+  "displayName": "Swiggy Dineout",
+  "category": "dining",
+  "appleStyle": "eventTicket",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["restaurant", "qr_data"],
+  "optionalFields": ["time", "party_size", "booking_id"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(252, 128, 25)",
+  "summary": "Swiggy Dineout table bookings and deals.",
+  "badge": "Dining",
+  "iconHint": "fork.knife"
+}

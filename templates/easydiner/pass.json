@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "EazyDiner",
+  "description": "EazyDiner reservation",
+  "logoText": "EazyDiner",
+  "backgroundColor": "rgb(30, 20, 10)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(255, 170, 120)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "eventTicket": {
+    "primaryFields": [
+      { "key": "restaurant", "label": "RESTAURANT", "value": "{{restaurant}}" }
+    ],
+    "secondaryFields": [
+      { "key": "time", "label": "TIME", "value": "{{time}}" },
+      { "key": "party", "label": "GUESTS", "value": "{{party_size}}" }
+    ],
+    "auxiliaryFields": [
+      { "key": "booking", "label": "BOOKING", "value": "{{booking_id}}" }
+    ],
+    "backFields": [
+      { "key": "about", "label": "About", "value": "Show this pass at the restaurant. Surfaces near your reservation time." }
+    ]
+  }
+}

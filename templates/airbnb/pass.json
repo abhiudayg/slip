@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "Airbnb",
+  "description": "Airbnb reservation",
+  "logoText": "Airbnb",
+  "backgroundColor": "rgb(35, 10, 18)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(255, 150, 170)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "generic": {
+    "primaryFields": [
+      { "key": "property", "label": "STAY", "value": "{{property}}" }
+    ],
+    "secondaryFields": [
+      { "key": "checkin", "label": "CHECK-IN", "value": "{{check_in}}" },
+      { "key": "checkout", "label": "CHECK-OUT", "value": "{{check_out}}" }
+    ],
+    "auxiliaryFields": [
+      { "key": "guest", "label": "GUEST", "value": "{{guest}}" },
+      { "key": "booking", "label": "CONFIRMATION", "value": "{{booking_id}}" }
+    ],
+    "backFields": [
+      { "key": "about", "label": "About", "value": "Your Airbnb reservation confirmation for check-in." }
+    ]
+  }
+}

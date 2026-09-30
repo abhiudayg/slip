@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "Swiggy Dineout",
+  "description": "Swiggy Dineout reservation",
+  "logoText": "Dineout",
+  "backgroundColor": "rgb(40, 22, 8)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(255, 190, 140)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "eventTicket": {
+    "primaryFields": [
+      { "key": "restaurant", "label": "RESTAURANT", "value": "{{restaurant}}" }
+    ],
+    "secondaryFields": [
+      { "key": "time", "label": "TIME", "value": "{{time}}" },
+      { "key": "party", "label": "GUESTS", "value": "{{party_size}}" }
+    ],
+    "auxiliaryFields": [
+      { "key": "booking", "label": "BOOKING", "value": "{{booking_id}}" }
+    ],
+    "backFields": [
+      { "key": "about", "label": "About", "value": "Show this pass for your Swiggy Dineout reservation." }
+    ]
+  }
+}

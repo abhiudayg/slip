@@ -1,0 +1,15 @@
+{
+  "id": "airbnb",
+  "displayName": "Airbnb",
+  "category": "travel",
+  "appleStyle": "generic",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["property", "qr_data"],
+  "optionalFields": ["guest", "check_in", "check_out", "booking_id"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(255, 56, 92)",
+  "summary": "Airbnb stay confirmations with check-in details.",
+  "badge": "Stay",
+  "iconHint": "house.fill"
+}

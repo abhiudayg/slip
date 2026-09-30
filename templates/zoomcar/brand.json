@@ -1,0 +1,15 @@
+{
+  "id": "zoomcar",
+  "displayName": "Zoomcar",
+  "category": "travel",
+  "appleStyle": "generic",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["vehicle", "qr_data"],
+  "optionalFields": ["pickup", "booking_id", "guest"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(16, 185, 129)",
+  "summary": "Self-drive car reservations with pickup details.",
+  "badge": "Car",
+  "iconHint": "car.fill"
+}

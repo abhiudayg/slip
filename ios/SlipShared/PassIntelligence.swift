@@ -39,7 +39,7 @@ enum FoundationPassFiller {
         let clipped = String(text.prefix(3500))
         let session = LanguageModelSession(instructions: """
             You extract Apple Wallet pass fields from Indian ticket / booking text.
-            Choose templateId from: upi, cult, namma-metro, bookmyshow, indigo, irctc.
+            Choose templateId from: irctc, bookmyshow, indigo, easydiner, zomato-dineout, swiggy-dineout, airbnb, namma-metro, upi, redbus, zoomcar.
             Prefer empty strings over guesses. Never invent QR payloads.
             If a QR/barcode payload is provided, copy it into qrData unchanged.
             """)
@@ -79,6 +79,16 @@ enum FoundationPassFiller {
             put("coach", draft.coach)
             put("flight", draft.flight)
             put("gate", draft.gate)
+            put("restaurant", draft.restaurant)
+            put("time", draft.time)
+            put("party_size", draft.partySize)
+            put("property", draft.property)
+            put("check_in", draft.checkIn)
+            put("check_out", draft.checkOut)
+            put("guest", draft.guest)
+            put("vehicle", draft.vehicle)
+            put("pickup", draft.pickup)
+            put("bus", draft.bus)
 
             if fields["qr_data"] == nil, let pnr = fields["pnr"] {
                 fields["qr_data"] = pnr
@@ -104,12 +114,20 @@ enum FoundationPassFiller {
 
     private static func normalizeTemplate(_ raw: String) -> String {
         let t = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let allowed = ["upi", "cult", "namma-metro", "bookmyshow", "indigo", "irctc"]
+        let allowed = [
+            "irctc", "bookmyshow", "indigo", "easydiner", "zomato-dineout",
+            "swiggy-dineout", "airbnb", "namma-metro", "upi", "redbus", "zoomcar"
+        ]
         if allowed.contains(t) { return t }
         if t.contains("metro") { return "namma-metro" }
         if t.contains("indigo") || t.contains("6e") { return "indigo" }
         if t.contains("irctc") || t.contains("rail") { return "irctc" }
-        if t.contains("cult") { return "cult" }
+        if t.contains("eazy") || t.contains("easy diner") { return "easydiner" }
+        if t.contains("zomato") { return "zomato-dineout" }
+        if t.contains("swiggy") { return "swiggy-dineout" }
+        if t.contains("airbnb") { return "airbnb" }
+        if t.contains("redbus") || t.contains("red bus") { return "redbus" }
+        if t.contains("zoom") { return "zoomcar" }
         if t.contains("book") || t.contains("cinema") { return "bookmyshow" }
         if t.contains("upi") { return "upi" }
         return ""
@@ -119,7 +137,7 @@ enum FoundationPassFiller {
 @available(iOS 26.0, *)
 @Generable(description: "Structured Wallet pass fields extracted from a ticket or booking")
 struct PassDraft {
-    @Guide(description: "One of: upi, cult, namma-metro, bookmyshow, indigo, irctc")
+    @Guide(description: "One of: irctc, bookmyshow, indigo, easydiner, zomato-dineout, swiggy-dineout, airbnb, namma-metro, upi, redbus, zoomcar")
     var templateId: String
 
     @Guide(description: "Human-readable brand or pass title")
@@ -146,6 +164,16 @@ struct PassDraft {
     var coach: String?
     var flight: String?
     var gate: String?
+    var restaurant: String?
+    var time: String?
+    var partySize: String?
+    var property: String?
+    var checkIn: String?
+    var checkOut: String?
+    var guest: String?
+    var vehicle: String?
+    var pickup: String?
+    var bus: String?
 
     @Guide(description: "Optional metro station codes")
     var stationIds: [String]

@@ -54,6 +54,10 @@ public class TemplateCatalog {
     }
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(templatesRoot)) {
       for (Path dir : stream) {
+        String name = dir.getFileName().toString();
+        if (name.startsWith("_") || name.startsWith(".")) {
+          continue;
+        }
         if (Files.isDirectory(dir) && Files.exists(dir.resolve("brand.json"))) {
           out.add(loadBrandFromFile(dir.getFileName().toString()));
         }

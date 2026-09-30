@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "redBus",
+  "description": "redBus ticket",
+  "logoText": "redBus",
+  "backgroundColor": "rgb(50, 18, 8)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(255, 170, 130)",
+  "transitType": "PKTransitTypeBus",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{pnr}}"
+  },
+  "boardingPass": {
+    "headerFields": [
+      { "key": "bus", "label": "BUS", "value": "{{bus}}" }
+    ],
+    "primaryFields": [
+      { "key": "origin", "label": "FROM", "value": "{{origin}}" },
+      { "key": "destination", "label": "TO", "value": "{{destination}}" }
+    ],
+    "secondaryFields": [
+      { "key": "passenger", "label": "PASSENGER", "value": "{{passenger}}" },
+      { "key": "seat", "label": "SEAT", "value": "{{seat}}" }
+    ],
+    "auxiliaryFields": [
+      { "key": "pnr", "label": "PNR", "value": "{{pnr}}" }
+    ],
+    "backFields": [
+      { "key": "about", "label": "About", "value": "Show this pass when boarding your redBus coach." }
+    ]
+  }
+}
