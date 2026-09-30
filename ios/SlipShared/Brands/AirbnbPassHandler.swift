@@ -9,6 +9,21 @@ struct AirbnbPassHandler: BrandPassHandler {
     }
     func enrich(_ result: ClassificationResult) -> ClassificationResult {
         var result = result
+        // Normalize legacy combined check-in/out blobs into date + time fields.
+        if let checkIn = result.fields["check_in"], result.fields["check_in_time"] == nil {
+            let split = AirbnbPassLogic.splitAirbnbDateTime(checkIn)
+            result.fields["check_in"] = split.date
+            if let time = split.time { result.fields["check_in_time"] = time }
+        }
+        if let checkOut = result.fields["check_out"], result.fields["check_out_time"] == nil {
+            let split = AirbnbPassLogic.splitAirbnbDateTime(checkOut)
+            result.fields["check_out"] = split.date
+            if let time = split.time { result.fields["check_out_time"] = time }
+        }
+        if (result.fields["property_type"] ?? "").isEmpty,
+           let stayType = AirbnbPassLogic.airbnbPropertyType(from: result.extracted.recognizedText) {
+            result.fields["property_type"] = stayType
+        }
         if result.displayName.lowercased() == "airbnb" || result.displayName.isEmpty,
            let property = result.fields["property"], !property.isEmpty {
             result.displayName = property
@@ -47,15 +62,34 @@ enum AirbnbPassLogic {
         }
 
         if let checkIn = airbnbLabeledValue(in: text, labels: ["check-in", "check in", "checkin"]) {
-            fields["check_in"] = checkIn
+            let split = splitAirbnbDateTime(checkIn)
+            fields["check_in"] = split.date
+            if let time = split.time { fields["check_in_time"] = time }
         }
         if let checkOut = airbnbLabeledValue(in: text, labels: ["check-out", "check out", "checkout"]) {
-            fields["check_out"] = checkOut
+            let split = splitAirbnbDateTime(checkOut)
+            fields["check_out"] = split.date
+            if let time = split.time { fields["check_out_time"] = time }
+        }
+
+        if let stayType = airbnbPropertyType(from: text) {
+            fields["property_type"] = stayType
+        }
+
+        if let address = airbnbLabeledValue(in: text, labels: ["address"]) {
+            fields["address"] = address
         }
 
         if let guests = TicketText.firstMatch(in: text, pattern: #"(?i)guests?\s*[:\-]?\s*\n\s*([0-9]+\s*adults?[^\n]*)"#)
             ?? TicketText.firstMatch(in: text, pattern: #"(?i)([0-9]+\s*adults?(?:\s*[,·]\s*[0-9]+\s*children?)?)"#) {
             fields["guest"] = guests
+        }
+
+        if let pin = TicketText.firstMatch(
+            in: text,
+            pattern: #"(?i)(?:door\s*code|door\s*pin|keypad|entry\s*code)\s*[:\-]?\s*([A-Z0-9]{4,12})"#
+        ) {
+            fields["door_pin"] = pin.uppercased()
         }
 
         guard fields["qr_data"] != nil || fields["property"] != nil else { return nil }
@@ -171,12 +205,48 @@ enum AirbnbPassLogic {
                     j += 1
                 }
                 if !parts.isEmpty {
-                    return parts.joined(separator: " · ")
+                    return parts.joined(separator: "\n")
                 }
             }
         }
         return nil
     }
 
+    /// Splits Airbnb check-in/out blobs into date + time lines.
+    static func splitAirbnbDateTime(_ raw: String) -> (date: String, time: String?) {
+        let cleaned = raw
+            .replacingOccurrences(of: " · ", with: "\n")
+            .replacingOccurrences(of: "•", with: "\n")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let lines = cleaned
+            .components(separatedBy: .newlines)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        if lines.count >= 2 {
+            return (lines[0], lines[1...].joined(separator: " "))
+        }
+        if let range = cleaned.range(
+            of: #"\s+(?i)(after|by|before)\s+"#,
+            options: .regularExpression
+        ) {
+            let date = String(cleaned[..<range.lowerBound]).trimmingCharacters(in: .whitespaces)
+            let time = String(cleaned[range.lowerBound...]).trimmingCharacters(in: .whitespaces)
+            if date.count >= 3, time.count >= 3 {
+                return (date, time)
+            }
+        }
+        return (cleaned, nil)
+    }
 
+    static func airbnbPropertyType(from text: String) -> String? {
+        if let m = TicketText.firstMatch(
+            in: text,
+            pattern: #"(?i)\b(entire\s+home(?:/apt)?|private\s+room|hotel\s+room|shared\s+room)\b"#
+        ) {
+            return m.replacingOccurrences(of: #"(?i)/apt"#, with: "", options: .regularExpression)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .capitalized
+        }
+        return nil
+    }
 }

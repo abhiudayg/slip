@@ -8,89 +8,79 @@
 
 /* Begin PBXBuildFile section */
 		05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */; };
+		057039AC490B965DC9DAE0DE /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
+		0D93490DD14BC3AADD4E912C /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877E3FC4FDEBF44051A9875 /* TicketText.swift */; };
 		0FDFACBB66179912E754C3B4 /* SlipPassLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */; };
 		118D95870E522309A706EB9F /* PassGeofenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */; };
 		1B6849EA654F4F8CA23D72E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC03091146138679A40E07D /* Assets.xcassets */; };
+		1BFB891C1AE1F110FD9F0B57 /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
+		2029E24932F08C31041B3362 /* BookMyShowPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */; };
 		23C2763C8B8337C847564488 /* PassExpiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B73C337409A2C1A294FAF8 /* PassExpiration.swift */; };
 		2450259A2F21741CCB88C1C6 /* SlipShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		28D3A49DED56189D1F35747B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */; };
+		2D1CB45219D3EF60B5BCEBC0 /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */; };
+		3172BC4D7A13AA998EA28069 /* PassTravelerSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */; };
 		31E008043173D4EF35CBEDBA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E61E78F71468FD9BF3088AF /* SettingsView.swift */; };
 		3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838354E90A64A84D0180F3CC /* VaultCrypto.swift */; };
+		354EEF1C9837B99E1447F16B /* WalletPassLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA342F771F1C606EE930BF56 /* WalletPassLink.swift */; };
+		357ED75C951D7CADEEC314D1 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */; };
+		43652B3A6582C2A7EFC2A76E /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */; };
 		49E1DCE75087F2404EBD065C /* AddToWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */; };
+		4D402254DF646A28A191E4CB /* ImportTicketMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E940C6702923F5B34291AD /* ImportTicketMenu.swift */; };
 		515CCB4E78B8E81D4226EC12 /* ConfirmPassSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */; };
+		53789DF24EF900120FA0FF84 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */; };
 		5419AD28CE0A22BBBAF83B98 /* SlipWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF6AF250A5484C2CB7CA0C /* SlipWidgetsBundle.swift */; };
 		59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */; };
 		5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */; };
 		5C81F5632709A406A7E12826 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */; };
+		63E4AC48D5AF26374A413D32 /* IndigoPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056D78108EF21EFED52888E /* IndigoPassHandler.swift */; };
 		6630ABE3661774038BC1B018 /* SlipPassActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */; };
 		6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
-		6B1367AE602F49459EBBC49F /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485A40C9750E4B5B8554F542 /* TicketText.swift */; };
-		5C6870547ABE4EDDA3FDB33C /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485A40C9750E4B5B8554F542 /* TicketText.swift */; };
-		1E31223F0C2A4D499186B595 /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4193841C5A142C6B2E9D310 /* BrandPassHandler.swift */; };
-		31B7FFC5472A41D5A220BAED /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4193841C5A142C6B2E9D310 /* BrandPassHandler.swift */; };
-		0732B750BBF44B6D88D4302B /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47C56B4C9C4576957D7DD5 /* AirbnbPassHandler.swift */; };
-		C9B9049724F54876BEFD7EE7 /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47C56B4C9C4576957D7DD5 /* AirbnbPassHandler.swift */; };
-		744A34FA84CA4E36A1B28BE4 /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E4BB3F3217496792F61A78 /* AirlineHintPassHandler.swift */; };
-		A2C3C8174C554D2DA8B93833 /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E4BB3F3217496792F61A78 /* AirlineHintPassHandler.swift */; };
-		5438C9ABB8C24089A894A586 /* BookMyShowPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F32AF49E7C349EE9273C812 /* BookMyShowPassHandler.swift */; };
-		1380C6051B55476CB97BC2EF /* BookMyShowPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F32AF49E7C349EE9273C812 /* BookMyShowPassHandler.swift */; };
-		321D39F1827D4D17A1386E82 /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC57F57BB134622806749C0 /* CultPassHandler.swift */; };
-		102CE536EF3342A19ECCA301 /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC57F57BB134622806749C0 /* CultPassHandler.swift */; };
-		95D21B3144794DC18C2324C5 /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2996C98C403F4EB1A475B67A /* DiningPassHandler.swift */; };
-		632C9D665E9A474990E5C371 /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2996C98C403F4EB1A475B67A /* DiningPassHandler.swift */; };
-		D69CA8CE1D7345E2A0B46E02 /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD71E71115B4AA692A2099E /* DistrictPassHandler.swift */; };
-		3FEB913DEFC340579F3AB534 /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD71E71115B4AA692A2099E /* DistrictPassHandler.swift */; };
-		798B78456B3F4B6BB62E5335 /* IRCTCPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E1FA5C582F4316A23BFE01 /* IRCTCPassHandler.swift */; };
-		EA6387245EC94944A7528D73 /* IRCTCPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E1FA5C582F4316A23BFE01 /* IRCTCPassHandler.swift */; };
-		35F3AFB341F44C1D9B3606E2 /* IndigoPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83117E78243F4A6584FFEF46 /* IndigoPassHandler.swift */; };
-		98F20D0D9B3F452BB458BC5F /* IndigoPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83117E78243F4A6584FFEF46 /* IndigoPassHandler.swift */; };
-		C0305EF21D57480689F2A6D5 /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98F096605D34934989A831F /* NammaMetroPassHandler.swift */; };
-		7C76F679C9104537BA58D573 /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98F096605D34934989A831F /* NammaMetroPassHandler.swift */; };
-		A3F6A85CA6F44FD7AD5B04B5 /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B81F98AAA4457EB26FE9CA /* RedBusPassHandler.swift */; };
-		CC0E2B262B1C4ECDB5CE1E8C /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B81F98AAA4457EB26FE9CA /* RedBusPassHandler.swift */; };
-		6CC4677C8FD04FEEA80DEA08 /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7D97ACC3241258E52FD25 /* UPIPassHandler.swift */; };
-		1BDBF733F693477A8D3758E6 /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D7D97ACC3241258E52FD25 /* UPIPassHandler.swift */; };
-		103661A9EFF64605800AD603 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E113915E20042EAB6EB5854 /* ZoomcarPassHandler.swift */; };
-		AE52D9CF06934AA78B21E416 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E113915E20042EAB6EB5854 /* ZoomcarPassHandler.swift */; };
-		485A40C9750E4B5B8554F542 /* TicketText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketText.swift; sourceTree = "<group>"; };
-		F4193841C5A142C6B2E9D310 /* BrandPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandPassHandler.swift; sourceTree = "<group>"; };
-		8D47C56B4C9C4576957D7DD5 /* AirbnbPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirbnbPassHandler.swift; sourceTree = "<group>"; };
-		45E4BB3F3217496792F61A78 /* AirlineHintPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirlineHintPassHandler.swift; sourceTree = "<group>"; };
-		8F32AF49E7C349EE9273C812 /* BookMyShowPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMyShowPassHandler.swift; sourceTree = "<group>"; };
-		0EC57F57BB134622806749C0 /* CultPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultPassHandler.swift; sourceTree = "<group>"; };
-		2996C98C403F4EB1A475B67A /* DiningPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningPassHandler.swift; sourceTree = "<group>"; };
-		0DD71E71115B4AA692A2099E /* DistrictPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictPassHandler.swift; sourceTree = "<group>"; };
-		05E1FA5C582F4316A23BFE01 /* IRCTCPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRCTCPassHandler.swift; sourceTree = "<group>"; };
-		83117E78243F4A6584FFEF46 /* IndigoPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndigoPassHandler.swift; sourceTree = "<group>"; };
-		D98F096605D34934989A831F /* NammaMetroPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NammaMetroPassHandler.swift; sourceTree = "<group>"; };
-		F2B81F98AAA4457EB26FE9CA /* RedBusPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBusPassHandler.swift; sourceTree = "<group>"; };
-		32D7D97ACC3241258E52FD25 /* UPIPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPassHandler.swift; sourceTree = "<group>"; };
-		6E113915E20042EAB6EB5854 /* ZoomcarPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomcarPassHandler.swift; sourceTree = "<group>"; };
+		6758AA450B11E559D039803E /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */; };
+		67B6CCA53E7A088FE6C5E1E4 /* WalletPassPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7294A8840E58044BC17602D9 /* WalletPassPreview.swift */; };
 		6CF3826AB8ACF6C5F18F5397 /* CreatePassAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */; };
 		73F53AD234A515CCEF53D2E1 /* BrandFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7777BE903825343C1AC8E459 /* BrandFields.swift */; };
+		75359E183A933341FE3A0D8F /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */; };
 		7653FD0633654DD7F96B98C7 /* PassLiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */; };
+		78386BFCAA8796036A9328C2 /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
 		8B6E680A0B086CF7F619787F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */; };
+		8F4998093C11B75E3563B84E /* BrandSelectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */; };
+		92CD25F01E76E97DFEDDAF18 /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */; };
 		9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */; };
+		A32FF169A9703B3F8B43BF99 /* IRCTCPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */; };
+		A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */; };
+		A83F0122D98B025637144D2D /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7DB958639C83886632B412 /* DiningPassHandler.swift */; };
 		AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */; };
 		B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
 		B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
+		B67421310CEB7D490D0EBB44 /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877E3FC4FDEBF44051A9875 /* TicketText.swift */; };
 		BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CD80C407F877B0A7E2B75 /* ContentView.swift */; };
 		BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
+		BF2848F5621FF565B8C9E672 /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B78F8E06970C556062238 /* AirbnbPassHandler.swift */; };
+		C14C27E8F0B905EC445C6D43 /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B78F8E06970C556062238 /* AirbnbPassHandler.swift */; };
+		C2056596E1019241327993EF /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7DB958639C83886632B412 /* DiningPassHandler.swift */; };
 		C394847F78E40A0549010D04 /* LocationAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CAFC42838CB7C6A0F0E242F /* LocationAccess.swift */; };
 		C6F1D4B660C77FC1D24E7CAA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8ABD081C5146E022BBD92 /* Models.swift */; };
 		C88302FA76A6F9B5BCDB44D7 /* PassExpiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B73C337409A2C1A294FAF8 /* PassExpiration.swift */; };
+		CAA1F9A8DC1DC09DDC030D3F /* BookMyShowPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */; };
+		CB43D9F0403DAD41F16618DF /* IRCTCPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */; };
 		CC037B5498D3DE35D2815BCE /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8ABD081C5146E022BBD92 /* Models.swift */; };
 		CCF77D5677B4E51D745B71DB /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838354E90A64A84D0180F3CC /* VaultCrypto.swift */; };
 		CD6A81CE6FB9F4415FF4793E /* SlipWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */; };
 		D0B5A407C365AA4C465B7E2D /* BrandFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7777BE903825343C1AC8E459 /* BrandFields.swift */; };
 		D5FD67DADF8778241937C147 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
+		D8545E086D33691938541557 /* IndigoPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056D78108EF21EFED52888E /* IndigoPassHandler.swift */; };
 		DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */; };
-		2B72ED13E2CE401A83556958 /* WalletPassPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895A3DE4914A4E8987AB10D6 /* WalletPassPreview.swift */; };
-		D6FBDA8AF77745DF96732679 /* BrandSelectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3CA2001D74458D941BBB20 /* BrandSelectSheet.swift */; };
+		DDE836C9FDC00DCAA2F45274 /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
 		E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */; };
+		E24066B0F16486A352E9F19B /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
+		E9C9C1A6F95246D2640FD33F /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
+		EFDE2F7251CB2B9C6BDF0545 /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */; };
+		F44FCEBDB11CB7063E815055 /* PassTravelerSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */; };
 		F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2C529080055CAEF318AC1E /* PassAPIClient.swift */; };
 		F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */; };
+		F96A9EB804C8388706D6201B /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */; };
 		FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0783491530619C761F358A92 /* SlipTheme.swift */; };
 		FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
 		FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */; };
@@ -131,50 +121,86 @@
 /* Begin PBXFileReference section */
 		00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
 		0783491530619C761F358A92 /* SlipTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipTheme.swift; sourceTree = "<group>"; };
+		08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRCTCPassHandler.swift; sourceTree = "<group>"; };
 		08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceView.swift; sourceTree = "<group>"; };
+		1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandSelectSheet.swift; sourceTree = "<group>"; };
+		179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictPassHandler.swift; sourceTree = "<group>"; };
 		17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipApp.swift; sourceTree = "<group>"; };
+		1877E3FC4FDEBF44051A9875 /* TicketText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketText.swift; sourceTree = "<group>"; };
 		1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		21E940C6702923F5B34291AD /* ImportTicketMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTicketMenu.swift; sourceTree = "<group>"; };
 		2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGeofenceManager.swift; sourceTree = "<group>"; };
+		2B7DB958639C83886632B412 /* DiningPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningPassHandler.swift; sourceTree = "<group>"; };
 		2EC03091146138679A40E07D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomcarPassHandler.swift; sourceTree = "<group>"; };
+		365B78F8E06970C556062238 /* AirbnbPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirbnbPassHandler.swift; sourceTree = "<group>"; };
 		39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassLiveActivityWidget.swift; sourceTree = "<group>"; };
 		3D621D1E5C43A65B0124382B /* TicketExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExtractor.swift; sourceTree = "<group>"; };
 		427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassLiveActivityController.swift; sourceTree = "<group>"; };
 		4564222B5D2D431FAB5BA55E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirlineHintPassHandler.swift; sourceTree = "<group>"; };
 		4CAFC42838CB7C6A0F0E242F /* LocationAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAccess.swift; sourceTree = "<group>"; };
 		51B73C337409A2C1A294FAF8 /* PassExpiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassExpiration.swift; sourceTree = "<group>"; };
 		526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SlipWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6056D78108EF21EFED52888E /* IndigoPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndigoPassHandler.swift; sourceTree = "<group>"; };
+		62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPassHandler.swift; sourceTree = "<group>"; };
 		665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassAppIntent.swift; sourceTree = "<group>"; };
 		6E61E78F71468FD9BF3088AF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7062E51BFDA810ADEC391AA3 /* Slip.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Slip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71CF6AF250A5484C2CB7CA0C /* SlipWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipWidgetsBundle.swift; sourceTree = "<group>"; };
+		7294A8840E58044BC17602D9 /* WalletPassPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPassPreview.swift; sourceTree = "<group>"; };
 		7777BE903825343C1AC8E459 /* BrandFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandFields.swift; sourceTree = "<group>"; };
 		838354E90A64A84D0180F3CC /* VaultCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultCrypto.swift; sourceTree = "<group>"; };
 		877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassActivityAttributes.swift; sourceTree = "<group>"; };
 		8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SlipShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NammaMetroPassHandler.swift; sourceTree = "<group>"; };
 		946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassVaultStore.swift; sourceTree = "<group>"; };
+		947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMyShowPassHandler.swift; sourceTree = "<group>"; };
 		965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailsView.swift; sourceTree = "<group>"; };
-		895A3DE4914A4E8987AB10D6 /* WalletPassPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPassPreview.swift; sourceTree = "<group>"; };
-		3A3CA2001D74458D941BBB20 /* BrandSelectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandSelectSheet.swift; sourceTree = "<group>"; };
+		970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBusPassHandler.swift; sourceTree = "<group>"; };
 		9ADF376FEA8CA772D0EBD806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A19E44B5EBEAAB8E976B96D1 /* SlipShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipShareExtension.entitlements; sourceTree = "<group>"; };
 		A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletButton.swift; sourceTree = "<group>"; };
+		A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultPassHandler.swift; sourceTree = "<group>"; };
 		A8A1913386BDCCF6EE9FE503 /* Slip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Slip.entitlements; sourceTree = "<group>"; };
 		B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandClassifier.swift; sourceTree = "<group>"; };
+		BA342F771F1C606EE930BF56 /* WalletPassLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPassLink.swift; sourceTree = "<group>"; };
 		C27CD80C407F877B0A7E2B75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandConfirmView.swift; sourceTree = "<group>"; };
 		C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveScannerView.swift; sourceTree = "<group>"; };
 		C8B8ABD081C5146E022BBD92 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandPassHandler.swift; sourceTree = "<group>"; };
 		D9D33BB698BF00C47A64B124 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DB2C529080055CAEF318AC1E /* PassAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAPIClient.swift; sourceTree = "<group>"; };
+		DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTravelerSplit.swift; sourceTree = "<group>"; };
 		DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPassSheet.swift; sourceTree = "<group>"; };
 		EC254EF101ED57713178447A /* PassIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIntelligence.swift; sourceTree = "<group>"; };
 		F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		0BBAAA8F51B1E7D322CC4AE1 /* Brands */ = {
+			isa = PBXGroup;
+			children = (
+				365B78F8E06970C556062238 /* AirbnbPassHandler.swift */,
+				478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */,
+				947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */,
+				A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */,
+				2B7DB958639C83886632B412 /* DiningPassHandler.swift */,
+				179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */,
+				6056D78108EF21EFED52888E /* IndigoPassHandler.swift */,
+				08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */,
+				8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */,
+				970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */,
+				62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */,
+				2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */,
+			);
+			path = Brands;
+			sourceTree = "<group>";
+		};
 		3E96FE3B111717A05952F42E = {
 			isa = PBXGroup;
 			children = (
@@ -185,25 +211,6 @@
 				516ED30741AFAB57EE82129C /* SlipWidgets */,
 				E7161B3A0B90D8438DF8D2BF /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		8D2BE013007946EFB4A6048C /* Brands */ = {
-			isa = PBXGroup;
-			children = (
-				8D47C56B4C9C4576957D7DD5 /* AirbnbPassHandler.swift */,
-				45E4BB3F3217496792F61A78 /* AirlineHintPassHandler.swift */,
-				8F32AF49E7C349EE9273C812 /* BookMyShowPassHandler.swift */,
-				0EC57F57BB134622806749C0 /* CultPassHandler.swift */,
-				2996C98C403F4EB1A475B67A /* DiningPassHandler.swift */,
-				0DD71E71115B4AA692A2099E /* DistrictPassHandler.swift */,
-				05E1FA5C582F4316A23BFE01 /* IRCTCPassHandler.swift */,
-				83117E78243F4A6584FFEF46 /* IndigoPassHandler.swift */,
-				D98F096605D34934989A831F /* NammaMetroPassHandler.swift */,
-				F2B81F98AAA4457EB26FE9CA /* RedBusPassHandler.swift */,
-				32D7D97ACC3241258E52FD25 /* UPIPassHandler.swift */,
-				6E113915E20042EAB6EB5854 /* ZoomcarPassHandler.swift */,
-			);
-			path = Brands;
 			sourceTree = "<group>";
 		};
 		516ED30741AFAB57EE82129C /* SlipWidgets */ = {
@@ -229,16 +236,17 @@
 		71F3FC9A405A26BBEFCE1ED3 /* SlipShared */ = {
 			isa = PBXGroup;
 			children = (
+				0BBAAA8F51B1E7D322CC4AE1 /* Brands */,
 				B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */,
 				7777BE903825343C1AC8E459 /* BrandFields.swift */,
+				D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */,
 				C8B8ABD081C5146E022BBD92 /* Models.swift */,
 				51B73C337409A2C1A294FAF8 /* PassExpiration.swift */,
 				EC254EF101ED57713178447A /* PassIntelligence.swift */,
+				DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */,
 				3D621D1E5C43A65B0124382B /* TicketExtractor.swift */,
+				1877E3FC4FDEBF44051A9875 /* TicketText.swift */,
 				838354E90A64A84D0180F3CC /* VaultCrypto.swift */,
-				8D2BE013007946EFB4A6048C /* Brands */,
-				485A40C9750E4B5B8554F542 /* TicketText.swift */,
-				F4193841C5A142C6B2E9D310 /* BrandPassHandler.swift */,
 			);
 			path = SlipShared;
 			sourceTree = "<group>";
@@ -259,10 +267,12 @@
 				2EC03091146138679A40E07D /* Assets.xcassets */,
 				00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */,
 				C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */,
+				1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */,
 				DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */,
 				C27CD80C407F877B0A7E2B75 /* ContentView.swift */,
 				69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */,
 				1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */,
+				21E940C6702923F5B34291AD /* ImportTicketMenu.swift */,
 				4564222B5D2D431FAB5BA55E /* Info.plist */,
 				C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */,
 				4CAFC42838CB7C6A0F0E242F /* LocationAccess.swift */,
@@ -270,8 +280,6 @@
 				08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */,
 				DB2C529080055CAEF318AC1E /* PassAPIClient.swift */,
 				965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */,
-				895A3DE4914A4E8987AB10D6 /* WalletPassPreview.swift */,
-				3A3CA2001D74458D941BBB20 /* BrandSelectSheet.swift */,
 				2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */,
 				427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */,
 				946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */,
@@ -280,6 +288,8 @@
 				A8A1913386BDCCF6EE9FE503 /* Slip.entitlements */,
 				17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */,
 				0783491530619C761F358A92 /* SlipTheme.swift */,
+				BA342F771F1C606EE930BF56 /* WalletPassLink.swift */,
+				7294A8840E58044BC17602D9 /* WalletPassPreview.swift */,
 			);
 			path = Slip;
 			sourceTree = "<group>";
@@ -414,49 +424,52 @@
 			buildActionMask = 2147483647;
 			files = (
 				49E1DCE75087F2404EBD065C /* AddToWalletButton.swift in Sources */,
+				C14C27E8F0B905EC445C6D43 /* AirbnbPassHandler.swift in Sources */,
+				EFDE2F7251CB2B9C6BDF0545 /* AirlineHintPassHandler.swift in Sources */,
 				5C81F5632709A406A7E12826 /* AppModel.swift in Sources */,
 				E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */,
+				CAA1F9A8DC1DC09DDC030D3F /* BookMyShowPassHandler.swift in Sources */,
 				6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */,
-				103661A9EFF64605800AD603 /* ZoomcarPassHandler.swift in Sources */,
-				6CC4677C8FD04FEEA80DEA08 /* UPIPassHandler.swift in Sources */,
-				A3F6A85CA6F44FD7AD5B04B5 /* RedBusPassHandler.swift in Sources */,
-				C0305EF21D57480689F2A6D5 /* NammaMetroPassHandler.swift in Sources */,
-				35F3AFB341F44C1D9B3606E2 /* IndigoPassHandler.swift in Sources */,
-				798B78456B3F4B6BB62E5335 /* IRCTCPassHandler.swift in Sources */,
-				D69CA8CE1D7345E2A0B46E02 /* DistrictPassHandler.swift in Sources */,
-				95D21B3144794DC18C2324C5 /* DiningPassHandler.swift in Sources */,
-				321D39F1827D4D17A1386E82 /* CultPassHandler.swift in Sources */,
-				5438C9ABB8C24089A894A586 /* BookMyShowPassHandler.swift in Sources */,
-				744A34FA84CA4E36A1B28BE4 /* AirlineHintPassHandler.swift in Sources */,
-				0732B750BBF44B6D88D4302B /* AirbnbPassHandler.swift in Sources */,
-				1E31223F0C2A4D499186B595 /* BrandPassHandler.swift in Sources */,
-				6B1367AE602F49459EBBC49F /* TicketText.swift in Sources */,
 				05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */,
 				D0B5A407C365AA4C465B7E2D /* BrandFields.swift in Sources */,
+				DDE836C9FDC00DCAA2F45274 /* BrandPassHandler.swift in Sources */,
+				8F4998093C11B75E3563B84E /* BrandSelectSheet.swift in Sources */,
 				515CCB4E78B8E81D4226EC12 /* ConfirmPassSheet.swift in Sources */,
 				BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */,
 				6CF3826AB8ACF6C5F18F5397 /* CreatePassAppIntent.swift in Sources */,
+				92CD25F01E76E97DFEDDAF18 /* CultPassHandler.swift in Sources */,
 				CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */,
+				C2056596E1019241327993EF /* DiningPassHandler.swift in Sources */,
+				A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */,
+				A32FF169A9703B3F8B43BF99 /* IRCTCPassHandler.swift in Sources */,
+				4D402254DF646A28A191E4CB /* ImportTicketMenu.swift in Sources */,
+				63E4AC48D5AF26374A413D32 /* IndigoPassHandler.swift in Sources */,
 				9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */,
 				C394847F78E40A0549010D04 /* LocationAccess.swift in Sources */,
 				8B6E680A0B086CF7F619787F /* LoginView.swift in Sources */,
 				AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */,
 				C6F1D4B660C77FC1D24E7CAA /* Models.swift in Sources */,
+				75359E183A933341FE3A0D8F /* NammaMetroPassHandler.swift in Sources */,
 				F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */,
 				DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */,
-				2B72ED13E2CE401A83556958 /* WalletPassPreview.swift in Sources */,
-				D6FBDA8AF77745DF96732679 /* BrandSelectSheet.swift in Sources */,
 				C88302FA76A6F9B5BCDB44D7 /* PassExpiration.swift in Sources */,
 				118D95870E522309A706EB9F /* PassGeofenceManager.swift in Sources */,
 				BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */,
 				7653FD0633654DD7F96B98C7 /* PassLiveActivityController.swift in Sources */,
+				F44FCEBDB11CB7063E815055 /* PassTravelerSplit.swift in Sources */,
 				FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */,
+				78386BFCAA8796036A9328C2 /* RedBusPassHandler.swift in Sources */,
 				31E008043173D4EF35CBEDBA /* SettingsView.swift in Sources */,
 				5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */,
 				F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */,
 				FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */,
 				B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */,
+				B67421310CEB7D490D0EBB44 /* TicketText.swift in Sources */,
+				E9C9C1A6F95246D2640FD33F /* UPIPassHandler.swift in Sources */,
 				3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */,
+				354EEF1C9837B99E1447F16B /* WalletPassLink.swift in Sources */,
+				67B6CCA53E7A088FE6C5E1E4 /* WalletPassPreview.swift in Sources */,
+				53789DF24EF900120FA0FF84 /* ZoomcarPassHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,28 +487,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF2848F5621FF565B8C9E672 /* AirbnbPassHandler.swift in Sources */,
+				43652B3A6582C2A7EFC2A76E /* AirlineHintPassHandler.swift in Sources */,
+				2029E24932F08C31041B3362 /* BookMyShowPassHandler.swift in Sources */,
 				FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */,
-				AE52D9CF06934AA78B21E416 /* ZoomcarPassHandler.swift in Sources */,
-				1BDBF733F693477A8D3758E6 /* UPIPassHandler.swift in Sources */,
-				CC0E2B262B1C4ECDB5CE1E8C /* RedBusPassHandler.swift in Sources */,
-				7C76F679C9104537BA58D573 /* NammaMetroPassHandler.swift in Sources */,
-				98F20D0D9B3F452BB458BC5F /* IndigoPassHandler.swift in Sources */,
-				EA6387245EC94944A7528D73 /* IRCTCPassHandler.swift in Sources */,
-				3FEB913DEFC340579F3AB534 /* DistrictPassHandler.swift in Sources */,
-				632C9D665E9A474990E5C371 /* DiningPassHandler.swift in Sources */,
-				102CE536EF3342A19ECCA301 /* CultPassHandler.swift in Sources */,
-				1380C6051B55476CB97BC2EF /* BookMyShowPassHandler.swift in Sources */,
-				A2C3C8174C554D2DA8B93833 /* AirlineHintPassHandler.swift in Sources */,
-				C9B9049724F54876BEFD7EE7 /* AirbnbPassHandler.swift in Sources */,
-				31B7FFC5472A41D5A220BAED /* BrandPassHandler.swift in Sources */,
-				5C6870547ABE4EDDA3FDB33C /* TicketText.swift in Sources */,
 				73F53AD234A515CCEF53D2E1 /* BrandFields.swift in Sources */,
+				057039AC490B965DC9DAE0DE /* BrandPassHandler.swift in Sources */,
+				F96A9EB804C8388706D6201B /* CultPassHandler.swift in Sources */,
+				A83F0122D98B025637144D2D /* DiningPassHandler.swift in Sources */,
+				6758AA450B11E559D039803E /* DistrictPassHandler.swift in Sources */,
+				CB43D9F0403DAD41F16618DF /* IRCTCPassHandler.swift in Sources */,
+				D8545E086D33691938541557 /* IndigoPassHandler.swift in Sources */,
 				CC037B5498D3DE35D2815BCE /* Models.swift in Sources */,
+				2D1CB45219D3EF60B5BCEBC0 /* NammaMetroPassHandler.swift in Sources */,
 				23C2763C8B8337C847564488 /* PassExpiration.swift in Sources */,
 				D5FD67DADF8778241937C147 /* PassIntelligence.swift in Sources */,
+				3172BC4D7A13AA998EA28069 /* PassTravelerSplit.swift in Sources */,
+				E24066B0F16486A352E9F19B /* RedBusPassHandler.swift in Sources */,
 				59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */,
 				B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */,
+				0D93490DD14BC3AADD4E912C /* TicketText.swift in Sources */,
+				1BFB891C1AE1F110FD9F0B57 /* UPIPassHandler.swift in Sources */,
 				CCF77D5677B4E51D745B71DB /* VaultCrypto.swift in Sources */,
+				357ED75C951D7CADEEC314D1 /* ZoomcarPassHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -406,4 +406,68 @@ enum IRCTCPassLogic {
     }
 
 
+
+
+    /// All passenger rows on an IRCTC / Rail Connect ticket (one Wallet pass each).
+    static func extractPassengerEntries(from text: String) -> [PassengerSeatEntry] {
+        var entries: [PassengerSeatEntry] = []
+        let junkNames: Set<String> = [
+            "details", "information", "mobile", "male", "female", "age", "status",
+            "passenger", "name", "coach", "berth", "seat"
+        ]
+
+        // "1 ARYAMAN MODI 23 Male … CNF/D1/58"
+        let rowPattern = #"(?im)^\s*(\d{1,2})\s+([A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+){0,3})\s+(\d{1,3})\s+(Male|Female|M|F)\b([^\n]*)"#
+        for groups in TicketText.matchGroups(in: text, pattern: rowPattern) {
+            guard groups.count >= 2 else { continue }
+            let name = groups[1]
+                .replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            let lower = name.lowercased()
+            if junkNames.contains(where: { lower == $0 || lower.hasPrefix($0 + " ") }) { continue }
+
+            var coach = ""
+            var seat = ""
+            var berthType = ""
+            let tail = groups.count > 4 ? groups[4] : ""
+            let blob = "\(name) \(tail)"
+            if let g = TicketText.matchGroups(
+                in: blob,
+                pattern: #"(?i)\b(?:CNF|RAC|WL)[/ ]([A-Z]\d{0,3})[/ ](\d{1,3}[A-Z]?)\b"#
+            ).first, g.count >= 2 {
+                coach = g[0].uppercased()
+                seat = g[1].uppercased()
+            } else {
+                let escaped = NSRegularExpression.escapedPattern(for: name)
+                let near = "(?is)" + escaped + #"[\\s\\S]{0,100}?\b(?:CNF|RAC|WL)[/ ]([A-Z]\d{0,3})[/ ](\d{1,3}[A-Z]?)\b"#
+                if let g = TicketText.matchGroups(in: text, pattern: near).first, g.count >= 2 {
+                    coach = g[0].uppercased()
+                    seat = g[1].uppercased()
+                }
+            }
+            if let bt = TicketText.firstMatch(
+                in: tail,
+                pattern: #"(?i)\b(Lower|Middle|Upper|Side\s*Lower|Side\s*Upper|Window|Aisle)\b"#
+            ) {
+                berthType = bt
+            }
+            entries.append(PassengerSeatEntry(passenger: name, coach: coach, seat: seat, berthType: berthType))
+        }
+
+        if entries.count < 2 {
+            let alt = #"(?im)^\s*\d{1,2}\s+([A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+){0,3})\b"#
+            var seen = Set(entries.map { $0.passenger.lowercased() })
+            for name in TicketText.matches(in: text, pattern: alt) {
+                let cleaned = name.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+                let lower = cleaned.lowercased()
+                if junkNames.contains(where: { lower == $0 || lower.hasPrefix($0 + " ") }) { continue }
+                if seen.contains(lower) { continue }
+                seen.insert(lower)
+                entries.append(PassengerSeatEntry(passenger: cleaned))
+            }
+        }
+
+        return entries
+    }
+
 }

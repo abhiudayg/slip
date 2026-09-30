@@ -17,23 +17,89 @@
   },
   "boardingPass": {
     "headerFields": [
-      { "key": "pnr", "label": "PNR", "value": "{{pnr}}" }
+      {
+        "key": "pnr",
+        "label": "PNR",
+        "value": "{{pnr}}"
+      }
     ],
     "primaryFields": [
-      { "key": "origin", "label": "BOARDING", "value": "{{origin}}" },
-      { "key": "destination", "label": "DROP OFF", "value": "{{destination}}" }
+      {
+        "key": "origin",
+        "label": "BOARDING",
+        "value": "{{origin}}"
+      },
+      {
+        "key": "destination",
+        "label": "DROP OFF",
+        "value": "{{destination}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "dep", "label": "DEPARTURE", "value": "{{dep}}" },
-      { "key": "arr", "label": "ARRIVAL", "value": "{{arr}}" }
+      {
+        "key": "dep",
+        "label": "DEPARTURE",
+        "value": "{{dep}}"
+      },
+      {
+        "key": "arr",
+        "label": "ARRIVAL",
+        "value": "{{arr}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "seat", "label": "SEAT", "value": "{{seat}}" },
-      { "key": "passenger", "label": "PASSENGER", "value": "{{passenger}}" },
-      { "key": "bus", "label": "BUS", "value": "{{bus}}" },
-      { "key": "duration", "label": "DURATION", "value": "{{duration}}" }
+      {
+        "key": "seat",
+        "label": "SEAT",
+        "value": "{{seat}}"
+      },
+      {
+        "key": "passenger",
+        "label": "PASSENGER",
+        "value": "{{passenger}}"
+      },
+      {
+        "key": "bus",
+        "label": "BUS",
+        "value": "{{bus}}"
+      },
+      {
+        "key": "duration",
+        "label": "DURATION",
+        "value": "{{duration}}"
+      }
     ],
     "backFields": [
+      {
+        "key": "bus_operator",
+        "label": "Operator",
+        "value": "{{bus_operator}}"
+      },
+      {
+        "key": "bus_number",
+        "label": "Bus Number",
+        "value": "{{bus_number}}"
+      },
+      {
+        "key": "boarding_point",
+        "label": "Boarding Point",
+        "value": "{{boarding_point}}"
+      },
+      {
+        "key": "drop_point",
+        "label": "Drop Point",
+        "value": "{{drop_point}}"
+      },
+      {
+        "key": "seat_type",
+        "label": "Seat Type",
+        "value": "{{seat_type}}"
+      },
+      {
+        "key": "driver_contact",
+        "label": "Driver Contact",
+        "value": "{{driver_contact}}"
+      },
       {
         "key": "about",
         "label": "About",

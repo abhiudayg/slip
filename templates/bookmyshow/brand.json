@@ -3,9 +3,26 @@
   "displayName": "BookMyShow",
   "category": "entertainment",
   "appleStyle": "eventTicket",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["event", "seat", "qr_data"],
-  "optionalFields": ["venue", "booking_id", "time"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "event",
+    "seat",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "venue",
+    "screen",
+    "booking_id",
+    "time",
+    "date",
+    "format",
+    "certification",
+    "language",
+    "fnb",
+    "pickup_counter"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(220, 38, 38)",

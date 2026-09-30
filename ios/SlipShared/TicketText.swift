@@ -16,6 +16,24 @@ enum TicketText {
         }
     }
 
+    /// All capture groups (1..<n) for every match — used for multi-passenger rows.
+    static func matchGroups(in text: String, pattern: String) -> [[String]] {
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
+        let range = NSRange(text.startIndex..<text.endIndex, in: text)
+        return regex.matches(in: text, range: range).compactMap { match in
+            guard match.numberOfRanges > 1 else { return nil }
+            var groups: [String] = []
+            for i in 1..<match.numberOfRanges {
+                guard let r = Range(match.range(at: i), in: text) else {
+                    groups.append("")
+                    continue
+                }
+                groups.append(String(text[r]).trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+            return groups
+        }
+    }
+
     static func upiQueryValue(_ qr: String, key: String) -> String? {
         guard let comps = URLComponents(string: qr) else { return nil }
         return comps.queryItems?.first(where: { $0.name == key })?.value?

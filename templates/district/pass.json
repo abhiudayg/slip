@@ -5,9 +5,9 @@
   "organizationName": "District",
   "description": "District festival pass",
   "logoText": "District",
-  "backgroundColor": "rgb(12, 4, 18)",
+  "backgroundColor": "rgb(28, 20, 72)",
   "foregroundColor": "rgb(255, 255, 255)",
-  "labelColor": "rgb(178, 255, 68)",
+  "labelColor": "rgb(200, 190, 255)",
   "barcode": {
     "format": "PKBarcodeFormatQR",
     "message": "{{qr_data}}",
@@ -16,22 +16,89 @@
   },
   "eventTicket": {
     "headerFields": [
-      { "key": "tier", "label": "TIER", "value": "{{tier}}" }
+      {
+        "key": "tier",
+        "label": "TIER",
+        "value": "{{tier}}"
+      }
     ],
     "primaryFields": [
-      { "key": "event", "label": "EVENT", "value": "{{event}}" }
+      {
+        "key": "event",
+        "label": "EVENT",
+        "value": "{{event}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "venue", "label": "VENUE", "value": "{{venue}}" },
-      { "key": "gate", "label": "FAST ENTRY", "value": "{{gate}}" }
+      {
+        "key": "venue",
+        "label": "VENUE",
+        "value": "{{venue}}"
+      },
+      {
+        "key": "seat",
+        "label": "SEATS",
+        "value": "{{seat}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "time", "label": "GATES OPEN", "value": "{{time}}" },
-      { "key": "zone", "label": "ZONE", "value": "{{zone}}" },
-      { "key": "passholder", "label": "PASSHOLDER", "value": "{{passholder}}" },
-      { "key": "booking", "label": "WRISTBAND", "value": "{{booking_id}}" }
+      {
+        "key": "screen",
+        "label": "SCREEN",
+        "value": "{{screen}}"
+      },
+      {
+        "key": "time",
+        "label": "SHOWTIME",
+        "value": "{{time}}"
+      },
+      {
+        "key": "date",
+        "label": "DATE",
+        "value": "{{date}}"
+      },
+      {
+        "key": "gate",
+        "label": "FAST ENTRY",
+        "value": "{{gate}}"
+      },
+      {
+        "key": "zone",
+        "label": "ZONE",
+        "value": "{{zone}}"
+      },
+      {
+        "key": "passholder",
+        "label": "PASSHOLDER",
+        "value": "{{passholder}}"
+      },
+      {
+        "key": "booking",
+        "label": "BOOKING ID",
+        "value": "{{booking_id}}"
+      }
     ],
     "backFields": [
+      {
+        "key": "age",
+        "label": "Age Gate",
+        "value": "{{age_gate}}"
+      },
+      {
+        "key": "cashless",
+        "label": "Cashless Balance",
+        "value": "{{cashless_balance}}"
+      },
+      {
+        "key": "venue_detail",
+        "label": "Venue Detail",
+        "value": "{{venue_detail}}"
+      },
+      {
+        "key": "access",
+        "label": "Access",
+        "value": "{{access}}"
+      },
       {
         "key": "about",
         "label": "About",

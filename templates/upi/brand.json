@@ -12,7 +12,14 @@
   ],
   "optionalFields": [
     "vpa",
-    "bank"
+    "bank",
+    "amount",
+    "note",
+    "account_mask",
+    "txn_limit",
+    "autopay_limit",
+    "ifsc",
+    "status"
   ],
   "supportsLocations": false,
   "supportsRelevantDate": false,

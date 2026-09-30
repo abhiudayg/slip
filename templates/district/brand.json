@@ -3,9 +3,31 @@
   "displayName": "District",
   "category": "entertainment",
   "appleStyle": "eventTicket",
-  "barcodeFormats": ["PKBarcodeFormatQR", "PKBarcodeFormatAztec"],
-  "requiredFields": ["event", "qr_data"],
-  "optionalFields": ["venue", "tier", "gate", "zone", "passholder", "booking_id", "time"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR",
+    "PKBarcodeFormatAztec"
+  ],
+  "requiredFields": [
+    "event",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "venue",
+    "seat",
+    "screen",
+    "tier",
+    "gate",
+    "zone",
+    "passholder",
+    "booking_id",
+    "time",
+    "date",
+    "format",
+    "age_gate",
+    "cashless_balance",
+    "venue_detail",
+    "access"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(124, 58, 237)",

@@ -57,9 +57,69 @@
         "key": "pnr",
         "label": "PNR",
         "value": "{{pnr}}"
+      },
+      {
+        "key": "dep",
+        "label": "DEPART",
+        "value": "{{dep}}"
+      },
+      {
+        "key": "arr",
+        "label": "ARRIVE",
+        "value": "{{arr}}"
+      },
+      {
+        "key": "terminal",
+        "label": "TERMINAL",
+        "value": "{{terminal}}"
       }
     ],
     "backFields": [
+      {
+        "key": "duration",
+        "label": "Duration",
+        "value": "{{duration}}"
+      },
+      {
+        "key": "date",
+        "label": "Date",
+        "value": "{{date}}"
+      },
+      {
+        "key": "board",
+        "label": "Board By",
+        "value": "{{board_time}}"
+      },
+      {
+        "key": "origin_terminal",
+        "label": "Origin Terminal",
+        "value": "{{origin_terminal}}"
+      },
+      {
+        "key": "dest_terminal",
+        "label": "Dest Terminal",
+        "value": "{{dest_terminal}}"
+      },
+      {
+        "key": "class",
+        "label": "Class",
+        "value": "{{class}}"
+      },
+      {
+        "key": "loyalty",
+        "label": "Loyalty Tier",
+        "value": "{{loyalty_tier}}"
+      },
+      {
+        "key": "status",
+        "label": "Status",
+        "value": "{{status}}"
+      },
+      {
+        "key": "bzone",
+        "label": "Boarding Zone",
+        "value": "{{boarding_zone}}"
+      },
       {
         "key": "about",
         "label": "About",

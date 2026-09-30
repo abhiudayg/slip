@@ -90,7 +90,7 @@ struct BrandSummary: Codable, Identifiable, Hashable {
                      stationCatalog: nil,
                      summary: "Swiggy Dineout table bookings and deals.", badge: "Dining",
                      iconHint: "fork.knife"),
-        BrandSummary(id: "airbnb", displayName: "Airbnb", category: "travel", appleStyle: "generic",
+        BrandSummary(id: "airbnb", displayName: "Airbnb", category: "travel", appleStyle: "storeCard",
                      requiredFields: ["property", "qr_data"],
                      optionalFields: ["guest", "check_in", "check_out", "booking_id"],
                      supportsLocations: true, supportsRelevantDate: true, accentHint: "rgb(255, 56, 92)",
@@ -154,6 +154,8 @@ struct CreatePassRequest: Codable {
     var relevantDate: String?
     var expirationDate: String?
     var barcodeFormat: String?
+    /// Stable PassKit serial — reuse when regenerating so Apple Wallet updates in place.
+    var serialNumber: String?
 }
 
 enum PassAPIError: LocalizedError {

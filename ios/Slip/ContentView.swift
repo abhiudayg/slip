@@ -47,13 +47,36 @@ struct ContentView: View {
                 FloatingDock(
                     tab: $tab,
                     onScan: { showScanner = true },
-                    onNewPass: { showImportMenu = true },
-                    onImport: { showImportMenu = true }
+                    onNewPass: {
+                        withAnimation(.spring(response: 0.45, dampingFraction: 0.86)) {
+                            showImportMenu = true
+                        }
+                    },
+                    onImport: {
+                        withAnimation(.spring(response: 0.45, dampingFraction: 0.86)) {
+                            showImportMenu = true
+                        }
+                    }
                 )
                 .padding(.horizontal, 20)
                 .padding(.bottom, 10)
+                .zIndex(2)
+            }
+
+            if showImportMenu {
+                ImportTicketMenu(
+                    isPresented: $showImportMenu,
+                    onScan: { showScanner = true },
+                    onPhoto: { showPhotoPicker = true },
+                    onPDF: { showFileImporter = true },
+                    onTemplates: { tab = .marketplace }
+                )
+                // Menu owns its spring/backdrop; keep host transition neutral.
+                .transition(.opacity)
+                .zIndex(10)
             }
         }
+        .animation(.easeOut(duration: 0.2), value: showImportMenu)
         .preferredColorScheme(.dark)
         .task { await model.bootstrap() }
         .sheet(item: $selectedBrand) { brand in
@@ -76,7 +99,14 @@ struct ContentView: View {
                 .interactiveDismissDisabled(false)
         }
         .sheet(item: $model.pendingClassification) { classification in
-            ConfirmPassSheet(classification: classification)
+            ConfirmPassSheet(classifications: [classification])
+                .environmentObject(model)
+                .environmentObject(vault)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.hidden)
+        }
+        .sheet(item: $model.pendingBatch) { batch in
+            ConfirmPassSheet(classifications: batch.items)
                 .environmentObject(model)
                 .environmentObject(vault)
                 .presentationDetents([.large])
@@ -100,29 +130,6 @@ struct ContentView: View {
                     showScanner = false
                 }
             )
-        }
-        .confirmationDialog("Import ticket", isPresented: $showImportMenu, titleVisibility: .visible) {
-            Button("Scan QR / barcode") {
-                showScanner = true
-            }
-            Button("Photo / screenshot") {
-                Task { @MainActor in
-                    await Task.yield()
-                    showPhotoPicker = true
-                }
-            }
-            Button("PDF booking") {
-                Task { @MainActor in
-                    await Task.yield()
-                    showFileImporter = true
-                }
-            }
-            Button("Browse templates") {
-                tab = .marketplace
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Import a screenshot or booking PDF, scan a code, or pick a template.")
         }
         .photosPicker(isPresented: $showPhotoPicker, selection: $photoItem, matching: .images)
         .onChange(of: photoItem) { _, item in

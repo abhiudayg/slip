@@ -16,7 +16,16 @@
     "dep",
     "arr",
     "time",
-    "duration"
+    "duration",
+    "booking_id",
+    "line",
+    "ticket_type",
+    "fare",
+    "origin_platform",
+    "exit_gates",
+    "stops",
+    "issued_at",
+    "valid_till"
   ],
   "supportsLocations": true,
   "supportsRelevantDate": true,

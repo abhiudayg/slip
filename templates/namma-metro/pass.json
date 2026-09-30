@@ -17,21 +17,94 @@
   "boardingPass": {
     "transitType": "PKTransitTypeGeneric",
     "headerFields": [
-      { "key": "type", "label": "TICKET TYPE", "value": "QR SINGLE JOURNEY" }
+      {
+        "key": "type",
+        "label": "TICKET TYPE",
+        "value": "QR SINGLE JOURNEY"
+      }
     ],
     "primaryFields": [
-      { "key": "origin", "label": "ORIGIN STATION", "value": "{{origin}}" },
-      { "key": "destination", "label": "DESTINATION", "value": "{{destination}}" }
+      {
+        "key": "origin",
+        "label": "ORIGIN STATION",
+        "value": "{{origin}}"
+      },
+      {
+        "key": "destination",
+        "label": "DESTINATION",
+        "value": "{{destination}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "issued", "label": "ISSUED AT", "value": "{{dep}}" },
-      { "key": "valid", "label": "VALID TILL", "value": "{{arr}}" }
+      {
+        "key": "issued",
+        "label": "ISSUED AT",
+        "value": "{{dep}}"
+      },
+      {
+        "key": "valid",
+        "label": "VALID TILL",
+        "value": "{{arr}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "token", "label": "TOKEN / PASS ID", "value": "{{qr_data}}" }
+      {
+        "key": "token",
+        "label": "TOKEN / PASS ID",
+        "value": "{{qr_data}}"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "Turnstile", "value": "Screen brightness maximizes at the turnstile. Metro station geofencing active." }
+      {
+        "key": "ticket_type",
+        "label": "Ticket Type",
+        "value": "{{ticket_type}}"
+      },
+      {
+        "key": "fare",
+        "label": "Fare",
+        "value": "{{fare}}"
+      },
+      {
+        "key": "origin_platform",
+        "label": "Platform",
+        "value": "{{origin_platform}}"
+      },
+      {
+        "key": "exit_gates",
+        "label": "Exit Gates",
+        "value": "{{exit_gates}}"
+      },
+      {
+        "key": "stops",
+        "label": "Stops",
+        "value": "{{stops}}"
+      },
+      {
+        "key": "issued_at",
+        "label": "Issued At",
+        "value": "{{issued_at}}"
+      },
+      {
+        "key": "valid_till",
+        "label": "Valid Till",
+        "value": "{{valid_till}}"
+      },
+      {
+        "key": "line",
+        "label": "Line",
+        "value": "{{line}}"
+      },
+      {
+        "key": "booking",
+        "label": "Token / Pass ID",
+        "value": "{{booking_id}}"
+      },
+      {
+        "key": "about",
+        "label": "Turnstile",
+        "value": "Screen brightness maximizes at the turnstile. Metro station geofencing active."
+      }
     ]
   }
 }

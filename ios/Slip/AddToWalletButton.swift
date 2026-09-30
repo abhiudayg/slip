@@ -2,6 +2,7 @@ import PassKit
 import SwiftUI
 
 /// Presents Apple's Add Passes sheet when the .pkpass is valid & signed.
+/// Same passTypeIdentifier + serialNumber → Wallet offers Update (not a duplicate).
 /// Unsigned / invalid packs stay on-screen with an error (no navigation).
 struct AddToWalletButton: View {
     let passData: Data
@@ -11,6 +12,7 @@ struct AddToWalletButton: View {
     @State private var errorMessage: String?
     @State private var controller: PKAddPassesViewController?
     @State private var pendingPass: PKPass?
+    @State private var isUpdate = false
 
     var body: some View {
         VStack(spacing: 12) {
@@ -18,8 +20,11 @@ struct AddToWalletButton: View {
                 Button {
                     present()
                 } label: {
-                    Label("Add to Apple Wallet", systemImage: "wallet.pass")
-                        .frame(maxWidth: .infinity)
+                    Label(
+                        isUpdate ? "Update in Apple Wallet" : "Add to Apple Wallet",
+                        systemImage: "wallet.pass"
+                    )
+                    .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
             } else {
@@ -34,6 +39,7 @@ struct AddToWalletButton: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+        .onAppear { refreshUpdateState() }
         .background(
             Group {
                 if let controller {
@@ -53,14 +59,21 @@ struct AddToWalletButton: View {
         )
     }
 
+    private func refreshUpdateState() {
+        guard let pass = try? PKPass(data: passData) else {
+            isUpdate = false
+            return
+        }
+        isUpdate = PKPassLibrary().containsPass(pass)
+    }
+
     private func present() {
         errorMessage = nil
         do {
             let pass = try PKPass(data: passData)
-            if PKPassLibrary().containsPass(pass) {
-                onAdded(pass)
-                return
-            }
+            isUpdate = PKPassLibrary().containsPass(pass)
+            // Always present the sheet — when serial matches an installed pass,
+            // PassKit shows Update instead of Add (do not short-circuit).
             guard PKAddPassesViewController.canAddPasses() else {
                 errorMessage = "This device cannot add passes to Apple Wallet."
                 return

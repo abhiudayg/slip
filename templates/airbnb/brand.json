@@ -2,10 +2,33 @@
   "id": "airbnb",
   "displayName": "Airbnb",
   "category": "travel",
-  "appleStyle": "generic",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["property", "booking_id"],
-  "optionalFields": ["guest", "check_in", "check_out", "door_pin", "qr_data"],
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "property",
+    "booking_id"
+  ],
+  "optionalFields": [
+    "property_type",
+    "address",
+    "city",
+    "check_in",
+    "check_out",
+    "check_in_time",
+    "check_out_time",
+    "guest",
+    "guest_details",
+    "door_pin",
+    "host",
+    "host_badge",
+    "lock_brand",
+    "wifi_ssid",
+    "wifi_password",
+    "status",
+    "qr_data"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(255, 56, 92)",

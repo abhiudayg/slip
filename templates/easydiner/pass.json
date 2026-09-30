@@ -16,20 +16,79 @@
   },
   "storeCard": {
     "headerFields": [
-      { "key": "tier", "label": "STATUS", "value": "PRIME" }
+      {
+        "key": "tier",
+        "label": "STATUS",
+        "value": "PRIME"
+      }
     ],
     "primaryFields": [
-      { "key": "restaurant", "label": "VENUE", "value": "{{restaurant}}" }
+      {
+        "key": "restaurant",
+        "label": "VENUE",
+        "value": "{{restaurant}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "time", "label": "RESERVATION", "value": "{{time}}" },
-      { "key": "party", "label": "GUESTS", "value": "{{party_size}}" }
+      {
+        "key": "time",
+        "label": "RESERVATION",
+        "value": "{{time}}"
+      },
+      {
+        "key": "party",
+        "label": "GUESTS",
+        "value": "{{party_size}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "booking", "label": "MEMBER / BOOKING", "value": "{{booking_id}}" }
+      {
+        "key": "booking",
+        "label": "MEMBER / BOOKING",
+        "value": "{{booking_id}}"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "PayEazy", "value": "Scan at bill settlement for Prime discounts." }
+      {
+        "key": "discount",
+        "label": "Discount",
+        "value": "{{discount}}"
+      },
+      {
+        "key": "offer",
+        "label": "Offer",
+        "value": "{{offer}}"
+      },
+      {
+        "key": "points",
+        "label": "Points",
+        "value": "{{points}}"
+      },
+      {
+        "key": "member_id",
+        "label": "Member ID",
+        "value": "{{member_id}}"
+      },
+      {
+        "key": "valid_thru",
+        "label": "Valid Thru",
+        "value": "{{valid_thru}}"
+      },
+      {
+        "key": "tier",
+        "label": "Tier",
+        "value": "{{tier}}"
+      },
+      {
+        "key": "status",
+        "label": "Status",
+        "value": "{{status}}"
+      },
+      {
+        "key": "about",
+        "label": "PayEazy",
+        "value": "Scan at bill settlement for Prime discounts."
+      }
     ]
   }
 }

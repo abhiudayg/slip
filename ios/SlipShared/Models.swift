@@ -50,6 +50,17 @@ struct PendingImport: Identifiable, Equatable, Sendable {
     }
 }
 
+/// One import that expands into multiple traveler passes (IRCTC party, IndiGo PDF, …).
+struct ClassificationBatch: Identifiable, Equatable, Sendable {
+    let id: UUID
+    var items: [ClassificationResult]
+
+    init(id: UUID = UUID(), items: [ClassificationResult]) {
+        self.id = id
+        self.items = items
+    }
+}
+
 enum SharedInbox {
     static let appGroupId = "group.com.aeswibon.slip"
 

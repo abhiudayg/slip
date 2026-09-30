@@ -16,17 +16,67 @@
   },
   "eventTicket": {
     "primaryFields": [
-      { "key": "restaurant", "label": "RESTAURANT", "value": "{{restaurant}}" }
+      {
+        "key": "restaurant",
+        "label": "RESTAURANT",
+        "value": "{{restaurant}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "time", "label": "DATE & SLOT", "value": "{{time}}" },
-      { "key": "party", "label": "PARTY SIZE", "value": "{{party_size}}" }
+      {
+        "key": "time",
+        "label": "DATE & SLOT",
+        "value": "{{time}}"
+      },
+      {
+        "key": "party",
+        "label": "PARTY SIZE",
+        "value": "{{party_size}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "booking", "label": "BOOKING", "value": "{{booking_id}}" }
+      {
+        "key": "booking",
+        "label": "BOOKING",
+        "value": "{{booking_id}}"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "Hostess podium", "value": "Show this pass at the hostess podium for your Zomato Dineout reservation." }
+      {
+        "key": "table_area",
+        "label": "Table Area",
+        "value": "{{table_area}}"
+      },
+      {
+        "key": "city",
+        "label": "City",
+        "value": "{{city}}"
+      },
+      {
+        "key": "special_tag",
+        "label": "Special",
+        "value": "{{special_tag}}"
+      },
+      {
+        "key": "cuisine",
+        "label": "Cuisine",
+        "value": "{{cuisine}}"
+      },
+      {
+        "key": "grace_period",
+        "label": "Grace",
+        "value": "{{grace_period}}"
+      },
+      {
+        "key": "guest",
+        "label": "Reserved Name",
+        "value": "{{guest}}"
+      },
+      {
+        "key": "about",
+        "label": "Hostess podium",
+        "value": "Show this pass at the hostess podium for your Zomato Dineout reservation."
+      }
     ]
   }
 }

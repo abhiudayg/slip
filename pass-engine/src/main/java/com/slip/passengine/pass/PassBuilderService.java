@@ -33,6 +33,7 @@ public class PassBuilderService {
       "icon.png", "icon@2x.png", "icon@3x.png",
       "logo.png", "logo@2x.png", "logo@3x.png",
       "strip.png", "strip@2x.png", "strip@3x.png",
+      "thumbnail.png", "thumbnail@2x.png", "thumbnail@3x.png",
       "pauli.png"
   );
 
@@ -100,7 +101,11 @@ public class PassBuilderService {
     injectPlaceholders(passJson, fields);
     passJson.put("passTypeIdentifier", props.passTypeIdentifier());
     passJson.put("teamIdentifier", props.teamIdentifier());
-    passJson.put("serialNumber", "slip-" + System.currentTimeMillis());
+    String serial = request.serialNumber();
+    if (serial == null || serial.isBlank()) {
+      serial = "slip-" + System.currentTimeMillis();
+    }
+    passJson.put("serialNumber", serial.trim());
 
     if (request.barcodeFormat() != null && !request.barcodeFormat().isBlank() && passJson.has("barcode")) {
       ((ObjectNode) passJson.get("barcode")).put("format", request.barcodeFormat());

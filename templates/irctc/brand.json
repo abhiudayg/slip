@@ -3,9 +3,34 @@
   "displayName": "IRCTC Rail",
   "category": "transit",
   "appleStyle": "boardingPass",
-  "barcodeFormats": ["PKBarcodeFormatQR"],
-  "requiredFields": ["origin", "destination", "qr_data"],
-  "optionalFields": ["passenger", "pnr", "train", "coach", "seat"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "pnr",
+    "train",
+    "coach",
+    "seat",
+    "berth_type",
+    "dep",
+    "arr",
+    "duration",
+    "time",
+    "date",
+    "class",
+    "quota",
+    "pnr_status",
+    "origin_platform",
+    "dest_platform",
+    "distance",
+    "chart_status"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(94, 92, 230)",

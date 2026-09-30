@@ -12,8 +12,18 @@
   ],
   "optionalFields": [
     "time",
+    "date",
     "party_size",
-    "qr_data"
+    "table",
+    "qr_data",
+    "guest",
+    "discount",
+    "offer",
+    "points",
+    "member_id",
+    "valid_thru",
+    "tier",
+    "status"
   ],
   "supportsLocations": true,
   "supportsRelevantDate": true,

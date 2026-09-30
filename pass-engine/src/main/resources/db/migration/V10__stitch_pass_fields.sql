@@ -1,0 +1,13 @@
+-- Expand brand field schemas to match Stitch Wallet pass layouts.
+UPDATE brands SET required_fields = '["property", "booking_id"]'::jsonb, optional_fields = '["property_type", "address", "check_in", "check_out", "guest", "door_pin", "host", "qr_data"]'::jsonb, updated_at = NOW() WHERE id = 'airbnb';
+UPDATE brands SET required_fields = '["event", "seat", "qr_data"]'::jsonb, optional_fields = '["venue", "screen", "booking_id", "time", "date", "format"]'::jsonb, updated_at = NOW() WHERE id = 'bookmyshow';
+UPDATE brands SET required_fields = '["event", "qr_data"]'::jsonb, optional_fields = '["venue", "seat", "screen", "tier", "gate", "zone", "passholder", "booking_id", "time", "date", "format"]'::jsonb, updated_at = NOW() WHERE id = 'district';
+UPDATE brands SET required_fields = '["restaurant", "booking_id"]'::jsonb, optional_fields = '["time", "date", "party_size", "table", "qr_data", "guest"]'::jsonb, updated_at = NOW() WHERE id = 'easydiner';
+UPDATE brands SET required_fields = '["origin", "destination", "qr_data"]'::jsonb, optional_fields = '["passenger", "flight", "seat", "pnr", "gate", "dep", "arr", "duration", "time", "date", "terminal"]'::jsonb, updated_at = NOW() WHERE id = 'indigo';
+UPDATE brands SET required_fields = '["origin", "destination", "qr_data"]'::jsonb, optional_fields = '["passenger", "pnr", "train", "coach", "seat", "dep", "arr", "duration", "time", "date", "class"]'::jsonb, updated_at = NOW() WHERE id = 'irctc';
+UPDATE brands SET required_fields = '["origin", "destination", "qr_data"]'::jsonb, optional_fields = '["passenger", "dep", "arr", "time", "duration", "booking_id", "line"]'::jsonb, updated_at = NOW() WHERE id = 'namma-metro';
+UPDATE brands SET required_fields = '["origin", "destination", "qr_data"]'::jsonb, optional_fields = '["passenger", "seat", "pnr", "bus", "dep", "arr", "duration", "time", "date", "boarding_point"]'::jsonb, updated_at = NOW() WHERE id = 'redbus';
+UPDATE brands SET required_fields = '["restaurant", "booking_id"]'::jsonb, optional_fields = '["time", "date", "party_size", "table", "qr_data", "guest"]'::jsonb, updated_at = NOW() WHERE id = 'swiggy-dineout';
+UPDATE brands SET required_fields = '["name", "qr_data"]'::jsonb, optional_fields = '["vpa", "bank", "amount", "note"]'::jsonb, updated_at = NOW() WHERE id = 'upi';
+UPDATE brands SET required_fields = '["restaurant", "booking_id"]'::jsonb, optional_fields = '["time", "date", "party_size", "table", "qr_data", "guest"]'::jsonb, updated_at = NOW() WHERE id = 'zomato-dineout';
+UPDATE brands SET required_fields = '["vehicle", "booking_id"]'::jsonb, optional_fields = '["pickup", "drop_off", "guest", "plate", "qr_data", "fuel"]'::jsonb, updated_at = NOW() WHERE id = 'zoomcar';

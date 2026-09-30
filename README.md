@@ -79,7 +79,7 @@ Scripts under `deploy/oci/` provision a free-tier VM and wire Neon. Secrets (`de
 | EazyDiner | `easydiner` | eventTicket |
 | Zomato Dineout | `zomato-dineout` | eventTicket |
 | Swiggy Dineout | `swiggy-dineout` | eventTicket |
-| Airbnb | `airbnb` | generic |
+| Airbnb | `airbnb` | storeCard |
 | Metro | `namma-metro` | boardingPass |
 | UPI (Get Paid) | `upi` | generic |
 | redBus | `redbus` | boardingPass |

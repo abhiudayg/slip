@@ -67,4 +67,67 @@ enum IndigoPassLogic {
 
     /// Generic airline/OTA boarding when brand-specific rules miss.
 
+
+
+    /// All boarding stubs in an IndiGo PDF / screenshot (one Wallet pass each).
+    static func extractPassengerEntries(from text: String) -> [PassengerSeatEntry] {
+        let names = TicketText.matches(
+            in: text,
+            pattern: #"(?i)(?:passenger(?:\s*name)?|pax\s*name|name of passenger)\s*[:\-]?\s*([A-Za-z][A-Za-z ./\-]{2,45})"#
+        ).map {
+            $0.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        }.filter { name in
+            let lower = name.lowercased()
+            return lower.count >= 3
+                && !["passenger", "name", "indigo", "flight", "boarding"].contains(lower)
+        }
+
+        let seats = TicketText.matches(in: text, pattern: #"(?i)seat\s*[:\-]?\s*([0-9]{1,2}[A-F])"#)
+            .map { $0.uppercased() }
+        let gates = TicketText.matches(in: text, pattern: #"(?i)gate\s*[:\-]?\s*([A-Z0-9]{1,3})"#)
+            .map { $0.uppercased() }
+        let pnrs = TicketText.matches(
+            in: text,
+            pattern: #"(?i)(?:pnr|booking\s*ref(?:erence)?)\s*[:\-]?\s*([A-Z0-9]{6})"#
+        ).map { $0.uppercased() }
+        let flights = TicketText.matches(in: text, pattern: #"(?i)\b(6E[-\s]?\d{2,4})\b"#)
+            .map { $0.uppercased().replacingOccurrences(of: " ", with: "") }
+
+        // Also catch "KUMAR / ROHIT MR" style without a Passenger label when seats imply multiple stubs.
+        var resolvedNames = names
+        if resolvedNames.count < 2, seats.count >= 2 {
+            let slashNames = TicketText.matches(
+                in: text,
+                pattern: #"(?m)^\s*([A-Z]{2,}(?:\s*/\s*[A-Z]{2,})+(?:\s+MR|\s+MS|\s+MRS)?)\b"#
+            )
+            if slashNames.count >= 2 {
+                resolvedNames = slashNames
+            }
+        }
+
+        let count = max(resolvedNames.count, seats.count)
+        guard count >= 2 else { return [] }
+
+        var entries: [PassengerSeatEntry] = []
+        for i in 0..<count {
+            let passenger = i < resolvedNames.count ? resolvedNames[i] : "Passenger \(i + 1)"
+            let seat = i < seats.count ? seats[i] : ""
+            let gate = i < gates.count ? gates[i] : (gates.first ?? "")
+            let pnr = i < pnrs.count ? pnrs[i] : (pnrs.first ?? "")
+            let flight = i < flights.count ? flights[i] : (flights.first ?? "")
+            entries.append(
+                PassengerSeatEntry(
+                    passenger: passenger,
+                    seat: seat,
+                    gate: gate,
+                    flight: flight,
+                    pnr: pnr,
+                    qrData: pnr
+                )
+            )
+        }
+        return entries
+    }
+
 }

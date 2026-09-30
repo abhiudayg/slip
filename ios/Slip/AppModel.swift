@@ -12,6 +12,8 @@ final class AppModel: ObservableObject {
     @Published var pendingImport: PendingImport?
     /// After brand confirmed + extraction — review/edit fields.
     @Published var pendingClassification: ClassificationResult?
+    /// Multi-traveler expansion (IRCTC 4 pax, IndiGo multi-stub PDF, …).
+    @Published var pendingBatch: ClassificationBatch?
     @Published var isExtracting = false
     /// Overlay copy while OCR vs field extraction.
     @Published var extractingStatus: String = "Reading ticket"
@@ -43,7 +45,7 @@ final class AppModel: ObservableObject {
     func consumeSharedPayloadIfNeeded() {
         if let result = SharedInbox.consumeClassification() {
             // Share extension already classified — skip brand step and open confirm.
-            pendingClassification = result
+            presentClassification(result)
             SharedInbox.wipeAll()
             return
         }
@@ -107,7 +109,24 @@ final class AppModel: ObservableObject {
         )
         // Let brand sheet finish dismissing.
         try? await Task.sleep(nanoseconds: 320_000_000)
-        pendingClassification = result
+        presentClassification(result)
+    }
+
+    /// Expand multi-passenger tickets into separate confirm/create passes.
+    func presentClassification(_ result: ClassificationResult) {
+        let items = PassTravelerSplit.expand(result)
+        if items.count > 1 {
+            pendingBatch = ClassificationBatch(items: items)
+            pendingClassification = nil
+        } else {
+            pendingBatch = nil
+            pendingClassification = items.first ?? result
+        }
+    }
+
+    func clearPendingClassification() {
+        pendingClassification = nil
+        pendingBatch = nil
     }
 
     private struct LegacySharedBarcode: Codable {

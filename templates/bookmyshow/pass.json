@@ -5,9 +5,9 @@
   "organizationName": "BookMyShow",
   "description": "BookMyShow cinema ticket",
   "logoText": "BookMyShow",
-  "backgroundColor": "rgb(36, 12, 22)",
+  "backgroundColor": "rgb(48, 16, 40)",
   "foregroundColor": "rgb(255, 255, 255)",
-  "labelColor": "rgb(255, 120, 160)",
+  "labelColor": "rgb(255, 160, 190)",
   "barcode": {
     "format": "PKBarcodeFormatQR",
     "message": "{{qr_data}}",
@@ -16,18 +16,79 @@
   },
   "eventTicket": {
     "primaryFields": [
-      { "key": "event", "label": "EVENT", "value": "{{event}}" }
+      {
+        "key": "event",
+        "label": "EVENT",
+        "value": "{{event}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "venue", "label": "CINEMA / AUDI", "value": "{{venue}}" },
-      { "key": "seat", "label": "SEATS", "value": "{{seat}}" }
+      {
+        "key": "venue",
+        "label": "THEATRE",
+        "value": "{{venue}}"
+      },
+      {
+        "key": "screen",
+        "label": "SCREEN",
+        "value": "{{screen}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "time", "label": "SHOWTIME", "value": "{{time}}" },
-      { "key": "booking", "label": "BOOKING ID", "value": "{{booking_id}}" }
+      {
+        "key": "seat",
+        "label": "SEATS",
+        "value": "{{seat}}"
+      },
+      {
+        "key": "time",
+        "label": "SHOWTIME",
+        "value": "{{time}}"
+      },
+      {
+        "key": "date",
+        "label": "DATE",
+        "value": "{{date}}"
+      },
+      {
+        "key": "booking",
+        "label": "BOOKING ID",
+        "value": "{{booking_id}}"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "Turnstile", "value": "Scan at audi turnstile. Brightness maximizes at venue." }
+      {
+        "key": "cert",
+        "label": "Certification",
+        "value": "{{certification}}"
+      },
+      {
+        "key": "lang",
+        "label": "Language",
+        "value": "{{language}}"
+      },
+      {
+        "key": "fnb",
+        "label": "F&B",
+        "value": "{{fnb}}"
+      },
+      {
+        "key": "pickup",
+        "label": "F&B Pickup",
+        "value": "{{pickup_counter}}"
+      },
+      {
+        "key": "about",
+        "label": "Turnstile",
+        "value": "Scan at audi turnstile. Brightness maximizes at venue."
+      }
+    ],
+    "headerFields": [
+      {
+        "key": "format",
+        "label": "FORMAT",
+        "value": "{{format}}"
+      }
     ]
   }
 }

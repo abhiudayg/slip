@@ -16,20 +16,69 @@
   },
   "storeCard": {
     "headerFields": [
-      { "key": "status", "label": "STATUS", "value": "ACTIVE VPA" }
+      {
+        "key": "status",
+        "label": "STATUS",
+        "value": "ACTIVE VPA"
+      }
     ],
     "primaryFields": [
-      { "key": "name", "label": "ACCOUNT HOLDER", "value": "{{name}}" }
+      {
+        "key": "name",
+        "label": "ACCOUNT HOLDER",
+        "value": "{{name}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "vpa", "label": "VPA", "value": "{{vpa}}" },
-      { "key": "bank", "label": "LINKED BANK", "value": "{{bank}}" }
+      {
+        "key": "vpa",
+        "label": "VPA",
+        "value": "{{vpa}}"
+      },
+      {
+        "key": "bank",
+        "label": "LINKED BANK",
+        "value": "{{bank}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "how", "label": "HOW", "value": "Double-click side button → Wallet" }
+      {
+        "key": "how",
+        "label": "HOW",
+        "value": "Double-click side button \u2192 Wallet"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "NPCI", "value": "Works with Apple Double-Click Wallet shortcut. NPCI encrypted VPA." }
+      {
+        "key": "account_mask",
+        "label": "Account",
+        "value": "{{account_mask}}"
+      },
+      {
+        "key": "txn_limit",
+        "label": "Txn Limit",
+        "value": "{{txn_limit}}"
+      },
+      {
+        "key": "autopay_limit",
+        "label": "Auto-Pay",
+        "value": "{{autopay_limit}}"
+      },
+      {
+        "key": "ifsc",
+        "label": "IFSC",
+        "value": "{{ifsc}}"
+      },
+      {
+        "key": "status",
+        "label": "Status",
+        "value": "{{status}}"
+      },
+      {
+        "key": "about",
+        "label": "NPCI",
+        "value": "Works with Apple Double-Click Wallet shortcut. NPCI encrypted VPA."
+      }
     ]
   }
 }

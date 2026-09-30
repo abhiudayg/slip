@@ -12,8 +12,18 @@
   ],
   "optionalFields": [
     "time",
+    "date",
     "party_size",
-    "qr_data"
+    "table",
+    "qr_data",
+    "guest",
+    "offer_code",
+    "discount",
+    "bank_offer",
+    "area",
+    "valid_till",
+    "min_order",
+    "membership_status"
   ],
   "supportsLocations": true,
   "supportsRelevantDate": true,

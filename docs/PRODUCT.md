@@ -30,7 +30,7 @@ Cut QR present-time for Indian iPhone users from ~15s to ~1s (double-click Side 
 | EazyDiner | `easydiner` | storeCard |
 | Zomato Dineout | `zomato-dineout` | eventTicket |
 | Swiggy Dineout | `swiggy-dineout` | eventTicket |
-| Airbnb | `airbnb` | generic |
+| Airbnb | `airbnb` | storeCard |
 | Namma Metro | `namma-metro` | boardingPass |
 | UPI (Get Paid) | `upi` | generic |
 | redBus | `redbus` | boardingPass |

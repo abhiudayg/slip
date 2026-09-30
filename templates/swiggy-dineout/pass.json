@@ -16,17 +16,72 @@
   },
   "coupon": {
     "primaryFields": [
-      { "key": "restaurant", "label": "VENUE", "value": "{{restaurant}}" }
+      {
+        "key": "restaurant",
+        "label": "VENUE",
+        "value": "{{restaurant}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "time", "label": "VALID", "value": "{{time}}" },
-      { "key": "party", "label": "GUESTS", "value": "{{party_size}}" }
+      {
+        "key": "time",
+        "label": "VALID",
+        "value": "{{time}}"
+      },
+      {
+        "key": "party",
+        "label": "GUESTS",
+        "value": "{{party_size}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "booking", "label": "OFFER / BOOKING", "value": "{{booking_id}}" }
+      {
+        "key": "booking",
+        "label": "OFFER / BOOKING",
+        "value": "{{booking_id}}"
+      }
     ],
     "backFields": [
-      { "key": "about", "label": "Server", "value": "Scan or present to server for Dineout bill pay." }
+      {
+        "key": "offer_code",
+        "label": "Offer Code",
+        "value": "{{offer_code}}"
+      },
+      {
+        "key": "discount",
+        "label": "Discount",
+        "value": "{{discount}}"
+      },
+      {
+        "key": "bank_offer",
+        "label": "Bank Offer",
+        "value": "{{bank_offer}}"
+      },
+      {
+        "key": "area",
+        "label": "Area",
+        "value": "{{area}}"
+      },
+      {
+        "key": "valid_till",
+        "label": "Valid Till",
+        "value": "{{valid_till}}"
+      },
+      {
+        "key": "min_order",
+        "label": "Min Order",
+        "value": "{{min_order}}"
+      },
+      {
+        "key": "membership_status",
+        "label": "Swiggy One",
+        "value": "{{membership_status}}"
+      },
+      {
+        "key": "about",
+        "label": "Server",
+        "value": "Scan or present to server for Dineout bill pay."
+      }
     ]
   }
 }

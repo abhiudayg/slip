@@ -183,6 +183,58 @@ final class PassVaultStore: ObservableObject {
         return record
     }
 
+    /// Replace sealed payload on an existing vault row (regenerate / edit) without creating a duplicate.
+    @discardableResult
+    func update(
+        _ record: PassVaultRecord,
+        payload: PassVaultPayload,
+        walletAdded: Bool? = nil,
+        walletPass: PKPass? = nil
+    ) throws -> PassVaultRecord {
+        let sealed = try VaultCrypto.seal(payload)
+        let expires = PassExpiration.expiresAt(
+            templateId: payload.templateId,
+            fields: payload.fields,
+            relevantDateISO8601: payload.relevantDateISO8601
+        )
+        record.templateId = payload.templateId
+        record.displayName = payload.displayName.isEmpty ? payload.templateId : payload.displayName
+        record.schemaVersion = sealed.schemaVersion
+        record.ciphertext = sealed.ciphertext
+        record.nonce = sealed.nonce
+        record.wrappedDEK = sealed.wrappedDEK
+        record.expiresAt = expires
+        record.updatedAt = Date()
+        if let walletPass {
+            let newSerial = walletPass.serialNumber
+            let installed = PKPassLibrary().containsPass(walletPass)
+            let hadSerial = !(record.walletSerialNumber?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? "").isEmpty
+            // Only replace serial when empty or the new pass is already in Wallet.
+            // Overwriting with a fresh unused serial clears the badge and causes duplicates.
+            if !hadSerial || installed {
+                record.walletSerialNumber = newSerial
+                record.walletPassTypeIdentifier = walletPass.passTypeIdentifier
+            }
+            if installed {
+                record.walletAdded = true
+            } else if WalletPassLink.isInstalled(
+                serial: record.walletSerialNumber,
+                passTypeIdentifier: record.walletPassTypeIdentifier
+            ) {
+                record.walletAdded = true
+            } else if let walletAdded {
+                record.walletAdded = walletAdded
+            }
+        } else if let walletAdded {
+            record.walletAdded = walletAdded
+        }
+        try context.save()
+        refresh()
+        Task { await pushToCloud(record) }
+        return record
+    }
+
     func decrypt(_ record: PassVaultRecord) throws -> PassVaultPayload {
         try VaultCrypto.open(record.sealedBox, as: PassVaultPayload.self)
     }
@@ -212,21 +264,39 @@ final class PassVaultStore: ObservableObject {
     @discardableResult
     func syncWalletPresence() -> Int {
         let library = PKPassLibrary()
-        let passes = library.passes()
         var changed = 0
 
         for record in records {
-            guard let serial = record.walletSerialNumber?
-                .trimmingCharacters(in: .whitespacesAndNewlines),
-                  !serial.isEmpty else {
-                continue
+            var serial = record.walletSerialNumber?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
+            // Reclaim a unique Wallet pass for this brand when serial was lost/overwritten.
+            if serial.isEmpty || !WalletPassLink.isInstalled(
+                serial: serial,
+                passTypeIdentifier: record.walletPassTypeIdentifier,
+                library: library
+            ) {
+                let matches = WalletPassLink.candidateLibraryPasses(
+                    for: record,
+                    vaultRecords: records,
+                    organizationName: WalletPassLink.organizationName(forTemplateId: record.templateId),
+                    library: library
+                )
+                if matches.count == 1, let only = matches.first {
+                    record.walletSerialNumber = only.serialNumber
+                    record.walletPassTypeIdentifier = only.passTypeIdentifier
+                    serial = only.serialNumber
+                    changed += 1
+                }
             }
 
-            let present = passes.contains { pass in
-                pass.serialNumber == serial
-                    && (record.walletPassTypeIdentifier == nil
-                        || record.walletPassTypeIdentifier == pass.passTypeIdentifier)
-            }
+            guard !serial.isEmpty else { continue }
+
+            let present = WalletPassLink.isInstalled(
+                serial: serial,
+                passTypeIdentifier: record.walletPassTypeIdentifier,
+                library: library
+            )
 
             if record.walletAdded != present {
                 record.walletAdded = present

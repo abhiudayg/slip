@@ -2,7 +2,8 @@ import CoreLocation
 import Foundation
 import UserNotifications
 
-/// Registers circular geofences for pass venues (metro stations) and notifies on entry.
+/// Registers circular geofences for pass venues and notifies on entry.
+/// Resolves coords from: explicit lat/lon → `lat,lon` location string → geocoded place name → metro stations.
 @MainActor
 final class PassGeofenceManager: NSObject, ObservableObject {
     static let shared = PassGeofenceManager()
@@ -10,11 +11,21 @@ final class PassGeofenceManager: NSObject, ObservableObject {
     @Published private(set) var authorizationStatus: CLAuthorizationStatus
     @Published private(set) var monitoredRegionCount: Int = 0
     @Published private(set) var lastError: String?
+    @Published private(set) var lastRegisteredLabel: String?
 
     private let manager = CLLocationManager()
+    private let geocoder = CLGeocoder()
     private var stations: [MetroStation] = []
+    private var registerTask: Task<Void, Never>?
 
     struct MetroStation: Hashable {
+        var id: String
+        var name: String
+        var latitude: Double
+        var longitude: Double
+    }
+
+    struct GeoPoint: Hashable {
         var id: String
         var name: String
         var latitude: Double
@@ -60,8 +71,37 @@ final class PassGeofenceManager: NSObject, ObservableObject {
         authorizationStatus = manager.authorizationStatus
     }
 
-    /// Registers up to 2 regions (origin / destination stations) for a pass.
+    /// Registers up to 2 regions for a pass (explicit coords, geocoded location, or metro stations).
     func register(for classification: ClassificationResult, radiusMeters: CLLocationDistance = 350) {
+        registerTask?.cancel()
+        registerTask = Task { [weak self] in
+            await self?.registerAsync(for: classification, radiusMeters: radiusMeters)
+        }
+    }
+
+    func register(fields: [String: String], templateId: String, displayName: String, stationIds: [String] = [], radiusMeters: CLLocationDistance = 350) {
+        let classification = ClassificationResult(
+            templateId: templateId,
+            displayName: displayName,
+            confidence: 1,
+            fields: fields,
+            stationIds: stationIds,
+            relevantDateISO8601: fields["date"] ?? fields["dep"],
+            rationale: "geofence",
+            needsManualBrandPick: false,
+            extracted: ExtractedTicket(
+                qrPayload: fields["qr_data"],
+                barcodeSymbology: nil,
+                recognizedText: "",
+                tokens: [],
+                createdAt: Date()
+            ),
+            createdAt: Date()
+        )
+        register(for: classification, radiusMeters: radiusMeters)
+    }
+
+    private func registerAsync(for classification: ClassificationResult, radiusMeters: CLLocationDistance) async {
         guard canMonitorRegions else {
             if authorizationStatus == .authorizedWhenInUse {
                 lastError = "Geofence wakeups need Always location access."
@@ -70,33 +110,101 @@ final class PassGeofenceManager: NSObject, ObservableObject {
             return
         }
 
-        let candidates = matchedStations(for: classification)
-        // Clear previous Slip regions to stay under iOS ~20 region limit.
-        for region in manager.monitoredRegions {
-            if region.identifier.hasPrefix("slip.") {
-                manager.stopMonitoring(for: region)
-            }
-        }
+        let candidates = await resolvePoints(for: classification)
+        clearSlipRegions()
 
-        for station in candidates.prefix(2) {
-            let center = CLLocationCoordinate2D(latitude: station.latitude, longitude: station.longitude)
+        for point in candidates.prefix(2) {
+            let center = CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude)
             let region = CLCircularRegion(
                 center: center,
                 radius: radiusMeters,
-                identifier: "slip.\(classification.templateId).\(station.id)"
+                identifier: "slip.\(classification.templateId).\(point.id)"
             )
             region.notifyOnEntry = true
             region.notifyOnExit = false
             manager.startMonitoring(for: region)
         }
         monitoredRegionCount = manager.monitoredRegions.count
+        lastRegisteredLabel = candidates.first?.name
+        if candidates.isEmpty {
+            lastError = "Add a Location (or lat/lon) on this pass so geofence can arm."
+        } else {
+            lastError = nil
+        }
     }
 
     func clearAll() {
+        registerTask?.cancel()
+        clearSlipRegions()
+        lastRegisteredLabel = nil
+    }
+
+    private func clearSlipRegions() {
         for region in manager.monitoredRegions where region.identifier.hasPrefix("slip.") {
             manager.stopMonitoring(for: region)
         }
         monitoredRegionCount = manager.monitoredRegions.count
+    }
+
+    /// Prefer explicit coordinates, then geocode `location`, then metro station catalog matches.
+    private func resolvePoints(for classification: ClassificationResult) async -> [GeoPoint] {
+        var points: [GeoPoint] = []
+        let fields = classification.fields
+
+        if let lat = BrandFields.parseCoordinate(fields["latitude"]),
+           let lon = BrandFields.parseCoordinate(fields["longitude"]) {
+            let name = fields["location"]?.trimmingCharacters(in: .whitespacesAndNewlines)
+            points.append(
+                GeoPoint(
+                    id: "coords",
+                    name: (name?.isEmpty == false) ? name! : classification.displayName,
+                    latitude: lat,
+                    longitude: lon
+                )
+            )
+        } else if let pair = BrandFields.parseLatLonPair(fields["location"]) {
+            points.append(
+                GeoPoint(
+                    id: "coords",
+                    name: classification.displayName,
+                    latitude: pair.0,
+                    longitude: pair.1
+                )
+            )
+        }
+
+        if points.isEmpty, let query = BrandFields.geocodeQuery(from: fields) {
+            if let geocoded = await geocode(query) {
+                points.append(geocoded)
+                // Persist resolved coords back? Caller owns fields — skip mutation here.
+            }
+        }
+
+        let metro = matchedStations(for: classification).map {
+            GeoPoint(id: $0.id, name: $0.name, latitude: $0.latitude, longitude: $0.longitude)
+        }
+        for station in metro where !points.contains(where: { abs($0.latitude - station.latitude) < 0.0001 && abs($0.longitude - station.longitude) < 0.0001 }) {
+            points.append(station)
+        }
+        return points
+    }
+
+    private func geocode(_ query: String) async -> GeoPoint? {
+        do {
+            let marks = try await geocoder.geocodeAddressString(query)
+            guard let mark = marks.first, let loc = mark.location else { return nil }
+            let name = [mark.name, mark.locality, mark.administrativeArea]
+                .compactMap { $0 }
+                .filter { !$0.isEmpty }
+                .prefix(2)
+                .joined(separator: ", ")
+            let label = name.isEmpty ? query : name
+            let id = "geo.\(abs(query.hashValue))"
+            return GeoPoint(id: id, name: label, latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
+        } catch {
+            lastError = "Couldn’t geocode “\(query)”."
+            return nil
+        }
     }
 
     private func matchedStations(for classification: ClassificationResult) -> [MetroStation] {
@@ -107,10 +215,14 @@ final class PassGeofenceManager: NSObject, ObservableObject {
         }
 
         let hay = [
+            classification.fields["location"],
             classification.fields["origin"],
             classification.fields["destination"],
             classification.fields["venue"],
             classification.fields["property"],
+            classification.fields["address"],
+            classification.fields["pickup"],
+            classification.fields["restaurant"],
             classification.fields["from"],
             classification.fields["to"],
             classification.displayName
@@ -165,9 +277,11 @@ extension PassGeofenceManager: CLLocationManagerDelegate {
     }
 
     nonisolated func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        let name = region.identifier.split(separator: ".").last.map(String.init) ?? "venue"
         Task { @MainActor in
-            let pretty = self.stations.first(where: { region.identifier.hasSuffix($0.id) })?.name ?? name
+            let pretty = self.stations.first(where: { region.identifier.hasSuffix($0.id) })?.name
+                ?? self.lastRegisteredLabel
+                ?? region.identifier.split(separator: ".").last.map(String.init)
+                ?? "venue"
             self.postArrivalNotification(stationName: pretty)
         }
     }
@@ -176,5 +290,20 @@ extension PassGeofenceManager: CLLocationManagerDelegate {
         Task { @MainActor in
             self.lastError = error.localizedDescription
         }
+    }
+}
+
+enum PassLocationBuilder {
+    static func from(fields: [String: String]) -> [PassLocation] {
+        if let lat = BrandFields.parseCoordinate(fields["latitude"]),
+           let lon = BrandFields.parseCoordinate(fields["longitude"]) {
+            let text = fields["location"]?.trimmingCharacters(in: .whitespacesAndNewlines)
+            return [PassLocation(latitude: lat, longitude: lon, relevantText: (text?.isEmpty == false) ? text : nil)]
+        }
+        if let pair = BrandFields.parseLatLonPair(fields["location"]) {
+            let text = fields["location"]?.trimmingCharacters(in: .whitespacesAndNewlines)
+            return [PassLocation(latitude: pair.0, longitude: pair.1, relevantText: text)]
+        }
+        return []
     }
 }

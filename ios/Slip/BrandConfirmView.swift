@@ -198,7 +198,8 @@ struct BrandConfirmView: View {
                 stationIds: selectedStationIds.isEmpty ? nil : Array(selectedStationIds),
                 relevantDate: nil,
                 expirationDate: nil,
-                barcodeFormat: nil
+                barcodeFormat: nil,
+                serialNumber: nil
             )
             if includeRelevantDate {
                 let formatter = ISO8601DateFormatter()

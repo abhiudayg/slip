@@ -5,33 +5,120 @@
   "organizationName": "Airbnb",
   "description": "Airbnb room key & access pass",
   "logoText": "Airbnb",
-  "backgroundColor": "rgb(33, 18, 22)",
+  "backgroundColor": "rgb(36, 12, 22)",
   "foregroundColor": "rgb(255, 255, 255)",
-  "labelColor": "rgb(255, 150, 170)",
+  "labelColor": "rgb(255, 170, 185)",
   "barcode": {
     "format": "PKBarcodeFormatQR",
     "message": "{{qr_data}}",
     "messageEncoding": "iso-8859-1",
     "altText": "{{booking_id}}"
   },
-  "generic": {
+  "storeCard": {
     "headerFields": [
-      { "key": "status", "label": "KEY STATUS", "value": "ACTIVE" }
+      {
+        "key": "ptype",
+        "label": "STAY TYPE",
+        "value": "{{property_type}}"
+      }
     ],
     "primaryFields": [
-      { "key": "property", "label": "STAY", "value": "{{property}}" }
+      {
+        "key": "property",
+        "label": "STAY",
+        "value": "{{property}}"
+      }
     ],
     "secondaryFields": [
-      { "key": "checkin", "label": "CHECK-IN", "value": "{{check_in}}" },
-      { "key": "checkout", "label": "CHECK-OUT", "value": "{{check_out}}" }
+      {
+        "key": "checkin",
+        "label": "CHECK-IN",
+        "value": "{{check_in}}"
+      },
+      {
+        "key": "checkout",
+        "label": "CHECK-OUT",
+        "value": "{{check_out}}"
+      }
     ],
     "auxiliaryFields": [
-      { "key": "guest", "label": "GUEST", "value": "{{guest}}" },
-      { "key": "pin", "label": "DOOR PIN", "value": "{{door_pin}}" }
+      {
+        "key": "guest",
+        "label": "GUEST",
+        "value": "{{guest}}"
+      },
+      {
+        "key": "booking",
+        "label": "CONFIRMATION",
+        "value": "{{booking_id}}"
+      }
     ],
     "backFields": [
-      { "key": "booking", "label": "Confirmation", "value": "{{booking_id}}" },
-      { "key": "about", "label": "Access", "value": "Hold near the door lock for Apple VAS NFC unlock when available. Use door PIN as backup." }
+      {
+        "key": "address",
+        "label": "Address",
+        "value": "{{address}}"
+      },
+      {
+        "key": "host",
+        "label": "Host",
+        "value": "{{host}}"
+      },
+      {
+        "key": "pin",
+        "label": "Door PIN",
+        "value": "{{door_pin}}"
+      },
+      {
+        "key": "city",
+        "label": "City",
+        "value": "{{city}}"
+      },
+      {
+        "key": "check_in_time",
+        "label": "Check-in Time",
+        "value": "{{check_in_time}}"
+      },
+      {
+        "key": "check_out_time",
+        "label": "Check-out Time",
+        "value": "{{check_out_time}}"
+      },
+      {
+        "key": "guest_details",
+        "label": "Guest Details",
+        "value": "{{guest_details}}"
+      },
+      {
+        "key": "host_badge",
+        "label": "Host Badge",
+        "value": "{{host_badge}}"
+      },
+      {
+        "key": "lock_brand",
+        "label": "Lock",
+        "value": "{{lock_brand}}"
+      },
+      {
+        "key": "wifi_ssid",
+        "label": "Wi-Fi",
+        "value": "{{wifi_ssid}}"
+      },
+      {
+        "key": "wifi_password",
+        "label": "Wi-Fi Password",
+        "value": "{{wifi_password}}"
+      },
+      {
+        "key": "status",
+        "label": "Key Status",
+        "value": "{{status}}"
+      },
+      {
+        "key": "about",
+        "label": "Access",
+        "value": "Hold near the door lock for Apple VAS NFC unlock when available. Use door PIN as backup."
+      }
     ]
   }
 }

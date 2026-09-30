@@ -14,12 +14,21 @@
   "optionalFields": [
     "passenger",
     "seat",
+    "seat_type",
     "pnr",
     "bus",
+    "bus_operator",
+    "bus_number",
     "dep",
     "arr",
     "duration",
-    "time"
+    "time",
+    "date",
+    "boarding_point",
+    "drop_point",
+    "driver_contact",
+    "dep_label",
+    "arr_label"
   ],
   "supportsLocations": true,
   "supportsRelevantDate": true,

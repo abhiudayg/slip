@@ -3,9 +3,35 @@
   "displayName": "IndiGo",
   "category": "travel",
   "appleStyle": "boardingPass",
-  "barcodeFormats": ["PKBarcodeFormatQR", "PKBarcodeFormatPDF417"],
-  "requiredFields": ["origin", "destination", "qr_data"],
-  "optionalFields": ["passenger", "flight", "seat", "pnr", "gate"],
+  "barcodeFormats": [
+    "PKBarcodeFormatQR",
+    "PKBarcodeFormatPDF417"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "flight",
+    "seat",
+    "pnr",
+    "gate",
+    "dep",
+    "arr",
+    "board_time",
+    "duration",
+    "time",
+    "date",
+    "origin_terminal",
+    "dest_terminal",
+    "terminal",
+    "class",
+    "loyalty_tier",
+    "status",
+    "boarding_zone"
+  ],
   "supportsLocations": true,
   "supportsRelevantDate": true,
   "accentHint": "rgb(10, 132, 255)",

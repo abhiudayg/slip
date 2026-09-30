@@ -1,4 +1,5 @@
 import SwiftUI
+import PassKit
 
 /// Artboard 3 — AI Screenshot Scanner & Auto-Detection Modal
 struct ConfirmPassSheet: View {
@@ -6,14 +7,37 @@ struct ConfirmPassSheet: View {
     @EnvironmentObject private var vault: PassVaultStore
     @Environment(\.dismiss) private var dismiss
 
-    @State private var classification: ClassificationResult
+    @State private var classifications: [ClassificationResult]
+    @State private var selectedIndex: Int = 0
     @State private var showMarketplace = false
     @State private var showPassDetails = false
     @State private var showManualEdit = false
+    @State private var isCreatingBatch = false
+    @State private var batchStatus: String?
+    @State private var batchError: String?
     @AppStorage("slip.settings.liveActivity") private var preferLiveActivity = true
 
+    private var isMultiTraveler: Bool { classifications.count > 1 }
+
+    private var classification: ClassificationResult {
+        classifications[min(max(selectedIndex, 0), max(classifications.count - 1, 0))]
+    }
+
+    init(classifications: [ClassificationResult]) {
+        let enriched = classifications.map { IntelligentBrandClassifier.enrich($0) }
+        _classifications = State(initialValue: enriched.isEmpty ? classifications : enriched)
+    }
+
     init(classification: ClassificationResult) {
-        _classification = State(initialValue: IntelligentBrandClassifier.enrich(classification))
+        self.init(classifications: [classification])
+    }
+
+    private func updateClassification(_ mutate: (inout ClassificationResult) -> Void) {
+        let i = min(max(selectedIndex, 0), max(classifications.count - 1, 0))
+        guard classifications.indices.contains(i) else { return }
+        var copy = classifications[i]
+        mutate(&copy)
+        classifications[i] = copy
     }
 
     var body: some View {
@@ -23,6 +47,9 @@ struct ConfirmPassSheet: View {
                 VStack(alignment: .leading, spacing: 18) {
                     topBar
                     neuralHeader
+                    if isMultiTraveler {
+                        travelerBatchCard
+                    }
                     ticketPreview
                     autoMatchedCard
                     fieldSummary
@@ -36,7 +63,7 @@ struct ConfirmPassSheet: View {
             }
         }
         .onAppear {
-            classification = IntelligentBrandClassifier.enrich(classification)
+            updateClassification { $0 = IntelligentBrandClassifier.enrich($0) }
             ensureEditableKeys()
         }
         .sheet(isPresented: $showMarketplace) {
@@ -53,7 +80,7 @@ struct ConfirmPassSheet: View {
                     fields: classification.fields,
                     onReturnHome: {
                         showPassDetails = false
-                        model.pendingClassification = nil
+                        model.clearPendingClassification()
                         dismiss()
                     }
                 )
@@ -103,7 +130,7 @@ struct ConfirmPassSheet: View {
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Done") {
-                            classification = IntelligentBrandClassifier.enrich(classification)
+                            updateClassification { $0 = IntelligentBrandClassifier.enrich($0) }
                             showManualEdit = false
                         }
                     }
@@ -117,7 +144,7 @@ struct ConfirmPassSheet: View {
     private var topBar: some View {
         HStack {
             Button {
-                model.pendingClassification = nil
+                model.clearPendingClassification()
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
@@ -156,8 +183,18 @@ struct ConfirmPassSheet: View {
         WalletPassPreview(
             brandId: classification.templateId.isEmpty ? "upi" : classification.templateId,
             displayName: classification.displayName.isEmpty ? "Detected Pass" : classification.displayName,
-            fields: classification.fields,
-            accentRGB: resolvedBrand?.accentHint
+            fields: fieldsBinding,
+            accentRGB: resolvedBrand?.accentHint,
+            editable: true
+        )
+    }
+
+    private var fieldsBinding: Binding<[String: String]> {
+        Binding(
+            get: { classification.fields },
+            set: { newValue in
+                updateClassification { $0.fields = newValue }
+            }
         )
     }
 
@@ -375,11 +412,19 @@ struct ConfirmPassSheet: View {
                 } else if classification.templateId == "airbnb" {
                     summaryRow("Property", key: "property", icon: "house.fill", placeholder: "Property")
                     rowDivider
-                    summaryRow("Check-in", key: "check_in", icon: "arrow.down.to.line", placeholder: "Check-in")
+                    summaryRow("Stay type", key: "property_type", icon: "building.2.fill", placeholder: "Entire home")
                     rowDivider
-                    summaryRow("Check-out", key: "check_out", icon: "arrow.up.to.line", placeholder: "Check-out")
+                    summaryRow("Check-in", key: "check_in", icon: "arrow.down.to.line", placeholder: "Check-in date")
+                    rowDivider
+                    summaryRow("Check-in time", key: "check_in_time", icon: "clock", placeholder: "After 1:00 PM")
+                    rowDivider
+                    summaryRow("Check-out", key: "check_out", icon: "arrow.up.to.line", placeholder: "Check-out date")
+                    rowDivider
+                    summaryRow("Check-out time", key: "check_out_time", icon: "clock", placeholder: "By 11:00 AM")
                     rowDivider
                     summaryRow("Guests", key: "guest", icon: "person.2.fill", placeholder: "Guests")
+                    rowDivider
+                    summaryRow("Door PIN", key: "door_pin", icon: "lock.fill", placeholder: "Backup door PIN")
                     rowDivider
                     summaryRow("Reservation", key: "booking_id", icon: "number", placeholder: "Reservation code")
                     rowDivider
@@ -418,6 +463,9 @@ struct ConfirmPassSheet: View {
                         }
                     }
                 }
+
+                rowDivider
+                summaryRow("Location", key: "location", icon: "location.fill", placeholder: "Venue, address, or lat, lon")
             }
         }
     }
@@ -543,27 +591,128 @@ struct ConfirmPassSheet: View {
         }
     }
 
+    private var travelerBatchCard: some View {
+        GlassCard(cornerRadius: 18, padding: 14) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Label("\(classifications.count) travelers detected", systemImage: "person.3.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(SlipTheme.ink)
+                    Spacer()
+                    Text("Separate passes")
+                        .font(.caption2.weight(.bold))
+                        .foregroundStyle(SlipTheme.accentSoft)
+                }
+                Text("Each passenger gets their own Slip vault pass and Apple Wallet entry (seat / coach / boarding stub).")
+                    .font(.caption)
+                    .foregroundStyle(SlipTheme.muted)
+                ForEach(Array(classifications.enumerated()), id: \.offset) { index, item in
+                    Button {
+                        selectedIndex = index
+                    } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: selectedIndex == index ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(selectedIndex == index ? SlipTheme.upiGreen : SlipTheme.muted)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text((item.fields["passenger"]?.trimmingCharacters(in: .whitespacesAndNewlines)).flatMap { $0.isEmpty ? nil : $0 } ?? "Passenger \(index + 1)")
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(SlipTheme.ink)
+                                Text(travelerSubtitle(item))
+                                    .font(.caption2)
+                                    .foregroundStyle(SlipTheme.muted)
+                            }
+                            Spacer()
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
+    private func travelerSubtitle(_ item: ClassificationResult) -> String {
+        let coach = item.fields["coach"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let seat = item.fields["seat"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let flight = item.fields["flight"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        var parts: [String] = []
+        if !flight.isEmpty { parts.append(flight) }
+        if !coach.isEmpty && !seat.isEmpty { parts.append("\(coach)/\(seat)") }
+        else if !seat.isEmpty { parts.append("Seat \(seat)") }
+        else if !coach.isEmpty { parts.append("Coach \(coach)") }
+        if parts.isEmpty { return item.displayName }
+        return parts.joined(separator: " · ")
+    }
+
     private var primaryActions: some View {
         VStack(spacing: 10) {
+            if let batchStatus {
+                Text(batchStatus)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(SlipTheme.accentSoft)
+            }
+            if let batchError {
+                Text(batchError)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    .multilineTextAlignment(.center)
+            }
+
             Button {
-                classification = IntelligentBrandClassifier.enrich(classification)
-                ensureEditableKeys()
-                continueToPassDetails()
+                if isMultiTraveler {
+                    Task { await createAllTravelerPasses() }
+                } else {
+                    updateClassification { $0 = IntelligentBrandClassifier.enrich($0) }
+                    ensureEditableKeys()
+                    continueToPassDetails()
+                }
             } label: {
-                Label("Generate Pass with Apple AI", systemImage: "sparkles")
+                HStack {
+                    if isCreatingBatch {
+                        ProgressView().tint(.black)
+                    }
+                    Label(
+                        isMultiTraveler
+                            ? "Create \(classifications.count) Separate Passes"
+                            : "Generate Pass with Apple AI",
+                        systemImage: isMultiTraveler ? "rectangle.stack.badge.person.crop" : "sparkles"
+                    )
                     .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .foregroundStyle(.black)
-                    .background(Capsule().fill(Color.white))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .foregroundStyle(.black)
+                .background(Capsule().fill(Color.white))
             }
             .buttonStyle(.plain)
+            .disabled(isCreatingBatch)
+
+            if isMultiTraveler {
+                Button {
+                    updateClassification { $0 = IntelligentBrandClassifier.enrich($0) }
+                    ensureEditableKeys()
+                    continueToPassDetails()
+                } label: {
+                    Label("Customize selected traveler", systemImage: "slider.horizontal.3")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .foregroundStyle(SlipTheme.ink)
+                        .background(
+                            Capsule()
+                                .fill(Color.white.opacity(0.08))
+                                .overlay(Capsule().strokeBorder(Color.white.opacity(0.14), lineWidth: 1))
+                        )
+                }
+                .buttonStyle(.plain)
+                .disabled(isCreatingBatch)
+            }
 
             Button {
                 ensureEditableKeys()
                 showManualEdit = true
             } label: {
-                Label("Edit Pass Fields", systemImage: "pencil.line")
+                Label(isMultiTraveler ? "Edit selected fields" : "Edit Pass Fields", systemImage: "pencil.line")
                     .font(.subheadline.weight(.semibold))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
@@ -575,6 +724,7 @@ struct ConfirmPassSheet: View {
                     )
             }
             .buttonStyle(.plain)
+            .disabled(isCreatingBatch)
         }
     }
 
@@ -678,7 +828,8 @@ struct ConfirmPassSheet: View {
         switch classification.templateId {
         case "bookmyshow", "district": return "eventTicket"
         case "upi", "easydiner", "zomato-dineout", "swiggy-dineout": return "storeCard"
-        case "zoomcar", "airbnb": return "generic"
+        case "zoomcar": return "generic"
+        case "airbnb": return "storeCard"
         default: return "boardingPass"
         }
     }
@@ -753,62 +904,134 @@ struct ConfirmPassSheet: View {
 
     private func binding(for key: String) -> Binding<String> {
         Binding(
-            get: { classification.fields[key] ?? "" },
-            set: { classification.fields[key] = $0 }
+            get: { self.classification.fields[key] ?? "" },
+            set: { newValue in
+                self.updateClassification { $0.fields[key] = newValue }
+            }
         )
     }
 
     private func label(for key: String) -> String {
-        switch key {
-        case "qr_data": return "QR / barcode payload"
-        case "booking_id": return "Booking ID"
-        case "event": return "Event / movie"
-        case "venue": return "Venue"
-        case "seat": return "Seat"
-        case "time": return "Showtime"
-        case "pnr": return "PNR"
-        default: return key.replacingOccurrences(of: "_", with: " ").capitalized
-        }
+        BrandFields.label(for: key, templateId: classification.templateId.isEmpty ? (resolvedBrand?.id ?? "") : classification.templateId)
     }
 
     private func ensureEditableKeys() {
-        classification.fields = BrandFields.prune(classification.fields, templateId: classification.templateId)
-        if classification.fields["qr_data"]?.isEmpty != false,
-           let qr = classification.extracted.qrPayload?.trimmingCharacters(in: .whitespacesAndNewlines),
-           !qr.isEmpty {
-            classification.fields["qr_data"] = qr
-        }
-        // Surface relevant date into the visible editable time fields when empty.
-        if let iso = classification.relevantDateISO8601, !iso.isEmpty {
-            let timeEmpty = (classification.fields["time"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            let depEmpty = (classification.fields["dep"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            if timeEmpty, BrandFields.schema(for: classification.templateId).allowed.contains("time") {
-                classification.fields["time"] = iso
+        updateClassification { c in
+            c.fields = BrandFields.prune(c.fields, templateId: c.templateId)
+            if c.fields["qr_data"]?.isEmpty != false,
+               let qr = c.extracted.qrPayload?.trimmingCharacters(in: .whitespacesAndNewlines),
+               !qr.isEmpty {
+                c.fields["qr_data"] = qr
             }
-            if depEmpty, BrandFields.schema(for: classification.templateId).allowed.contains("dep") {
-                classification.fields["dep"] = iso
+            if let iso = c.relevantDateISO8601, !iso.isEmpty {
+                let timeEmpty = (c.fields["time"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                let depEmpty = (c.fields["dep"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                if timeEmpty, BrandFields.schema(for: c.templateId).allowed.contains("time") {
+                    c.fields["time"] = iso
+                }
+                if depEmpty, BrandFields.schema(for: c.templateId).allowed.contains("dep") {
+                    c.fields["dep"] = iso
+                }
             }
-        }
-        // Prefer a non-empty primary title when displayName is known.
-        if classification.templateId == "upi",
-           (classification.fields["name"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-           !classification.displayName.isEmpty,
-           classification.displayName != "Unknown" {
-            classification.fields["name"] = classification.displayName
+            if c.templateId == "upi",
+               (c.fields["name"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+               !c.displayName.isEmpty,
+               c.displayName != "Unknown" {
+                c.fields["name"] = c.displayName
+            }
         }
     }
 
     private func applyBrand(_ brand: BrandSummary) {
-        classification.templateId = brand.id
-        if classification.displayName.isEmpty || classification.displayName == "Unknown" {
-            classification.displayName = brand.displayName
+        updateClassification { c in
+            c.templateId = brand.id
+            if c.displayName.isEmpty || c.displayName == "Unknown" {
+                c.displayName = brand.displayName
+            }
+            c.needsManualBrandPick = false
+            c.confidence = max(c.confidence, 0.6)
+            c.rationale = "Brand selected from marketplace"
+            c.fields = BrandFields.prune(c.fields, templateId: brand.id)
+            c = IntelligentBrandClassifier.enrich(c)
         }
-        classification.needsManualBrandPick = false
-        classification.confidence = max(classification.confidence, 0.6)
-        classification.rationale = "Brand selected from marketplace"
-        classification.fields = BrandFields.prune(classification.fields, templateId: brand.id)
-        classification = IntelligentBrandClassifier.enrich(classification)
         ensureEditableKeys()
+    }
+
+    /// Create one vault + signed .pkpass per traveler (IRCTC party / IndiGo multi-stub).
+    private func createAllTravelerPasses() async {
+        isCreatingBatch = true
+        batchError = nil
+        defer { isCreatingBatch = false }
+
+        do {
+            for (index, var item) in classifications.enumerated() {
+                batchStatus = "Creating pass \(index + 1)/\(classifications.count)…"
+                item = IntelligentBrandClassifier.enrich(item)
+                let templateId = item.templateId
+                let pruned = BrandFields.prune(item.fields, templateId: templateId)
+                item.fields = pruned
+
+                let displayName: String = {
+                    let pax = pruned["passenger"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+                    if !pax.isEmpty { return "\(item.displayName.split(separator: "·").first.map(String.init)?.trimmingCharacters(in: .whitespaces) ?? item.displayName) · \(pax)" }
+                    return item.displayName
+                }()
+
+                let payload = PassVaultPayload(
+                    templateId: templateId,
+                    displayName: displayName,
+                    fields: pruned,
+                    stationIds: item.stationIds,
+                    relevantDateISO8601: item.relevantDateISO8601,
+                    rationale: item.rationale,
+                    confidence: item.confidence,
+                    qrPayload: pruned["qr_data"] ?? item.extracted.qrPayload,
+                    barcodeSymbology: item.extracted.barcodeSymbology,
+                    recognizedText: item.extracted.recognizedText
+                )
+                let record = try vault.save(payload: payload, walletAdded: false)
+
+                let relevantISO = PassExpiration.relevantDateISO8601(templateId: templateId, fields: pruned)
+                    ?? item.relevantDateISO8601
+                let expires = PassExpiration.expiresAt(
+                    templateId: templateId,
+                    fields: pruned,
+                    relevantDateISO8601: relevantISO
+                )
+                let expirationISO = expires.map { PassExpiration.iso8601String(from: $0) }
+
+                let request = CreatePassRequest(
+                    template: templateId,
+                    fields: pruned,
+                    locations: {
+                        let locs = PassLocationBuilder.from(fields: pruned)
+                        return locs.isEmpty ? nil : locs
+                    }(),
+                    stationIds: item.stationIds.isEmpty ? nil : item.stationIds,
+                    relevantDate: relevantISO,
+                    expirationDate: expirationISO,
+                    barcodeFormat: nil,
+                    serialNumber: "slip-\(record.id)"
+                )
+                let data = try await model.api.createPass(request)
+                let pkPass = try? PKPass(data: data)
+                _ = try vault.update(record, payload: payload, walletAdded: false, walletPass: pkPass)
+
+                if preferLiveActivity, index == 0 {
+                    _ = PassLiveActivityController.start(from: item)
+                }
+                var geoItem = item
+                geoItem.fields = pruned
+                PassGeofenceManager.shared.register(for: geoItem)
+            }
+            batchStatus = "Created \(classifications.count) passes"
+            try? await Task.sleep(nanoseconds: 450_000_000)
+            model.clearPendingClassification()
+            dismiss()
+        } catch {
+            batchError = error.localizedDescription
+            batchStatus = nil
+        }
     }
 
     /// Continue to pass details (vault save happens only after a signed .pkpass is generated).
@@ -818,6 +1041,9 @@ struct ConfirmPassSheet: View {
         }
 
         // Register geofences when Always is already granted (prompt lives in Settings / Pass Details).
+        updateClassification { c in
+            BrandFields.seedGeofenceFields(&c.fields, templateId: c.templateId)
+        }
         PassGeofenceManager.shared.register(for: classification)
 
         if classification.needsManualBrandPick || classification.templateId.isEmpty {

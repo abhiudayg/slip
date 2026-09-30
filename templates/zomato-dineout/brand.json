@@ -12,8 +12,16 @@
   ],
   "optionalFields": [
     "time",
+    "date",
     "party_size",
-    "qr_data"
+    "table",
+    "table_area",
+    "qr_data",
+    "guest",
+    "city",
+    "special_tag",
+    "cuisine",
+    "grace_period"
   ],
   "supportsLocations": true,
   "supportsRelevantDate": true,

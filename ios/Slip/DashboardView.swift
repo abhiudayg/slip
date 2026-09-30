@@ -119,40 +119,20 @@ struct DashboardView: View {
                 if newValue == nil { revealedRecord = nil }
             }
         )) { item in
-            NavigationStack {
-                List {
-                    LabeledContent("Brand", value: item.payload.displayName)
-                    LabeledContent("Template", value: item.payload.templateId)
-                    ForEach(BrandFields.schema(for: item.payload.templateId).all, id: \.self) { key in
-                        let value = item.payload.fields[key] ?? ""
-                        if !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            LabeledContent(key.replacingOccurrences(of: "_", with: " ").capitalized, value: value)
-                        }
-                    }
+            PassDetailsView(
+                brand: brandSummary(for: item.payload),
+                fields: item.payload.fields,
+                existingVaultRecordId: item.recordId,
+                onReturnHome: {
+                    revealedPayload = nil
+                    revealedRecord = nil
                 }
-                .navigationTitle("Secure Pass")
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Lock") {
-                            revealedPayload = nil
-                            revealedRecord = nil
-                            vault.lock()
-                        }
-                    }
-                    ToolbarItem(placement: .destructiveAction) {
-                        Button("Delete", role: .destructive) {
-                            if let record = revealedRecord {
-                                revealedPayload = nil
-                                revealedRecord = nil
-                                DispatchQueue.main.async {
-                                    recordPendingDelete = record
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .presentationDetents([.medium, .large])
+            )
+            .environmentObject(model)
+            .environmentObject(vault)
+            .environmentObject(PassGeofenceManager.shared)
+            .presentationDetents([.large])
+            .presentationDragIndicator(.hidden)
         }
     }
 
@@ -768,6 +748,28 @@ struct DashboardView: View {
 
     private func brand(id: String) -> BrandSummary? {
         catalog.first { $0.id == id }
+    }
+
+    /// Resolve catalog brand for a vault payload, synthesizing when the template is missing.
+    private func brandSummary(for payload: PassVaultPayload) -> BrandSummary {
+        if let match = brand(id: payload.templateId) {
+            return match
+        }
+        return BrandSummary(
+            id: payload.templateId.isEmpty ? "upi" : payload.templateId,
+            displayName: payload.displayName.isEmpty ? payload.templateId : payload.displayName,
+            category: "general",
+            appleStyle: "generic",
+            requiredFields: Array(payload.fields.keys),
+            optionalFields: [],
+            supportsLocations: true,
+            supportsRelevantDate: true,
+            accentHint: nil,
+            stationCatalog: nil,
+            summary: nil,
+            badge: "Vault",
+            iconHint: nil
+        )
     }
 
     private func relativeDate(_ date: Date) -> String {

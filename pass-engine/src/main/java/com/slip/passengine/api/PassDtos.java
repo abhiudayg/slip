@@ -17,7 +17,9 @@ public final class PassDtos {
       List<String> stationIds,
       String relevantDate,
       String expirationDate,
-      String barcodeFormat
+      String barcodeFormat,
+      /** When set, reuses this PassKit serial so Wallet updates in place instead of adding a duplicate. */
+      String serialNumber
   ) {
     /** Never log QR / PNR / UPI payloads. */
     @Override
