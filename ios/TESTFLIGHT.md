@@ -1,5 +1,8 @@
 # Slip — TestFlight checklist
 
+Copy-paste **Beta App Description**, **App Review Notes**, and **EULA** clauses: [`docs/APP_STORE_CONNECT.md`](../docs/APP_STORE_CONNECT.md).
+
+
 Team **9HSMVVUMVX** · Bundle IDs `com.aeswibon.slip` + `com.aeswibon.slip.share` · App Group `group.com.aeswibon.slip` · iCloud `iCloud.com.aeswibon.slip`
 
 API (Release): `http://161.33.86.15:8080` (ATS exception for that host). Version **1.0.0 (2)**.
@@ -38,6 +41,17 @@ chmod +x scripts/archive-testflight.sh
 # optional upload after ASC credentials are set up:
 # UPLOAD=1 ./scripts/archive-testflight.sh
 ```
+
+
+## Beta App Information (ASC → TestFlight → Test Information)
+
+Paste from `docs/APP_STORE_CONNECT.md` §1. Short version:
+
+**Description:** Slip converts Indian ticket screenshots, PDFs, and QR scans into Apple Wallet passes (IRCTC, BookMyShow, District, IndiGo, dining, Airbnb, Namma Metro, UPI, redBus, Zoomcar). On-device Vision; images not uploaded; optional location geofence + Live Activity.
+
+**What to test:** Import ticket (scan / photo / PDF / templates) → classify → Generate / Add to Wallet → set Location for Lock Screen surfacing → multi-passenger IRCTC/IndiGo if sample available.
+
+**Feedback email:** replace `beta-feedback@slipapp.in` with your inbox.
 
 ## Notes
 

@@ -39,6 +39,6 @@ Cut QR present-time for Indian iPhone users from ~15s to ~1s (double-click Side 
 ## Pillars
 
 1. **Ingestion** — Share Extension, live scanner, minimal brand fields
-2. **Context** — `locations` (metro), `relevantDate` (events)
+2. **Context** — per-pass `location` / lat-lon (geofence) + metro station catalogs, `relevantDate` (events / departures)
 3. **Engine** — inject into boilerplate → SHA-1 manifest → BouncyCastle PKCS#7 → zip (in-memory only)
 4. **Vault** — CryptoKit + Keychain + CloudKit ciphertext mirror; PassKit remains presentation custody after Add to Wallet
