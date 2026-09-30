@@ -390,6 +390,60 @@ enum BrandFields {
         }
     }
 
+    /// UI / keyboard semantics for pass field editors. Storage stays `[String: String]` for PassKit.
+    enum FieldKind: String, Sendable {
+        case text
+        case multiline
+        case code
+        case phone
+        case email
+        case url
+        case number
+        case decimal
+        case currency
+        case date
+        case time
+        case datetime
+        case location
+        case latitude
+        case longitude
+    }
+
+    static func kind(for key: String) -> FieldKind {
+        switch key {
+        case "qr_data", "booking_id", "pnr", "door_pin", "member_id", "vpa", "ifsc",
+             "plate", "offer_code", "account_mask", "wifi_password", "wifi_ssid":
+            return .code
+        case "address", "venue_detail", "note", "guest_details", "access", "about":
+            return .multiline
+        case "driver_contact":
+            return .phone
+        case "check_in", "check_out", "date", "valid_thru", "valid_till", "issued_at":
+            return .date
+        case "check_in_time", "check_out_time", "time", "board_time":
+            return .time
+        case "dep", "arr":
+            return .datetime
+        case "party_size", "checkins", "stops", "seat":
+            // seat often "E12, E13" — keep text; party_size/checkins/stops are numeric-ish
+            if key == "seat" { return .text }
+            return .number
+        case "fare", "amount", "discount", "txn_limit", "autopay_limit",
+             "cashless_balance", "points", "min_order", "range_km", "km_limit":
+            return .currency
+        case "latitude":
+            return .latitude
+        case "longitude":
+            return .longitude
+        case "location":
+            return .location
+        case "duration", "distance":
+            return .text
+        default:
+            return .text
+        }
+    }
+
     static func previewStyle(for templateId: String, appleStyle: String?) -> PreviewStyle {
         if templateId == "upi" { return .upi }
         if templateId == "bookmyshow" || templateId == "district" || appleStyle == "eventTicket" { return .event }

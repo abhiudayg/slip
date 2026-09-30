@@ -51,6 +51,7 @@
 		A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */; };
 		A83F0122D98B025637144D2D /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7DB958639C83886632B412 /* DiningPassHandler.swift */; };
 		AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */; };
+		AE3DB926DCE8E458E91E9479 /* PassFieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B60260E640819982153A3B /* PassFieldEditor.swift */; };
 		B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
 		B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
 		B67421310CEB7D490D0EBB44 /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877E3FC4FDEBF44051A9875 /* TicketText.swift */; };
@@ -177,6 +178,7 @@
 		DB2C529080055CAEF318AC1E /* PassAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAPIClient.swift; sourceTree = "<group>"; };
 		DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTravelerSplit.swift; sourceTree = "<group>"; };
 		DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPassSheet.swift; sourceTree = "<group>"; };
+		E3B60260E640819982153A3B /* PassFieldEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassFieldEditor.swift; sourceTree = "<group>"; };
 		EC254EF101ED57713178447A /* PassIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIntelligence.swift; sourceTree = "<group>"; };
 		F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -280,6 +282,7 @@
 				08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */,
 				DB2C529080055CAEF318AC1E /* PassAPIClient.swift */,
 				965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */,
+				E3B60260E640819982153A3B /* PassFieldEditor.swift */,
 				2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */,
 				427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */,
 				946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */,
@@ -453,6 +456,7 @@
 				F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */,
 				DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */,
 				C88302FA76A6F9B5BCDB44D7 /* PassExpiration.swift in Sources */,
+				AE3DB926DCE8E458E91E9479 /* PassFieldEditor.swift in Sources */,
 				118D95870E522309A706EB9F /* PassGeofenceManager.swift in Sources */,
 				BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */,
 				7653FD0633654DD7F96B98C7 /* PassLiveActivityController.swift in Sources */,

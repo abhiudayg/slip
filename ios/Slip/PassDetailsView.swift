@@ -99,7 +99,7 @@ struct PassDetailsView: View {
                         Section("Required") {
                             ForEach(BrandFields.schema(for: brand.id).required, id: \.self) { key in
                                 LabeledContent(BrandFields.label(for: key, templateId: brand.id)) {
-                                    TextField(BrandFields.label(for: key, templateId: brand.id), text: binding(for: key), axis: key == "qr_data" ? .vertical : .horizontal)
+                                    PassFieldEditor(key: key, templateId: brand.id, text: binding(for: key), style: .form)
                                         .multilineTextAlignment(.trailing)
                                         .textInputAutocapitalization(.never)
                                 }
@@ -110,7 +110,7 @@ struct PassDetailsView: View {
                             Section("Optional") {
                                 ForEach(optional, id: \.self) { key in
                                     LabeledContent(BrandFields.label(for: key, templateId: brand.id)) {
-                                        TextField(BrandFields.label(for: key, templateId: brand.id), text: binding(for: key))
+                                        PassFieldEditor(key: key, templateId: brand.id, text: binding(for: key), style: .form)
                                             .multilineTextAlignment(.trailing)
                                             .textInputAutocapitalization(.never)
                                     }
@@ -248,19 +248,19 @@ struct PassDetailsView: View {
 
     private func fieldEditorCell(_ key: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(BrandFields.label(for: key, templateId: brand.id))
-                .font(.caption2)
-                .foregroundStyle(SlipTheme.muted)
-                .lineLimit(2)
-                .minimumScaleFactor(0.85)
-            TextField(
-                BrandFields.label(for: key, templateId: brand.id),
-                text: binding(for: key),
-                axis: key == "qr_data" || key == "address" ? .vertical : .horizontal
-            )
-            .font(.caption.weight(.semibold))
-            .foregroundStyle(SlipTheme.ink)
-            .textInputAutocapitalization(key == "qr_data" ? .never : .words)
+            HStack(spacing: 6) {
+                Text(BrandFields.label(for: key, templateId: brand.id))
+                    .font(.caption2)
+                    .foregroundStyle(SlipTheme.muted)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.85)
+                Spacer(minLength: 0)
+                Text(BrandFields.kind(for: key).rawValue)
+                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .foregroundStyle(SlipTheme.muted.opacity(0.7))
+                    .textCase(.uppercase)
+            }
+            PassFieldEditor(key: key, templateId: brand.id, text: binding(for: key), style: .compact)
         }
         .padding(10)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -354,9 +354,7 @@ struct PassDetailsView: View {
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(SlipTheme.accentSoft)
                             .textCase(.uppercase)
-                        TextField("Venue, address, or lat, lon", text: binding(for: "location"), axis: .vertical)
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(SlipTheme.ink)
+                        PassFieldEditor(key: "location", templateId: brand.id, text: binding(for: "location"), style: .summary)
                             .padding(10)
                             .background(
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -366,18 +364,14 @@ struct PassDetailsView: View {
                                 syncSurfaceTriggers()
                             }
                         HStack(spacing: 10) {
-                            TextField("Latitude", text: binding(for: "latitude"))
-                                .font(.caption.weight(.semibold))
-                                .keyboardType(.decimalPad)
+                            PassFieldEditor(key: "latitude", templateId: brand.id, text: binding(for: "latitude"), style: .compact)
                                 .padding(10)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                                         .fill(Color.white.opacity(0.06))
                                 )
                                 .onChange(of: fields["latitude"] ?? "") { _, _ in syncSurfaceTriggers() }
-                            TextField("Longitude", text: binding(for: "longitude"))
-                                .font(.caption.weight(.semibold))
-                                .keyboardType(.decimalPad)
+                            PassFieldEditor(key: "longitude", templateId: brand.id, text: binding(for: "longitude"), style: .compact)
                                 .padding(10)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)

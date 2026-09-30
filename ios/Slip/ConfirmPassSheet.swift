@@ -96,7 +96,7 @@ struct ConfirmPassSheet: View {
                     Section {
                         ForEach(schema.required, id: \.self) { key in
                             LabeledContent(label(for: key)) {
-                                TextField(label(for: key), text: binding(for: key), axis: key == "qr_data" ? .vertical : .horizontal)
+                                PassFieldEditor(key: key, templateId: classification.templateId, text: binding(for: key), style: .form)
                                     .multilineTextAlignment(.trailing)
                                     .textInputAutocapitalization(.never)
                             }
@@ -758,14 +758,21 @@ struct ConfirmPassSheet: View {
                 .foregroundStyle(SlipTheme.accentSoft)
                 .frame(width: 24)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.caption2)
-                    .foregroundStyle(SlipTheme.muted)
-                TextField(placeholder.isEmpty ? title : placeholder, text: binding(for: key), axis: key == "qr_data" ? .vertical : .horizontal)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(SlipTheme.ink)
-                    .textInputAutocapitalization(key == "qr_data" ? .never : .sentences)
-                    .disableAutocorrection(key == "qr_data" || key == "booking_id" || key == "pnr" || key == "seat")
+                HStack {
+                    Text(title)
+                        .font(.caption2)
+                        .foregroundStyle(SlipTheme.muted)
+                    Text(BrandFields.kind(for: key).rawValue)
+                        .font(.system(size: 9, weight: .bold, design: .monospaced))
+                        .foregroundStyle(SlipTheme.muted.opacity(0.65))
+                        .textCase(.uppercase)
+                }
+                PassFieldEditor(
+                    key: key,
+                    templateId: classification.templateId,
+                    text: binding(for: key),
+                    style: .summary
+                )
             }
             Spacer(minLength: 0)
             Image(systemName: "pencil")
