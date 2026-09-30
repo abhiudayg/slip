@@ -1,0 +1,99 @@
+name: Release
+
+# Bumps VERSION across the repo, commits, tags, and pushes.
+# Publishing (GitHub Release + packages) runs from publish.yml on the new tag.
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Semver bump (ignored if version is set)
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+      version:
+        description: Optional exact version (e.g. 1.2.3). Leave empty to bump.
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    name: Bump version and tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bump / set version
+        id: ver
+        run: |
+          set -euo pipefail
+          chmod +x scripts/version.sh scripts/generate-release-notes.sh
+          if [[ -n "${{ inputs.version }}" ]]; then
+            ./scripts/version.sh set "${{ inputs.version }}"
+          else
+            ./scripts/version.sh bump "${{ inputs.bump }}"
+          fi
+          V="$(./scripts/version.sh get)"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "tag=v$V" >> "$GITHUB_OUTPUT"
+
+          if git rev-parse "v$V" >/dev/null 2>&1; then
+            echo "Tag v$V already exists" >&2
+            exit 1
+          fi
+
+      - name: Generate notes + CHANGELOG
+        run: |
+          set -euo pipefail
+          V="${{ steps.ver.outputs.version }}"
+          PREV="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+          if [[ -z "$PREV" ]]; then
+            PREV="$(git rev-list --max-parents=0 HEAD | tail -1)"
+          fi
+          ./scripts/generate-release-notes.sh "$PREV" HEAD > RELEASE_NOTES.md
+          DATE="$(date -u +%Y-%m-%d)"
+          {
+            echo "# Changelog"
+            echo
+            echo "## ${V} — ${DATE}"
+            echo
+            sed '1,2d' RELEASE_NOTES.md
+            echo
+            if [[ -f CHANGELOG.md ]]; then
+              tail -n +2 CHANGELOG.md | sed '/^# Changelog$/d'
+            fi
+          } > /tmp/CHANGELOG.md
+          mv /tmp/CHANGELOG.md CHANGELOG.md
+
+      - name: Commit and tag
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add VERSION pass-engine/pom.xml ios/project.yml CHANGELOG.md RELEASE_NOTES.md
+          git add -u ios/Slip.xcodeproj/project.pbxproj 2>/dev/null || true
+          git commit -m "chore(release): v${{ steps.ver.outputs.version }}"
+          git tag -a "${{ steps.ver.outputs.tag }}" -F RELEASE_NOTES.md
+          git push origin HEAD:"${{ github.ref_name }}"
+          git push origin "${{ steps.ver.outputs.tag }}"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Tagged ${{ steps.ver.outputs.tag }}"
+            echo
+            echo "Publish workflow will build packages and create the GitHub Release."
+            echo
+            echo "- Branch: \`${{ github.ref_name }}\`"
+            echo "- Tag: \`${{ steps.ver.outputs.tag }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

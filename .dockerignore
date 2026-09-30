@@ -1,0 +1,14 @@
+.git
+.github
+**/target
+**/DerivedData
+**/build
+**/.DS_Store
+ios
+docs
+deploy
+scripts
+*.md
+.env
+.env.*
+pass-engine/data

@@ -13,7 +13,7 @@
 
   <groupId>com.slip</groupId>
   <artifactId>pass-engine</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>Slip Pass Engine</name>
   <description>Apple Wallet .pkpass generation for Slip</description>
 
@@ -67,6 +67,22 @@
       <scope>runtime</scope>
     </dependency>
   </dependencies>
+
+
+  <url>https://github.com/abhiudayg/slip</url>
+  <scm>
+    <connection>scm:git:https://github.com/abhiudayg/slip.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/abhiudayg/slip.git</developerConnection>
+    <url>https://github.com/abhiudayg/slip</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub abhiudayg Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/abhiudayg/slip</url>
+    </repository>
+  </distributionManagement>
 
   <build>
     <plugins>

@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pass-engine:
+    name: Pass engine (test + package)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pass-engine
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: pass-engine/pom.xml
+
+      - name: Test
+        run: mvn -B test
+        env:
+          # Ensure CI runners never pick up accidental Neon/OCI secrets via env.
+          SPRING_PROFILES_ACTIVE: ""
+          DATABASE_URL: ""
+          SPRING_DATASOURCE_URL: ""
+          SPRING_DATASOURCE_USERNAME: ""
+          SPRING_DATASOURCE_PASSWORD: ""
+          FLYWAY_ENABLED: "false"
+          DATABASE_DRIVER: org.h2.Driver
+
+      - name: Package
+        run: mvn -B -DskipTests package
+
+      - name: Upload jar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pass-engine-jar
+          path: pass-engine/target/pass-engine-*.jar
+          if-no-files-found: error
+          retention-days: 14
+
+  version-consistency:
+    name: Version consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check VERSION sync
+        run: |
+          set -euo pipefail
+          V=$(tr -d '[:space:]' < VERSION)
+          POM_V=$(python3 - <<'PY'
+          import re
+          t=open('pass-engine/pom.xml').read()
+          m=re.search(r'<artifactId>pass-engine</artifactId>\s*<version>([^<]+)</version>', t)
+          print(m.group(1) if m else '')
+          PY
+          )
+          IOS_V=$(python3 - <<'PY'
+          import re
+          t=open('ios/project.yml').read()
+          m=re.search(r'MARKETING_VERSION:\s*"([^"]+)"', t)
+          print(m.group(1) if m else '')
+          PY
+          )
+          echo "VERSION=$V pom=$POM_V ios=$IOS_V"
+          test "$V" = "$POM_V"
+          test "$V" = "$IOS_V"

@@ -1,0 +1,153 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to publish (e.g. v1.0.1). Defaults to latest tag.
+        type: string
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  packages: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: abhiudayg/slip-pass-engine
+
+jobs:
+  publish:
+    name: Release notes + packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && (inputs.tag || github.ref) || github.ref }}
+
+      - name: Resolve version from tag
+        id: ver
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && -n "${{ inputs.tag }}" ]]; then
+            TAG="${{ inputs.tag }}"
+            git checkout "$TAG"
+          else
+            TAG="${GITHUB_REF_NAME}"
+          fi
+          V="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          # Ensure VERSION file matches tag
+          chmod +x scripts/version.sh scripts/generate-release-notes.sh
+          echo "$V" > VERSION
+          ./scripts/version.sh set "$V" || true
+          echo "Publishing $TAG ($V)"
+
+      - name: Generate release notes
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.ver.outputs.tag }}"
+          # Previous tag before this one
+          PREV="$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)"
+          if [[ -z "$PREV" ]]; then
+            PREV="$(git rev-list --max-parents=0 "$TAG" | tail -1)"
+          fi
+          ./scripts/generate-release-notes.sh "$PREV" "$TAG" > RELEASE_NOTES.md
+          cat RELEASE_NOTES.md
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+          cache-dependency-path: pass-engine/pom.xml
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Build jar
+        working-directory: pass-engine
+        run: mvn -B -DskipTests package
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Stage assets
+        run: |
+          set -euo pipefail
+          V="${{ steps.ver.outputs.version }}"
+          mkdir -p dist
+          JAR=$(ls pass-engine/target/pass-engine-*.jar | head -1)
+          cp "$JAR" "dist/pass-engine-${V}.jar"
+          (cd dist && sha256sum "pass-engine-${V}.jar" > "pass-engine-${V}.jar.sha256")
+          zip -r "dist/slip-templates-${V}.zip" templates stations \
+            -x 'templates/_retired/*' '*/.DS_Store'
+          (cd dist && sha256sum "slip-templates-${V}.zip" > "slip-templates-${V}.zip.sha256")
+          ls -la dist
+
+      - name: Publish Maven package
+        working-directory: pass-engine
+        run: mvn -B -DskipTests deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: |
+            org.opencontainers.image.title=slip-pass-engine
+            org.opencontainers.image.version=${{ steps.ver.outputs.version }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Create / update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.ver.outputs.tag }}"
+          V="${{ steps.ver.outputs.version }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+            gh release edit "$TAG" --notes-file RELEASE_NOTES.md --title "Slip v${V}"
+          else
+            gh release create "$TAG" dist/* \
+              --title "Slip v${V}" \
+              --notes-file RELEASE_NOTES.md \
+              --generate-notes
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "### Published Slip v${{ steps.ver.outputs.version }}"
+            echo
+            echo "- [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/${{ steps.ver.outputs.tag }})"
+            echo "- Maven: \`com.slip:pass-engine:${{ steps.ver.outputs.version }}\` → GitHub Packages"
+            echo "- Image: \`ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.ver.outputs.version }}\`"
+            echo "- Assets: \`pass-engine-${{ steps.ver.outputs.version }}.jar\`, \`slip-templates-${{ steps.ver.outputs.version }}.zip\`"
+          } >> "$GITHUB_STEP_SUMMARY"
