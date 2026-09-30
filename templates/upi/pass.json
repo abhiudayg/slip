@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "UPI",
+  "description": "UPI payment QR",
+  "logoText": "UPI",
+  "backgroundColor": "rgb(6, 78, 59)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(167, 243, 208)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "Scan to pay"
+  },
+  "generic": {
+    "primaryFields": [
+      {
+        "key": "name",
+        "label": "PAY",
+        "value": "{{name}}"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "hint",
+        "label": "HOW",
+        "value": "Double-click Side Button"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "about",
+        "label": "About",
+        "value": "Present this QR so friends can pay you via UPI."
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "BookMyShow",
+  "description": "Event ticket",
+  "logoText": "BookMyShow",
+  "backgroundColor": "rgb(127, 29, 29)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(254, 202, 202)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "Entry QR"
+  },
+  "eventTicket": {
+    "primaryFields": [
+      {
+        "key": "event",
+        "label": "EVENT",
+        "value": "{{event}}"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "seat",
+        "label": "SEAT",
+        "value": "{{seat}}"
+      },
+      {
+        "key": "venue",
+        "label": "VENUE",
+        "value": "{{venue}}"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "booking_id",
+        "label": "BOOKING",
+        "value": "{{booking_id}}"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "about",
+        "label": "About",
+        "value": "This pass appears before showtime. Present the QR at the venue entrance."
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "upi",
+  "displayName": "UPI Get Paid",
+  "category": "everyday_pay",
+  "appleStyle": "generic",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["name", "qr_data"],
+  "optionalFields": [],
+  "supportsLocations": false,
+  "supportsRelevantDate": false,
+  "accentHint": "rgb(16, 185, 129)",
+  "summary": "Personal UPI QR for receiving payments from Wallet.",
+  "badge": "UPI",
+  "iconHint": "qrcode"
+}

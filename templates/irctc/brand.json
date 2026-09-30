@@ -1,0 +1,15 @@
+{
+  "id": "irctc",
+  "displayName": "IRCTC Rail",
+  "category": "transit",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["origin", "destination", "qr_data"],
+  "optionalFields": ["passenger", "pnr", "train", "coach", "seat"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(94, 92, 230)",
+  "summary": "IRCTC e-tickets from booking PDFs with PNR and coach details.",
+  "badge": "Rail",
+  "iconHint": "train.side.front.car"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "bookmyshow",
+  "displayName": "BookMyShow",
+  "category": "entertainment",
+  "appleStyle": "eventTicket",
+  "barcodeFormats": ["PKBarcodeFormatQR"],
+  "requiredFields": ["event", "seat", "qr_data"],
+  "optionalFields": ["venue", "booking_id"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(220, 38, 38)",
+  "summary": "Cinema and event tickets with seat and booking QR.",
+  "badge": "Event",
+  "iconHint": "ticket.fill"
+}

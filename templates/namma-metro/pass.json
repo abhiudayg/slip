@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "Namma Metro",
+  "description": "Namma Metro ticket",
+  "logoText": "Namma Metro",
+  "backgroundColor": "rgb(76, 29, 149)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(233, 213, 255)",
+  "transitType": "PKTransitTypeGeneric",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "Ticket QR"
+  },
+  "boardingPass": {
+    "headerFields": [
+      {
+        "key": "passenger",
+        "label": "PASSENGER",
+        "value": "{{passenger}}"
+      }
+    ],
+    "primaryFields": [
+      {
+        "key": "origin",
+        "label": "FROM",
+        "value": "{{origin}}"
+      },
+      {
+        "key": "destination",
+        "label": "TO",
+        "value": "{{destination}}"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "network",
+        "label": "NETWORK",
+        "value": "Bengaluru"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "about",
+        "label": "About",
+        "value": "Surfaces on your lock screen near selected stations. Scan at the turnstile."
+      }
+    ]
+  }
+}

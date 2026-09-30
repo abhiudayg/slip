@@ -1,0 +1,15 @@
+{
+  "id": "indigo",
+  "displayName": "IndiGo",
+  "category": "travel",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": ["PKBarcodeFormatQR", "PKBarcodeFormatPDF417"],
+  "requiredFields": ["origin", "destination", "qr_data"],
+  "optionalFields": ["passenger", "flight", "seat", "pnr", "gate"],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(10, 132, 255)",
+  "summary": "Flight boarding passes from IndiGo booking PDFs and screenshots.",
+  "badge": "Flight",
+  "iconHint": "airplane.departure"
+}
