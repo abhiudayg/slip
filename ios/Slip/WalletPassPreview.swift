@@ -577,20 +577,20 @@ private struct AirbnbRoomKeyCard: View {
     private let p = PassPalettes.airbnb
 
     var body: some View {
-        let property = WalletPassPreview.value(fields, ["property"], fallback: "Stay")
-        let propertyType = WalletPassPreview.value(fields, ["property_type"], fallback: "")
-        let address = WalletPassPreview.value(fields, ["address", "city"], fallback: "")
-        let checkInDate = WalletPassPreview.value(fields, ["check_in"], fallback: "—")
-        let checkInTime = WalletPassPreview.value(fields, ["check_in_time"], fallback: "")
-        let checkOutDate = WalletPassPreview.value(fields, ["check_out"], fallback: "—")
-        let checkOutTime = WalletPassPreview.value(fields, ["check_out_time"], fallback: "")
+        let property = WalletPassPreview.value(fields, ["property"], fallback: "Villa Sol • Candolim Beach")
+        let propertyType = WalletPassPreview.value(fields, ["property_type"], fallback: "Entire Coastal Villa")
+        let address = WalletPassPreview.value(fields, ["address", "city"], fallback: "Goa, India")
+        let checkInDate = WalletPassPreview.value(fields, ["check_in"], fallback: "Thu, 24 Oct")
+        let checkInTime = WalletPassPreview.value(fields, ["check_in_time"], fallback: "14:00 onwards")
+        let checkOutDate = WalletPassPreview.value(fields, ["check_out"], fallback: "Mon, 28 Oct")
+        let checkOutTime = WalletPassPreview.value(fields, ["check_out_time"], fallback: "11:00 am")
         let guest = {
             let g = WalletPassPreview.value(fields, ["guest"], fallback: "—")
             let d = WalletPassPreview.value(fields, ["guest_details"], fallback: "")
             return d.isEmpty || d == "—" ? g : "\(g)\n\(d)"
         }()
         // Never fall back to booking_id — that made the PIN look stuck on the confirmation code.
-        let pin = WalletPassPreview.value(fields, ["door_pin"], fallback: "")
+        let pin = WalletPassPreview.value(fields, ["door_pin"], fallback: "4 8 2 9 #")
         let booking = WalletPassPreview.value(fields, ["booking_id"], fallback: "")
         let wifi = WalletPassPreview.value(fields, ["wifi_ssid"], fallback: "")
 
@@ -801,16 +801,16 @@ private struct BookMyShowTicketCard: View {
     private let p = PassPalettes.bms
 
     var body: some View {
-        let event = WalletPassPreview.value(fields, ["event"], fallback: "Movie")
-        let venue = WalletPassPreview.value(fields, ["venue"], fallback: "—")
-        let screen = WalletPassPreview.value(fields, ["screen"], fallback: "")
-        let seat = WalletPassPreview.value(fields, ["seat"], fallback: "—")
-        let time = WalletPassPreview.value(fields, ["time"], fallback: "—")
-        let date = WalletPassPreview.value(fields, ["date"], fallback: "")
-        let format = WalletPassPreview.value(fields, ["format"], fallback: "IMAX · DOLBY")
-        let certification = WalletPassPreview.value(fields, ["certification"], fallback: "")
-        let fnb = WalletPassPreview.value(fields, ["fnb"], fallback: "")
-        let booking = WalletPassPreview.value(fields, ["booking_id"], fallback: "—")
+        let event = WalletPassPreview.value(fields, ["event"], fallback: "Dune: Part Two")
+        let venue = WalletPassPreview.value(fields, ["venue"], fallback: "PVR INOX • Forum Mall Koramangala")
+        let screen = WalletPassPreview.value(fields, ["screen"], fallback: "Audi 03 • Screen 1 (Laser IMAX)")
+        let seat = WalletPassPreview.value(fields, ["seat"], fallback: "E12, E13, E14")
+        let time = WalletPassPreview.value(fields, ["time"], fallback: "19:45")
+        let date = WalletPassPreview.value(fields, ["date"], fallback: "Fri, 27 Oct")
+        let format = WalletPassPreview.value(fields, ["format"], fallback: "IMAX 2D • DOLBY ATMOS")
+        let certification = WalletPassPreview.value(fields, ["certification"], fallback: "U/A 16+")
+        let fnb = WalletPassPreview.value(fields, ["fnb"], fallback: "1x Caramel Popcorn Combo")
+        let booking = WalletPassPreview.value(fields, ["booking_id"], fallback: "W7B9KLM")
         let formatBadge = certification.isEmpty || certification == "—" ? format : "\(format) · \(certification)"
         let venueLine = screen.isEmpty || screen == "—" ? venue : "\(venue) · \(screen)"
         let whenLine = date.isEmpty || date == "—" ? time : "\(date) · \(time)"
@@ -884,15 +884,16 @@ private struct DistrictFestivalCard: View {
     let fields: [String: String]
     private let p = PassPalettes.district
     var body: some View {
-        let event = WalletPassPreview.value(fields, ["event"], fallback: "Festival")
-        let venue = WalletPassPreview.value(fields, ["venue"], fallback: "—")
-        let seat = WalletPassPreview.value(fields, ["seat"], fallback: "")
+        let event = WalletPassPreview.value(fields, ["event"], fallback: "Sunburn Arena • Bengaluru")
+        let venue = WalletPassPreview.value(fields, ["venue"], fallback: "Manpho Convention Center")
+        let seat = WalletPassPreview.value(fields, ["seat"], fallback: "Zone: Front Pit North")
         let screen = WalletPassPreview.value(fields, ["screen"], fallback: "")
-        let tier = WalletPassPreview.value(fields, ["tier"], fallback: "GA")
-        let gate = WalletPassPreview.value(fields, ["gate"], fallback: "—")
-        let time = WalletPassPreview.value(fields, ["time"], fallback: "—")
-        let date = WalletPassPreview.value(fields, ["date"], fallback: "")
-        let booking = WalletPassPreview.value(fields, ["booking_id", "qr_data"], fallback: "—")
+        let tier = WalletPassPreview.value(fields, ["tier"], fallback: "VIP PIT PASS")
+        let gate = WalletPassPreview.value(fields, ["gate"], fallback: "Gate 3 • VIP Express")
+        let time = WalletPassPreview.value(fields, ["time"], fallback: "16:00 Onwards")
+        let date = WalletPassPreview.value(fields, ["date"], fallback: "Sat, 04 Nov")
+        let balance = WalletPassPreview.value(fields, ["balance"], fallback: "Apple Pay Cashless\\nSynced • ₹3,500 Bal")
+        let booking = WalletPassPreview.value(fields, ["booking_id", "qr_data"], fallback: "DST-77192")
         let whenLine = date.isEmpty || date == "—" ? time : "\(date) · \(time)"
         let seatLine: String = {
             var parts: [String] = []
@@ -926,6 +927,16 @@ private struct DistrictFestivalCard: View {
                         FieldBlock(label: seatLine == gate ? "Fast Entry" : "Screen / Seats", value: seatLine, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
                     }
                     .padding(16)
+                    
+                    SoftDivider(tint: p.accent.opacity(0.1))
+                    
+                    HStack {
+                        FieldBlock(label: "Wristband ID", value: booking, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Wallet Balance", value: balance, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                    }
+                    .padding(16)
+                    .background(p.accent.opacity(0.06))
+
                     NFCPanel(title: "Tap iPhone at Turnstile NFC Scanner", subtitle: "Apple VAS · Express Entry · \(booking)", tint: p.accent)
                 }
             }
@@ -940,8 +951,12 @@ private struct DiningShell: View {
     let palette: PassPalette
     let logoColors: [Color]
     let restaurant: String
-    let time: String
-    let guests: String
+    let headerLeft: (String, String)
+    let headerRight: (String, String)?
+    let midLeft: (String, String)?
+    let midRight: (String, String)?
+    let extraLeft: (String, String)?
+    let extraRight: (String, String)?
     let booking: String
     let footer: String
     var badge: String? = nil
@@ -955,18 +970,48 @@ private struct DiningShell: View {
                         title: brand,
                         subtitle: subtitle,
                         logo: LogoTile(systemImage: "fork.knife", colors: logoColors),
-                        trailingLabel: "Party",
-                        trailingValue: guests,
+                        trailingLabel: headerLeft.0,
+                        trailingValue: headerLeft.1,
                         accentSoft: palette.accentSoft
                     )
                     SoftDivider(tint: palette.accent.opacity(0.12))
                     StripHero(title: restaurant, badge: badge, palette: palette, height: 118)
-                    HStack {
-                        FieldBlock(label: "Date & Slot", value: time, labelColor: palette.accentSoft.opacity(0.7))
-                        FieldBlock(label: "Booking", value: booking, align: .trailing, labelColor: palette.accentSoft.opacity(0.7))
+                    
+                    if let hr = headerRight {
+                        HStack {
+                            FieldBlock(label: hr.0, value: hr.1, labelColor: palette.accentSoft.opacity(0.7))
+                            if let ml = midLeft {
+                                FieldBlock(label: ml.0, value: ml.1, align: .trailing, labelColor: palette.accentSoft.opacity(0.7))
+                            }
+                        }
+                        .padding(16)
                     }
-                    .padding(16)
-                    .background(palette.accent.opacity(0.08))
+                    
+                    if let mr = midRight, let el = extraLeft {
+                        SoftDivider(tint: palette.accent.opacity(0.1))
+                        HStack {
+                            FieldBlock(label: mr.0, value: mr.1, labelColor: palette.accentSoft.opacity(0.7))
+                            FieldBlock(label: el.0, value: el.1, align: .trailing, labelColor: palette.accentSoft.opacity(0.7))
+                        }
+                        .padding(16)
+                    }
+                    
+                    if let er = extraRight {
+                        HStack {
+                            FieldBlock(label: er.0, value: er.1, labelColor: palette.accentSoft.opacity(0.7))
+                            FieldBlock(label: "Booking", value: booking, align: .trailing, labelColor: palette.accentSoft.opacity(0.7))
+                        }
+                        .padding(16)
+                        .background(palette.accent.opacity(0.08))
+                    } else {
+                        HStack {
+                            FieldBlock(label: "Booking", value: booking, labelColor: palette.accentSoft.opacity(0.7))
+                            Spacer()
+                        }
+                        .padding(16)
+                        .background(palette.accent.opacity(0.08))
+                    }
+                    
                     TicketNotchDivider(bg: Color(red: 0.07, green: 0.08, blue: 0.12))
                     QRPanel(caption: footer, alt: booking, accent: palette.accentSoft)
                 }
@@ -984,12 +1029,16 @@ private struct EazyDinerPrimeCard: View {
             meta: ("PASSKIT • STORE_CARD", "VIP PRIME"),
             palette: PassPalettes.easydiner,
             logoColors: [PassPalettes.easydiner.accent, Color(red: 0.7, green: 0.4, blue: 0.05)],
-            restaurant: WalletPassPreview.value(fields, ["restaurant"], fallback: "Restaurant"),
-            time: WalletPassPreview.value(fields, ["time"], fallback: "—"),
-            guests: WalletPassPreview.value(fields, ["party_size", "guest"], fallback: "—"),
-            booking: WalletPassPreview.value(fields, ["booking_id"], fallback: "—"),
+            restaurant: WalletPassPreview.value(fields, ["restaurant"], fallback: "The Table • Colaba"),
+            headerLeft: ("Perks", "1+1 DRINK\\nComplimentary Dessert"),
+            headerRight: ("Reservation", WalletPassPreview.value(fields, ["time"], fallback: "Table for 2 • 21:00")),
+            midLeft: ("Member", WalletPassPreview.value(fields, ["name"], fallback: "Rohit Kumar")),
+            midRight: ("Valid Thru", WalletPassPreview.value(fields, ["valid"], fallback: "Dec 2026")),
+            extraLeft: ("Tier", WalletPassPreview.value(fields, ["tier"], fallback: "Tier: Connoisseur")),
+            extraRight: ("Points", "+ 2x EazyPoints"),
+            booking: WalletPassPreview.value(fields, ["booking_id"], fallback: "ED-992014-PR"),
             footer: "Scan at bill settlement",
-            badge: "Prime · 25% Off"
+            badge: "25% OFF"
         )
     }
 }
@@ -1003,10 +1052,14 @@ private struct ZomatoDiningCard: View {
             meta: ("PASSKIT • EVENT_TICKET", "PODIUM BEACON"),
             palette: PassPalettes.zomato,
             logoColors: [PassPalettes.zomato.accent, Color(red: 0.6, green: 0.05, blue: 0.12)],
-            restaurant: WalletPassPreview.value(fields, ["restaurant"], fallback: "Restaurant"),
-            time: WalletPassPreview.value(fields, ["time"], fallback: "—"),
-            guests: WalletPassPreview.value(fields, ["party_size"], fallback: "—"),
-            booking: WalletPassPreview.value(fields, ["booking_id"], fallback: "—"),
+            restaurant: WalletPassPreview.value(fields, ["restaurant"], fallback: "Bastian • At The Top"),
+            headerLeft: ("Party", WalletPassPreview.value(fields, ["guests"], fallback: "4 Guests")),
+            headerRight: ("Date & Time", WalletPassPreview.value(fields, ["time"], fallback: "Tonight, 20:30")),
+            midLeft: ("Area", WalletPassPreview.value(fields, ["area"], fallback: "Rooftop Lounge")),
+            midRight: ("Guest", WalletPassPreview.value(fields, ["name"], fallback: "Rohit Kumar")),
+            extraLeft: ("Occasion", WalletPassPreview.value(fields, ["tag"], fallback: "Birthday Special\\nComplimentary Cake")),
+            extraRight: ("Grace", "15m Grace Period"),
+            booking: WalletPassPreview.value(fields, ["booking_id"], fallback: "ZOM-94821"),
             footer: "Show at hostess podium",
             badge: "Reservation"
         )
@@ -1022,12 +1075,16 @@ private struct SwiggyDineoutCard: View {
             meta: ("PASSKIT • COUPON", "CODE 128"),
             palette: PassPalettes.swiggy,
             logoColors: [PassPalettes.swiggy.accent, Color(red: 0.85, green: 0.3, blue: 0.05)],
-            restaurant: WalletPassPreview.value(fields, ["restaurant"], fallback: "Restaurant"),
-            time: WalletPassPreview.value(fields, ["time"], fallback: "—"),
-            guests: WalletPassPreview.value(fields, ["party_size"], fallback: "—"),
-            booking: WalletPassPreview.value(fields, ["booking_id"], fallback: "—"),
+            restaurant: WalletPassPreview.value(fields, ["restaurant"], fallback: "Toit Brewpub • Indiranagar"),
+            headerLeft: ("Offer", "DINEOUT30"),
+            headerRight: ("Location", WalletPassPreview.value(fields, ["location"], fallback: "Bengaluru • 100ft Road")),
+            midLeft: ("Validity", WalletPassPreview.value(fields, ["time"], fallback: "Valid Tonight till 23:59")),
+            midRight: ("Swiggy One", "ONE VIP Active"),
+            extraLeft: ("Terms", "Min. Order Value ₹1,000"),
+            extraRight: ("Discount", "Up to ₹1,500 on total dining bill"),
+            booking: WalletPassPreview.value(fields, ["booking_id"], fallback: "SWIGGY-TOIT-309482"),
             footer: "Scan or present to server",
-            badge: "Dineout Offer"
+            badge: "FLAT 30% OFF"
         )
     }
 }
@@ -1043,12 +1100,17 @@ private struct BoardingCard: View {
     let logo: LogoTile
     let fromCode: String
     let fromName: String
+    var fromDesc: String? = nil
     let toCode: String
     let toName: String
+    var toDesc: String? = nil
     let headerLeft: (String, String)
     let headerRight: (String, String)
     let midLeft: (String, String)
     let midRight: (String, String)
+    var extraLeft: (String, String)? = nil
+    var extraRight: (String, String)? = nil
+    var footer: String? = nil
     let duration: String
     let routeIcon: String
     let barcodeAlt: String
@@ -1082,6 +1144,9 @@ private struct BoardingCard: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundStyle(Color.white.opacity(0.65))
                                 .lineLimit(1)
+                            if let fromDesc {
+                                Text(fromDesc).font(.system(size: 10, weight: .medium, design: .monospaced)).foregroundStyle(palette.accentSoft)
+                            }
                         }
                         Spacer()
                         RouteConnector(duration: duration, tint: palette.accent, icon: routeIcon)
@@ -1094,6 +1159,9 @@ private struct BoardingCard: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundStyle(Color.white.opacity(0.65))
                                 .lineLimit(1)
+                            if let toDesc {
+                                Text(toDesc).font(.system(size: 10, weight: .medium, design: .monospaced)).foregroundStyle(palette.accentSoft)
+                            }
                         }
                     }
                     .padding(.horizontal, 18)
@@ -1111,7 +1179,17 @@ private struct BoardingCard: View {
                         FieldBlock(label: midLeft.0, value: midLeft.1, align: .trailing, labelColor: palette.accentSoft.opacity(0.7))
                     }
                     .padding(.horizontal, 18)
-                    .padding(.vertical, 12)
+                    .padding(.top, 12)
+                    .padding(.bottom, extraLeft == nil ? 12 : 4)
+
+                    if let el = extraLeft, let er = extraRight {
+                        HStack {
+                            FieldBlock(label: el.0, value: el.1, labelColor: palette.accentSoft.opacity(0.7))
+                            FieldBlock(label: er.0, value: er.1, align: .trailing, labelColor: palette.accentSoft.opacity(0.7))
+                        }
+                        .padding(.horizontal, 18)
+                        .padding(.bottom, 12)
+                    }
 
                     SoftDivider(tint: palette.accent.opacity(0.1))
 
@@ -1121,6 +1199,15 @@ private struct BoardingCard: View {
                     }
                     .padding(.horizontal, 18)
                     .padding(.vertical, 12)
+                    
+                    if let footer {
+                        Text(footer)
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(palette.accentSoft.opacity(0.9))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 18)
+                            .padding(.bottom, 10)
+                    }
 
                     TicketNotchDivider(bg: Color(red: 0.07, green: 0.08, blue: 0.12))
                     QRPanel(caption: barcodeCaption, alt: barcodeAlt, accent: palette.accentSoft)
@@ -1141,17 +1228,22 @@ private struct IRCTCRailCard: View {
             metaRight: "INDIAN RAILWAYS QR",
             palette: p,
             logo: LogoTile(systemImage: "train.side.front.car", colors: [p.accent, Color(red: 0.85, green: 0.5, blue: 0.05)], glyphColor: Color(red: 0.08, green: 0.08, blue: 0.1)),
-            fromCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["origin"], fallback: "—")),
-            fromName: WalletPassPreview.value(fields, ["origin"], fallback: "Origin"),
-            toCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["destination"], fallback: "—")),
-            toName: WalletPassPreview.value(fields, ["destination"], fallback: "Destination"),
-            headerLeft: ("Train", WalletPassPreview.value(fields, ["train"], fallback: "—")),
-            headerRight: ("Depart", WalletPassPreview.value(fields, ["dep", "time"], fallback: "—")),
-            midLeft: ("Arrive", WalletPassPreview.value(fields, ["arr"], fallback: "—")),
-            midRight: ("Coach / Berth", "\(WalletPassPreview.value(fields, ["coach"], fallback: "—")) / \(WalletPassPreview.value(fields, ["seat"], fallback: "—"))"),
-            duration: WalletPassPreview.value(fields, ["duration"], fallback: "Journey"),
+            fromCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["origin"], fallback: "SBC")),
+            fromName: WalletPassPreview.value(fields, ["originName"], fallback: "KSR Bengaluru"),
+            fromDesc: WalletPassPreview.value(fields, ["originPlatform"], fallback: "Platform 1"),
+            toCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["destination"], fallback: "MAS")),
+            toName: WalletPassPreview.value(fields, ["destName"], fallback: "MGR Chennai Ctrl"),
+            toDesc: WalletPassPreview.value(fields, ["destPlatform"], fallback: "Platform 4"),
+            headerLeft: ("Train", WalletPassPreview.value(fields, ["train"], fallback: "12640 • Brindavan Superfast Express")),
+            headerRight: ("Depart", WalletPassPreview.value(fields, ["departTime"], fallback: "15:10")),
+            midLeft: ("Arrive", WalletPassPreview.value(fields, ["arriveTime"], fallback: "20:55")),
+            midRight: ("Coach / Berth", "\(WalletPassPreview.value(fields, ["coach"], fallback: "C2")) / \(WalletPassPreview.value(fields, ["seat"], fallback: "44 (Window)"))"),
+            extraLeft: ("Passenger", WalletPassPreview.value(fields, ["passenger"], fallback: "Rohit Kumar (M/29)")),
+            extraRight: ("Quota / Class", WalletPassPreview.value(fields, ["tier"], fallback: "GN • AC Chair Car (CC)")),
+            footer: "Chart: PREPARED • Carry Govt Photo ID",
+            duration: WalletPassPreview.value(fields, ["duration"], fallback: "5h 45m"),
             routeIcon: "train.side.front.car",
-            barcodeAlt: WalletPassPreview.value(fields, ["pnr", "booking_id", "qr_data"], fallback: ""),
+            barcodeAlt: WalletPassPreview.value(fields, ["pnr"], fallback: "4829-1092-81"),
             barcodeCaption: "Official TTE scanner QR"
         )
     }
@@ -1168,17 +1260,22 @@ private struct IndigoBoardingCard: View {
             metaRight: "AZTEC 2D",
             palette: p,
             logo: LogoTile(systemImage: "airplane", colors: [p.accent, Color(red: 0.1, green: 0.25, blue: 0.7)]),
-            fromCode: WalletPassPreview.value(fields, ["origin"], fallback: "—").uppercased(),
-            fromName: WalletPassPreview.value(fields, ["origin"], fallback: "Origin"),
-            toCode: WalletPassPreview.value(fields, ["destination"], fallback: "—").uppercased(),
-            toName: WalletPassPreview.value(fields, ["destination"], fallback: "Destination"),
-            headerLeft: ("Flight", WalletPassPreview.value(fields, ["flight"], fallback: "—")),
-            headerRight: ("Depart", WalletPassPreview.value(fields, ["dep", "time"], fallback: "—")),
-            midLeft: ("Gate / Seat", "\(WalletPassPreview.value(fields, ["gate"], fallback: "—")) · \(WalletPassPreview.value(fields, ["seat"], fallback: "—"))"),
-            midRight: ("Passenger", WalletPassPreview.value(fields, ["passenger", "name"], fallback: "—")),
-            duration: WalletPassPreview.value(fields, ["duration"], fallback: "Flight"),
+            fromCode: WalletPassPreview.value(fields, ["origin"], fallback: "BLR").uppercased(),
+            fromName: WalletPassPreview.value(fields, ["originName"], fallback: "Bengaluru"),
+            fromDesc: WalletPassPreview.value(fields, ["originTerminal"], fallback: "Terminal 2"),
+            toCode: WalletPassPreview.value(fields, ["destination"], fallback: "DEL").uppercased(),
+            toName: WalletPassPreview.value(fields, ["destName"], fallback: "New Delhi"),
+            toDesc: WalletPassPreview.value(fields, ["destTerminal"], fallback: "Terminal 3"),
+            headerLeft: ("Flight", WalletPassPreview.value(fields, ["flight"], fallback: "6E 2134")),
+            headerRight: ("Depart", WalletPassPreview.value(fields, ["departTime"], fallback: "07:15")),
+            midLeft: ("Boarding", WalletPassPreview.value(fields, ["boardTime"], fallback: "06:35")),
+            midRight: ("Gate · Seat", "\(WalletPassPreview.value(fields, ["gate"], fallback: "14B")) · \(WalletPassPreview.value(fields, ["seat"], fallback: "4F"))"),
+            extraLeft: ("Passenger", WalletPassPreview.value(fields, ["passenger"], fallback: "KUMAR / ROHIT MR")),
+            extraRight: ("Class / Tier", WalletPassPreview.value(fields, ["tier"], fallback: "Economy • 6E Prime")),
+            footer: "Zone 1 • Fast Forward",
+            duration: WalletPassPreview.value(fields, ["duration"], fallback: "2h 45m"),
             routeIcon: "airplane",
-            barcodeAlt: WalletPassPreview.value(fields, ["pnr", "booking_id", "qr_data"], fallback: ""),
+            barcodeAlt: WalletPassPreview.value(fields, ["pnr"], fallback: "L9QZ8W"),
             barcodeCaption: "IATA BCBP · e-ticket scan"
         )
     }
@@ -1196,16 +1293,21 @@ private struct RedBusCard: View {
             palette: p,
             logo: LogoTile(systemImage: "bus.fill", colors: [p.accent, Color(red: 0.6, green: 0.05, blue: 0.08)]),
             fromCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["origin"], fallback: "BLR")),
-            fromName: WalletPassPreview.value(fields, ["origin"], fallback: "Boarding"),
-            toCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["destination"], fallback: "HYD")),
-            toName: WalletPassPreview.value(fields, ["destination"], fallback: "Drop off"),
-            headerLeft: ("PNR", WalletPassPreview.value(fields, ["pnr", "booking_id"], fallback: "—")),
-            headerRight: ("Depart", WalletPassPreview.value(fields, ["dep", "time"], fallback: "—")),
-            midLeft: ("Arrive", WalletPassPreview.value(fields, ["arr"], fallback: "—")),
-            midRight: ("Seat · Passenger", "\(WalletPassPreview.value(fields, ["seat"], fallback: "—")) · \(WalletPassPreview.value(fields, ["passenger", "name"], fallback: "—"))"),
-            duration: WalletPassPreview.value(fields, ["duration"], fallback: "Trip"),
+            fromName: WalletPassPreview.value(fields, ["originName"], fallback: "Bengaluru"),
+            fromDesc: WalletPassPreview.value(fields, ["originDesc"], fallback: "Madiwala (Near Police Stn)"),
+            toCode: WalletPassPreview.abbreviate(WalletPassPreview.value(fields, ["dest"], fallback: "HYD")),
+            toName: WalletPassPreview.value(fields, ["destName"], fallback: "Hyderabad"),
+            toDesc: WalletPassPreview.value(fields, ["destDesc"], fallback: "Gachibowli ORR"),
+            headerLeft: ("PNR", WalletPassPreview.value(fields, ["pnr"], fallback: "TS82910471")),
+            headerRight: ("Depart", WalletPassPreview.value(fields, ["departTime"], fallback: "22:30")),
+            midLeft: ("Arrive", WalletPassPreview.value(fields, ["arriveTime"], fallback: "05:45")),
+            midRight: ("Seat", WalletPassPreview.value(fields, ["seat"], fallback: "U4 (Upper)")),
+            extraLeft: ("Passenger", WalletPassPreview.value(fields, ["passenger"], fallback: "Rohit K.")),
+            extraRight: ("Bus Details", WalletPassPreview.value(fields, ["busType"], fallback: "Bus # KA-01-AK-9812")),
+            footer: "Live Location on Dynamic Island • Driver Contact: +91 98450 12093",
+            duration: WalletPassPreview.value(fields, ["duration"], fallback: "7h 15m"),
             routeIcon: "bus.fill",
-            barcodeAlt: WalletPassPreview.value(fields, ["pnr", "qr_data"], fallback: ""),
+            barcodeAlt: WalletPassPreview.value(fields, ["pnr"], fallback: "TS82910471"),
             barcodeCaption: "Boarding QR"
         )
     }
@@ -1215,9 +1317,14 @@ private struct NammaMetroCard: View {
     let fields: [String: String]
     private let p = PassPalettes.metro
     var body: some View {
-        let origin = WalletPassPreview.value(fields, ["origin"], fallback: "Origin")
-        let dest = WalletPassPreview.value(fields, ["destination"], fallback: "Destination")
-        let booking = WalletPassPreview.value(fields, ["booking_id", "qr_data"], fallback: "—")
+        let origin = WalletPassPreview.value(fields, ["origin"], fallback: "Indiranagar")
+        let originDesc = WalletPassPreview.value(fields, ["originDesc"], fallback: "Platform 2 (Towards Whitefield)")
+        let dest = WalletPassPreview.value(fields, ["destination"], fallback: "MG Road")
+        let destDesc = WalletPassPreview.value(fields, ["destDesc"], fallback: "Exit Gates A1 - A4")
+        let issuedAt = WalletPassPreview.value(fields, ["issued"], fallback: "18:42 Today")
+        let validTill = WalletPassPreview.value(fields, ["valid"], fallback: "20:42 (120m)")
+        let booking = WalletPassPreview.value(fields, ["booking_id", "qr_data"], fallback: "BMRCL-892401")
+        
         VStack(spacing: 12) {
             PassMetaBar(left: "PASSKIT • BOARDING_PASS", right: "BMRCL QR", tint: p.accent)
             PassShell(palette: p) {
@@ -1227,16 +1334,26 @@ private struct NammaMetroCard: View {
                         subtitle: "BMRCL Rapid Transit",
                         logo: LogoTile(systemImage: "tram.fill", colors: [p.accent, Color(red: 0.3, green: 0.1, blue: 0.55)]),
                         trailingLabel: "Ticket Type",
-                        trailingValue: "QR SINGLE",
+                        trailingValue: "QR SINGLE JOURNEY",
                         accentSoft: p.accentSoft
                     )
                     SoftDivider(tint: p.accent.opacity(0.12))
                     HStack {
-                        FieldBlock(label: "Origin Station", value: origin, labelColor: p.accentSoft.opacity(0.7), valueSize: 17)
+                        FieldBlock(label: "Origin Station", value: "\(origin)\\n\(originDesc)", labelColor: p.accentSoft.opacity(0.7), valueSize: 17)
                         RouteConnector(duration: "Metro", tint: p.accent, icon: "tram.fill")
-                        FieldBlock(label: "Destination", value: dest, align: .trailing, labelColor: p.accentSoft.opacity(0.7), valueSize: 17)
+                        FieldBlock(label: "Destination", value: "\(dest)\\n\(destDesc)", align: .trailing, labelColor: p.accentSoft.opacity(0.7), valueSize: 17)
                     }
                     .padding(18)
+                    
+                    SoftDivider(tint: p.accent.opacity(0.12))
+                    
+                    HStack {
+                        FieldBlock(label: "Issued At", value: issuedAt, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Valid Till", value: validTill, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                    }
+                    .padding(16)
+                    .background(p.accent.opacity(0.05))
+                    
                     TicketNotchDivider(bg: Color(red: 0.07, green: 0.08, blue: 0.12))
                     QRPanel(caption: "Token / Pass ID", alt: booking, accent: p.accentSoft)
                 }
@@ -1249,11 +1366,16 @@ private struct ZoomcarKeylessCard: View {
     let fields: [String: String]
     private let p = PassPalettes.zoomcar
     var body: some View {
-        let vehicle = WalletPassPreview.value(fields, ["vehicle"], fallback: "Vehicle")
-        let pickup = WalletPassPreview.value(fields, ["pickup"], fallback: "—")
-        let drop = WalletPassPreview.value(fields, ["drop_off"], fallback: "—")
-        let guest = WalletPassPreview.value(fields, ["guest"], fallback: "—")
-        let booking = WalletPassPreview.value(fields, ["booking_id"], fallback: "—")
+        let vehicle = WalletPassPreview.value(fields, ["vehicle"], fallback: "Hyundai Creta SX (O)")
+        let reg = WalletPassPreview.value(fields, ["registration"], fallback: "KA-05-MQ-4421")
+        let fuel = WalletPassPreview.value(fields, ["fuel_range"], fallback: "85% • 420 KM")
+        let pickup = WalletPassPreview.value(fields, ["pickup"], fallback: "Sat, 28 Oct • 09:00\nIndiranagar Hub #04")
+        let drop = WalletPassPreview.value(fields, ["drop_off"], fallback: "Sun, 29 Oct • 21:00\n36 hrs rental duration")
+        let guest = WalletPassPreview.value(fields, ["guest"], fallback: "Rohit Kumar\nDL Verified ✓")
+        let limit = WalletPassPreview.value(fields, ["limit"], fallback: "350 KM Free\n₹9/km extra")
+        let sos = WalletPassPreview.value(fields, ["sos"], fallback: "24/7 SOS Active\nToll-free hotline")
+        let pin = WalletPassPreview.value(fields, ["door_pin"], fallback: "7 9 2 4 #")
+
         VStack(spacing: 12) {
             PassMetaBar(left: "PASSKIT • GENERIC_KEYLESS", right: "KEYLESS SMARTLOCK", tint: p.accent)
             PassShell(palette: p) {
@@ -1269,18 +1391,36 @@ private struct ZoomcarKeylessCard: View {
                     )
                     SoftDivider(tint: p.accent.opacity(0.12))
                     StripHero(title: vehicle, badge: "Self-Drive", palette: p, height: 112)
+                    
+                    HStack {
+                        FieldBlock(label: "Registration", value: reg, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Fuel / Range", value: fuel, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                    }
+                    .padding(16)
+                    
+                    SoftDivider(tint: p.accent.opacity(0.12))
+                    
                     HStack {
                         FieldBlock(label: "Pickup & Unlock", value: pickup, labelColor: p.accentSoft.opacity(0.7))
                         FieldBlock(label: "Drop Off & Lock", value: drop, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
                     }
                     .padding(16)
                     .background(p.accent.opacity(0.06))
+                    
                     NFCPanel(title: "Hold iPhone Near Windshield Reader", subtitle: "Express Mode · Backup PIN available", tint: p.accent)
+                    
                     HStack {
                         FieldBlock(label: "Driver", value: guest, labelColor: p.accentSoft.opacity(0.7))
-                        FieldBlock(label: "Booking / PIN", value: booking, align: .trailing, valueColor: p.accentSoft, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Backup PIN", value: pin, align: .trailing, valueColor: p.accentSoft, labelColor: p.accentSoft.opacity(0.7))
                     }
                     .padding(16)
+                    
+                    HStack {
+                        FieldBlock(label: "Kilometer Limit", value: limit, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Roadside Assist", value: sos, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
                 }
             }
         }
@@ -1291,9 +1431,14 @@ private struct UPIPayPassCard: View {
     let fields: [String: String]
     private let p = PassPalettes.upi
     var body: some View {
-        let name = WalletPassPreview.value(fields, ["name"], fallback: "Payee")
-        let vpa = WalletPassPreview.value(fields, ["vpa", "qr_data"], fallback: "—")
-        let bank = WalletPassPreview.value(fields, ["bank"], fallback: "—")
+        let name = WalletPassPreview.value(fields, ["name"], fallback: "Rohit Kumar\n| Primary")
+        let vpa = WalletPassPreview.value(fields, ["vpa", "qr_data"], fallback: "rohitkumar@icici")
+        let bank = WalletPassPreview.value(fields, ["bank"], fallback: "ICICI Bank")
+        let account = WalletPassPreview.value(fields, ["account"], fallback: "A/C **9412")
+        let limit = WalletPassPreview.value(fields, ["limit"], fallback: "₹1,00,000\nPer Day")
+        let autopay = WalletPassPreview.value(fields, ["auto_pay"], fallback: "₹2,000\nZero PIN mode")
+        let ifsc = WalletPassPreview.value(fields, ["ifsc"], fallback: "ICIC0000104\nVerified VPA")
+        
         VStack(spacing: 12) {
             PassMetaBar(left: "PASSKIT • STORE_CARD", right: "NPCI 2.0", tint: p.accent)
             PassShell(palette: p) {
@@ -1308,16 +1453,29 @@ private struct UPIPayPassCard: View {
                         trailingColor: Color(red: 0.3, green: 0.9, blue: 0.55)
                     )
                     SoftDivider(tint: p.accent.opacity(0.12))
-                    FieldBlock(label: "Account Holder", value: name, labelColor: p.accentSoft.opacity(0.7), valueSize: 20)
-                        .padding(.horizontal, 18)
-                        .padding(.top, 16)
+                    
                     HStack {
-                        FieldBlock(label: "VPA", value: vpa, labelColor: p.accentSoft.opacity(0.7))
-                        FieldBlock(label: "Linked Bank", value: bank, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Account Holder", value: name, labelColor: p.accentSoft.opacity(0.7), valueSize: 18)
+                        FieldBlock(label: "VPA", value: vpa, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
                     }
                     .padding(16)
+                    
+                    HStack {
+                        FieldBlock(label: "Linked Bank", value: bank, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Account", value: account, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                    }
+                    .padding(16)
+                    .background(p.accent.opacity(0.05))
+                    
+                    HStack {
+                        FieldBlock(label: "Txn Limit", value: limit, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "Auto-Pay", value: autopay, align: .center, labelColor: p.accentSoft.opacity(0.7))
+                        FieldBlock(label: "IFSC Routing", value: ifsc, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                    }
+                    .padding(16)
+
                     TicketNotchDivider(bg: Color(red: 0.07, green: 0.08, blue: 0.12))
-                    QRPanel(caption: "Scan to pay", alt: vpa, accent: p.accentSoft)
+                    QRPanel(caption: "Scan to pay via any UPI app", alt: vpa, accent: p.accentSoft)
                 }
             }
         }

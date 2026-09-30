@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Wallet Template: Namma Metro Transit Pass</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b0c10;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-[#0b0c10] text-slate-100">
+
+  <!-- Pass Metadata Badge -->
+  <div class="mb-4 flex items-center space-x-3 text-xs tracking-wider uppercase">
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold font-mono">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      PASSKIT • TRANSIT_PASS
+    </span>
+    <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-300 font-mono text-[11px]">
+      PURPLE LINE • AFCS QR
+    </span>
+  </div>
+
+  <!-- Apple Wallet Pass Card Container -->
+  <div class="w-full max-w-[420px] rounded-[28px] overflow-hidden shadow-2xl border border-emerald-500/20 bg-gradient-to-b from-[#062419] via-[#081813] to-[#040e0b] relative">
+    
+    <!-- Top Pass Header -->
+    <div class="px-6 pt-5 pb-4 border-b border-emerald-500/15 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <!-- Metro Icon / Logo -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5 shadow-md flex items-center justify-center">
+          <div class="w-full h-full bg-[#07241a] rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-4v4m0-4v-4m0 4h4m-4-4l-4-4m12 4l-4-4M6 16H4m2 0l4-4M4 16l4 4m12-4l-4 4" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm font-bold tracking-tight text-white">Namma Metro</h1>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-500/25 text-purple-300 border border-purple-500/40">PURPLE LINE</span>
+          </div>
+          <p class="text-[11px] text-emerald-400/80 font-mono tracking-wide">BMRCL RAPID TRANSIT</p>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <p class="text-[10px] uppercase tracking-wider text-slate-400 font-mono">TICKET TYPE</p>
+        <p class="text-xs font-bold text-emerald-300">QR SINGLE JOURNEY</p>
+      </div>
+    </div>
+
+    <!-- Station Origin / Destination Section -->
+    <div class="px-6 py-5 bg-emerald-950/20">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-[10px] uppercase font-mono tracking-wider text-slate-400">ORIGIN STATION</p>
+          <p class="text-xl font-extrabold text-white tracking-tight">Indiranagar</p>
+          <p class="text-[11px] text-emerald-300/80 flex items-center gap-1 mt-0.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Platform 2 (Towards Whitefield)
+          </p>
+        </div>
+
+        <!-- Route visual / icon -->
+        <div class="flex flex-col items-center px-3">
+          <span class="text-[10px] font-mono text-emerald-400 font-semibold mb-1">6 STOPS • 14 MIN</span>
+          <div class="flex items-center space-x-1.5 text-emerald-500">
+            <span class="w-2 h-2 rounded-full border-2 border-emerald-400 bg-[#07241a]"></span>
+            <div class="w-12 h-0.5 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-400 relative">
+              <svg class="w-3.5 h-3.5 text-emerald-300 absolute -top-1.5 left-1/2 -translate-x-1/2" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </div>
+            <span class="w-2 h-2 rounded-full border-2 border-emerald-400 bg-emerald-400"></span>
+          </div>
+          <span class="text-[9px] text-slate-400 font-mono mt-1">₹30.00 FARE PAID</span>
+        </div>
+
+        <div class="text-right">
+          <p class="text-[10px] uppercase font-mono tracking-wider text-slate-400">DESTINATION</p>
+          <p class="text-xl font-extrabold text-white tracking-tight">MG Road</p>
+          <p class="text-[11px] text-emerald-300/80 mt-0.5">Exit Gates A1 - A4</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Transit Fields -->
+    <div class="px-6 py-3.5 border-t border-b border-emerald-500/15 grid grid-cols-3 gap-2 bg-[#061510]/60">
+      <div>
+        <p class="text-[9px] uppercase font-mono tracking-wider text-slate-400">TOKEN / PASS ID</p>
+        <p class="text-xs font-semibold text-slate-200 font-mono">BMRCL-892401</p>
+      </div>
+      <div class="text-center">
+        <p class="text-[9px] uppercase font-mono tracking-wider text-slate-400">ISSUED AT</p>
+        <p class="text-xs font-semibold text-emerald-300 font-mono">18:42 Today</p>
+      </div>
+      <div class="text-right">
+        <p class="text-[9px] uppercase font-mono tracking-wider text-slate-400">VALID TILL</p>
+        <p class="text-xs font-bold text-amber-300 font-mono">20:42 (120m)</p>
+      </div>
+    </div>
+
+    <!-- Barcode Section with Perforations -->
+    <div class="relative px-6 pt-6 pb-6 bg-[#040e0b] flex flex-col items-center">
+      <!-- Left & Right Notch Cutouts for Ticket Perforation effect -->
+      <div class="absolute -left-3.5 top-0 -translate-y-1/2 w-7 h-7 rounded-full bg-[#0b0c10] border-r border-emerald-500/20"></div>
+      <div class="absolute -right-3.5 top-0 -translate-y-1/2 w-7 h-7 rounded-full bg-[#0b0c10] border-l border-emerald-500/20"></div>
+      <div class="w-full border-t border-dashed border-emerald-500/25 absolute top-0 left-0"></div>
+
+      <!-- Turnstile Aztec / QR Code -->
+      <div class="bg-white p-3.5 rounded-2xl shadow-xl flex flex-col items-center">
+        <!-- Clean High-Density Transit QR -->
+        <svg class="w-48 h-48" viewBox="0 0 100 100" fill="black">
+          <!-- Outer border -->
+          <rect x="0" y="0" width="100" height="100" fill="white"/>
+          <!-- Top Left Finder -->
+          <rect x="6" y="6" width="28" height="28" fill="black" rx="3"/>
+          <rect x="10" y="10" width="20" height="20" fill="white" rx="2"/>
+          <rect x="14" y="14" width="12" height="12" fill="black" rx="1"/>
+          <!-- Top Right Finder -->
+          <rect x="66" y="6" width="28" height="28" fill="black" rx="3"/>
+          <rect x="70" y="10" width="20" height="20" fill="white" rx="2"/>
+          <rect x="74" y="14" width="12" height="12" fill="black" rx="1"/>
+          <!-- Bottom Left Finder -->
+          <rect x="6" y="66" width="28" height="28" fill="black" rx="3"/>
+          <rect x="10" y="70" width="20" height="20" fill="white" rx="2"/>
+          <rect x="14" y="74" width="12" height="12" fill="black" rx="1"/>
+          <!-- Data Dots / Patterns -->
+          <rect x="38" y="10" width="4" height="4" fill="black"/>
+          <rect x="46" y="10" width="8" height="4" fill="black"/>
+          <rect x="58" y="10" width="4" height="4" fill="black"/>
+          <rect x="38" y="18" width="8" height="4" fill="black"/>
+          <rect x="50" y="18" width="4" height="4" fill="black"/>
+          <rect x="58" y="18" width="4" height="4" fill="black"/>
+          <rect x="38" y="26" width="4" height="4" fill="black"/>
+          <rect x="46" y="26" width="4" height="4" fill="black"/>
+          <rect x="54" y="26" width="8" height="4" fill="black"/>
+          
+          <rect x="10" y="38" width="4" height="8" fill="black"/>
+          <rect x="18" y="38" width="8" height="4" fill="black"/>
+          <rect x="30" y="38" width="4" height="8" fill="black"/>
+          <rect x="38" y="38" width="8" height="8" fill="black"/>
+          <rect x="50" y="38" width="4" height="4" fill="black"/>
+          <rect x="58" y="38" width="8" height="8" fill="black"/>
+          <rect x="70" y="38" width="8" height="4" fill="black"/>
+          <rect x="82" y="38" width="8" height="8" fill="black"/>
+          
+          <rect x="10" y="50" width="8" height="4" fill="black"/>
+          <rect x="22" y="50" width="4" height="8" fill="black"/>
+          <rect x="38" y="50" width="8" height="4" fill="black"/>
+          <rect x="50" y="46" width="4" height="12" fill="black"/>
+          <rect x="66" y="50" width="4" height="4" fill="black"/>
+          <rect x="74" y="46" width="8" height="4" fill="black"/>
+          <rect x="86" y="50" width="4" height="8" fill="black"/>
+
+          <rect x="38" y="66" width="4" height="8" fill="black"/>
+          <rect x="46" y="66" width="8" height="4" fill="black"/>
+          <rect x="58" y="66" width="4" height="8" fill="black"/>
+          <rect x="66" y="66" width="8" height="8" fill="black"/>
+          <rect x="78" y="66" width="12" height="4" fill="black"/>
+          
+          <rect x="38" y="78" width="8" height="4" fill="black"/>
+          <rect x="50" y="74" width="4" height="8" fill="black"/>
+          <rect x="58" y="78" width="8" height="4" fill="black"/>
+          <rect x="74" y="78" width="4" height="8" fill="black"/>
+          <rect x="82" y="74" width="8" height="4" fill="black"/>
+          
+          <rect x="38" y="86" width="4" height="8" fill="black"/>
+          <rect x="46" y="86" width="12" height="4" fill="black"/>
+          <rect x="62" y="86" width="4" height="8" fill="black"/>
+          <rect x="70" y="86" width="8" height="4" fill="black"/>
+          <rect x="82" y="86" width="8" height="8" fill="black"/>
+        </svg>
+      </div>
+
+      <p class="text-[11px] font-medium text-slate-300 mt-3 font-mono tracking-tight flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </svg>
+        SCAN AT AUTOMATIC FARE COLLECTION (AFC) GATE
+      </p>
+      <p class="text-[10px] text-emerald-400/70 font-mono mt-0.5">Screen brightness automatically maximizes at turnstile</p>
+    </div>
+
+    <!-- Pass Footer Bar -->
+    <div class="px-6 py-3 bg-[#030907] border-t border-emerald-500/15 flex items-center justify-between text-[11px]">
+      <div class="flex items-center space-x-1.5 text-slate-400 font-mono">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>Metro Station Geofencing Active</span>
+      </div>
+      <span class="text-emerald-400 font-semibold cursor-pointer hover:underline">Station Map & Rules →</span>
+    </div>
+  </div>
+
+  <!-- Wallet Action CTA Buttons -->
+  <div class="mt-6 flex items-center gap-3">
+    <button class="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold text-sm shadow-xl hover:bg-slate-100 transition-all">
+      <svg class="w-4 h-4" viewBox="0 0 170 170" fill="currentColor">
+        <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.68-7.85-11.97-14.42-6.09-9.33-10.82-19.8-14.19-31.42-3.37-11.62-5.06-22.95-5.06-34 0-14.23 3.69-26.3 11.08-36.21 7.39-9.91 16.92-14.97 28.58-15.18 4.58 0 9.8 1.16 15.67 3.48 5.86 2.32 9.53 3.48 11.02 3.48 1.28 0 5.06-1.22 11.34-3.66 6.28-2.45 11.75-3.56 16.41-3.35 12.98.64 23.3 5.48 30.98 14.52-11.33 6.84-16.89 16.41-16.68 28.71.21 9.9 4.13 18.25 11.76 25.04 7.63 6.8 16.79 10.66 27.47 11.59-2.13 6.64-4.8 13.04-8.01 19.2zm-28.72-108.9c0-7.39 2.67-14.38 8.01-20.97 5.34-6.59 11.96-10.45 19.86-11.58.21 1.06.32 2.12.32 3.17 0 7.39-2.73 14.47-8.19 21.25-5.46 6.78-12.18 10.61-20.16 11.49-.22-1.06-.32-2.12-.32-3.17z"/>
+      </svg>
+      Add to Apple Wallet
+    </button>
+    <button class="px-5 py-3 rounded-full bg-slate-900 border border-slate-800 text-slate-300 font-mono text-xs hover:bg-slate-800 transition-all">
+      .pkpass
+    </button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "secondary-container": "#3630bf", "on-error-container": "#ffdad6", "surface-tint": "#aac7ff", "on-tertiary": "#680019", "on-background": "#e2e1f2", "primary": "#aac7ff", "on-tertiary-fixed-variant": "#920027", "on-error": "#690005", "outline-variant": "#414754", "surface-container": "#1e1f2b", "inverse-surface": "#e2e1f2", "tertiary-fixed-dim": "#ffb3b5", "on-secondary-fixed-variant": "#332dbc", "error": "#ffb4ab", "on-tertiary-fixed": "#40000c", "on-secondary-fixed": "#0c006b", "inverse-on-surface": "#2f2f3c", "secondary-fixed": "#e2dfff", "primary-fixed-dim": "#aac7ff", "primary-container": "#3e90ff", "error-container": "#93000a", "surface-dim": "#11121e", "surface-bright": "#373845", "secondary-fixed-dim": "#c2c1ff", "on-primary-container": "#002957", "background": "#11121e", "on-surface-variant": "#c0c6d6", "inverse-primary": "#005db8", "surface-variant": "#333440", "on-primary-fixed-variant": "#00468d", "on-secondary": "#1800a7", "surface": "#11121e", "on-surface": "#e2e1f2", "primary-fixed": "#d6e3ff", "surface-container-lowest": "#0c0d18", "tertiary-container": "#ff5167", "tertiary-fixed": "#ffdada", "surface-container-high": "#282935", "surface-container-low": "#1a1b26", "surface-container-highest": "#333440", "secondary": "#c2c1ff", "tertiary": "#ffb3b5", "on-primary": "#003064", "on-primary-fixed": "#001b3e", "on-tertiary-container": "#5b0015", "outline": "#8b91a0", "on-secondary-container": "#b1b1ff" }, borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "margin": "1.25rem", "gutter-sm": "0.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "gutter": "1rem", "space-lg": "1.5rem", "space-xxl": "3rem", "space-md": "1rem", "margin-compact": "1rem" }, fontFamily: { "body-lg": ["Inter"], "label-md": ["Inter"], "body-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"], "headline-lg-mobile": ["Inter"], "mono-barcode": ["Inter"], "headline-md": ["Inter"], "title-sm": ["Inter"], "display-lg": ["Inter"] }, fontSize: { "body-lg": ["17px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "400" }], "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "500" }], "body-md": ["15px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }], "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.025em", fontWeight: "700" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.05em", fontWeight: "600" }], "headline-lg-mobile": ["28px", { lineHeight: "34px", letterSpacing: "-0.02em", fontWeight: "700" }], "mono-barcode": ["13px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "500" }], "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.015em", fontWeight: "600" }], "title-sm": ["17px", { lineHeight: "22px", letterSpacing: "-0.01em", fontWeight: "600" }], "display-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.03em", fontWeight: "700" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;min-height:100%;background-color:#11121e;color:#e2e1f2;font-family:'Inter',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container"><div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden"><div class="absolute -top-[15%] left-1/2 -translate-x-1/2 w-[140%] h-[55%] rounded-full bg-gradient-to-b from-secondary-container/25 via-primary-container/15 to-transparent blur-[110px]"></div><div class="absolute top-[40%] -left-[20%] w-[80%] h-[40%] rounded-full bg-secondary/10 blur-[100px]"></div><div class="absolute bottom-[10%] right-[-15%] w-[90%] h-[45%] rounded-full bg-tertiary-container/10 blur-[120px]"></div></div><header class="fixed top-0 w-full z-50 pt-safe bg-surface/70 backdrop-blur-2xl shadow-[0_1px_8px_rgba(0,0,0,0.25)]"><div class="h-20 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-high/60 backdrop-blur-md"><span class="material-symbols-outlined text-primary text-[18px]">wallet</span><span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">LiquidPass</span></div><div class="w-1.5 h-1.5 rounded-full bg-primary/70 animate-pulse"></div></div><div class="flex items-center gap-space-sm"><span class="font-title-sm text-title-sm text-on-surface truncate max-w-[130px]">Vault</span><button aria-label="Settings and Filter" class="w-11 h-11 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/40 transition-colors"><span class="material-symbols-outlined text-[20px]">tune</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-28 bg-surface/0 min-h-screen"><div class="flex flex-col w-full px-margin space-y-space-lg select-none">
+<!-- Top Vault Security Hero Banner -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container/90 backdrop-blur-2xl shadow-xl p-space-lg">
+<div class="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-gradient-to-br from-primary/20 via-surface-tint/10 to-transparent blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Secure Pass Vault</span>
+<!-- Face ID Status Badge -->
+<div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-highest/80 backdrop-blur-md shadow-sm" id="biometric-badge">
+<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: 'FILL' 1;">face</span>
+<span class="font-label-sm text-label-sm text-primary">Face ID Active</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+</div>
+</div>
+<div class="space-y-space-xs pt-1">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-space-xs">
+          Hardware Key Vault
+          <span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</h2>
+<p class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-surface-tint">memory</span>
+          Encrypted on Secure Enclave • Biometric Protection
+        </p>
+</div>
+<!-- Quick Interactive Vault Lock Action -->
+<div class="pt-space-sm flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-full bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all active:scale-95 shadow-sm" id="lock-btn" onclick="toggleVaultLock()">
+<span class="material-symbols-outlined text-[17px] text-primary" id="lock-icon">lock_open</span>
+<span id="lock-text">Lock Vault Now</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Last authenticated: Just now</span>
+</div>
+</div>
+</div>
+<!-- Storage & Sync Metrics Bento Row -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- Metric 1: Offline Enclave passes -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container/70 backdrop-blur-xl p-space-md shadow-md flex flex-col justify-between space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-full bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[19px]">offline_pin</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-medium">0ms Latency</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-on-surface">12 Passes</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Stored directly on Secure Enclave with zero network dependency</p>
+</div>
+</div>
+<!-- Metric 2: AES-256 Cloud Backup -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container/70 backdrop-blur-xl p-space-md shadow-md flex flex-col justify-between space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="w-9 h-9 rounded-full bg-secondary-container/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[19px]">cloud_sync</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-secondary font-medium">AES-256</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-on-surface">iCloud Sync</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">End-to-end encrypted backup linked to Apple ID keychain</p>
+</div>
+</div>
+</div>
+<!-- SECTION 1: Government & Identity Transit Passes -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<h3 class="font-title-sm text-title-sm text-on-surface">Government &amp; Transit</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">DigiLocker Verified</span>
+</div>
+<div class="space-y-space-xs">
+<!-- Pass 1: Namma Metro DigiLocker Card -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-md p-space-md shadow-md flex items-center justify-between transition-all active:scale-[0.99]">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Stylized glowing purple metro subway transit card badge with clean geometric lines, dark indigo background, high-tech neon transit crest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhniIRvbA-Mignty-VWv7m68YxW1QB-VHVaP2zIgnK9xLZa1vSPcbKDDFWwUKZTuLsvejhakomo3SK7d8IJA0hZZl-eNBKIummb4Bt8d3NdNKlHPJx5neZcINn4hOvrvzjOMfBCiETqysfOyipITBfvPfvVPZNBzXmw4HneguUmdRuIRUC0SKqcEcP3YBUmd6FAu17O7x58um8I4uhpu2VvNBH1HU0UkfgbAEtSkGF7F__p1_k8J8"/>
+<div class="absolute inset-0 bg-primary/10"></div>
+</div>
+<div class="min-w-0 space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface truncate">Namma Metro Smart Pass</span>
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Bengaluru Metro Rail • UIDAI Aadhaar Linked</p>
+<div class="flex items-center gap-space-xs pt-0.5">
+<span class="font-mono-barcode text-mono-barcode text-primary">₹680.00 Balance</span>
+<span class="font-label-sm text-label-sm text-outline">• Auto-recharge</span>
+</div>
+</div>
+</div>
+<button aria-label="Pass Details" class="w-9 h-9 rounded-full bg-surface-container-highest/80 flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Pass 2: Delhi DTC Smart Bus Pass -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-md p-space-md shadow-md flex items-center justify-between transition-all active:scale-[0.99]">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="High tech electric transit smart pass icon with cyan and navy glowing elements, vector bus icon on dark obsidian disc" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAWlw9eNoc9umJnt-4crCF7Vata7oLJl82VXYWingshWqto3Zw1_sffkTYtDCQgbcx4uVRuVmL7C28g545Y9TDRlX6_TgdW9Jk1nHeHvbWA1A5L3mJlY9OeYbfuObnT65Q3ZZOUV3slwJnmiYH-S7SpFhs0S1zh92H5u77zTH2UGmPgntWISe2WOgRuAs8d4AtzmZVG4qohYgC5u-A8n5nXTX3vaBzd1tOymEdByQZCkK0PHE6Ivs"/>
+<div class="absolute inset-0 bg-secondary/10"></div>
+</div>
+<div class="min-w-0 space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface truncate">DTC All-Route Smart Pass</span>
+<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Govt of NCT Delhi • AC/Non-AC Concession</p>
+<div class="flex items-center gap-space-xs pt-0.5">
+<span class="font-label-sm text-label-sm text-secondary">Valid till 31 Dec 2026</span>
+<span class="font-label-sm text-label-sm text-outline">• NFC Active</span>
+</div>
+</div>
+</div>
+<button aria-label="Pass Details" class="w-9 h-9 rounded-full bg-surface-container-highest/80 flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SECTION 2: Private Gym & Club Tokens -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">fitness_center</span>
+<h3 class="font-title-sm text-title-sm text-on-surface">Private Gym &amp; Club Tokens</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Biometric Turnstile</span>
+</div>
+<div class="space-y-space-xs">
+<!-- Pass 1: Cult.fit Elite Pass -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-md p-space-md shadow-md flex items-center justify-between transition-all active:scale-[0.99]">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Athletic crimson fitness gym brand icon with vivid red refraction, dark metallic gym token on obsidian background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIUe5F61zhlUk356VUIVuL9IR4H2F3usKO6ZD03z73wG2XNibGEXbTEmtziv1jMs_w1HyOTEp2BRJUilebGvZLXVintW1MkzN75n_59PkB_r2DunKF5N_zh32TmIX-aBmzd5YRhUXvf4m5Ops4paRs3BbFQkhTqyViSsO-zhCedZGRAJu7wAmNNrOMrDjYDxbHdNYgEONpo8xHaln1iMWeu_jInZ68eDdcHmM1gyFKq93iuSuKr6w"/>
+<div class="absolute inset-0 bg-tertiary/10"></div>
+</div>
+<div class="min-w-0 space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface truncate">Cult.fit Elite Pass</span>
+<span class="px-1.5 py-0.2 rounded-full bg-tertiary-container/30 text-tertiary font-label-sm text-label-sm">VIP</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Indiranagar Center • All Cult Center Access</p>
+<p class="font-label-sm text-label-sm text-tertiary">Turnstile Quick NFC Ready</p>
+</div>
+</div>
+<button aria-label="Pass Details" class="w-9 h-9 rounded-full bg-surface-container-highest/80 flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Pass 2: Soho House Member QR -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-md p-space-md shadow-md flex items-center justify-between transition-all active:scale-[0.99]">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Luxury private social club seal emblem with warm golden lighting and matte black texture, boutique minimalist crest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrt_Nnvxv1RGxw7PYF0rey_RzrdFxaKfu8_IE6K4B1l-nDUmB4LD7CRd7J_g8B9qTIhjgNQzlsHLM6aVkDUNmJ6K_V2UN0-wDZLVS5WQAuSl5jJDocQQjal8V2ynvrevArQDrGF6D25ZCdWG2KKSKdKr_g6sLAT7G5MV9rj-1g-TLoRsSYEKW4Tor2luW2dAmq2cnfIyQzqtK2AAR9SzKl47PMlXubQUPPEx_3gXF5dmh0O5lTTvI"/>
+<div class="absolute inset-0 bg-primary/10"></div>
+</div>
+<div class="min-w-0 space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface truncate">Soho House Mumbai Member</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Juhu Beach Club • Tier 1 Resident Credential</p>
+<p class="font-label-sm text-label-sm text-surface-tint">Rotating Dynamic Aztec Code</p>
+</div>
+</div>
+<button aria-label="Pass Details" class="w-9 h-9 rounded-full bg-surface-container-highest/80 flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SECTION 3: UPI Payment Vouchers & Fixed QR -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">currency_rupee</span>
+<h3 class="font-title-sm text-title-sm text-on-surface">UPI Passes &amp; Fixed QR</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Instant Merchant Pay</span>
+</div>
+<div class="space-y-space-xs">
+<!-- UPI Pass 1: PhonePe Merchant Pass -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-md p-space-md shadow-md flex items-center justify-between transition-all active:scale-[0.99]">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-full bg-secondary-container/40 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary text-[24px]">storefront</span>
+</div>
+<div class="min-w-0 space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface truncate">PhonePe Merchant Identity</span>
+<span class="material-symbols-outlined text-secondary text-[14px]">shield</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">UPI ID: liquidpass.biz@ybl</p>
+<p class="font-label-sm text-label-sm text-on-secondary-container">Static Standee QR Encoded</p>
+</div>
+</div>
+<button aria-label="Pass Details" class="w-9 h-9 rounded-full bg-surface-container-highest/80 flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- UPI Pass 2: GPay Static Offline Code -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-md p-space-md shadow-md flex items-center justify-between transition-all active:scale-[0.99]">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[24px]">qr_code_2</span>
+</div>
+<div class="min-w-0 space-y-0.5">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-title-sm text-on-surface truncate">Google Pay Offline Token</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate">Signed BharatQR payload for POS Tap</p>
+<p class="font-label-sm text-label-sm text-primary">NPCI Encrypted Signature</p>
+</div>
+</div>
+<button aria-label="Pass Details" class="w-9 h-9 rounded-full bg-surface-container-highest/80 flex items-center justify-center text-on-surface flex-shrink-0">
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Vault Settings & Quick Toggles -->
+<div class="space-y-space-sm pt-space-xs">
+<div class="flex items-center gap-space-xs px-space-xs">
+<span class="material-symbols-outlined text-surface-tint text-[18px]">tune</span>
+<h3 class="font-title-sm text-title-sm text-on-surface">Vault Controls &amp; Security</h3>
+</div>
+<div class="rounded-lg bg-surface-container/80 backdrop-blur-2xl shadow-lg p-space-md space-y-space-md">
+<!-- Toggle 1: Lock Screen Double-Click Shortcut -->
+<div class="flex items-center justify-between">
+<div class="space-y-0.5 pr-space-md">
+<p class="font-body-md text-body-md text-on-surface">Lock Screen Shortcut</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Invoke Apple Wallet passes directly on power button double-click</p>
+</div>
+<button aria-checked="true" class="w-12 h-7 rounded-full bg-primary-container p-0.5 transition-colors relative flex items-center justify-end flex-shrink-0" onclick="toggleSwitch(this)" role="switch">
+<div class="w-6 h-6 rounded-full bg-on-primary-container shadow-md transition-transform"></div>
+</button>
+</div>
+<div class="h-px bg-surface-variant/40 w-full"></div>
+<!-- Toggle 2: Auto-Present on Geofence Entry -->
+<div class="flex items-center justify-between">
+<div class="space-y-0.5 pr-space-md">
+<p class="font-body-md text-body-md text-on-surface">Auto-Present at Stations</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Raise Namma Metro QR instantly on entering turnstile geofence</p>
+</div>
+<button aria-checked="true" class="w-12 h-7 rounded-full bg-primary-container p-0.5 transition-colors relative flex items-center justify-end flex-shrink-0" onclick="toggleSwitch(this)" role="switch">
+<div class="w-6 h-6 rounded-full bg-on-primary-container shadow-md transition-transform"></div>
+</button>
+</div>
+<div class="h-px bg-surface-variant/40 w-full"></div>
+<!-- Action 1: Export .pkpass archive -->
+<button class="w-full flex items-center justify-between py-1 text-left text-on-surface hover:text-primary transition-colors group" onclick="simulateExport()">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm">Export Encrypted Backup</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Creates standardized .pkpass bundled archive</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]">chevron_right</span>
+</button>
+<div class="h-px bg-surface-variant/40 w-full"></div>
+<!-- Action 2: Emergency Purge -->
+<button class="w-full flex items-center justify-between py-1 text-left text-error hover:opacity-90 transition-opacity group" onclick="confirmPurge()">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-error-container/40 flex items-center justify-center text-error group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+</div>
+<div>
+<p class="font-title-sm text-title-sm text-error">Emergency Vault Purge</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Securely wipe biometric keys from this physical iPhone</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-error text-[20px]">warning</span>
+</button>
+</div>
+</div>
+<!-- Micro Toast Notification Container -->
+<div class="opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2 fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-space-md py-2.5 rounded-full bg-surface-container-highest/95 backdrop-blur-xl text-on-surface shadow-2xl flex items-center gap-2" id="toast">
+<span class="material-symbols-outlined text-primary text-[18px]" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-msg">Vault Locked</span>
+</div>
+</div>
+<script>
+  // Dynamic Tab Highlight for 'Vault'
+  (function initVaultTab() {
+    const nav = document.querySelector('nav');
+    if (!nav) return;
+    const activeClasses = (nav.getAttribute('data-active-classes') || '').split(' ').filter(Boolean);
+    const links = nav.querySelectorAll('a[data-path]');
+    links.forEach(link => {
+      if (link.getAttribute('data-path') === 'vault') {
+        link.classList.remove('text-on-surface-variant');
+        activeClasses.forEach(c => link.classList.add(c));
+      } else {
+        activeClasses.forEach(c => link.classList.remove(c));
+        link.classList.add('text-on-surface-variant');
+      }
+    });
+  })();
+
+  function showVaultToast(message, iconName) {
+    const toast = document.getElementById('toast');
+    const msg = document.getElementById('toast-msg');
+    const icon = document.getElementById('toast-icon');
+    if (!toast || !msg || !icon) return;
+    
+    msg.textContent = message;
+    icon.textContent = iconName || 'check_circle';
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+    }, 2400);
+  }
+
+  let isVaultLocked = false;
+  function toggleVaultLock() {
+    isVaultLocked = !isVaultLocked;
+    const lockText = document.getElementById('lock-text');
+    const lockIcon = document.getElementById('lock-icon');
+    const biometricBadge = document.getElementById('biometric-badge');
+
+    if (isVaultLocked) {
+      lockText.textContent = "Unlock with Face ID";
+      lockIcon.textContent = "lock";
+      biometricBadge.classList.replace('bg-surface-container-highest/80', 'bg-error-container/40');
+      showVaultToast("Secure Enclave Locked", "lock");
+    } else {
+      lockText.textContent = "Lock Vault Now";
+      lockIcon.textContent = "lock_open";
+      biometricBadge.classList.replace('bg-error-container/40', 'bg-surface-container-highest/80');
+      showVaultToast("Biometrically Authenticated", "face");
+    }
+  }
+
+  function toggleSwitch(btn) {
+    const isChecked = btn.getAttribute('aria-checked') === 'true';
+    const thumb = btn.firstElementChild;
+    if (isChecked) {
+      btn.setAttribute('aria-checked', 'false');
+      btn.classList.replace('bg-primary-container', 'bg-surface-container-highest');
+      btn.classList.replace('justify-end', 'justify-start');
+      if (thumb) thumb.classList.replace('bg-on-primary-container', 'bg-on-surface-variant');
+      showVaultToast("Setting Disabled", "toggle_off");
+    } else {
+      btn.setAttribute('aria-checked', 'true');
+      btn.classList.replace('bg-surface-container-highest', 'bg-primary-container');
+      btn.classList.replace('justify-start', 'justify-end');
+      if (thumb) thumb.classList.replace('bg-on-surface-variant', 'bg-on-primary-container');
+      showVaultToast("Setting Enabled", "toggle_on");
+    }
+  }
+
+  function simulateExport() {
+    showVaultToast("Generating .pkpass archive bundle...", "ios_share");
+  }
+
+  function confirmPurge() {
+    const confirmed = window.confirm("Purge Enclave credentials? This will wipe all offline cached PKPass tokens from local Secure Enclave memory.");
+    if (confirmed) {
+      showVaultToast("Vault cache safely erased", "check");
+    }
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe pointer-events-none flex justify-center px-margin mb-space-md" data-active-classes="bg-white/20 text-on-surface shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),0_0_16px_rgba(170,199,255,0.35)]"><div class="pointer-events-auto h-16 w-full max-w-sm rounded-full bg-surface-container-high/80 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex items-center justify-around px-space-xs"><a class="flex flex-col items-center justify-center w-14 h-12 rounded-full text-on-surface-variant hover:text-on-surface transition-all" data-path="passes" href="#"><span class="material-symbols-outlined text-[22px]">view_carousel</span><span class="font-label-sm text-label-sm scale-90">Passes</span></a><a class="flex flex-col items-center justify-center w-14 h-12 rounded-full text-on-surface-variant hover:text-on-surface transition-all" data-path="scan" href="#"><span class="material-symbols-outlined text-[22px]">qr_code_scanner</span><span class="font-label-sm text-label-sm scale-90">Scan</span></a><a class="flex flex-col items-center justify-center w-14 h-12 rounded-full text-on-surface-variant hover:text-on-surface transition-all" data-path="transit" href="#"><span class="material-symbols-outlined text-[22px]">directions_subway</span><span class="font-label-sm text-label-sm scale-90">Transit</span></a><a class="flex flex-col items-center justify-center w-14 h-12 rounded-full text-on-surface-variant hover:text-on-surface transition-all" data-path="upi" href="#"><span class="material-symbols-outlined text-[22px]">currency_rupee</span><span class="font-label-sm text-label-sm scale-90">UPI</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-14 h-12 rounded-full transition-all bg-white/20 text-on-surface shadow-[inset_0_1px_1px_rgba(255,255,255,0.45),0_0_16px_rgba(170,199,255,0.35)]" data-path="vault" href="#"><span class="material-symbols-outlined text-[22px]">lock</span><span class="font-label-sm text-label-sm scale-90">Vault</span></a></div></nav></body></html>

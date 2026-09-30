@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Wallet Template: Zoomcar Keyless Access Pass</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b0c10;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-[#0b0c10] text-slate-100">
+
+  <!-- Pass Metadata Badge -->
+  <div class="mb-4 flex items-center space-x-3 text-xs tracking-wider uppercase">
+    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lime-500/10 border border-lime-500/30 text-lime-400 font-semibold font-mono">
+      <span class="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse"></span>
+      PASSKIT • GENERIC_KEYLESS
+    </span>
+    <span class="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-300 font-mono text-[11px]">
+      APPLE VAS • DIGITAL CAR KEY
+    </span>
+  </div>
+
+  <!-- Apple Wallet Pass Card Container -->
+  <div class="w-full max-w-[420px] rounded-[28px] overflow-hidden shadow-2xl border border-lime-500/20 bg-gradient-to-b from-[#182410] via-[#10170b] to-[#080d05] relative">
+    
+    <!-- Top Pass Header -->
+    <div class="px-6 pt-5 pb-4 border-b border-lime-500/15 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <!-- Zoomcar Icon / Logo -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-lime-500 to-green-400 p-0.5 shadow-md flex items-center justify-center">
+          <div class="w-full h-full bg-[#11190c] rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-lime-400" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.04 3H5.81l1.04-3zM19 17H5v-4.66l.12-.34h13.77l.11.34V17z"/>
+              <circle cx="7.5" cy="14.5" r="1.5"/>
+              <circle cx="16.5" cy="14.5" r="1.5"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm font-bold tracking-tight text-white">Zoomcar</h1>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-lime-500/20 text-lime-300 border border-lime-500/40 font-mono">KEYLESS SMARTLOCK</span>
+          </div>
+          <p class="text-[11px] text-lime-400/80 font-mono tracking-wide">SELF-DRIVE RENTAL PASS</p>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <p class="text-[10px] uppercase tracking-wider text-slate-400 font-mono">KEY STATUS</p>
+        <div class="flex items-center justify-end gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-lime-400 animate-pulse"></span>
+          <p class="text-xs font-bold text-lime-300 font-mono">READY TO UNLOCK</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vehicle Details Banner -->
+    <div class="px-6 py-4 bg-gradient-to-r from-lime-950/40 via-emerald-950/20 to-transparent border-b border-lime-500/10">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-lime-500/15 text-lime-300 font-semibold border border-lime-500/30">COMPACT SUV • AUTOMATIC</span>
+          <h2 class="text-xl font-extrabold text-white mt-1.5 tracking-tight">Hyundai Creta SX (O)</h2>
+          <p class="text-xs text-slate-300 font-mono mt-0.5">Registration: <span class="text-lime-300 font-bold">KA-05-MQ-4421</span></p>
+        </div>
+        <div class="text-right">
+          <div class="inline-flex flex-col items-end px-3 py-1.5 rounded-xl bg-black/40 border border-lime-500/20">
+            <span class="text-[9px] text-slate-400 font-mono uppercase">FUEL / RANGE</span>
+            <span class="text-xs font-bold text-emerald-400 font-mono">85% • 420 KM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rental Schedule Grid -->
+    <div class="px-6 py-4 grid grid-cols-2 gap-4 bg-[#11190c]/70 border-b border-lime-500/15">
+      <div>
+        <p class="text-[10px] uppercase font-mono tracking-wider text-slate-400">PICKUP & UNLOCK</p>
+        <p class="text-sm font-bold text-white mt-0.5">Sat, 28 Oct • 09:00</p>
+        <p class="text-[11px] text-lime-400 font-mono mt-0.5">Indiranagar Hub #04</p>
+      </div>
+      <div class="text-right">
+        <p class="text-[10px] uppercase font-mono tracking-wider text-slate-400">DROP OFF & LOCK</p>
+        <p class="text-sm font-bold text-white mt-0.5">Sun, 29 Oct • 21:00</p>
+        <p class="text-[11px] text-slate-300 font-mono mt-0.5">36 hrs rental duration</p>
+      </div>
+    </div>
+
+    <!-- NFC Wave Apple VAS Section -->
+    <div class="px-6 py-7 flex flex-col items-center justify-center text-center bg-[#0a1107] relative overflow-hidden">
+      <!-- Ambient NFC Wave Rings -->
+      <div class="w-20 h-20 rounded-full bg-lime-500/10 border border-lime-500/30 flex items-center justify-center relative mb-3 shadow-[0_0_30px_rgba(163,230,53,0.15)]">
+        <div class="w-14 h-14 rounded-full bg-lime-500/20 flex items-center justify-center">
+          <svg class="w-7 h-7 text-lime-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.393 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+          </svg>
+        </div>
+      </div>
+
+      <h3 class="text-sm font-bold text-white tracking-tight">Hold iPhone Near Windshield Reader</h3>
+      <p class="text-xs text-slate-300 mt-1 max-w-[280px]">
+        Apple VAS Contactless Protocol unlocks car doors & enables push-button ignition automatically.
+      </p>
+
+      <!-- Backup Unlock Code Pill -->
+      <div class="mt-4 px-4 py-1.5 rounded-full bg-black/60 border border-lime-500/30 flex items-center gap-2 text-xs font-mono">
+        <span class="text-slate-400 uppercase text-[10px]">BACKUP PIN:</span>
+        <span class="text-lime-300 font-bold tracking-widest">7 9 2 4 #</span>
+        <span class="text-[10px] text-slate-400">(Keypad on Driver Pillar)</span>
+      </div>
+    </div>
+
+    <!-- Pass Auxiliary Info Bar -->
+    <div class="px-6 py-3.5 bg-[#0e160a] border-t border-lime-500/15 grid grid-cols-3 gap-2 text-center text-xs">
+      <div class="text-left">
+        <p class="text-[9px] uppercase font-mono tracking-wider text-slate-400">DRIVER</p>
+        <p class="font-semibold text-slate-200 truncate">Rohit Kumar</p>
+        <p class="text-[10px] text-emerald-400 font-mono">DL Verified ✓</p>
+      </div>
+      <div>
+        <p class="text-[9px] uppercase font-mono tracking-wider text-slate-400">KILOMETER LIMIT</p>
+        <p class="font-bold text-white font-mono">350 KM Free</p>
+        <p class="text-[10px] text-slate-400 font-mono">₹9/km extra</p>
+      </div>
+      <div class="text-right">
+        <p class="text-[9px] uppercase font-mono tracking-wider text-slate-400">ROADSIDE ASSIST</p>
+        <p class="font-bold text-lime-300 font-mono">24/7 SOS Active</p>
+        <p class="text-[10px] text-slate-400 font-mono">Toll-free hotline</p>
+      </div>
+    </div>
+
+    <!-- Pass Footer Bar -->
+    <div class="px-6 py-3 bg-[#060a04] border-t border-lime-500/15 flex items-center justify-between text-[11px]">
+      <div class="flex items-center space-x-1.5 text-slate-400 font-mono">
+        <span class="w-2 h-2 rounded-full bg-lime-400"></span>
+        <span>Express Mode Active (Zero Face ID needed)</span>
+      </div>
+      <span class="text-lime-400 font-semibold cursor-pointer hover:underline">Car Checklist & Photos →</span>
+    </div>
+  </div>
+
+  <!-- Wallet Action CTA Buttons -->
+  <div class="mt-6 flex items-center gap-3">
+    <button class="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold text-sm shadow-xl hover:bg-slate-100 transition-all">
+      <svg class="w-4 h-4" viewBox="0 0 170 170" fill="currentColor">
+        <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.68-7.85-11.97-14.42-6.09-9.33-10.82-19.8-14.19-31.42-3.37-11.62-5.06-22.95-5.06-34 0-14.23 3.69-26.3 11.08-36.21 7.39-9.91 16.92-14.97 28.58-15.18 4.58 0 9.8 1.16 15.67 3.48 5.86 2.32 9.53 3.48 11.02 3.48 1.28 0 5.06-1.22 11.34-3.66 6.28-2.45 11.75-3.56 16.41-3.35 12.98.64 23.3 5.48 30.98 14.52-11.33 6.84-16.89 16.41-16.68 28.71.21 9.9 4.13 18.25 11.76 25.04 7.63 6.8 16.79 10.66 27.47 11.59-2.13 6.64-4.8 13.04-8.01 19.2zm-28.72-108.9c0-7.39 2.67-14.38 8.01-20.97 5.34-6.59 11.96-10.45 19.86-11.58.21 1.06.32 2.12.32 3.17 0 7.39-2.73 14.47-8.19 21.25-5.46 6.78-12.18 10.61-20.16 11.49-.22-1.06-.32-2.12-.32-3.17z"/>
+      </svg>
+      Add to Apple Wallet
+    </button>
+    <button class="px-5 py-3 rounded-full bg-slate-900 border border-slate-800 text-slate-300 font-mono text-xs hover:bg-slate-800 transition-all">
+      .pkpass
+    </button>
+  </div>
+</body>
+</html>

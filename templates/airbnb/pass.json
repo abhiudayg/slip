@@ -32,19 +32,19 @@
     "secondaryFields": [
       {
         "key": "checkin",
-        "label": "CHECK-IN",
+        "label": "Check-In",
         "value": "{{check_in}}"
       },
       {
         "key": "checkout",
-        "label": "CHECK-OUT",
+        "label": "Check-Out",
         "value": "{{check_out}}"
       }
     ],
     "auxiliaryFields": [
       {
         "key": "guest",
-        "label": "GUEST",
+        "label": "Guest / Reserved For",
         "value": "{{guest}}"
       },
       {

@@ -25,7 +25,7 @@
     "secondaryFields": [
       {
         "key": "venue",
-        "label": "THEATRE",
+        "label": "Cinema Audi & Screen",
         "value": "{{venue}}"
       },
       {
@@ -42,17 +42,17 @@
       },
       {
         "key": "time",
-        "label": "SHOWTIME",
+        "label": "Showtime",
         "value": "{{time}}"
       },
       {
         "key": "date",
-        "label": "DATE",
+        "label": "Date",
         "value": "{{date}}"
       },
       {
         "key": "booking",
-        "label": "BOOKING ID",
+        "label": "Booking ID",
         "value": "{{booking_id}}"
       }
     ],
