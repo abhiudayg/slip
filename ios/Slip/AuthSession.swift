@@ -71,6 +71,11 @@ final class AuthSession: ObservableObject {
             if !userID.isEmpty { signOut() }
             return
         }
+        // Simulator / DEBUG local sessions are not Apple credentials.
+        if stored.hasPrefix("simulator.slip.") {
+            restoreLocalSession(userID: stored)
+            return
+        }
         let provider = ASAuthorizationAppleIDProvider()
         do {
             let state = try await provider.credentialState(forUserID: stored)
@@ -102,6 +107,20 @@ final class AuthSession: ObservableObject {
             cloudStatus = .unreachable(error.localizedDescription)
             lastError = error.localizedDescription
         }
+    }
+
+    /// Local-only session for Simulator / DEBUG builds (no Apple ID required).
+    func signInForSimulatorTesting(
+        displayName: String = "Alex",
+        email: String = "alex@slip.local"
+    ) {
+        let id = "simulator.slip.\(UUID().uuidString)"
+        userID = id
+        defaults.set(id, forKey: Keys.userID)
+        self.displayName = displayName
+        defaults.set(displayName, forKey: Keys.displayName)
+        self.email = email
+        defaults.set(email, forKey: Keys.email)
     }
 
     func applyAppleCredential(userID: String, fullName: PersonNameComponents?, email: String?) {

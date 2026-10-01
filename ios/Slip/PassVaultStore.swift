@@ -77,7 +77,7 @@ final class PassVaultStore: ObservableObject {
 
     private let container: ModelContainer
     private let context: ModelContext
-    private let cloudDB: CKDatabase
+    private let cloudDB: CKDatabase?
 
     init(inMemory: Bool = false) {
         let schema = Schema([PassVaultRecord.self])
@@ -93,7 +93,12 @@ final class PassVaultStore: ObservableObject {
             fatalError("PassVaultStore container failed: \(error)")
         }
         context = ModelContext(container)
-        cloudDB = CKContainer(identifier: Self.cloudContainerId).privateCloudDatabase
+        let isTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        if inMemory || isTesting {
+            cloudDB = nil
+        } else {
+            cloudDB = CKContainer(identifier: Self.cloudContainerId).privateCloudDatabase
+        }
         refresh()
     }
 
@@ -405,6 +410,7 @@ final class PassVaultStore: ObservableObject {
     // MARK: - CloudKit sync (ciphertext only)
 
     func syncFromCloud() async {
+        guard let cloudDB else { return }
         let query = CKQuery(recordType: Self.recordType, predicate: NSPredicate(value: true))
         do {
             let (results, _) = try await cloudDB.records(matching: query)
@@ -440,6 +446,7 @@ final class PassVaultStore: ObservableObject {
         ck["ciphertext"] = record.ciphertext as CKRecordValue
         ck["nonce"] = record.nonce as CKRecordValue
         ck["wrappedDEK"] = record.wrappedDEK as CKRecordValue
+        guard let cloudDB else { return }
         do {
             _ = try await cloudDB.save(ck)
         } catch {
@@ -448,6 +455,7 @@ final class PassVaultStore: ObservableObject {
     }
 
     private func deleteFromCloud(recordName: String) async {
+        guard let cloudDB else { return }
         do {
             try await cloudDB.deleteRecord(withID: CKRecord.ID(recordName: recordName))
         } catch {

@@ -39,6 +39,28 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6BB02A579CEDF4470E8917B7"
+               BuildableName = "SlipTests.xctest"
+               BlueprintName = "SlipTests"
+               ReferencedContainer = "container:Slip.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1670F187302D242BA8A82787"
+               BuildableName = "SlipUITests.xctest"
+               BlueprintName = "SlipUITests"
+               ReferencedContainer = "container:Slip.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

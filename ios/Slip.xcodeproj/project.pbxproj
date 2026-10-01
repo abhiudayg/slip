@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C2AC1B0D570F04C787467E11 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9B8039A5D29ACAC41F270BB /* AppIntents.framework */; };
 		0189EFE0C3A1164FB0612305 /* PassPreviewMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EACFEBA952BD4E9F4C7FC /* PassPreviewMotion.swift */; };
+		040AB70286D11B886E90FD3C /* IdentityVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903F60B305DE58A2919B8148 /* IdentityVaultStore.swift */; };
 		05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */; };
 		057039AC490B965DC9DAE0DE /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
 		059F800D71E8537B08852D5A /* TicketColorExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5129718B5A865EEAA96A578C /* TicketColorExtractor.swift */; };
@@ -17,6 +17,7 @@
 		0D93490DD14BC3AADD4E912C /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877E3FC4FDEBF44051A9875 /* TicketText.swift */; };
 		0FDFACBB66179912E754C3B4 /* SlipPassLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */; };
 		118D95870E522309A706EB9F /* PassGeofenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */; };
+		182697D5093BCE79B340866A /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637879D8B723BC3D23D172C8 /* AppIntents.framework */; };
 		1ACB0AC58931C3876EDF0C31 /* WidgetPassSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */; };
 		1B6849EA654F4F8CA23D72E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC03091146138679A40E07D /* Assets.xcassets */; };
 		1BFB891C1AE1F110FD9F0B57 /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
@@ -25,12 +26,6 @@
 		218C8D6F34763E6CF0DF7808 /* PassPreviewPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7C5E9BB226E37E3215AD6 /* PassPreviewPalette.swift */; };
 		23C2763C8B8337C847564488 /* PassExpiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B73C337409A2C1A294FAF8 /* PassExpiration.swift */; };
 		23F58166111E7D3A2E4579AF /* SlipHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A17246EC381393678EA9CD /* SlipHaptics.swift */; };
-		9FE418496D8598281AB6B1E2 /* PassAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF994EDA459306C2A482E1 /* PassAccessibility.swift */; };
-		6FDD9C4C75EE01F4C3C4F7A0 /* IdentityCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0051A597B72A074F42660EE /* IdentityCardView.swift */; };
-		521400C1B356EA50CDE58234 /* IdentityVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B14960B127B1843A0D8C48B /* IdentityVaultStore.swift */; };
-		36E750DAB834011E3DA0B787 /* UPIPayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270FC77C9B4E9CBD53E3DF87 /* UPIPayLink.swift */; };
-		D0DE9C30A0452B767A61E8C9 /* GeofenceMapPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4393022B4EA8BF000E19ECF7 /* GeofenceMapPicker.swift */; };
-		F0973466DA4468CB4235ED34 /* BookingInboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972D9454276B6C07D4959872 /* BookingInboxWatcher.swift */; };
 		2450259A2F21741CCB88C1C6 /* SlipShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		27F4C2F57E9A02739DCFD0FC /* PassPreviewBezel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */; };
 		28D3A49DED56189D1F35747B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */; };
@@ -53,6 +48,7 @@
 		53789DF24EF900120FA0FF84 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */; };
 		53CB27B518C7358B8FE390B2 /* PassSharePackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E2B9D17720F58538E95835 /* PassSharePackage.swift */; };
 		5419AD28CE0A22BBBAF83B98 /* SlipWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF6AF250A5484C2CB7CA0C /* SlipWidgetsBundle.swift */; };
+		549015C11E6BF94348B7297C /* IdentityCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD196FA6A308A41CD08FDD15 /* IdentityCardView.swift */; };
 		56347BAD9DA48401C7D0C395 /* HybridPassFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FA86E72B43193D98B047A6 /* HybridPassFill.swift */; };
 		58A948D003DA95001E8231D7 /* PassPreviewChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1AE9A692AA514109E472AE /* PassPreviewChrome.swift */; };
 		59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */; };
@@ -72,15 +68,18 @@
 		75359E183A933341FE3A0D8F /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */; };
 		7653FD0633654DD7F96B98C7 /* PassLiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */; };
 		78386BFCAA8796036A9328C2 /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
+		78473DF2B1614F731880999D /* GeofenceMapPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0C00C946B158D463FD1731 /* GeofenceMapPicker.swift */; };
 		83F2D5D4BAD52F59A0382F47 /* PassQRImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D62ACDC962B69A23566CA /* PassQRImage.swift */; };
 		8B6E680A0B086CF7F619787F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */; };
 		8F4998093C11B75E3563B84E /* BrandSelectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */; };
 		92CD25F01E76E97DFEDDAF18 /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */; };
 		960DA937291984ED5C037B57 /* CataloguePassHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */; };
+		9732D14C07AD79C7A101BE1F /* SlipUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA9682869FFEABA0DFF0ACE /* SlipUITests.swift */; };
 		9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */; };
 		A32FF169A9703B3F8B43BF99 /* IRCTCPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */; };
 		A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */; };
 		A83F0122D98B025637144D2D /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7DB958639C83886632B412 /* DiningPassHandler.swift */; };
+		AC4A6B7459362216A8BB2BC7 /* UPIPayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056B628CC772890423C241CC /* UPIPayLink.swift */; };
 		AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */; };
 		AE3DB926DCE8E458E91E9479 /* PassFieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B60260E640819982153A3B /* PassFieldEditor.swift */; };
 		B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
@@ -90,6 +89,7 @@
 		B70BB7B98CF9465664AB95FF /* BrightQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CE4E022829FECFCF08364F /* BrightQRView.swift */; };
 		BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CD80C407F877B0A7E2B75 /* ContentView.swift */; };
 		BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
+		BE99C4AE66B1AA1649C5B42C /* SlipVaultFunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0C2FC92B9E99334898E0DC /* SlipVaultFunctionalTests.swift */; };
 		BF2848F5621FF565B8C9E672 /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B78F8E06970C556062238 /* AirbnbPassHandler.swift */; };
 		C14C27E8F0B905EC445C6D43 /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B78F8E06970C556062238 /* AirbnbPassHandler.swift */; };
 		C2056596E1019241327993EF /* DiningPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7DB958639C83886632B412 /* DiningPassHandler.swift */; };
@@ -112,6 +112,7 @@
 		DDE836C9FDC00DCAA2F45274 /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
 		E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */; };
 		E24066B0F16486A352E9F19B /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
+		E3B34FD53D7DFA64A10F2DA1 /* PassAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D546508C8E7C30E6DBD207A5 /* PassAccessibility.swift */; };
 		E3E02C57D576CE6086E9BEAF /* PassShareControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06232E38DEC6EF6D62B58748 /* PassShareControls.swift */; };
 		E9C9C1A6F95246D2640FD33F /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
 		EFDE2F7251CB2B9C6BDF0545 /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */; };
@@ -120,9 +121,11 @@
 		F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2C529080055CAEF318AC1E /* PassAPIClient.swift */; };
 		F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */; };
 		F96A9EB804C8388706D6201B /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */; };
+		F9E6E5850FCAC0B384B82D15 /* BookingInboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7984C62C3752817466D8171 /* BookingInboxWatcher.swift */; };
 		FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0783491530619C761F358A92 /* SlipTheme.swift */; };
 		FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
 		FCD0D7F156C466D3751E627A /* BookingReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFC547868D3E8C5D3E06CD /* BookingReminderScheduler.swift */; };
+		FD8E9AE687B542EEFC30925B /* PassBackDetailsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47DF3C49AC83654CA00E6BE /* PassBackDetailsSheet.swift */; };
 		FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +143,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 45D3F0493594B4B18BF193D0;
 			remoteInfo = SlipShareExtension;
+		};
+		7978D45802538FB60F874E34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61C076D643A84C32D1B91F12 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90E8F132BEC9C451FC98140C;
+			remoteInfo = Slip;
+		};
+		8D4583C3F879585FE3ABAE52 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61C076D643A84C32D1B91F12 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90E8F132BEC9C451FC98140C;
+			remoteInfo = Slip;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -159,8 +176,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B9B8039A5D29ACAC41F270BB /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
+		056B628CC772890423C241CC /* UPIPayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPayLink.swift; sourceTree = "<group>"; };
 		05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CataloguePassHandlers.swift; sourceTree = "<group>"; };
 		06232E38DEC6EF6D62B58748 /* PassShareControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassShareControls.swift; sourceTree = "<group>"; };
 		0783491530619C761F358A92 /* SlipTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipTheme.swift; sourceTree = "<group>"; };
@@ -177,6 +194,7 @@
 		2435339DC7D9D57E3E2B6C04 /* PkpassCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PkpassCache.swift; sourceTree = "<group>"; };
 		2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGeofenceManager.swift; sourceTree = "<group>"; };
 		2B7DB958639C83886632B412 /* DiningPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningPassHandler.swift; sourceTree = "<group>"; };
+		2EA9682869FFEABA0DFF0ACE /* SlipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipUITests.swift; sourceTree = "<group>"; };
 		2EC03091146138679A40E07D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomcarPassHandler.swift; sourceTree = "<group>"; };
 		2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewBezel.swift; sourceTree = "<group>"; };
@@ -187,6 +205,7 @@
 		3D621D1E5C43A65B0124382B /* TicketExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExtractor.swift; sourceTree = "<group>"; };
 		3E1AE9A692AA514109E472AE /* PassPreviewChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewChrome.swift; sourceTree = "<group>"; };
 		427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassLiveActivityController.swift; sourceTree = "<group>"; };
+		43E6F4466D504883C9B7E836 /* SlipUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SlipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		44FA86E72B43193D98B047A6 /* HybridPassFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HybridPassFill.swift; sourceTree = "<group>"; };
 		4564222B5D2D431FAB5BA55E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirlineHintPassHandler.swift; sourceTree = "<group>"; };
@@ -199,6 +218,7 @@
 		6056D78108EF21EFED52888E /* IndigoPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndigoPassHandler.swift; sourceTree = "<group>"; };
 		62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPassHandler.swift; sourceTree = "<group>"; };
 		635C1695B4F2D1B4B9128414 /* SlipWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipWatch.entitlements; sourceTree = "<group>"; };
+		637879D8B723BC3D23D172C8 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		6840F8BBC22DE645ABEB1126 /* SlipWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipWatchApp.swift; sourceTree = "<group>"; };
 		69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassAppIntent.swift; sourceTree = "<group>"; };
@@ -215,18 +235,15 @@
 		877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassActivityAttributes.swift; sourceTree = "<group>"; };
 		8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SlipShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NammaMetroPassHandler.swift; sourceTree = "<group>"; };
+		903F60B305DE58A2919B8148 /* IdentityVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityVaultStore.swift; sourceTree = "<group>"; };
 		946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassVaultStore.swift; sourceTree = "<group>"; };
 		947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMyShowPassHandler.swift; sourceTree = "<group>"; };
 		94A17246EC381393678EA9CD /* SlipHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipHaptics.swift; sourceTree = "<group>"; };
-		ECDF994EDA459306C2A482E1 /* PassAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAccessibility.swift; sourceTree = "<group>"; };
-		B0051A597B72A074F42660EE /* IdentityCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityCardView.swift; sourceTree = "<group>"; };
-		5B14960B127B1843A0D8C48B /* IdentityVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityVaultStore.swift; sourceTree = "<group>"; };
-		270FC77C9B4E9CBD53E3DF87 /* UPIPayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPayLink.swift; sourceTree = "<group>"; };
-		4393022B4EA8BF000E19ECF7 /* GeofenceMapPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceMapPicker.swift; sourceTree = "<group>"; };
-		972D9454276B6C07D4959872 /* BookingInboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingInboxWatcher.swift; sourceTree = "<group>"; };
 		965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailsView.swift; sourceTree = "<group>"; };
 		970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBusPassHandler.swift; sourceTree = "<group>"; };
 		9ADF376FEA8CA772D0EBD806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9E9DB5F2024B763CC24D5D91 /* SlipTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SlipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F0C00C946B158D463FD1731 /* GeofenceMapPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceMapPicker.swift; sourceTree = "<group>"; };
 		A19E44B5EBEAAB8E976B96D1 /* SlipShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipShareExtension.entitlements; sourceTree = "<group>"; };
 		A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletButton.swift; sourceTree = "<group>"; };
 		A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultPassHandler.swift; sourceTree = "<group>"; };
@@ -236,6 +253,7 @@
 		B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandClassifier.swift; sourceTree = "<group>"; };
 		B3CE4E022829FECFCF08364F /* BrightQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightQRView.swift; sourceTree = "<group>"; };
+		B47DF3C49AC83654CA00E6BE /* PassBackDetailsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassBackDetailsSheet.swift; sourceTree = "<group>"; };
 		BA342F771F1C606EE930BF56 /* WalletPassLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPassLink.swift; sourceTree = "<group>"; };
 		C27CD80C407F877B0A7E2B75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandConfirmView.swift; sourceTree = "<group>"; };
@@ -244,6 +262,7 @@
 		CE8B55D5C32FB77CCE2D6B6D /* PassPreviewCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewCards.swift; sourceTree = "<group>"; };
 		D028DA7751866458868B3DD0 /* LiveStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStatusService.swift; sourceTree = "<group>"; };
 		D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandPassHandler.swift; sourceTree = "<group>"; };
+		D546508C8E7C30E6DBD207A5 /* PassAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAccessibility.swift; sourceTree = "<group>"; };
 		D90071AE67E17BE67AC6CE04 /* PassPreviewPanels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewPanels.swift; sourceTree = "<group>"; };
 		D9D33BB698BF00C47A64B124 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DB2C529080055CAEF318AC1E /* PassAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAPIClient.swift; sourceTree = "<group>"; };
@@ -255,15 +274,18 @@
 		EC254EF101ED57713178447A /* PassIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIntelligence.swift; sourceTree = "<group>"; };
 		F3567F8A4908D6B15B71BDAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		F7984C62C3752817466D8171 /* BookingInboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingInboxWatcher.swift; sourceTree = "<group>"; };
 		F9E2B9D17720F58538E95835 /* PassSharePackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassSharePackage.swift; sourceTree = "<group>"; };
+		FD196FA6A308A41CD08FDD15 /* IdentityCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityCardView.swift; sourceTree = "<group>"; };
+		FF0C2FC92B9E99334898E0DC /* SlipVaultFunctionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipVaultFunctionalTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		86299E927C1E154619F4905B /* Frameworks */ = {
+		8B0898A3D6819A39E5F3119E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2AC1B0D570F04C787467E11 /* AppIntents.framework in Frameworks */,
+				182697D5093BCE79B340866A /* AppIntents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +312,14 @@
 			path = Brands;
 			sourceTree = "<group>";
 		};
+		3220662DB4A3249C4F22F97F /* SlipUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2EA9682869FFEABA0DFF0ACE /* SlipUITests.swift */,
+			);
+			path = SlipUITests;
+			sourceTree = "<group>";
+		};
 		3655025D6F574D6A92C1279B /* SlipWatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,8 +337,11 @@
 				B3D6CB062C0261B9F0F4A096 /* SlipActivityShared */,
 				71F3FC9A405A26BBEFCE1ED3 /* SlipShared */,
 				6B0226088AD0F91B9FB91FB1 /* SlipShareExtension */,
+				BC4644DFE0297F4F9A63E7EB /* SlipTests */,
+				3220662DB4A3249C4F22F97F /* SlipUITests */,
 				3655025D6F574D6A92C1279B /* SlipWatch */,
 				516ED30741AFAB57EE82129C /* SlipWidgets */,
+				8058B6058DAA9C0B89BDD500 /* Frameworks */,
 				E7161B3A0B90D8438DF8D2BF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -357,6 +390,14 @@
 			path = SlipShared;
 			sourceTree = "<group>";
 		};
+		8058B6058DAA9C0B89BDD500 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				637879D8B723BC3D23D172C8 /* AppIntents.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B3D6CB062C0261B9F0F4A096 /* SlipActivityShared */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,6 +405,14 @@
 				7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */,
 			);
 			path = SlipActivityShared;
+			sourceTree = "<group>";
+		};
+		BC4644DFE0297F4F9A63E7EB /* SlipTests */ = {
+			isa = PBXGroup;
+			children = (
+				FF0C2FC92B9E99334898E0DC /* SlipVaultFunctionalTests.swift */,
+			);
+			path = SlipTests;
 			sourceTree = "<group>";
 		};
 		CF877F8ABF8469D02942E9C2 /* Slip */ = {
@@ -374,6 +423,7 @@
 				F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */,
 				2EC03091146138679A40E07D /* Assets.xcassets */,
 				00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */,
+				F7984C62C3752817466D8171 /* BookingInboxWatcher.swift */,
 				0FBFC547868D3E8C5D3E06CD /* BookingReminderScheduler.swift */,
 				C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */,
 				1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */,
@@ -382,6 +432,9 @@
 				C27CD80C407F877B0A7E2B75 /* ContentView.swift */,
 				69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */,
 				1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */,
+				9F0C00C946B158D463FD1731 /* GeofenceMapPicker.swift */,
+				FD196FA6A308A41CD08FDD15 /* IdentityCardView.swift */,
+				903F60B305DE58A2919B8148 /* IdentityVaultStore.swift */,
 				21E940C6702923F5B34291AD /* ImportTicketMenu.swift */,
 				4564222B5D2D431FAB5BA55E /* Info.plist */,
 				C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */,
@@ -389,6 +442,7 @@
 				4CAFC42838CB7C6A0F0E242F /* LocationAccess.swift */,
 				B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */,
 				08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */,
+				D546508C8E7C30E6DBD207A5 /* PassAccessibility.swift */,
 				DB2C529080055CAEF318AC1E /* PassAPIClient.swift */,
 				965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */,
 				E3B60260E640819982153A3B /* PassFieldEditor.swift */,
@@ -404,14 +458,9 @@
 				6EACDBB52650B738AC43FF42 /* SlipAddPassIntent.swift */,
 				17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */,
 				94A17246EC381393678EA9CD /* SlipHaptics.swift */,
-				ECDF994EDA459306C2A482E1 /* PassAccessibility.swift */,
-				B0051A597B72A074F42660EE /* IdentityCardView.swift */,
-				5B14960B127B1843A0D8C48B /* IdentityVaultStore.swift */,
-				270FC77C9B4E9CBD53E3DF87 /* UPIPayLink.swift */,
-				4393022B4EA8BF000E19ECF7 /* GeofenceMapPicker.swift */,
-				972D9454276B6C07D4959872 /* BookingInboxWatcher.swift */,
 				31725F44219A6185B6836965 /* SlipPassEntity.swift */,
 				0783491530619C761F358A92 /* SlipTheme.swift */,
+				056B628CC772890423C241CC /* UPIPayLink.swift */,
 				BA342F771F1C606EE930BF56 /* WalletPassLink.swift */,
 				7294A8840E58044BC17602D9 /* WalletPassPreview.swift */,
 			);
@@ -423,6 +472,8 @@
 			children = (
 				7062E51BFDA810ADEC391AA3 /* Slip.app */,
 				8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */,
+				9E9DB5F2024B763CC24D5D91 /* SlipTests.xctest */,
+				43E6F4466D504883C9B7E836 /* SlipUITests.xctest */,
 				7E4C20740A4BAC424CF2B9DF /* SlipWatch.app */,
 				55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */,
 			);
@@ -432,6 +483,7 @@
 		F9528E48565BB17C8E12BFEE /* PassPreview */ = {
 			isa = PBXGroup;
 			children = (
+				B47DF3C49AC83654CA00E6BE /* PassBackDetailsSheet.swift */,
 				2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */,
 				CE8B55D5C32FB77CCE2D6B6D /* PassPreviewCards.swift */,
 				3E1AE9A692AA514109E472AE /* PassPreviewChrome.swift */,
@@ -447,6 +499,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1670F187302D242BA8A82787 /* SlipUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3136A0E00D92D4E432F71B5D /* Build configuration list for PBXNativeTarget "SlipUITests" */;
+			buildPhases = (
+				E301C19EBDD7BDAD2A5139B9 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ECE0E256DAC5F9B6D5A2F406 /* PBXTargetDependency */,
+			);
+			name = SlipUITests;
+			packageProductDependencies = (
+			);
+			productName = SlipUITests;
+			productReference = 43E6F4466D504883C9B7E836 /* SlipUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		218924599EBD4E248862FB66 /* SlipWidgets */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 10F0F9B4A0A8F05CA05CD9E5 /* Build configuration list for PBXNativeTarget "SlipWidgets" */;
@@ -485,7 +555,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F65C0A3032F85C12BD9BB716 /* Build configuration list for PBXNativeTarget "SlipShareExtension" */;
 			buildPhases = (
-				86299E927C1E154619F4905B /* Frameworks */,
 				C3A546E8A981E61C3A2566C7 /* Sources */,
 			);
 			buildRules = (
@@ -499,12 +568,31 @@
 			productReference = 8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		6BB02A579CEDF4470E8917B7 /* SlipTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5E190336EBE95CBA25FF1CDF /* Build configuration list for PBXNativeTarget "SlipTests" */;
+			buildPhases = (
+				B24AF2E20835C258592A520C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2242699BC432626671C2146 /* PBXTargetDependency */,
+			);
+			name = SlipTests;
+			packageProductDependencies = (
+			);
+			productName = SlipTests;
+			productReference = 9E9DB5F2024B763CC24D5D91 /* SlipTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		90E8F132BEC9C451FC98140C /* Slip */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A74054958591834E1D9CAD16 /* Build configuration list for PBXNativeTarget "Slip" */;
 			buildPhases = (
 				5A16E896C6B46360FDC5E756 /* Sources */,
 				F6EA1B1CEC26A332012AD74E /* Resources */,
+				8B0898A3D6819A39E5F3119E /* Frameworks */,
 				D7E93DBB1401BB7DBF9B9963 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -529,6 +617,11 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					1670F187302D242BA8A82787 = {
+						DevelopmentTeam = 9HSMVVUMVX;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 90E8F132BEC9C451FC98140C;
+					};
 					218924599EBD4E248862FB66 = {
 						DevelopmentTeam = 9HSMVVUMVX;
 						ProvisioningStyle = Automatic;
@@ -538,6 +631,10 @@
 						ProvisioningStyle = Automatic;
 					};
 					45D3F0493594B4B18BF193D0 = {
+						DevelopmentTeam = 9HSMVVUMVX;
+						ProvisioningStyle = Automatic;
+					};
+					6BB02A579CEDF4470E8917B7 = {
 						DevelopmentTeam = 9HSMVVUMVX;
 						ProvisioningStyle = Automatic;
 					};
@@ -565,6 +662,8 @@
 				45D3F0493594B4B18BF193D0 /* SlipShareExtension */,
 				218924599EBD4E248862FB66 /* SlipWidgets */,
 				315906283317316EC0F073B5 /* SlipWatch */,
+				6BB02A579CEDF4470E8917B7 /* SlipTests */,
+				1670F187302D242BA8A82787 /* SlipUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -592,6 +691,7 @@
 				5C81F5632709A406A7E12826 /* AppModel.swift in Sources */,
 				E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */,
 				CAA1F9A8DC1DC09DDC030D3F /* BookMyShowPassHandler.swift in Sources */,
+				F9E6E5850FCAC0B384B82D15 /* BookingInboxWatcher.swift in Sources */,
 				FCD0D7F156C466D3751E627A /* BookingReminderScheduler.swift in Sources */,
 				6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */,
 				05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */,
@@ -607,8 +707,11 @@
 				CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */,
 				C2056596E1019241327993EF /* DiningPassHandler.swift in Sources */,
 				A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */,
+				78473DF2B1614F731880999D /* GeofenceMapPicker.swift in Sources */,
 				F2949D960D951262A1E6F996 /* HybridPassFill.swift in Sources */,
 				A32FF169A9703B3F8B43BF99 /* IRCTCPassHandler.swift in Sources */,
+				549015C11E6BF94348B7297C /* IdentityCardView.swift in Sources */,
+				040AB70286D11B886E90FD3C /* IdentityVaultStore.swift in Sources */,
 				4D402254DF646A28A191E4CB /* ImportTicketMenu.swift in Sources */,
 				63E4AC48D5AF26374A413D32 /* IndigoPassHandler.swift in Sources */,
 				9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */,
@@ -619,6 +722,8 @@
 				C6F1D4B660C77FC1D24E7CAA /* Models.swift in Sources */,
 				75359E183A933341FE3A0D8F /* NammaMetroPassHandler.swift in Sources */,
 				F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */,
+				E3B34FD53D7DFA64A10F2DA1 /* PassAccessibility.swift in Sources */,
+				FD8E9AE687B542EEFC30925B /* PassBackDetailsSheet.swift in Sources */,
 				DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */,
 				C88302FA76A6F9B5BCDB44D7 /* PassExpiration.swift in Sources */,
 				AE3DB926DCE8E458E91E9479 /* PassFieldEditor.swift in Sources */,
@@ -644,12 +749,6 @@
 				2C771A27CED1327FD71D2ED8 /* SlipAddPassIntent.swift in Sources */,
 				5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */,
 				23F58166111E7D3A2E4579AF /* SlipHaptics.swift in Sources */,
-				9FE418496D8598281AB6B1E2 /* PassAccessibility.swift in Sources */,
-				6FDD9C4C75EE01F4C3C4F7A0 /* IdentityCardView.swift in Sources */,
-				521400C1B356EA50CDE58234 /* IdentityVaultStore.swift in Sources */,
-				36E750DAB834011E3DA0B787 /* UPIPayLink.swift in Sources */,
-				D0DE9C30A0452B767A61E8C9 /* GeofenceMapPicker.swift in Sources */,
-				F0973466DA4468CB4235ED34 /* BookingInboxWatcher.swift in Sources */,
 				F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */,
 				1C20342836A22D2DDE84F52B /* SlipPassEntity.swift in Sources */,
 				FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */,
@@ -657,6 +756,7 @@
 				B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */,
 				B67421310CEB7D490D0EBB44 /* TicketText.swift in Sources */,
 				E9C9C1A6F95246D2640FD33F /* UPIPassHandler.swift in Sources */,
+				AC4A6B7459362216A8BB2BC7 /* UPIPayLink.swift in Sources */,
 				3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */,
 				354EEF1C9837B99E1447F16B /* WalletPassLink.swift in Sources */,
 				67B6CCA53E7A088FE6C5E1E4 /* WalletPassPreview.swift in Sources */,
@@ -675,6 +775,14 @@
 				0FDFACBB66179912E754C3B4 /* SlipPassLiveActivityWidget.swift in Sources */,
 				5419AD28CE0A22BBBAF83B98 /* SlipWidgetsBundle.swift in Sources */,
 				3AF665DB3D18D3F781A9AB78 /* WidgetPassSnapshot.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B24AF2E20835C258592A520C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE99C4AE66B1AA1649C5B42C /* SlipVaultFunctionalTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,6 +820,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E301C19EBDD7BDAD2A5139B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9732D14C07AD79C7A101BE1F /* SlipUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDF0182A9CFF415BE64895CA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -734,6 +850,16 @@
 			isa = PBXTargetDependency;
 			target = 45D3F0493594B4B18BF193D0 /* SlipShareExtension */;
 			targetProxy = 470C84A853C1A49634FD3B3C /* PBXContainerItemProxy */;
+		};
+		ECE0E256DAC5F9B6D5A2F406 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 90E8F132BEC9C451FC98140C /* Slip */;
+			targetProxy = 8D4583C3F879585FE3ABAE52 /* PBXContainerItemProxy */;
+		};
+		F2242699BC432626671C2146 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 90E8F132BEC9C451FC98140C /* Slip */;
+			targetProxy = 7978D45802538FB60F874E34 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -760,6 +886,22 @@
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6D252231F30C664BFF1BC378 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Slip;
 			};
 			name = Debug;
 		};
@@ -816,7 +958,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -851,13 +993,13 @@
 		7F40CE6A7AF1D8DA3B484827 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPINTENTS_METADATA_GENERATION = NO;
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
-				ENABLE_APP_INTENTS = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.0.0;
@@ -869,9 +1011,26 @@
 			};
 			name = Debug;
 		};
+		8E939ED7F460EC15884385A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slip.app/Slip";
+			};
+			name = Release;
+		};
 		8ED2DCD9438C14912BDDE37D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPINTENTS_METADATA_GENERATION = NO;
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipWidgets/SlipWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -893,6 +1052,7 @@
 		992F9E064EC6E1CDF98917D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPINTENTS_METADATA_GENERATION = NO;
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipWidgets/SlipWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -959,13 +1119,13 @@
 		D8F25CD9F1ACA686BA0971F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPINTENTS_METADATA_GENERATION = NO;
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
-				ENABLE_APP_INTENTS = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.0.0;
@@ -976,6 +1136,22 @@
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
+		};
+		E36BDB6ACAF7BA6C03672C0C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slip.app/Slip";
+			};
+			name = Debug;
 		};
 		EDAC72736F4A9613EFF2F620 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1024,7 +1200,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1032,6 +1208,22 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		F916DF0607515534E0BA87D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Slip;
 			};
 			name = Release;
 		};
@@ -1043,6 +1235,24 @@
 			buildConfigurations = (
 				992F9E064EC6E1CDF98917D8 /* Debug */,
 				8ED2DCD9438C14912BDDE37D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3136A0E00D92D4E432F71B5D /* Build configuration list for PBXNativeTarget "SlipUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6D252231F30C664BFF1BC378 /* Debug */,
+				F916DF0607515534E0BA87D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5E190336EBE95CBA25FF1CDF /* Build configuration list for PBXNativeTarget "SlipTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E36BDB6ACAF7BA6C03672C0C /* Debug */,
+				8E939ED7F460EC15884385A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
