@@ -82,48 +82,82 @@ class ShareViewController: UIViewController {
 
 
     private func loadString(from provider: NSItemProvider, typeIdentifier: String) async throws -> String {
-        let item = try await provider.loadItem(forTypeIdentifier: typeIdentifier)
-        if let s = item as? String { return s }
-        if let data = item as? Data, let s = String(data: data, encoding: .utf8) { return s }
-        if let url = item as? URL {
+        if provider.canLoadObject(ofClass: NSString.self) {
+            let object: NSString = try await withCheckedThrowingContinuation { continuation in
+                _ = provider.loadObject(ofClass: NSString.self) { object, error in
+                    if let error {
+                        continuation.resume(throwing: error)
+                    } else if let value = object as? NSString {
+                        continuation.resume(returning: value)
+                    } else {
+                        continuation.resume(throwing: NSError(domain: "SlipShare", code: 3, userInfo: [
+                            NSLocalizedDescriptionKey: "Couldn’t read the shared text."
+                        ]))
+                    }
+                }
+            }
+            return object as String
+        }
+        if provider.canLoadObject(ofClass: NSURL.self) {
+            let nsurl: NSURL = try await withCheckedThrowingContinuation { continuation in
+                _ = provider.loadObject(ofClass: NSURL.self) { object, error in
+                    if let error {
+                        continuation.resume(throwing: error)
+                    } else if let value = object as? NSURL {
+                        continuation.resume(returning: value)
+                    } else {
+                        continuation.resume(throwing: NSError(domain: "SlipShare", code: 3, userInfo: [
+                            NSLocalizedDescriptionKey: "Couldn’t read the shared text."
+                        ]))
+                    }
+                }
+            }
+            let url = nsurl as URL
             let accessing = url.startAccessingSecurityScopedResource()
             defer { if accessing { url.stopAccessingSecurityScopedResource() } }
             return try String(contentsOf: url, encoding: .utf8)
         }
+        let data = try await loadData(from: provider, typeIdentifier: typeIdentifier)
+        if let s = String(data: data, encoding: .utf8) { return s }
         throw NSError(domain: "SlipShare", code: 3, userInfo: [
             NSLocalizedDescriptionKey: "Couldn’t read the shared text."
         ])
     }
 
     private func loadData(from provider: NSItemProvider, typeIdentifier: String) async throws -> Data {
-        let raw = try await provider.loadItem(forTypeIdentifier: typeIdentifier)
-        if let data = raw as? Data {
-            return data
+        try await withCheckedThrowingContinuation { continuation in
+            _ = provider.loadDataRepresentation(forTypeIdentifier: typeIdentifier) { data, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if let data {
+                    continuation.resume(returning: data)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "SlipShare", code: 1, userInfo: [
+                        NSLocalizedDescriptionKey: "Couldn’t read the shared PDF."
+                    ]))
+                }
+            }
         }
-        if let url = raw as? URL {
-            let accessing = url.startAccessingSecurityScopedResource()
-            defer { if accessing { url.stopAccessingSecurityScopedResource() } }
-            return try Data(contentsOf: url)
-        }
-        throw NSError(domain: "SlipShare", code: 1, userInfo: [
-            NSLocalizedDescriptionKey: "Couldn’t read the shared PDF."
-        ])
     }
 
     private func loadImage(from provider: NSItemProvider) async throws -> UIImage {
-        let raw = try await provider.loadItem(forTypeIdentifier: UTType.image.identifier)
-        if let image = raw as? UIImage {
-            return image
+        if provider.canLoadObject(ofClass: UIImage.self) {
+            return try await withCheckedThrowingContinuation { continuation in
+                _ = provider.loadObject(ofClass: UIImage.self) { object, error in
+                    if let error {
+                        continuation.resume(throwing: error)
+                    } else if let image = object as? UIImage {
+                        continuation.resume(returning: image)
+                    } else {
+                        continuation.resume(throwing: NSError(domain: "SlipShare", code: 2, userInfo: [
+                            NSLocalizedDescriptionKey: "Couldn’t read the shared image."
+                        ]))
+                    }
+                }
+            }
         }
-        if let data = raw as? Data, let image = UIImage(data: data) {
-            return image
-        }
-        if let url = raw as? URL {
-            let accessing = url.startAccessingSecurityScopedResource()
-            defer { if accessing { url.stopAccessingSecurityScopedResource() } }
-            let data = try Data(contentsOf: url)
-            if let image = UIImage(data: data) { return image }
-        }
+        let data = try await loadData(from: provider, typeIdentifier: UTType.image.identifier)
+        if let image = UIImage(data: data) { return image }
         throw NSError(domain: "SlipShare", code: 2, userInfo: [
             NSLocalizedDescriptionKey: "Couldn’t read the shared image."
         ])

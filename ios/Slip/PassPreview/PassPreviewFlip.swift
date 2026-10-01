@@ -3,6 +3,7 @@ import UIKit
 
 /// Wallet-style 3D flip: front face + info (`i`) reveals secondary fields on the back.
 struct PassFlipContainer<Front: View>: View {
+    var brandId: String = "generic"
     let brandTitle: String
     let backRows: [PassBackRow]
     /// Optional fields for UPI / dining "Pay Now" on the back face.
@@ -10,6 +11,7 @@ struct PassFlipContainer<Front: View>: View {
     @ViewBuilder var front: () -> Front
 
     @State private var flipped = false
+    @State private var showBackSheet = false
 
     var body: some View {
         ZStack {
@@ -18,16 +20,23 @@ struct PassFlipContainer<Front: View>: View {
                 .rotation3DEffect(.degrees(flipped ? -180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.65)
                 .accessibilityHidden(flipped)
 
-            PassBackFace(brandTitle: brandTitle, rows: backRows, payFields: payFields) {
-                withAnimation(.spring(response: 0.55, dampingFraction: 0.86)) {
-                    flipped = false
+            PassBackFace(
+                brandId: brandId,
+                brandTitle: brandTitle,
+                rows: backRows,
+                payFields: payFields,
+                onOpenFullSheet: { showBackSheet = true },
+                onDone: {
+                    withAnimation(.spring(response: 0.55, dampingFraction: 0.86)) {
+                        flipped = false
+                    }
                 }
-            }
+            )
             .opacity(flipped ? 1 : 0)
             .rotation3DEffect(.degrees(flipped ? 0 : 180), axis: (x: 0, y: 1, z: 0), perspective: 0.65)
             .accessibilityHidden(!flipped)
         }
-        .overlay(alignment: .topTrailing) {
+        .overlay(alignment: .bottomTrailing) {
             if !flipped {
                 Button {
                     withAnimation(.spring(response: 0.55, dampingFraction: 0.86)) {
@@ -36,29 +45,38 @@ struct PassFlipContainer<Front: View>: View {
                     SlipHaptics.scrollTick()
                 } label: {
                     Image(systemName: "info.circle.fill")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.92))
                         .shadow(color: .black.opacity(0.45), radius: 4, y: 1)
+                        .padding(20)
                 }
                 .buttonStyle(.plain)
-                .padding(.trailing, 14)
-                .padding(.top, 44)
                 .accessibilityLabel("Show pass details")
             }
+        }
+        .sheet(isPresented: $showBackSheet) {
+            PassBackDetailsSheet(
+                brandId: brandId,
+                brandTitle: brandTitle,
+                fields: payFields
+            )
         }
     }
 }
 
 struct PassBackFace: View {
+    var brandId: String = "generic"
     let brandTitle: String
     let rows: [PassBackRow]
     var payFields: [String: String] = [:]
+    var onOpenFullSheet: (() -> Void)? = nil
     var onDone: () -> Void
 
     var body: some View {
+        let palette = PassPalettes.resolved(templateId: brandId)
         VStack(spacing: 12) {
-            PassMetaBar(left: "PASS DETAILS", right: "BACK", tint: Color.white.opacity(0.55))
-            PassShell(palette: PassPalettes.genericDark) {
+            PassMetaBar(left: "PASS DETAILS", right: "FLIP BACK", tint: palette.accentSoft)
+            PassShell(palette: palette) {
                 VStack(alignment: .leading, spacing: 14) {
                     HStack {
                         Text(brandTitle)
@@ -67,7 +85,33 @@ struct PassBackFace: View {
                         Spacer()
                         Button("Done", action: onDone)
                             .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(Color.cyan.opacity(0.9))
+                            .foregroundStyle(palette.accentSoft)
+                    }
+
+                    // Button to open full Stitch back-of-pass sheet
+                    if let onOpenFullSheet {
+                        Button(action: onOpenFullSheet) {
+                            HStack {
+                                Image(systemName: "list.bullet.rectangle.fill")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(palette.accentSoft)
+                                Text("Full Pass Details & Logistics")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 11, weight: .bold))
+                                    .foregroundStyle(.white.opacity(0.5))
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                    .fill(Color.white.opacity(0.08))
+                                    .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(palette.accent.opacity(0.3), lineWidth: 1))
+                            )
+                        }
+                        .buttonStyle(.plain)
                     }
 
                     if UPIPayLink.canPay(fields: payFields) {
@@ -79,19 +123,19 @@ struct PassBackFace: View {
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
-                                .background(Capsule().fill(Color(red: 0.35, green: 0.85, blue: 0.55)))
+                                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color(red: 0.35, green: 0.85, blue: 0.55)))
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Pay now with UPI")
                         .accessibilityHint("Opens Google Pay, PhonePe, or another UPI app")
                     }
 
-                    Text("More details")
+                    Text("Pass Details")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.55))
 
                     ScrollView {
-                        VStack(alignment: .leading, spacing: 12) {
+                        VStack(alignment: .leading, spacing: 10) {
                             if rows.isEmpty {
                                 Text("Address, Wi‑Fi, host, and other secondary fields show here when filled.")
                                     .font(.subheadline)
@@ -101,7 +145,7 @@ struct PassBackFace: View {
                                     VStack(alignment: .leading, spacing: 3) {
                                         Text(row.label.uppercased())
                                             .font(.caption2.weight(.semibold))
-                                            .foregroundStyle(.white.opacity(0.45))
+                                            .foregroundStyle(palette.accentSoft.opacity(0.7))
                                         Text(row.value)
                                             .font(.subheadline.weight(.semibold))
                                             .foregroundStyle(.white)
@@ -112,9 +156,9 @@ struct PassBackFace: View {
                             }
                         }
                     }
-                    .frame(maxHeight: 360)
+                    .frame(maxHeight: 280)
 
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 6) {
                         Text("Automatic Updates")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.white)
@@ -122,9 +166,9 @@ struct PassBackFace: View {
                             .font(.caption)
                             .foregroundStyle(.white.opacity(0.55))
                     }
-                    .padding(.top, 4)
+                    .padding(.top, 2)
 
-                    Text("Terms apply as shown by the issuing brand. This preview is not a live PassKit back.")
+                    Text("Terms apply as shown by issuing brand. Slip SecurePass™ VAS 2.0")
                         .font(.caption2)
                         .foregroundStyle(.white.opacity(0.4))
                 }
@@ -170,12 +214,12 @@ struct ExpandableCodeModifier: ViewModifier {
                     .padding()
                 }
                 .onAppear {
-                    priorBrightness = UIScreen.main.brightness
-                    UIScreen.main.brightness = 1.0
+                    priorBrightness = ScreenBrightness.current
+                    ScreenBrightness.set(1.0)
                 }
                 .onDisappear {
                     if let priorBrightness {
-                        UIScreen.main.brightness = priorBrightness
+                        ScreenBrightness.set(priorBrightness)
                     }
                 }
             }

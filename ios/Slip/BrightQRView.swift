@@ -44,15 +44,15 @@ struct BrightQRView: View {
             .padding()
         }
         .onAppear {
-            priorBrightness = UIScreen.main.brightness
-            UIScreen.main.brightness = 1.0
+            priorBrightness = ScreenBrightness.current
+            ScreenBrightness.set(1.0)
             UIApplication.shared.isIdleTimerDisabled = true
             SlipHaptics.brightQRReady()
         }
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
             if let priorBrightness {
-                UIScreen.main.brightness = priorBrightness
+                ScreenBrightness.set(priorBrightness)
             }
         }
         .statusBarHidden(true)

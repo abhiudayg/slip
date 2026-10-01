@@ -32,6 +32,7 @@ struct GeofenceMapPicker: View {
                     .font(.system(size: 36, weight: .semibold))
                     .foregroundStyle(.red)
                     .shadow(color: .black.opacity(0.35), radius: 3, y: 2)
+                    // Map pin glyph hotspot (tip), not screen layout.
                     .offset(y: -18)
                     .allowsHitTesting(false)
 
@@ -98,10 +99,11 @@ struct GeofenceMapPicker: View {
     }
 
     private func reverseGeocode(_ coordinate: CLLocationCoordinate2D) {
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) { marks, _ in
-            guard let mark = marks?.first else { return }
-            let parts = [mark.name, mark.locality, mark.administrativeArea]
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        guard let request = MKReverseGeocodingRequest(location: location) else { return }
+        Task { @MainActor in
+            guard let item = try? await request.mapItems.first else { return }
+            let parts = [item.name, item.address?.shortAddress, item.address?.fullAddress]
                 .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
                 .filter { !$0.isEmpty }
             resolvedName = parts.prefix(2).joined(separator: ", ")
@@ -109,10 +111,10 @@ struct GeofenceMapPicker: View {
     }
 
     private func geocodeHint(_ hint: String) {
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(hint) { marks, _ in
-            guard let loc = marks?.first?.location else { return }
-            pin = loc.coordinate
+        guard let request = MKGeocodingRequest(addressString: hint) else { return }
+        Task { @MainActor in
+            guard let item = try? await request.mapItems.first else { return }
+            pin = item.location.coordinate
             camera = .region(MKCoordinateRegion(center: pin, latitudinalMeters: 1200, longitudinalMeters: 1200))
             updateCoordStrings()
             reverseGeocode(pin)

@@ -1,4 +1,5 @@
 import CoreLocation
+import MapKit
 import Foundation
 import UserNotifications
 
@@ -14,7 +15,6 @@ final class PassGeofenceManager: NSObject, ObservableObject {
     @Published private(set) var lastRegisteredLabel: String?
 
     private let manager = CLLocationManager()
-    private let geocoder = CLGeocoder()
     private var stations: [MetroStation] = []
     private var registerTask: Task<Void, Never>?
 
@@ -191,14 +191,13 @@ final class PassGeofenceManager: NSObject, ObservableObject {
 
     private func geocode(_ query: String) async -> GeoPoint? {
         do {
-            let marks = try await geocoder.geocodeAddressString(query)
-            guard let mark = marks.first, let loc = mark.location else { return nil }
-            let name = [mark.name, mark.locality, mark.administrativeArea]
-                .compactMap { $0 }
-                .filter { !$0.isEmpty }
-                .prefix(2)
-                .joined(separator: ", ")
-            let label = name.isEmpty ? query : name
+            guard let request = MKGeocodingRequest(addressString: query) else { return nil }
+            let items = try await request.mapItems
+            guard let item = items.first else { return nil }
+            let loc = item.location
+            let label = [item.name, item.address?.shortAddress, item.address?.fullAddress]
+                .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .first { !$0.isEmpty } ?? query
             let id = "geo.\(abs(query.hashValue))"
             return GeoPoint(id: id, name: label, latitude: loc.coordinate.latitude, longitude: loc.coordinate.longitude)
         } catch {
@@ -206,6 +205,7 @@ final class PassGeofenceManager: NSObject, ObservableObject {
             return nil
         }
     }
+
 
     private func matchedStations(for classification: ClassificationResult) -> [MetroStation] {
         if !classification.stationIds.isEmpty {
