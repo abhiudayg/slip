@@ -21,6 +21,8 @@ struct PassDetailsView: View {
     @State private var showFieldEditor = false
     @State private var alreadyInAppleWallet = false
     @State private var latestPKPass: PKPass?
+    @State private var showBrightQR = false
+    @State private var sharePackage: PassSharePackage?
 
     enum TriggerMode: String, CaseIterable {
         case geofence = "GPS Geofence"
@@ -58,6 +60,9 @@ struct PassDetailsView: View {
                         livePassCard
                         passFieldsSection
                         lockScreenTrigger
+                        if let sharePackage {
+                            PassShareControls(package: sharePackage)
+                        }
                         addButton
                     }
                     .padding(.horizontal, 20)
@@ -73,7 +78,17 @@ struct PassDetailsView: View {
                             .foregroundStyle(SlipTheme.ink)
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    if sharePackage != nil || !(fields["qr_data"] ?? "").isEmpty {
+                        Button {
+                            showBrightQR = true
+                            SlipHaptics.brightQRReady()
+                        } label: {
+                            Image(systemName: "sun.max.fill")
+                                .foregroundStyle(SlipTheme.accentSoft)
+                        }
+                        .accessibilityLabel("Bright QR")
+                    }
                     Button {
                         showFieldEditor = true
                     } label: {
@@ -83,7 +98,18 @@ struct PassDetailsView: View {
                 }
             }
             .toolbarBackground(.hidden, for: .navigationBar)
-            .onAppear { hydrateWalletLink() }
+            .onAppear {
+                hydrateWalletLink()
+                refreshSharePackage()
+            }
+            .fullScreenCover(isPresented: $showBrightQR) {
+                let payload = fields["qr_data"] ?? sharePackage?.qrPayload ?? ""
+                BrightQRView(
+                    passId: vaultRecordId ?? brand.id,
+                    displayName: brand.displayName,
+                    payload: payload
+                ) { showBrightQR = false }
+            }
             .alert("Couldn't create pass", isPresented: Binding(
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
@@ -774,7 +800,29 @@ struct PassDetailsView: View {
                 serialNumber: reuseSerial
             )
             // Generate signed .pkpass first — vault only after success.
-            let data = try await model.api.createPass(request)
+            // Offline: reuse cached signed bytes when field hash matches.
+            let cacheRecordId = vaultRecordId ?? "draft-\(brand.id)"
+            let cacheHash = PkpassCache.contentHash(
+                templateId: brand.id,
+                fields: pruned,
+                serial: reuseSerial
+            )
+            let data: Data
+            do {
+                data = try await model.api.createPass(request)
+                PkpassCache.store(recordId: cacheRecordId, hash: cacheHash, data: data)
+            } catch {
+                if let cached = PkpassCache.load(recordId: cacheRecordId, hash: cacheHash) {
+                    data = cached
+                    errorMessage = nil
+                    // Soft notice via status — keep going with offline cache.
+                } else if let anyId = vaultRecordId,
+                          let cached = PkpassCache.load(recordId: anyId, hash: cacheHash) {
+                    data = cached
+                } else {
+                    throw error
+                }
+            }
 
             let displayName: String = {
                 if brand.id == "airbnb", let property = pruned["property"], !property.isEmpty {
@@ -833,6 +881,7 @@ struct PassDetailsView: View {
                     walletPass: pkPass
                 )
             } else {
+                SlipHaptics.passSaved()
                 let record = try vault.save(
                     payload: payload,
                     walletAdded: inWallet,
@@ -857,6 +906,23 @@ struct PassDetailsView: View {
             return nil
         }
         return WalletPassLink.serialForRegenerate(record: record, vaultRecords: vault.records, organizationName: WalletPassLink.organizationName(forTemplateId: brand.id))
+    }
+
+    private func refreshSharePackage() {
+        if let id = vaultRecordId, let record = vault.records.first(where: { $0.id == id }),
+           let payload = try? vault.decrypt(record) {
+            sharePackage = PassSharePackage.from(payload: payload)
+            return
+        }
+        let qr = (fields["qr_data"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        sharePackage = PassSharePackage(
+            templateId: brand.id,
+            displayName: brand.displayName,
+            fields: fields,
+            qrPayload: qr.isEmpty ? nil : qr,
+            relevantDateISO8601: nil,
+            stationIds: []
+        )
     }
 
     /// Restore In Wallet badge / Update CTA from vault + PassKit on open.

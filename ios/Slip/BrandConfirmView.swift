@@ -208,7 +208,18 @@ struct BrandConfirmView: View {
                 let expires = relevantDate.addingTimeInterval(6 * 3600)
                 request.expirationDate = formatter.string(from: expires)
             }
-            let data = try await model.api.createPass(request)
+            let hash = PkpassCache.contentHash(templateId: brand.id, fields: fields, serial: nil)
+            let data: Data
+            do {
+                data = try await model.api.createPass(request)
+                PkpassCache.store(recordId: "confirm-\(brand.id)", hash: hash, data: data)
+            } catch {
+                if let cached = PkpassCache.load(recordId: "confirm-\(brand.id)", hash: hash) {
+                    data = cached
+                } else {
+                    throw error
+                }
+            }
             passData = data
             showAddPasses = true
         } catch {

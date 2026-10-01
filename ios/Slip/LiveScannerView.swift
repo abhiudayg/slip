@@ -308,6 +308,7 @@ final class ScannerViewController: UIViewController, AVCaptureVideoDataOutputSam
             self.didEmit = true
             let symbology = String(describing: best.symbology.rawValue)
             DispatchQueue.main.async {
+                SlipHaptics.scanSuccess()
                 self.onCode?(payload, symbology)
             }
         }

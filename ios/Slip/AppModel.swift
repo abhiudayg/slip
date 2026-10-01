@@ -84,6 +84,9 @@ final class AppModel: ObservableObject {
         extractingStatus = "Reading ticket"
         isExtracting = true
         defer { isExtracting = false }
+        if let swatch = TicketColorExtractor.extract(from: image) {
+            TicketColorExtractor.cacheLast(swatch)
+        }
         let extracted = await TicketExtractor.extract(from: image)
         presentBrandStep(for: extracted)
     }
@@ -127,6 +130,13 @@ final class AppModel: ObservableObject {
     func clearPendingClassification() {
         pendingClassification = nil
         pendingBatch = nil
+    }
+
+    /// Import a pass shared via `slip://import/…` (iMessage / AirDrop / Universal Link).
+    func importSharePackage(_ package: PassSharePackage) {
+        let result = BrandPassRegistry.enrich(package.asClassification())
+        presentClassification(result)
+        SlipHaptics.scanSuccess()
     }
 
     private struct LegacySharedBarcode: Codable {

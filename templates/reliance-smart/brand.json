@@ -1,0 +1,28 @@
+{
+  "id": "reliance-smart",
+  "displayName": "Reliance Smart",
+  "category": "retail",
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "store",
+    "offer",
+    "points",
+    "tier",
+    "valid_thru",
+    "member_id",
+    "booking_id"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": false,
+  "accentHint": "rgb(249, 115, 22)",
+  "summary": "Reliance Smart grocery loyalty pass.",
+  "badge": "Loyalty",
+  "iconHint": "cart.fill"
+}

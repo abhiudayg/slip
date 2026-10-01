@@ -1032,6 +1032,7 @@ struct ConfirmPassSheet: View {
                 PassGeofenceManager.shared.register(for: geoItem)
             }
             batchStatus = "Created \(classifications.count) passes"
+            SlipHaptics.passSaved()
             try? await Task.sleep(nanoseconds: 450_000_000)
             model.clearPendingClassification()
             dismiss()

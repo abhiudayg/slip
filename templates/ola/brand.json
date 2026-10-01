@@ -1,0 +1,32 @@
+{
+  "id": "ola",
+  "displayName": "Ola",
+  "category": "travel",
+  "appleStyle": "generic",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "pickup",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "drop_off",
+    "destination",
+    "vehicle",
+    "plate",
+    "driver",
+    "ride_pin",
+    "eta",
+    "time",
+    "status",
+    "service",
+    "booking_id"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(34, 197, 94)",
+  "summary": "Ola ride and outstation booking passes.",
+  "badge": "Ride",
+  "iconHint": "car.fill"
+}

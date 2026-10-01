@@ -7,45 +7,68 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0189EFE0C3A1164FB0612305 /* PassPreviewMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EACFEBA952BD4E9F4C7FC /* PassPreviewMotion.swift */; };
 		05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */; };
 		057039AC490B965DC9DAE0DE /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
+		059F800D71E8537B08852D5A /* TicketColorExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5129718B5A865EEAA96A578C /* TicketColorExtractor.swift */; };
+		05FF6275844382BF0838AC96 /* TicketColorExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5129718B5A865EEAA96A578C /* TicketColorExtractor.swift */; };
+		0B8241D49029D6F76EAD4A1E /* PassPreviewCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8B55D5C32FB77CCE2D6B6D /* PassPreviewCards.swift */; };
 		0D93490DD14BC3AADD4E912C /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877E3FC4FDEBF44051A9875 /* TicketText.swift */; };
 		0FDFACBB66179912E754C3B4 /* SlipPassLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */; };
 		118D95870E522309A706EB9F /* PassGeofenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */; };
+		1ACB0AC58931C3876EDF0C31 /* WidgetPassSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */; };
 		1B6849EA654F4F8CA23D72E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC03091146138679A40E07D /* Assets.xcassets */; };
 		1BFB891C1AE1F110FD9F0B57 /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
 		2029E24932F08C31041B3362 /* BookMyShowPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */; };
+		218C8D6F34763E6CF0DF7808 /* PassPreviewPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7C5E9BB226E37E3215AD6 /* PassPreviewPalette.swift */; };
 		23C2763C8B8337C847564488 /* PassExpiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B73C337409A2C1A294FAF8 /* PassExpiration.swift */; };
+		23F58166111E7D3A2E4579AF /* SlipHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A17246EC381393678EA9CD /* SlipHaptics.swift */; };
 		2450259A2F21741CCB88C1C6 /* SlipShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		27F4C2F57E9A02739DCFD0FC /* PassPreviewBezel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */; };
 		28D3A49DED56189D1F35747B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */; };
+		2C771A27CED1327FD71D2ED8 /* SlipAddPassIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EACDBB52650B738AC43FF42 /* SlipAddPassIntent.swift */; };
 		2D1CB45219D3EF60B5BCEBC0 /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */; };
 		3172BC4D7A13AA998EA28069 /* PassTravelerSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */; };
 		31E008043173D4EF35CBEDBA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E61E78F71468FD9BF3088AF /* SettingsView.swift */; };
+		31F9CDDDB62D489EA6D7042D /* LiveStatusService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D028DA7751866458868B3DD0 /* LiveStatusService.swift */; };
 		3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838354E90A64A84D0180F3CC /* VaultCrypto.swift */; };
 		354EEF1C9837B99E1447F16B /* WalletPassLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA342F771F1C606EE930BF56 /* WalletPassLink.swift */; };
 		357ED75C951D7CADEEC314D1 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */; };
+		3AF665DB3D18D3F781A9AB78 /* WidgetPassSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */; };
 		43652B3A6582C2A7EFC2A76E /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */; };
 		49E1DCE75087F2404EBD065C /* AddToWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */; };
 		4D402254DF646A28A191E4CB /* ImportTicketMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E940C6702923F5B34291AD /* ImportTicketMenu.swift */; };
+		4DBFEAF8EC08B76EDAE50A1F /* SlipWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6840F8BBC22DE645ABEB1126 /* SlipWatchApp.swift */; };
+		4EE22642C774C73F842D2838 /* PkpassCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2435339DC7D9D57E3E2B6C04 /* PkpassCache.swift */; };
+		5064A9C6D8C5CF95C49E2984 /* SlipPassHomeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE27826B6DE9CCAAC8DBE0D /* SlipPassHomeWidget.swift */; };
 		515CCB4E78B8E81D4226EC12 /* ConfirmPassSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */; };
 		53789DF24EF900120FA0FF84 /* ZoomcarPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */; };
+		53CB27B518C7358B8FE390B2 /* PassSharePackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E2B9D17720F58538E95835 /* PassSharePackage.swift */; };
 		5419AD28CE0A22BBBAF83B98 /* SlipWidgetsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CF6AF250A5484C2CB7CA0C /* SlipWidgetsBundle.swift */; };
+		56347BAD9DA48401C7D0C395 /* HybridPassFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FA86E72B43193D98B047A6 /* HybridPassFill.swift */; };
+		58A948D003DA95001E8231D7 /* PassPreviewChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1AE9A692AA514109E472AE /* PassPreviewChrome.swift */; };
 		59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */; };
 		5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */; };
+		5B01DD7DE68DAC846E305923 /* CataloguePassHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */; };
 		5C81F5632709A406A7E12826 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */; };
 		63E4AC48D5AF26374A413D32 /* IndigoPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056D78108EF21EFED52888E /* IndigoPassHandler.swift */; };
 		6630ABE3661774038BC1B018 /* SlipPassActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */; };
 		6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
 		6758AA450B11E559D039803E /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */; };
+		6799FEF3A9C6E1DBE7AE434D /* SlipPassActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */; };
 		67B6CCA53E7A088FE6C5E1E4 /* WalletPassPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7294A8840E58044BC17602D9 /* WalletPassPreview.swift */; };
 		6CF3826AB8ACF6C5F18F5397 /* CreatePassAppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */; };
+		71EAB250C1ED849EAD7203BF /* ScrapbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B45517C9081C0E474D1B72B /* ScrapbookView.swift */; };
 		73F53AD234A515CCEF53D2E1 /* BrandFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7777BE903825343C1AC8E459 /* BrandFields.swift */; };
+		749BD4F91F5A3340D340C59B /* WidgetPassSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */; };
 		75359E183A933341FE3A0D8F /* NammaMetroPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */; };
 		7653FD0633654DD7F96B98C7 /* PassLiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */; };
 		78386BFCAA8796036A9328C2 /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
+		83F2D5D4BAD52F59A0382F47 /* PassQRImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333D62ACDC962B69A23566CA /* PassQRImage.swift */; };
 		8B6E680A0B086CF7F619787F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */; };
 		8F4998093C11B75E3563B84E /* BrandSelectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */; };
 		92CD25F01E76E97DFEDDAF18 /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */; };
+		960DA937291984ED5C037B57 /* CataloguePassHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */; };
 		9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */; };
 		A32FF169A9703B3F8B43BF99 /* IRCTCPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */; };
 		A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */; };
@@ -54,7 +77,9 @@
 		AE3DB926DCE8E458E91E9479 /* PassFieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B60260E640819982153A3B /* PassFieldEditor.swift */; };
 		B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
 		B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D621D1E5C43A65B0124382B /* TicketExtractor.swift */; };
+		B4F2672A179C2B8BCADE26A8 /* PassSharePackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E2B9D17720F58538E95835 /* PassSharePackage.swift */; };
 		B67421310CEB7D490D0EBB44 /* TicketText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1877E3FC4FDEBF44051A9875 /* TicketText.swift */; };
+		B70BB7B98CF9465664AB95FF /* BrightQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CE4E022829FECFCF08364F /* BrightQRView.swift */; };
 		BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C27CD80C407F877B0A7E2B75 /* ContentView.swift */; };
 		BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
 		BF2848F5621FF565B8C9E672 /* AirbnbPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365B78F8E06970C556062238 /* AirbnbPassHandler.swift */; };
@@ -70,20 +95,26 @@
 		CD6A81CE6FB9F4415FF4793E /* SlipWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */; };
 		D0B5A407C365AA4C465B7E2D /* BrandFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7777BE903825343C1AC8E459 /* BrandFields.swift */; };
+		D29558C405ACA731E79D41C0 /* PassPreviewPanels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90071AE67E17BE67AC6CE04 /* PassPreviewPanels.swift */; };
 		D5FD67DADF8778241937C147 /* PassIntelligence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC254EF101ED57713178447A /* PassIntelligence.swift */; };
+		D6CC7F3BDD14AE3D7E7B54A8 /* PassPreviewFlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6BBE05080028C70391298C8 /* PassPreviewFlip.swift */; };
+		D7B7499474C4CFA083C74DA9 /* PassPreviewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3752D1CF7F90E4D4F5F712 /* PassPreviewModels.swift */; };
 		D8545E086D33691938541557 /* IndigoPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6056D78108EF21EFED52888E /* IndigoPassHandler.swift */; };
 		DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */; };
 		DDE836C9FDC00DCAA2F45274 /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
 		E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */; };
 		E24066B0F16486A352E9F19B /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
+		E3E02C57D576CE6086E9BEAF /* PassShareControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06232E38DEC6EF6D62B58748 /* PassShareControls.swift */; };
 		E9C9C1A6F95246D2640FD33F /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
 		EFDE2F7251CB2B9C6BDF0545 /* AirlineHintPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */; };
+		F2949D960D951262A1E6F996 /* HybridPassFill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FA86E72B43193D98B047A6 /* HybridPassFill.swift */; };
 		F44FCEBDB11CB7063E815055 /* PassTravelerSplit.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */; };
 		F472D04F866D9E3CDEED062B /* PassAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2C529080055CAEF318AC1E /* PassAPIClient.swift */; };
 		F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */; };
 		F96A9EB804C8388706D6201B /* CultPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */; };
 		FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0783491530619C761F358A92 /* SlipTheme.swift */; };
 		FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */; };
+		FCD0D7F156C466D3751E627A /* BookingReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FBFC547868D3E8C5D3E06CD /* BookingReminderScheduler.swift */; };
 		FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -121,44 +152,62 @@
 
 /* Begin PBXFileReference section */
 		00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
+		05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CataloguePassHandlers.swift; sourceTree = "<group>"; };
+		06232E38DEC6EF6D62B58748 /* PassShareControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassShareControls.swift; sourceTree = "<group>"; };
 		0783491530619C761F358A92 /* SlipTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipTheme.swift; sourceTree = "<group>"; };
 		08BD6766CA485641FFAC53C2 /* IRCTCPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IRCTCPassHandler.swift; sourceTree = "<group>"; };
 		08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketplaceView.swift; sourceTree = "<group>"; };
+		0B45517C9081C0E474D1B72B /* ScrapbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapbookView.swift; sourceTree = "<group>"; };
+		0FBFC547868D3E8C5D3E06CD /* BookingReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingReminderScheduler.swift; sourceTree = "<group>"; };
 		1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandSelectSheet.swift; sourceTree = "<group>"; };
 		179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistrictPassHandler.swift; sourceTree = "<group>"; };
 		17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipApp.swift; sourceTree = "<group>"; };
 		1877E3FC4FDEBF44051A9875 /* TicketText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketText.swift; sourceTree = "<group>"; };
 		1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		21E940C6702923F5B34291AD /* ImportTicketMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTicketMenu.swift; sourceTree = "<group>"; };
+		2435339DC7D9D57E3E2B6C04 /* PkpassCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PkpassCache.swift; sourceTree = "<group>"; };
 		2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGeofenceManager.swift; sourceTree = "<group>"; };
 		2B7DB958639C83886632B412 /* DiningPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningPassHandler.swift; sourceTree = "<group>"; };
 		2EC03091146138679A40E07D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomcarPassHandler.swift; sourceTree = "<group>"; };
+		2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewBezel.swift; sourceTree = "<group>"; };
+		333D62ACDC962B69A23566CA /* PassQRImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassQRImage.swift; sourceTree = "<group>"; };
 		365B78F8E06970C556062238 /* AirbnbPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirbnbPassHandler.swift; sourceTree = "<group>"; };
 		39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassLiveActivityWidget.swift; sourceTree = "<group>"; };
 		3D621D1E5C43A65B0124382B /* TicketExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExtractor.swift; sourceTree = "<group>"; };
+		3E1AE9A692AA514109E472AE /* PassPreviewChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewChrome.swift; sourceTree = "<group>"; };
 		427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassLiveActivityController.swift; sourceTree = "<group>"; };
+		44FA86E72B43193D98B047A6 /* HybridPassFill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HybridPassFill.swift; sourceTree = "<group>"; };
 		4564222B5D2D431FAB5BA55E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirlineHintPassHandler.swift; sourceTree = "<group>"; };
 		4CAFC42838CB7C6A0F0E242F /* LocationAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAccess.swift; sourceTree = "<group>"; };
+		5129718B5A865EEAA96A578C /* TicketColorExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketColorExtractor.swift; sourceTree = "<group>"; };
 		51B73C337409A2C1A294FAF8 /* PassExpiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassExpiration.swift; sourceTree = "<group>"; };
 		526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SlipWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DE27826B6DE9CCAAC8DBE0D /* SlipPassHomeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassHomeWidget.swift; sourceTree = "<group>"; };
 		6056D78108EF21EFED52888E /* IndigoPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndigoPassHandler.swift; sourceTree = "<group>"; };
 		62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPassHandler.swift; sourceTree = "<group>"; };
+		635C1695B4F2D1B4B9128414 /* SlipWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipWatch.entitlements; sourceTree = "<group>"; };
 		665FFAD7FD2A2464888AFA54 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		6840F8BBC22DE645ABEB1126 /* SlipWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipWatchApp.swift; sourceTree = "<group>"; };
 		69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePassAppIntent.swift; sourceTree = "<group>"; };
 		6E61E78F71468FD9BF3088AF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		6EACDBB52650B738AC43FF42 /* SlipAddPassIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipAddPassIntent.swift; sourceTree = "<group>"; };
 		7062E51BFDA810ADEC391AA3 /* Slip.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Slip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71CF6AF250A5484C2CB7CA0C /* SlipWidgetsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipWidgetsBundle.swift; sourceTree = "<group>"; };
+		725EACFEBA952BD4E9F4C7FC /* PassPreviewMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewMotion.swift; sourceTree = "<group>"; };
 		7294A8840E58044BC17602D9 /* WalletPassPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPassPreview.swift; sourceTree = "<group>"; };
 		7777BE903825343C1AC8E459 /* BrandFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandFields.swift; sourceTree = "<group>"; };
+		7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPassSnapshot.swift; sourceTree = "<group>"; };
+		7E4C20740A4BAC424CF2B9DF /* SlipWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlipWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		838354E90A64A84D0180F3CC /* VaultCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultCrypto.swift; sourceTree = "<group>"; };
 		877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassActivityAttributes.swift; sourceTree = "<group>"; };
 		8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SlipShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E6E2950869CDFE981804757 /* NammaMetroPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NammaMetroPassHandler.swift; sourceTree = "<group>"; };
 		946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassVaultStore.swift; sourceTree = "<group>"; };
 		947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMyShowPassHandler.swift; sourceTree = "<group>"; };
+		94A17246EC381393678EA9CD /* SlipHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipHaptics.swift; sourceTree = "<group>"; };
 		965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailsView.swift; sourceTree = "<group>"; };
 		970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBusPassHandler.swift; sourceTree = "<group>"; };
 		9ADF376FEA8CA772D0EBD806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -166,21 +215,31 @@
 		A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletButton.swift; sourceTree = "<group>"; };
 		A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultPassHandler.swift; sourceTree = "<group>"; };
 		A8A1913386BDCCF6EE9FE503 /* Slip.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Slip.entitlements; sourceTree = "<group>"; };
+		A8D7C5E9BB226E37E3215AD6 /* PassPreviewPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewPalette.swift; sourceTree = "<group>"; };
+		AE3752D1CF7F90E4D4F5F712 /* PassPreviewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewModels.swift; sourceTree = "<group>"; };
 		B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandClassifier.swift; sourceTree = "<group>"; };
+		B3CE4E022829FECFCF08364F /* BrightQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightQRView.swift; sourceTree = "<group>"; };
 		BA342F771F1C606EE930BF56 /* WalletPassLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletPassLink.swift; sourceTree = "<group>"; };
 		C27CD80C407F877B0A7E2B75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandConfirmView.swift; sourceTree = "<group>"; };
 		C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveScannerView.swift; sourceTree = "<group>"; };
 		C8B8ABD081C5146E022BBD92 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		CE8B55D5C32FB77CCE2D6B6D /* PassPreviewCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewCards.swift; sourceTree = "<group>"; };
+		D028DA7751866458868B3DD0 /* LiveStatusService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStatusService.swift; sourceTree = "<group>"; };
 		D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandPassHandler.swift; sourceTree = "<group>"; };
+		D90071AE67E17BE67AC6CE04 /* PassPreviewPanels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewPanels.swift; sourceTree = "<group>"; };
 		D9D33BB698BF00C47A64B124 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DB2C529080055CAEF318AC1E /* PassAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAPIClient.swift; sourceTree = "<group>"; };
 		DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTravelerSplit.swift; sourceTree = "<group>"; };
+		DD4D37CEE0BCFAABDF2729FE /* SlipWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipWidgets.entitlements; sourceTree = "<group>"; };
 		DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmPassSheet.swift; sourceTree = "<group>"; };
 		E3B60260E640819982153A3B /* PassFieldEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassFieldEditor.swift; sourceTree = "<group>"; };
+		E6BBE05080028C70391298C8 /* PassPreviewFlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewFlip.swift; sourceTree = "<group>"; };
 		EC254EF101ED57713178447A /* PassIntelligence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassIntelligence.swift; sourceTree = "<group>"; };
+		F3567F8A4908D6B15B71BDAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		F9E2B9D17720F58538E95835 /* PassSharePackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassSharePackage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -190,6 +249,7 @@
 				365B78F8E06970C556062238 /* AirbnbPassHandler.swift */,
 				478EBAE0555C9CA8685F6FF1 /* AirlineHintPassHandler.swift */,
 				947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */,
+				05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */,
 				A4A9B65C61446EA3EE0DB169 /* CultPassHandler.swift */,
 				2B7DB958639C83886632B412 /* DiningPassHandler.swift */,
 				179EFB850DD09CC1E7B406AB /* DistrictPassHandler.swift */,
@@ -203,6 +263,16 @@
 			path = Brands;
 			sourceTree = "<group>";
 		};
+		3655025D6F574D6A92C1279B /* SlipWatch */ = {
+			isa = PBXGroup;
+			children = (
+				F3567F8A4908D6B15B71BDAF /* Info.plist */,
+				635C1695B4F2D1B4B9128414 /* SlipWatch.entitlements */,
+				6840F8BBC22DE645ABEB1126 /* SlipWatchApp.swift */,
+			);
+			path = SlipWatch;
+			sourceTree = "<group>";
+		};
 		3E96FE3B111717A05952F42E = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +280,7 @@
 				B3D6CB062C0261B9F0F4A096 /* SlipActivityShared */,
 				71F3FC9A405A26BBEFCE1ED3 /* SlipShared */,
 				6B0226088AD0F91B9FB91FB1 /* SlipShareExtension */,
+				3655025D6F574D6A92C1279B /* SlipWatch */,
 				516ED30741AFAB57EE82129C /* SlipWidgets */,
 				E7161B3A0B90D8438DF8D2BF /* Products */,
 			);
@@ -219,7 +290,10 @@
 			isa = PBXGroup;
 			children = (
 				D9D33BB698BF00C47A64B124 /* Info.plist */,
+				333D62ACDC962B69A23566CA /* PassQRImage.swift */,
+				5DE27826B6DE9CCAAC8DBE0D /* SlipPassHomeWidget.swift */,
 				39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */,
+				DD4D37CEE0BCFAABDF2729FE /* SlipWidgets.entitlements */,
 				71CF6AF250A5484C2CB7CA0C /* SlipWidgetsBundle.swift */,
 			);
 			path = SlipWidgets;
@@ -242,10 +316,13 @@
 				B263CA7CA030BB7E28D19E65 /* BrandClassifier.swift */,
 				7777BE903825343C1AC8E459 /* BrandFields.swift */,
 				D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */,
+				44FA86E72B43193D98B047A6 /* HybridPassFill.swift */,
 				C8B8ABD081C5146E022BBD92 /* Models.swift */,
 				51B73C337409A2C1A294FAF8 /* PassExpiration.swift */,
 				EC254EF101ED57713178447A /* PassIntelligence.swift */,
+				F9E2B9D17720F58538E95835 /* PassSharePackage.swift */,
 				DB72A3C9D0A2A97316F3F3C0 /* PassTravelerSplit.swift */,
+				5129718B5A865EEAA96A578C /* TicketColorExtractor.swift */,
 				3D621D1E5C43A65B0124382B /* TicketExtractor.swift */,
 				1877E3FC4FDEBF44051A9875 /* TicketText.swift */,
 				838354E90A64A84D0180F3CC /* VaultCrypto.swift */,
@@ -257,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				877890531293A54EDCD3CE23 /* SlipPassActivityAttributes.swift */,
+				7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */,
 			);
 			path = SlipActivityShared;
 			sourceTree = "<group>";
@@ -264,12 +342,15 @@
 		CF877F8ABF8469D02942E9C2 /* Slip */ = {
 			isa = PBXGroup;
 			children = (
+				F9528E48565BB17C8E12BFEE /* PassPreview */,
 				A2697BE4629C91B6EC6EE571 /* AddToWalletButton.swift */,
 				F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */,
 				2EC03091146138679A40E07D /* Assets.xcassets */,
 				00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */,
+				0FBFC547868D3E8C5D3E06CD /* BookingReminderScheduler.swift */,
 				C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */,
 				1157D1F4E354C04474A31C4F /* BrandSelectSheet.swift */,
+				B3CE4E022829FECFCF08364F /* BrightQRView.swift */,
 				DDB9B3A8040F408AF8D5C5AC /* ConfirmPassSheet.swift */,
 				C27CD80C407F877B0A7E2B75 /* ContentView.swift */,
 				69CA5DE032603667DFEBD79C /* CreatePassAppIntent.swift */,
@@ -277,6 +358,7 @@
 				21E940C6702923F5B34291AD /* ImportTicketMenu.swift */,
 				4564222B5D2D431FAB5BA55E /* Info.plist */,
 				C5F6E9136DF864C9BE8962E9 /* LiveScannerView.swift */,
+				D028DA7751866458868B3DD0 /* LiveStatusService.swift */,
 				4CAFC42838CB7C6A0F0E242F /* LocationAccess.swift */,
 				B0EFC8B13A7A5CD96F74FE58 /* LoginView.swift */,
 				08D1C2797F48F9C26B2AAA5C /* MarketplaceView.swift */,
@@ -285,11 +367,16 @@
 				E3B60260E640819982153A3B /* PassFieldEditor.swift */,
 				2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */,
 				427C9D71E2BFD3CADA988307 /* PassLiveActivityController.swift */,
+				06232E38DEC6EF6D62B58748 /* PassShareControls.swift */,
 				946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */,
+				2435339DC7D9D57E3E2B6C04 /* PkpassCache.swift */,
 				526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */,
+				0B45517C9081C0E474D1B72B /* ScrapbookView.swift */,
 				6E61E78F71468FD9BF3088AF /* SettingsView.swift */,
 				A8A1913386BDCCF6EE9FE503 /* Slip.entitlements */,
+				6EACDBB52650B738AC43FF42 /* SlipAddPassIntent.swift */,
 				17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */,
+				94A17246EC381393678EA9CD /* SlipHaptics.swift */,
 				0783491530619C761F358A92 /* SlipTheme.swift */,
 				BA342F771F1C606EE930BF56 /* WalletPassLink.swift */,
 				7294A8840E58044BC17602D9 /* WalletPassPreview.swift */,
@@ -302,9 +389,25 @@
 			children = (
 				7062E51BFDA810ADEC391AA3 /* Slip.app */,
 				8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */,
+				7E4C20740A4BAC424CF2B9DF /* SlipWatch.app */,
 				55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F9528E48565BB17C8E12BFEE /* PassPreview */ = {
+			isa = PBXGroup;
+			children = (
+				2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */,
+				CE8B55D5C32FB77CCE2D6B6D /* PassPreviewCards.swift */,
+				3E1AE9A692AA514109E472AE /* PassPreviewChrome.swift */,
+				E6BBE05080028C70391298C8 /* PassPreviewFlip.swift */,
+				AE3752D1CF7F90E4D4F5F712 /* PassPreviewModels.swift */,
+				725EACFEBA952BD4E9F4C7FC /* PassPreviewMotion.swift */,
+				A8D7C5E9BB226E37E3215AD6 /* PassPreviewPalette.swift */,
+				D90071AE67E17BE67AC6CE04 /* PassPreviewPanels.swift */,
+			);
+			path = PassPreview;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +429,23 @@
 			productName = SlipWidgets;
 			productReference = 55FDA99AD6EE236EC8FA5ACB /* SlipWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		315906283317316EC0F073B5 /* SlipWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAB66F61EF86352F5AD5F04B /* Build configuration list for PBXNativeTarget "SlipWatch" */;
+			buildPhases = (
+				FDF0182A9CFF415BE64895CA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SlipWatch;
+			packageProductDependencies = (
+			);
+			productName = SlipWatch;
+			productReference = 7E4C20740A4BAC424CF2B9DF /* SlipWatch.app */;
+			productType = "com.apple.product-type.application";
 		};
 		45D3F0493594B4B18BF193D0 /* SlipShareExtension */ = {
 			isa = PBXNativeTarget;
@@ -378,6 +498,10 @@
 						DevelopmentTeam = 9HSMVVUMVX;
 						ProvisioningStyle = Automatic;
 					};
+					315906283317316EC0F073B5 = {
+						DevelopmentTeam = 9HSMVVUMVX;
+						ProvisioningStyle = Automatic;
+					};
 					45D3F0493594B4B18BF193D0 = {
 						DevelopmentTeam = 9HSMVVUMVX;
 						ProvisioningStyle = Automatic;
@@ -405,6 +529,7 @@
 				90E8F132BEC9C451FC98140C /* Slip */,
 				45D3F0493594B4B18BF193D0 /* SlipShareExtension */,
 				218924599EBD4E248862FB66 /* SlipWidgets */,
+				315906283317316EC0F073B5 /* SlipWatch */,
 			);
 		};
 /* End PBXProject section */
@@ -432,11 +557,14 @@
 				5C81F5632709A406A7E12826 /* AppModel.swift in Sources */,
 				E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */,
 				CAA1F9A8DC1DC09DDC030D3F /* BookMyShowPassHandler.swift in Sources */,
+				FCD0D7F156C466D3751E627A /* BookingReminderScheduler.swift in Sources */,
 				6655699D5A806DE33E0B1CCE /* BrandClassifier.swift in Sources */,
 				05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */,
 				D0B5A407C365AA4C465B7E2D /* BrandFields.swift in Sources */,
 				DDE836C9FDC00DCAA2F45274 /* BrandPassHandler.swift in Sources */,
 				8F4998093C11B75E3563B84E /* BrandSelectSheet.swift in Sources */,
+				B70BB7B98CF9465664AB95FF /* BrightQRView.swift in Sources */,
+				5B01DD7DE68DAC846E305923 /* CataloguePassHandlers.swift in Sources */,
 				515CCB4E78B8E81D4226EC12 /* ConfirmPassSheet.swift in Sources */,
 				BA12F7F9D3C8B34DFC4A0730 /* ContentView.swift in Sources */,
 				6CF3826AB8ACF6C5F18F5397 /* CreatePassAppIntent.swift in Sources */,
@@ -444,10 +572,12 @@
 				CEC3BA9056B7B18B8D39C0E6 /* DashboardView.swift in Sources */,
 				C2056596E1019241327993EF /* DiningPassHandler.swift in Sources */,
 				A3D141DAEEEFAE289BD9B33E /* DistrictPassHandler.swift in Sources */,
+				F2949D960D951262A1E6F996 /* HybridPassFill.swift in Sources */,
 				A32FF169A9703B3F8B43BF99 /* IRCTCPassHandler.swift in Sources */,
 				4D402254DF646A28A191E4CB /* ImportTicketMenu.swift in Sources */,
 				63E4AC48D5AF26374A413D32 /* IndigoPassHandler.swift in Sources */,
 				9D2E37A70D1BD56C1D8F657A /* LiveScannerView.swift in Sources */,
+				31F9CDDDB62D489EA6D7042D /* LiveStatusService.swift in Sources */,
 				C394847F78E40A0549010D04 /* LocationAccess.swift in Sources */,
 				8B6E680A0B086CF7F619787F /* LoginView.swift in Sources */,
 				AE2B9CF513CDE8AF72CF8D41 /* MarketplaceView.swift in Sources */,
@@ -460,19 +590,35 @@
 				118D95870E522309A706EB9F /* PassGeofenceManager.swift in Sources */,
 				BA77E872A153AC3B273D81A3 /* PassIntelligence.swift in Sources */,
 				7653FD0633654DD7F96B98C7 /* PassLiveActivityController.swift in Sources */,
+				27F4C2F57E9A02739DCFD0FC /* PassPreviewBezel.swift in Sources */,
+				0B8241D49029D6F76EAD4A1E /* PassPreviewCards.swift in Sources */,
+				58A948D003DA95001E8231D7 /* PassPreviewChrome.swift in Sources */,
+				D6CC7F3BDD14AE3D7E7B54A8 /* PassPreviewFlip.swift in Sources */,
+				D7B7499474C4CFA083C74DA9 /* PassPreviewModels.swift in Sources */,
+				0189EFE0C3A1164FB0612305 /* PassPreviewMotion.swift in Sources */,
+				218C8D6F34763E6CF0DF7808 /* PassPreviewPalette.swift in Sources */,
+				D29558C405ACA731E79D41C0 /* PassPreviewPanels.swift in Sources */,
+				E3E02C57D576CE6086E9BEAF /* PassShareControls.swift in Sources */,
+				B4F2672A179C2B8BCADE26A8 /* PassSharePackage.swift in Sources */,
 				F44FCEBDB11CB7063E815055 /* PassTravelerSplit.swift in Sources */,
 				FECBCD2D63B101FEDA3E0867 /* PassVaultStore.swift in Sources */,
+				4EE22642C774C73F842D2838 /* PkpassCache.swift in Sources */,
 				78386BFCAA8796036A9328C2 /* RedBusPassHandler.swift in Sources */,
+				71EAB250C1ED849EAD7203BF /* ScrapbookView.swift in Sources */,
 				31E008043173D4EF35CBEDBA /* SettingsView.swift in Sources */,
+				2C771A27CED1327FD71D2ED8 /* SlipAddPassIntent.swift in Sources */,
 				5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */,
+				23F58166111E7D3A2E4579AF /* SlipHaptics.swift in Sources */,
 				F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */,
 				FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */,
+				05FF6275844382BF0838AC96 /* TicketColorExtractor.swift in Sources */,
 				B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */,
 				B67421310CEB7D490D0EBB44 /* TicketText.swift in Sources */,
 				E9C9C1A6F95246D2640FD33F /* UPIPassHandler.swift in Sources */,
 				3469C4602E305811B2302C3D /* VaultCrypto.swift in Sources */,
 				354EEF1C9837B99E1447F16B /* WalletPassLink.swift in Sources */,
 				67B6CCA53E7A088FE6C5E1E4 /* WalletPassPreview.swift in Sources */,
+				749BD4F91F5A3340D340C59B /* WidgetPassSnapshot.swift in Sources */,
 				53789DF24EF900120FA0FF84 /* ZoomcarPassHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,9 +627,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83F2D5D4BAD52F59A0382F47 /* PassQRImage.swift in Sources */,
 				6630ABE3661774038BC1B018 /* SlipPassActivityAttributes.swift in Sources */,
+				5064A9C6D8C5CF95C49E2984 /* SlipPassHomeWidget.swift in Sources */,
 				0FDFACBB66179912E754C3B4 /* SlipPassLiveActivityWidget.swift in Sources */,
 				5419AD28CE0A22BBBAF83B98 /* SlipWidgetsBundle.swift in Sources */,
+				3AF665DB3D18D3F781A9AB78 /* WidgetPassSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,23 +646,37 @@
 				FC626BE1BA8F18EFBAA9BED9 /* BrandClassifier.swift in Sources */,
 				73F53AD234A515CCEF53D2E1 /* BrandFields.swift in Sources */,
 				057039AC490B965DC9DAE0DE /* BrandPassHandler.swift in Sources */,
+				960DA937291984ED5C037B57 /* CataloguePassHandlers.swift in Sources */,
 				F96A9EB804C8388706D6201B /* CultPassHandler.swift in Sources */,
 				A83F0122D98B025637144D2D /* DiningPassHandler.swift in Sources */,
 				6758AA450B11E559D039803E /* DistrictPassHandler.swift in Sources */,
+				56347BAD9DA48401C7D0C395 /* HybridPassFill.swift in Sources */,
 				CB43D9F0403DAD41F16618DF /* IRCTCPassHandler.swift in Sources */,
 				D8545E086D33691938541557 /* IndigoPassHandler.swift in Sources */,
 				CC037B5498D3DE35D2815BCE /* Models.swift in Sources */,
 				2D1CB45219D3EF60B5BCEBC0 /* NammaMetroPassHandler.swift in Sources */,
 				23C2763C8B8337C847564488 /* PassExpiration.swift in Sources */,
 				D5FD67DADF8778241937C147 /* PassIntelligence.swift in Sources */,
+				53CB27B518C7358B8FE390B2 /* PassSharePackage.swift in Sources */,
 				3172BC4D7A13AA998EA28069 /* PassTravelerSplit.swift in Sources */,
 				E24066B0F16486A352E9F19B /* RedBusPassHandler.swift in Sources */,
 				59FE3AD20E0D20F2E85397F0 /* ShareViewController.swift in Sources */,
+				059F800D71E8537B08852D5A /* TicketColorExtractor.swift in Sources */,
 				B195DC49B7D88226C3A959EF /* TicketExtractor.swift in Sources */,
 				0D93490DD14BC3AADD4E912C /* TicketText.swift in Sources */,
 				1BFB891C1AE1F110FD9F0B57 /* UPIPassHandler.swift in Sources */,
 				CCF77D5677B4E51D745B71DB /* VaultCrypto.swift in Sources */,
 				357ED75C951D7CADEEC314D1 /* ZoomcarPassHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDF0182A9CFF415BE64895CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6799FEF3A9C6E1DBE7AE434D /* SlipPassActivityAttributes.swift in Sources */,
+				4DBFEAF8EC08B76EDAE50A1F /* SlipWatchApp.swift in Sources */,
+				1ACB0AC58931C3876EDF0C31 /* WidgetPassSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,6 +700,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = Slip/Slip.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -561,7 +725,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BASE_SDK = iphoneos;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -616,17 +779,37 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		76AC656B466AF2D6E3E603E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SlipWatch/SlipWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 9HSMVVUMVX;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SlipWatch/Info.plist;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.watchkitapp;
+				PRODUCT_NAME = "Slip Watch";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
 		7F40CE6A7AF1D8DA3B484827 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
@@ -646,6 +829,8 @@
 		8ED2DCD9438C14912BDDE37D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BASE_SDK = iphoneos;
+				CODE_SIGN_ENTITLEMENTS = SlipWidgets/SlipWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
@@ -665,6 +850,8 @@
 		992F9E064EC6E1CDF98917D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BASE_SDK = iphoneos;
+				CODE_SIGN_ENTITLEMENTS = SlipWidgets/SlipWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
@@ -681,10 +868,31 @@
 			};
 			name = Debug;
 		};
+		9DDB2E8D9829A0214AB68F7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SlipWatch/SlipWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 9HSMVVUMVX;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SlipWatch/Info.plist;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aeswibon.slip.watchkitapp;
+				PRODUCT_NAME = "Slip Watch";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 		BC35A22228047C1E491389DE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = Slip/Slip.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -708,6 +916,7 @@
 		D8F25CD9F1ACA686BA0971F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
@@ -728,7 +937,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BASE_SDK = iphoneos;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -776,11 +984,10 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -801,6 +1008,15 @@
 			buildConfigurations = (
 				556AD85553C7D8669A2D4AC0 /* Debug */,
 				BC35A22228047C1E491389DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EAB66F61EF86352F5AD5F04B /* Build configuration list for PBXNativeTarget "SlipWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76AC656B466AF2D6E3E603E2 /* Debug */,
+				9DDB2E8D9829A0214AB68F7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

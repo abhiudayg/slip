@@ -1,0 +1,30 @@
+{
+  "id": "chalo",
+  "displayName": "Chalo",
+  "category": "transit",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "booking_id",
+    "dep",
+    "arr",
+    "date",
+    "time",
+    "fare",
+    "ticket_type"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(16, 185, 129)",
+  "summary": "Chalo city bus QR tickets.",
+  "badge": "Bus",
+  "iconHint": "bus.fill"
+}

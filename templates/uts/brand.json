@@ -1,0 +1,32 @@
+{
+  "id": "uts",
+  "displayName": "UTS Unreserved",
+  "category": "transit",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "booking_id",
+    "dep",
+    "arr",
+    "date",
+    "time",
+    "class",
+    "status",
+    "fare",
+    "ticket_type"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(37, 99, 235)",
+  "summary": "Indian Railways UTS unreserved QR tickets.",
+  "badge": "UTS",
+  "iconHint": "tram.fill"
+}

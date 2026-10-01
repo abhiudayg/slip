@@ -1,0 +1,28 @@
+{
+  "id": "golds-gym",
+  "displayName": "Gold's Gym",
+  "category": "fitness",
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "membership",
+    "center",
+    "plan",
+    "valid_thru",
+    "checkins",
+    "member_id",
+    "status"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(217, 173, 56)",
+  "summary": "Gold's Gym membership access pass.",
+  "badge": "Gym",
+  "iconHint": "dumbbell.fill"
+}

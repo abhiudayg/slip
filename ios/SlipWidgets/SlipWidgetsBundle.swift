@@ -5,5 +5,6 @@ import WidgetKit
 struct SlipWidgetsBundle: WidgetBundle {
     var body: some Widget {
         SlipPassLiveActivityWidget()
+        SlipPassHomeWidget()
     }
 }

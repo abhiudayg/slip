@@ -1,0 +1,130 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "UTS",
+  "description": "Indian Railways UTS unreserved QR tickets.",
+  "logoText": "UTS",
+  "backgroundColor": "rgb(30, 27, 75)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(196, 181, 253)",
+  "transitType": "PKTransitTypeTrain",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "PNR {{pnr}}"
+  },
+  "boardingPass": {
+    "headerFields": [
+      {
+        "key": "train",
+        "label": "TRAIN",
+        "value": "{{train}}"
+      },
+      {
+        "key": "coach",
+        "label": "COACH",
+        "value": "{{coach}}"
+      }
+    ],
+    "primaryFields": [
+      {
+        "key": "origin",
+        "label": "FROM",
+        "value": "{{origin}}"
+      },
+      {
+        "key": "destination",
+        "label": "TO",
+        "value": "{{destination}}"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "passenger",
+        "label": "PASSENGER",
+        "value": "{{passenger}}"
+      },
+      {
+        "key": "seat",
+        "label": "BERTH",
+        "value": "{{seat}}"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "pnr",
+        "label": "PNR",
+        "value": "{{pnr}}"
+      },
+      {
+        "key": "dep",
+        "label": "DEPART",
+        "value": "{{dep}}"
+      },
+      {
+        "key": "arr",
+        "label": "ARRIVE",
+        "value": "{{arr}}"
+      },
+      {
+        "key": "class",
+        "label": "CLASS",
+        "value": "{{class}}"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "date",
+        "label": "Date",
+        "value": "{{date}}"
+      },
+      {
+        "key": "duration",
+        "label": "Duration",
+        "value": "{{duration}}"
+      },
+      {
+        "key": "pnr_status",
+        "label": "PNR Status",
+        "value": "{{pnr_status}}"
+      },
+      {
+        "key": "quota",
+        "label": "Quota",
+        "value": "{{quota}}"
+      },
+      {
+        "key": "origin_platform",
+        "label": "Origin Platform",
+        "value": "{{origin_platform}}"
+      },
+      {
+        "key": "dest_platform",
+        "label": "Dest Platform",
+        "value": "{{dest_platform}}"
+      },
+      {
+        "key": "distance",
+        "label": "Distance",
+        "value": "{{distance}}"
+      },
+      {
+        "key": "berth_type",
+        "label": "Berth Type",
+        "value": "{{berth_type}}"
+      },
+      {
+        "key": "chart_status",
+        "label": "Chart",
+        "value": "{{chart_status}}"
+      },
+      {
+        "key": "about",
+        "label": "About",
+        "value": "Built from your IRCTC booking PDF or SMS screenshot."
+      }
+    ]
+  }
+}

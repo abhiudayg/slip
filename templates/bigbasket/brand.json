@@ -1,0 +1,27 @@
+{
+  "id": "bigbasket",
+  "displayName": "BigBasket",
+  "category": "retail",
+  "appleStyle": "coupon",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "store",
+    "offer",
+    "offer_code",
+    "discount",
+    "valid_till",
+    "booking_id"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(132, 204, 22)",
+  "summary": "BigBasket coupon and membership offers.",
+  "badge": "Coupon",
+  "iconHint": "leaf.fill"
+}

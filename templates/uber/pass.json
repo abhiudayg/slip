@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "Uber",
+  "description": "Uber scheduled and airport ride passes.",
+  "logoText": "Uber",
+  "backgroundColor": "rgb(12, 28, 20)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(80, 220, 140)",
+  "barcode": {
+    "format": "PKBarcodeFormatQR",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "generic": {
+    "headerFields": [
+      {
+        "key": "status",
+        "label": "KEY STATUS",
+        "value": "READY TO UNLOCK"
+      }
+    ],
+    "primaryFields": [
+      {
+        "key": "vehicle",
+        "label": "VEHICLE",
+        "value": "{{vehicle}}"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "pickup",
+        "label": "PICKUP & UNLOCK",
+        "value": "{{pickup}}"
+      },
+      {
+        "key": "drop",
+        "label": "DROP OFF & LOCK",
+        "value": "{{drop_off}}"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "guest",
+        "label": "DRIVER",
+        "value": "{{guest}}"
+      },
+      {
+        "key": "booking",
+        "label": "BOOKING / PIN",
+        "value": "{{booking_id}}"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "vehicle_type",
+        "label": "Vehicle Type",
+        "value": "{{vehicle_type}}"
+      },
+      {
+        "key": "range_km",
+        "label": "Range",
+        "value": "{{range_km}}"
+      },
+      {
+        "key": "pickup_hub",
+        "label": "Pickup Hub",
+        "value": "{{pickup_hub}}"
+      },
+      {
+        "key": "rental_duration",
+        "label": "Rental Duration",
+        "value": "{{rental_duration}}"
+      },
+      {
+        "key": "door_pin",
+        "label": "Backup PIN",
+        "value": "{{door_pin}}"
+      },
+      {
+        "key": "key_status",
+        "label": "Key Status",
+        "value": "{{key_status}}"
+      },
+      {
+        "key": "dl_verified",
+        "label": "DL Verified",
+        "value": "{{dl_verified}}"
+      },
+      {
+        "key": "km_limit",
+        "label": "Km Limit",
+        "value": "{{km_limit}}"
+      },
+      {
+        "key": "roadside",
+        "label": "Roadside Assist",
+        "value": "{{roadside}}"
+      },
+      {
+        "key": "about",
+        "label": "Keyless access",
+        "value": "Hold iPhone near the windshield reader. Use booking PIN on the driver-pillar keypad if needed."
+      }
+    ]
+  }
+}

@@ -8,6 +8,7 @@ struct DashboardView: View {
     @EnvironmentObject private var vault: PassVaultStore
     @EnvironmentObject private var auth: AuthSession
     @State private var revealedPayload: PassVaultPayload?
+    @State private var showScrapbook = false
     @State private var revealError: String?
     @State private var failedRevealRecord: PassVaultRecord?
     @State private var revealedRecord: PassVaultRecord?
@@ -63,6 +64,10 @@ struct DashboardView: View {
             .padding(.bottom, 120)
         }
         .onAppear { vault.syncWalletPresence() }
+        .sheet(isPresented: $showScrapbook) {
+            ScrapbookView()
+                .environmentObject(vault)
+        }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("PKPassLibraryDidChangeNotification"))) { _ in
             vault.syncWalletPresence()
         }
@@ -194,7 +199,7 @@ struct DashboardView: View {
     private func vaultRow(_ record: PassVaultRecord, expired: Bool) -> some View {
         HStack(spacing: 10) {
             Button {
-                Task { await reveal(record) }
+                SlipHaptics.scrollTick(); Task { await reveal(record) }
             } label: {
                 GlassCard(cornerRadius: 18, padding: 14) {
                     HStack {
@@ -294,6 +299,18 @@ struct DashboardView: View {
                     systemImage: syncStatusImage
                 )
                 Spacer(minLength: 0)
+                Button {
+                    SlipHaptics.scrollTick()
+                    showScrapbook = true
+                } label: {
+                    Image(systemName: "film.stack")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(SlipTheme.accentSoft)
+                        .frame(width: 36, height: 36)
+                        .background(Circle().fill(SlipTheme.cardHigh))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Scrapbook")
             }
             Text(heroSubtitle)
                 .font(.system(size: 13, weight: .regular))

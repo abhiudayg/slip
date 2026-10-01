@@ -1,0 +1,28 @@
+{
+  "id": "shoppers-stop",
+  "displayName": "Shoppers Stop",
+  "category": "retail",
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "store",
+    "offer",
+    "points",
+    "tier",
+    "valid_thru",
+    "member_id",
+    "booking_id"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": false,
+  "accentHint": "rgb(124, 58, 237)",
+  "summary": "First Citizen loyalty pass for Shoppers Stop.",
+  "badge": "Loyalty",
+  "iconHint": "bag.fill"
+}

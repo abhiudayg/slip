@@ -150,6 +150,50 @@ enum BrandFields {
                     "vehicle_type"
                 ]
             )
+
+        case "makemytrip", "cleartrip", "yatra":
+            return Schema(
+                required: ["origin", "destination", "qr_data"],
+                optional: [
+                    "passenger", "pnr", "booking_id", "flight", "train", "property",
+                    "dep", "arr", "date", "time", "duration", "seat", "room",
+                    "status", "trip_type", "service", "note", "origin_terminal", "dest_terminal"
+                ]
+            )
+        case "uts", "chalo":
+            return Schema(
+                required: ["origin", "destination", "qr_data"],
+                optional: [
+                    "passenger", "booking_id", "dep", "arr", "date", "time", "duration",
+                    "class", "status", "fare", "ticket_type"
+                ]
+            )
+        case "uber", "ola":
+            return Schema(
+                required: ["pickup", "qr_data"],
+                optional: [
+                    "drop_off", "destination", "vehicle", "plate", "driver", "guest", "passenger",
+                    "ride_pin", "door_pin", "eta", "time", "status", "service", "vehicle_type",
+                    "booking_id"
+                ]
+            )
+        case "golds-gym":
+            return Schema(
+                required: ["name", "qr_data"],
+                optional: [
+                    "membership", "center", "plan", "valid_thru", "checkins",
+                    "member_id", "status"
+                ]
+            )
+        case "tata-neu", "reliance-smart", "shoppers-stop", "bigbasket":
+            return Schema(
+                required: ["name", "qr_data"],
+                optional: [
+                    "store", "offer", "offer_code", "discount", "points", "tier",
+                    "membership_status", "valid_thru", "valid_till", "time", "booking_id",
+                    "member_id", "guest"
+                ]
+            )
         case "cult":
             // Stitch creation dashboard: member, center, plan, valid, check-ins, member id
             return Schema(
@@ -162,6 +206,59 @@ enum BrandFields {
         default:
             return Schema(required: ["qr_data"], optional: [])
         }
+    }
+
+
+    /// Keys that belong on the Wallet face preview. Everything else with a value goes on the flip-side.
+    static func faceFrontKeys(for templateId: String) -> Set<String> {
+        let keys: [String]
+        switch templateId {
+        case "bookmyshow":
+            keys = ["event", "venue", "seat", "date", "time", "booking_id", "qr_data"]
+        case "district":
+            keys = ["event", "venue", "tier", "date", "time", "gate", "booking_id", "qr_data"]
+        case "irctc":
+            keys = ["origin", "destination", "train", "dep", "coach", "seat", "passenger", "pnr", "qr_data"]
+        case "indigo":
+            keys = ["origin", "destination", "flight", "dep", "gate", "seat", "passenger", "pnr", "qr_data"]
+        case "namma-metro":
+            keys = ["origin", "destination", "ticket_type", "line", "booking_id", "qr_data", "valid_till"]
+        case "redbus":
+            keys = ["origin", "destination", "dep", "seat", "passenger", "pnr", "qr_data"]
+        case "upi":
+            keys = ["name", "vpa", "bank", "qr_data", "status"]
+        case "easydiner":
+            keys = ["restaurant", "time", "date", "party_size", "guest", "booking_id", "qr_data", "discount"]
+        case "zomato-dineout":
+            keys = ["restaurant", "time", "date", "party_size", "guest", "booking_id", "qr_data"]
+        case "swiggy-dineout":
+            keys = ["restaurant", "offer_code", "discount", "booking_id", "qr_data", "valid_till"]
+        case "airbnb":
+            keys = ["property", "check_in", "check_out", "check_in_time", "check_out_time", "guest", "door_pin", "booking_id", "status"]
+        case "zoomcar":
+            keys = ["vehicle", "plate", "pickup", "drop_off", "door_pin", "key_status", "booking_id", "qr_data"]
+        case "cult", "golds-gym":
+            keys = ["name", "center", "plan", "member_id", "status", "qr_data", "valid_thru"]
+        case "uber", "ola":
+            keys = ["pickup", "drop_off", "vehicle", "ride_pin", "eta", "status", "booking_id", "qr_data"]
+        case "makemytrip", "cleartrip", "yatra":
+            keys = ["origin", "destination", "dep", "passenger", "pnr", "flight", "booking_id", "qr_data", "status"]
+        case "uts", "chalo":
+            keys = ["origin", "destination", "dep", "time", "ticket_type", "booking_id", "qr_data"]
+        case "tata-neu", "reliance-smart", "shoppers-stop", "bigbasket":
+            keys = ["name", "store", "offer", "offer_code", "tier", "booking_id", "member_id", "qr_data"]
+        default:
+            // First 5 schema keys + qr/booking style identifiers.
+            let all = schema(for: templateId).all.filter { !geofenceKeys.contains($0) }
+            keys = Array(all.prefix(6))
+        }
+        return Set(keys)
+    }
+
+    static func faceBackKeys(for templateId: String) -> [String] {
+        let front = faceFrontKeys(for: templateId)
+        let skip = Set(geofenceKeys + ["qr_data"])
+        return schema(for: templateId).all.filter { !front.contains($0) && !skip.contains($0) }
     }
 
     static func prune(_ fields: [String: String], templateId: String) -> [String: String] {
@@ -188,7 +285,10 @@ enum BrandFields {
         case "irctc", "indigo", "namma-metro", "redbus": preferred = ["destination", "origin", "boarding_point"]
         case "zoomcar": preferred = ["pickup_hub", "pickup", "drop_off"]
         case "easydiner", "zomato-dineout", "swiggy-dineout": preferred = ["restaurant", "area", "city"]
-        case "cult": preferred = ["center"]
+        case "cult", "golds-gym": preferred = ["center"]
+        case "uber", "ola": preferred = ["pickup", "drop_off"]
+        case "makemytrip", "cleartrip", "yatra", "uts", "chalo": preferred = ["destination", "origin"]
+        case "tata-neu", "reliance-smart", "shoppers-stop", "bigbasket": preferred = ["store", "venue"]
         default: preferred = ["venue", "address", "property", "restaurant", "origin", "city"]
         }
         for key in preferred {

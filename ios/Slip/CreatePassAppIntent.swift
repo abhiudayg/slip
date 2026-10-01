@@ -1,10 +1,10 @@
 import AppIntents
 import Foundation
 
-/// Siri / Shortcuts entry: create a Slip pass from booking text.
+/// Siri / Shortcuts entry: create a Slip pass from booking text (OCR-path fallback).
 struct CreatePassFromTextIntent: AppIntent {
-    static var title: LocalizedStringResource = "Create Slip Pass"
-    static var description = IntentDescription("Extract ticket fields and open Slip to confirm a Wallet pass.")
+    static var title: LocalizedStringResource = "Create Slip Pass from Text"
+    static var description = IntentDescription("Extract ticket fields from pasted booking text and open Slip to confirm.")
     static var openAppWhenRun: Bool = true
 
     @Parameter(title: "Booking text")
@@ -29,13 +29,22 @@ struct CreatePassFromTextIntent: AppIntent {
 struct SlipAppShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: SlipAddPassIntent(),
+            phrases: [
+                "Add my \(.applicationName) ticket",
+                "Add a BookMyShow ticket to \(.applicationName)",
+                "Save this booking in \(.applicationName)"
+            ],
+            shortTitle: "Add Pass",
+            systemImageName: "ticket"
+        )
+        AppShortcut(
             intent: CreatePassFromTextIntent(),
             phrases: [
                 "Create a \(.applicationName) pass from this booking",
-                "Add this ticket to \(.applicationName)",
-                "Fill a \(.applicationName) pass"
+                "Fill a \(.applicationName) pass from text"
             ],
-            shortTitle: "Create Pass",
+            shortTitle: "Create from Text",
             systemImageName: "wallet.pass"
         )
     }

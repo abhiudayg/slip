@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "{{PASS_TYPE_IDENTIFIER}}",
+  "teamIdentifier": "{{TEAM_IDENTIFIER}}",
+  "organizationName": "BigBasket",
+  "description": "BigBasket coupon and membership offers.",
+  "logoText": "BigBasket",
+  "backgroundColor": "rgb(40, 22, 10)",
+  "foregroundColor": "rgb(255, 255, 255)",
+  "labelColor": "rgb(255, 160, 80)",
+  "barcode": {
+    "format": "PKBarcodeFormatCode128",
+    "message": "{{qr_data}}",
+    "messageEncoding": "iso-8859-1",
+    "altText": "{{booking_id}}"
+  },
+  "coupon": {
+    "primaryFields": [
+      {
+        "key": "restaurant",
+        "label": "VENUE",
+        "value": "{{restaurant}}"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "time",
+        "label": "VALID",
+        "value": "{{time}}"
+      },
+      {
+        "key": "party",
+        "label": "GUESTS",
+        "value": "{{party_size}}"
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "booking",
+        "label": "OFFER / BOOKING",
+        "value": "{{booking_id}}"
+      }
+    ],
+    "backFields": [
+      {
+        "key": "offer_code",
+        "label": "Offer Code",
+        "value": "{{offer_code}}"
+      },
+      {
+        "key": "discount",
+        "label": "Discount",
+        "value": "{{discount}}"
+      },
+      {
+        "key": "bank_offer",
+        "label": "Bank Offer",
+        "value": "{{bank_offer}}"
+      },
+      {
+        "key": "area",
+        "label": "Area",
+        "value": "{{area}}"
+      },
+      {
+        "key": "valid_till",
+        "label": "Valid Till",
+        "value": "{{valid_till}}"
+      },
+      {
+        "key": "min_order",
+        "label": "Min Order",
+        "value": "{{min_order}}"
+      },
+      {
+        "key": "membership_status",
+        "label": "Swiggy One",
+        "value": "{{membership_status}}"
+      },
+      {
+        "key": "about",
+        "label": "Server",
+        "value": "Scan or present to server for Dineout bill pay."
+      }
+    ]
+  }
+}

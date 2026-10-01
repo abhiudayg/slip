@@ -18,7 +18,7 @@ extension BrandPassHandler {
 }
 
 enum BrandPassRegistry {
-    static let handlers: [BrandPassHandler] = [
+    static let handlers: [BrandPassHandler] = ([
         UPIPassHandler(),          // 10
         ZoomcarPassHandler(),      // 20
         DiningPassHandler.easydiner, // 30
@@ -32,8 +32,8 @@ enum BrandPassRegistry {
         DistrictPassHandler(),     // 80
         BookMyShowPassHandler(),   // 90
         AirbnbPassHandler(),       // 100
-        CultPassHandler()          // 110
-    ].sorted { $0.priority < $1.priority }
+        CultPassHandler(),         // 110
+    ] + CatalogueHandlers.all).sorted { $0.priority < $1.priority }
 
     static func handler(for templateId: String) -> BrandPassHandler? {
         // Dining shares one type with three ids

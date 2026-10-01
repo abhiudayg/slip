@@ -11,7 +11,7 @@ struct MarketplaceView: View {
     var onScanScreenshot: () -> Void
     var onImportPDF: (() -> Void)? = nil
 
-    private let categories = ["All Passes", "Transit", "Fitness", "Travel", "Events", "Personal UPI"]
+    private let categories = ["All Passes", "Transit", "Fitness", "Travel", "Events", "Dining", "Retail", "Personal UPI"]
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -259,6 +259,8 @@ struct MarketplaceView: View {
                 case "Fitness": return brand.category == "fitness"
                 case "Travel": return ["travel", "transit"].contains(brand.category)
                 case "Events": return brand.category == "entertainment"
+                case "Dining": return brand.category == "dining"
+                case "Retail": return brand.category == "retail"
                 case "Personal UPI": return brand.category == "everyday_pay"
                 default: return true
                 }

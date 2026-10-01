@@ -1,0 +1,33 @@
+{
+  "id": "makemytrip",
+  "displayName": "MakeMyTrip",
+  "category": "travel",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "pnr",
+    "booking_id",
+    "flight",
+    "dep",
+    "arr",
+    "date",
+    "time",
+    "duration",
+    "seat",
+    "status"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(64, 115, 242)",
+  "summary": "MakeMyTrip flight and trip booking passes.",
+  "badge": "Travel",
+  "iconHint": "suitcase.fill"
+}

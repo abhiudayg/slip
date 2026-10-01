@@ -3,6 +3,7 @@ import SwiftData
 import LocalAuthentication
 import CloudKit
 import PassKit
+import WidgetKit
 
 @Model
 final class PassVaultRecord {
@@ -101,6 +102,78 @@ final class PassVaultStore: ObservableObject {
             sortBy: [SortDescriptor(\.updatedAt, order: .reverse)]
         )
         records = (try? context.fetch(descriptor)) ?? []
+        publishWidgetSnapshots()
+    }
+
+    /// Decrypt active passes into App Group for home-screen / Watch widgets.
+    private func publishWidgetSnapshots() {
+        guard isUnlocked else { return }
+        var snapshots: [WidgetPassSnapshot] = []
+        for record in records where !record.isExpired {
+            guard let payload = try? decrypt(record) else { continue }
+            let qr = (payload.qrPayload
+                ?? payload.fields["qr_data"]
+                ?? payload.fields["vpa"]
+                ?? payload.fields["booking_id"]
+                ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !qr.isEmpty else { continue }
+            let subtitle = widgetSubtitle(templateId: payload.templateId, fields: payload.fields, qr: qr)
+            let relevant: Date? = {
+                guard let iso = payload.relevantDateISO8601 else { return nil }
+                return ISO8601DateFormatter().date(from: iso)
+            }()
+            snapshots.append(
+                WidgetPassSnapshot(
+                    id: record.id,
+                    templateId: payload.templateId,
+                    displayName: record.displayName,
+                    subtitle: subtitle,
+                    qrPayload: qr,
+                    accentRGB: nil,
+                    expiresAt: record.expiresAt,
+                    relevantAt: relevant
+                )
+            )
+        }
+        // Prefer soonest relevant; keep current selection if possible.
+        snapshots.sort {
+            switch ($0.relevantAt, $1.relevantAt) {
+            case let (a?, b?): return a < b
+            case (_?, nil): return true
+            default: return $0.displayName < $1.displayName
+            }
+        }
+        let previousId = WidgetPassStore.selectedPass()?.id
+        WidgetPassStore.save(snapshots, selectedIndex: 0)
+        if let previousId, let idx = snapshots.firstIndex(where: { $0.id == previousId }) {
+            WidgetPassStore.setSelectedIndex(idx)
+        }
+        WidgetCenter.shared.reloadTimelines(ofKind: "SlipPassHomeWidget")
+    }
+
+    private func widgetSubtitle(templateId: String, fields: [String: String], qr: String) -> String {
+        let candidates: [String]
+        switch templateId {
+        case "irctc", "indigo", "redbus", "namma-metro", "makemytrip", "cleartrip", "yatra", "uts", "chalo":
+            candidates = [
+                [fields["origin"], fields["destination"]].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " → "),
+                fields["pnr"] ?? "",
+                fields["flight"] ?? "",
+                fields["train"] ?? ""
+            ]
+        case "bookmyshow", "district":
+            candidates = [fields["event"] ?? "", fields["venue"] ?? "", fields["seat"] ?? ""]
+        case "uber", "ola":
+            candidates = [fields["pickup"] ?? "", fields["eta"] ?? ""]
+        case "upi":
+            candidates = [fields["vpa"] ?? "", fields["name"] ?? ""]
+        default:
+            candidates = [fields["restaurant"] ?? "", fields["property"] ?? "", fields["vehicle"] ?? "", fields["booking_id"] ?? ""]
+        }
+        if let hit = candidates.map({ $0.trimmingCharacters(in: .whitespacesAndNewlines) }).first(where: { !$0.isEmpty }) {
+            return hit
+        }
+        return String(qr.prefix(28))
     }
 
     // MARK: - Biometrics
@@ -111,6 +184,7 @@ final class PassVaultStore: ObservableObject {
         guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else {
             // Simulator / no biometrics: allow with device passcode unavailable → unlock for dev
             isUnlocked = true
+            publishWidgetSnapshots()
             return true
         }
         do {
@@ -119,6 +193,13 @@ final class PassVaultStore: ObservableObject {
                 localizedReason: reason
             )
             isUnlocked = ok
+            if ok {
+                publishWidgetSnapshots()
+                Task {
+                    await BookingReminderScheduler.reschedule(from: self)
+                    await LiveStatusService.refreshActivePasses(from: self)
+                }
+            }
             return ok
         } catch {
             lastError = error.localizedDescription

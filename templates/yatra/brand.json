@@ -1,0 +1,33 @@
+{
+  "id": "yatra",
+  "displayName": "Yatra",
+  "category": "travel",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "pnr",
+    "booking_id",
+    "flight",
+    "dep",
+    "arr",
+    "date",
+    "time",
+    "duration",
+    "seat",
+    "status"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(234, 88, 12)",
+  "summary": "Yatra trip and flight e-passes.",
+  "badge": "Travel",
+  "iconHint": "suitcase.fill"
+}

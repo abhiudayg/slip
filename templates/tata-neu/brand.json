@@ -1,0 +1,30 @@
+{
+  "id": "tata-neu",
+  "displayName": "Tata Neu",
+  "category": "retail",
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "store",
+    "offer",
+    "offer_code",
+    "discount",
+    "points",
+    "tier",
+    "valid_thru",
+    "member_id",
+    "booking_id"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": false,
+  "accentHint": "rgb(139, 92, 246)",
+  "summary": "Tata Neu loyalty and store offers.",
+  "badge": "Loyalty",
+  "iconHint": "n.circle.fill"
+}

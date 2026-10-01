@@ -1,0 +1,32 @@
+{
+  "id": "uber",
+  "displayName": "Uber",
+  "category": "travel",
+  "appleStyle": "generic",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "pickup",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "drop_off",
+    "destination",
+    "vehicle",
+    "plate",
+    "driver",
+    "ride_pin",
+    "eta",
+    "time",
+    "status",
+    "service",
+    "booking_id"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(20, 20, 20)",
+  "summary": "Uber scheduled and airport ride passes.",
+  "badge": "Ride",
+  "iconHint": "car.fill"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "cult",
+  "displayName": "Cult.fit",
+  "category": "fitness",
+  "appleStyle": "storeCard",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "name",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "membership",
+    "center",
+    "plan",
+    "valid_thru",
+    "checkins",
+    "member_id",
+    "status"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(230, 46, 72)",
+  "summary": "Cult.fit gym access QR for centre check-in.",
+  "badge": "Gym",
+  "iconHint": "figure.run"
+}

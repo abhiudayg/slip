@@ -13,6 +13,9 @@ struct SettingsView: View {
     @State private var avatarPickerItem: PhotosPickerItem?
     @State private var isEditingName = false
     @State private var draftName = ""
+    @State private var geminiAPIKey = ""
+    @State private var geminiKeySaved = false
+    @State private var aviationAPIKey = ""
     var onDone: (() -> Void)? = nil
 
     private var profileName: String {
@@ -120,8 +123,8 @@ struct SettingsView: View {
                     toggleRow(
                         icon: "applewatch",
                         tint: SlipTheme.indigo,
-                        title: "Apple Watch Mirroring",
-                        subtitle: "Sync wallet manifests directly to watchOS Wrist Target",
+                        title: "Apple Watch + Home Widget",
+                        subtitle: "Unlock vault to sync QRs. Add “Slip Pass QR” from the widget gallery; Watch lists relevant passes.",
                         isOn: $watchMirroring
                     )
                     divider
@@ -168,6 +171,95 @@ struct SettingsView: View {
                         Image(systemName: "chevron.right")
                             .foregroundStyle(SlipTheme.muted)
                     }
+                }
+
+                section(title: "Hybrid AI Extraction") {
+                    HStack(alignment: .top, spacing: 12) {
+                        iconCircle("sparkles", tint: SlipTheme.indigo)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Anchors first, fuzzy second")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(SlipTheme.ink)
+                            Text("Vision + regex lock QR / PNR / booking IDs. Apple Intelligence (or optional Gemini) only fills missing movie, restaurant, and venue names.")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                    }
+                    divider
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Gemini API key (optional fallback)")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(SlipTheme.muted)
+                        SecureField("AIza…", text: $geminiAPIKey)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .font(.subheadline.monospaced())
+                            .padding(12)
+                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.06)))
+                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.white.opacity(0.1), lineWidth: 1))
+                        HStack {
+                            Button("Save key") {
+                                let trimmed = geminiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
+                                UserDefaults.standard.set(trimmed, forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
+                                UserDefaults(suiteName: SharedInbox.appGroupId)?
+                                    .set(trimmed, forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
+                                geminiKeySaved = true
+                            }
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(SlipTheme.accent)
+                            if geminiKeySaved || !(GeminiFuzzyFiller.apiKey ?? "").isEmpty {
+                                Text("Saved on device")
+                                    .font(.caption2)
+                                    .foregroundStyle(SlipTheme.upiGreen)
+                            }
+                            Spacer()
+                            Button("Clear") {
+                                geminiAPIKey = ""
+                                UserDefaults.standard.removeObject(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
+                                UserDefaults(suiteName: SharedInbox.appGroupId)?
+                                    .removeObject(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
+                                geminiKeySaved = false
+                            }
+                            .font(.caption)
+                            .foregroundStyle(SlipTheme.muted)
+                        }
+                    }
+                }
+
+                section(title: "Live Tracking & Reminders") {
+                    HStack(alignment: .top, spacing: 12) {
+                        iconCircle("airplane.departure", tint: SlipTheme.indigo)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Flight / train Live Activity")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(SlipTheme.ink)
+                            Text("Optional AviationStack key updates gate & delay on Dynamic Island. Booking reminders fire locally the evening before.")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                    }
+                    divider
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("AviationStack API key (optional)")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(SlipTheme.muted)
+                        SecureField("key…", text: $aviationAPIKey)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .font(.subheadline.monospaced())
+                            .padding(12)
+                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.06)))
+                        Button("Save tracking key") {
+                            let trimmed = aviationAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
+                            UserDefaults.standard.set(trimmed, forKey: LiveStatusService.apiKeyDefaultsKey)
+                            UserDefaults(suiteName: SharedInbox.appGroupId)?
+                                .set(trimmed, forKey: LiveStatusService.apiKeyDefaultsKey)
+                        }
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(SlipTheme.accent)
+                    }
+                    divider
+                    FamilyVaultShareCard()
                 }
 
                 GlassCard(cornerRadius: 18, padding: 14) {
@@ -222,6 +314,14 @@ struct SettingsView: View {
             .padding(.horizontal, 20)
             .padding(.top, 8)
             .padding(.bottom, 120)
+        }
+        .onAppear {
+            geminiAPIKey = UserDefaults.standard.string(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
+                ?? UserDefaults(suiteName: SharedInbox.appGroupId)?.string(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
+                ?? ""
+            aviationAPIKey = UserDefaults.standard.string(forKey: LiveStatusService.apiKeyDefaultsKey)
+                ?? UserDefaults(suiteName: SharedInbox.appGroupId)?.string(forKey: LiveStatusService.apiKeyDefaultsKey)
+                ?? ""
         }
         .onChange(of: avatarPickerItem) { _, item in
             guard let item else { return }

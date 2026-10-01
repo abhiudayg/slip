@@ -50,6 +50,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSMotionUsageDescription</key>
+	<string>Slip uses motion to add a subtle Wallet-like shine on pass previews.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Slip scans membership barcodes and QR tickets to build Wallet passes.</string>
 	<key>NSFaceIDUsageDescription</key>

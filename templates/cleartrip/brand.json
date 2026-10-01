@@ -1,0 +1,33 @@
+{
+  "id": "cleartrip",
+  "displayName": "Cleartrip",
+  "category": "travel",
+  "appleStyle": "boardingPass",
+  "barcodeFormats": [
+    "PKBarcodeFormatQR"
+  ],
+  "requiredFields": [
+    "origin",
+    "destination",
+    "qr_data"
+  ],
+  "optionalFields": [
+    "passenger",
+    "pnr",
+    "booking_id",
+    "flight",
+    "dep",
+    "arr",
+    "date",
+    "time",
+    "duration",
+    "seat",
+    "status"
+  ],
+  "supportsLocations": true,
+  "supportsRelevantDate": true,
+  "accentHint": "rgb(249, 115, 22)",
+  "summary": "Cleartrip booking passes for flights and hotels.",
+  "badge": "Travel",
+  "iconHint": "suitcase.fill"
+}
