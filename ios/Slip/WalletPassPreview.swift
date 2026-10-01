@@ -11,6 +11,7 @@ struct WalletPassPreview: View {
 
     var body: some View {
         PassFlipContainer(
+            brandId: brandId,
             brandTitle: displayName,
             backRows: PassBackContent.rows(brandId: brandId, fields: fields),
             payFields: fields

@@ -1,32 +1,38 @@
 import AuthenticationServices
 import SwiftUI
 
-/// Launch screen matching Stitch `Login & Onboarding - Slip`
-/// (projects/6057453755376154551/screens/107799e3dd8840868bf218ee8a5673f5).
+/// Launch screen matching Stitch `login_slip_wallet`.
 struct LoginView: View {
     @EnvironmentObject private var auth: AuthSession
     @EnvironmentObject private var model: AppModel
-
     @State private var localError: String?
+
+    private let margin: CGFloat = 24
 
     var body: some View {
         ZStack {
-            MeshBackground()
+            MeshBackground(holographicMotif: true)
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
+                    Spacer(minLength: 8)
+
                     brandHeader
-                        .padding(.top, 12)
+                        .frame(maxWidth: .infinity)
 
                     passStackPreview
                         .padding(.top, 24)
-                        .padding(.bottom, 8)
+                        .frame(maxWidth: .infinity)
+
+                    Spacer(minLength: 20)
 
                     authDock
-                        .padding(.top, 20)
-                        .padding(.bottom, 28)
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, 16)
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, margin)
+                .frame(maxWidth: .infinity)
+                .containerRelativeFrame(.vertical, alignment: .center)
             }
         }
         .preferredColorScheme(.dark)
@@ -38,359 +44,197 @@ struct LoginView: View {
     // MARK: - Brand
 
     private var brandHeader: some View {
-        VStack(spacing: 6) {
-            ZStack {
-                Circle()
-                    .fill(SlipTheme.indigo.opacity(0.28))
-                    .frame(width: 144, height: 144)
-                    .blur(radius: 28)
-                Ellipse()
-                    .fill(SlipTheme.accent.opacity(0.18))
-                    .frame(width: 112, height: 80)
-                    .offset(y: 28)
-                    .blur(radius: 22)
-
-                SlipBrandMark(size: 96)
-                    .shadow(color: .black.opacity(0.45), radius: 18, y: 10)
-            }
-            .padding(.bottom, 4)
-
+        VStack(spacing: 0) {
             HStack(spacing: 6) {
-                Text("Slip")
-                    .font(.system(size: 34, weight: .bold))
-                    .tracking(-0.8)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.white, SlipTheme.accentSoft, SlipTheme.muted],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(SlipTheme.tertiary)
+                Text("PASSKIT VAULT 2.0")
+                    .font(SlipTheme.labelMono())
+                    .tracking(1.2)
+                    .foregroundStyle(SlipTheme.inkVariant)
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(SlipTheme.upiGreen.opacity(0.85))
+                    .frame(width: 6, height: 6)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(SlipTheme.cardHigh.opacity(0.60))
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                     )
+            )
+            .padding(.bottom, 28)
 
-                Text("iOS 27")
-                    .font(.system(size: 12, weight: .semibold))
-                    .tracking(0.4)
-                    .textCase(.uppercase)
-                    .foregroundStyle(SlipTheme.accentSoft)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(Capsule().fill(SlipTheme.indigo.opacity(0.35)))
+            SlipBrandMark(size: 96, glow: true)
+                .frame(width: 96, height: 96)
+                .padding(.bottom, 20)
+
+            // Optical center: trailing square-dot sits in overlay so "Slip" stays centered.
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text("Slip")
+                    .font(SlipTheme.headlineXL())
+                    .tracking(-0.8)
+                    .foregroundStyle(SlipTheme.ink)
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(SlipTheme.tertiaryDim)
+                    .frame(width: 6, height: 6)
+                    .padding(.bottom, 6)
             }
 
-            Text("Daily QRs. Slipped into Apple Wallet.")
-                .font(.system(size: 17, weight: .semibold))
-                .tracking(-0.2)
-                .foregroundStyle(SlipTheme.ink)
-                .multilineTextAlignment(.center)
-
-            Text("Zero turnstile friction for Namma Metro, Cult.fit, IRCTC, IndiGo & UPI. Ready on Lock Screen.")
-                .font(.system(size: 13, weight: .regular))
+            Text("The digital slip & passkit vault. All your boarding passes, keys & cards in one secure place.")
+                .font(SlipTheme.bodyMD())
                 .foregroundStyle(SlipTheme.muted)
                 .multilineTextAlignment(.center)
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
                 .frame(maxWidth: 320)
-
-            cloudStatusChip
-                .padding(.top, 10)
+                .padding(.top, 8)
         }
         .frame(maxWidth: .infinity)
     }
 
-    private var cloudStatusChip: some View {
-        Group {
-            switch auth.cloudStatus {
-            case .checking:
-                StatusPill(title: "Checking cloud…", tint: SlipTheme.amber)
-            case .connected(let count):
-                StatusPill(title: "Cloud · \(count) brands", tint: SlipTheme.upiGreen, filled: false)
-            case .unreachable:
-                Button {
-                    Task { await auth.refreshCloud(using: model.api) }
-                } label: {
-                    StatusPill(title: "Cloud offline · retry", tint: SlipTheme.magenta)
-                }
-                .buttonStyle(.plain)
-            }
-        }
-    }
-
-    // MARK: - Pass stack (Stitch 2.5D preview)
+    // MARK: - Glass bento micro-preview
 
     private var passStackPreview: some View {
-        ZStack {
-            Ellipse()
-                .fill(SlipTheme.indigo.opacity(0.22))
-                .frame(width: 260, height: 90)
-                .offset(y: -70)
-                .blur(radius: 36)
-
-            irctcBackCard
-                .scaleEffect(0.90)
-                .opacity(0.42)
-                .offset(y: -8)
-
-            cultMidCard
-                .scaleEffect(0.95)
-                .opacity(0.82)
-                .offset(y: 14)
-
-            nammaHeroCard
-                .offset(y: 42)
-        }
-        .frame(height: 220)
-        .frame(maxWidth: 360)
-    }
-
-    private var irctcBackCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Label("IRCTC TICKET", systemImage: "tram.fill")
-                    .font(.system(size: 11, weight: .semibold))
-                    .tracking(0.6)
-                    .foregroundStyle(SlipTheme.accentSoft)
-                Spacer()
-                Text("PNR 4829-10928")
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(SlipTheme.muted)
-            }
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("SBC").font(.system(size: 17, weight: .bold))
-                    Text("06:00 AM").font(.system(size: 12)).foregroundStyle(SlipTheme.muted)
-                }
-                Spacer()
-                Image(systemName: "arrow.right")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(SlipTheme.muted.opacity(0.6))
-                Spacer()
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text("MAS").font(.system(size: 17, weight: .bold))
-                    Text("10:45 AM").font(.system(size: 12)).foregroundStyle(SlipTheme.muted)
-                }
-            }
-            .foregroundStyle(SlipTheme.ink)
-        }
-        .padding(14)
-        .background(previewGlass(corner: 16))
-        .padding(.horizontal, 16)
-    }
-
-    private var cultMidCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                HStack(spacing: 8) {
-                    ZStack {
-                        Circle().fill(SlipTheme.magenta.opacity(0.28)).frame(width: 24, height: 24)
-                        Image(systemName: "figure.run")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(SlipTheme.magenta)
-                    }
-                    Text("Cult.fit Elite")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(SlipTheme.ink)
-                }
-                Spacer()
-                Text("UNLIMITED CHECK-IN")
-                    .font(.system(size: 10, weight: .bold))
-                    .tracking(0.5)
-                    .foregroundStyle(SlipTheme.magenta)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Capsule().fill(SlipTheme.magenta.opacity(0.28)))
-            }
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Home Center")
-                        .font(.system(size: 12))
-                        .foregroundStyle(SlipTheme.muted)
-                    Text("Indiranagar 100ft Rd")
-                        .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(SlipTheme.ink)
-                }
-                Spacer()
-                Label("Tap to show", systemImage: "qrcode")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(SlipTheme.accentSoft)
-            }
-        }
-        .padding(14)
-        .background(previewGlass(corner: 16))
-        .padding(.horizontal, 8)
-    }
-
-    private var nammaHeroCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top) {
-                HStack(spacing: 10) {
-                    ZStack {
-                        Circle().fill(SlipTheme.indigo).frame(width: 32, height: 32)
-                        Image(systemName: "tram.fill")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
-                    VStack(alignment: .leading, spacing: 2) {
-                        HStack(spacing: 6) {
-                            Text("Namma Metro")
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundStyle(.white)
-                            Circle()
-                                .fill(SlipTheme.upiGreen)
-                                .frame(width: 7, height: 7)
-                        }
-                        Text("Purple Line Transit")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundStyle(SlipTheme.accentSoft)
-                    }
-                }
-                Spacer()
-                HStack(spacing: 6) {
-                    Text("BAL")
-                        .font(.system(size: 10, weight: .semibold))
-                        .tracking(0.5)
-                        .foregroundStyle(SlipTheme.muted)
-                    Text("₹420.00")
-                        .font(.system(size: 15, weight: .bold))
-                        .foregroundStyle(.white)
-                }
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(Capsule().fill(Color.white.opacity(0.10)))
-            }
-
-            HStack {
-                HStack(spacing: 8) {
-                    Image(systemName: "wave.3.right")
-                        .foregroundStyle(SlipTheme.accentSoft)
-                    VStack(alignment: .leading, spacing: 2) {
-                        HStack(spacing: 5) {
-                            Circle().fill(SlipTheme.upiGreen).frame(width: 5, height: 5)
-                            Text("READY ON TURNSTILE")
-                                .font(.system(size: 10, weight: .bold))
-                                .tracking(0.6)
-                                .foregroundStyle(SlipTheme.upiGreen)
-                        }
-                        Text("MG Road → Whitefield")
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(SlipTheme.ink)
-                    }
-                }
-                Spacer()
-                Image(systemName: "sensor.tag.radiowaves.forward")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(SlipTheme.accentSoft)
-                    .frame(width: 28, height: 28)
-                    .background(Circle().fill(SlipTheme.accent.opacity(0.12)))
-            }
-            .padding(10)
-            .background(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(Color.black.opacity(0.35))
-            )
-
-            HStack {
-                Label("Auto-surfaces near AF Gate", systemImage: "lock.iphone")
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(SlipTheme.muted)
-                Spacer()
-                Text("Apple Wallet ›")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(SlipTheme.accentSoft)
-            }
-            .padding(.top, 2)
-        }
-        .padding(16)
-        .background {
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [Color(hex: 0x251B3D), Color(hex: 0x120E2E)],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
+        Grid(horizontalSpacing: 12, verticalSpacing: 12) {
+            GridRow {
+                microPassCard(
+                    icon: "airplane.departure",
+                    meta: "GATE 24",
+                    title: "JFK → HND",
+                    subtitle: "Priority Boarding"
                 )
-                .overlay {
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
-                        .strokeBorder(
-                            LinearGradient(
-                                colors: [Color.white.opacity(0.28), Color.white.opacity(0.04)],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            ),
-                            lineWidth: 1
-                        )
-                }
-                .shadow(color: .black.opacity(0.45), radius: 20, y: 12)
+                microPassCard(
+                    icon: "key.fill",
+                    meta: "ROOM 804",
+                    title: "The Edition",
+                    subtitle: "NFC Key Ready"
+                )
+            }
         }
+        .frame(maxWidth: .infinity)
     }
 
-    private func previewGlass(corner: CGFloat) -> some View {
-        RoundedRectangle(cornerRadius: corner, style: .continuous)
-            .fill(.ultraThinMaterial)
-            .overlay {
-                RoundedRectangle(cornerRadius: corner, style: .continuous)
-                    .fill(Color.white.opacity(0.04))
+    private func microPassCard(
+        icon: String,
+        meta: String,
+        title: String,
+        subtitle: String
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .center, spacing: 8) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(SlipTheme.tertiary)
+                Spacer(minLength: 0)
+                Text(meta)
+                    .font(SlipTheme.labelMono())
+                    .tracking(0.5)
+                    .foregroundStyle(SlipTheme.muted)
+                    .lineLimit(1)
             }
-            .overlay {
-                RoundedRectangle(cornerRadius: corner, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.10), lineWidth: 1)
-            }
+            Text(title)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(SlipTheme.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
+            Text(subtitle)
+                .font(.system(size: 11, weight: .regular))
+                .foregroundStyle(SlipTheme.muted)
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, minHeight: 92, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(SlipTheme.cardHigh.opacity(0.40))
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                )
+        )
+        .gridCellColumns(1)
     }
 
     // MARK: - Auth dock
 
     private var authDock: some View {
-        VStack(spacing: 12) {
-            SignInWithAppleButton(.continue) { request in
+        VStack(spacing: 14) {
+#if targetEnvironment(simulator)
+            Button {
+                auth.signInForSimulatorTesting()
+                Task { await model.bootstrap() }
+            } label: {
+                HStack(spacing: 10) {
+                    Image(systemName: "apple.logo")
+                        .font(.system(size: 18, weight: .semibold))
+                    Text("Sign in with Apple")
+                        .font(SlipTheme.headlineSM())
+                }
+                .foregroundStyle(SlipTheme.canvasDeep)
+                .frame(maxWidth: .infinity)
+                .frame(height: 56)
+                .background(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(SlipTheme.ink)
+                        .shadow(color: .black.opacity(0.40), radius: 12, y: 8)
+                )
+            }
+            .buttonStyle(.plain)
+
+            Text("Simulator — continues without an Apple ID")
+                .font(SlipTheme.labelMono())
+                .foregroundStyle(SlipTheme.muted)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+#else
+            SignInWithAppleButton(.signIn) { request in
                 request.requestedScopes = [.fullName, .email]
             } onCompletion: { result in
                 handleApple(result)
             }
             .signInWithAppleButtonStyle(.white)
-            .frame(height: 52)
-            .clipShape(Capsule())
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .shadow(color: .black.opacity(0.40), radius: 12, y: 8)
             .disabled(!auth.cloudStatus.isReady)
             .opacity(auth.cloudStatus.isReady ? 1 : 0.45)
+#endif
 
             if let localError {
                 Text(localError)
-                    .font(.footnote)
-                    .foregroundStyle(SlipTheme.magenta)
+                    .font(SlipTheme.bodySM())
+                    .foregroundStyle(Color(hex: 0xFFB4AB))
                     .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
             }
 
-            trustSeal
+            VStack(spacing: 6) {
+                Text("By continuing, you agree to Slip's Terms & Privacy Policy.")
+                    .font(SlipTheme.labelMono())
+                    .foregroundStyle(SlipTheme.outline)
+                    .multilineTextAlignment(.center)
 
-            Text("By continuing, you acknowledge Slip's Transit Protocol terms. Works natively with Apple Wallet & PassKit frameworks. All trademarks belong to respective transit authorities.")
-                .font(.system(size: 9, weight: .semibold))
-                .tracking(0.4)
-                .foregroundStyle(SlipTheme.muted.opacity(0.55))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 4)
-        }
-    }
-
-    private var trustSeal: some View {
-        HStack(alignment: .top, spacing: 10) {
-            ZStack {
-                Circle().fill(SlipTheme.accent.opacity(0.18)).frame(width: 28, height: 28)
-                Image(systemName: "checkmark.shield.fill")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(SlipTheme.accentSoft)
+                HStack(spacing: 4) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 10, weight: .semibold))
+                    Text("Protected by Secure Enclave & VAS 2.0")
+                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                }
+                .foregroundStyle(SlipTheme.outlineVariant)
             }
-            (
-                Text("Zero-Knowledge Architecture. ")
-                    .foregroundStyle(.white)
-                    .fontWeight(.semibold)
-                + Text("Encrypted on Apple Neural Engine & stored directly in your iPhone's Secure Enclave.")
-                    .foregroundStyle(SlipTheme.muted.opacity(0.9))
-            )
-            .font(.system(size: 10, weight: .medium))
-            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 4)
         }
-        .padding(10)
-        .background(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color.white.opacity(0.04))
-        )
+        .frame(maxWidth: .infinity)
     }
 
     // MARK: - Actions

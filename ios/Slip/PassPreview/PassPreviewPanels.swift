@@ -27,9 +27,9 @@ struct QRPanel: View {
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
                     .background(
-                        Capsule()
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
                             .fill(Color.white.opacity(0.06))
-                            .overlay(Capsule().strokeBorder(Color.white.opacity(0.1), lineWidth: 1))
+                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Color.white.opacity(0.1), lineWidth: 1))
                     )
             }
         }

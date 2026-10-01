@@ -17,8 +17,8 @@ struct PassShareControls: View {
                     .foregroundStyle(SlipTheme.ink)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(Capsule().fill(SlipTheme.cardHigh))
-                    .overlay(Capsule().strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
+                    .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(SlipTheme.cardHigh))
+                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
             }
             .simultaneousGesture(TapGesture().onEnded { SlipHaptics.shareReady() })
         }

@@ -25,6 +25,7 @@ struct PassDetailsView: View {
     @State private var showBrightQR = false
     @State private var showGeofenceMap = false
     @State private var showIdentityVault = false
+    @State private var showPassDetailsSheet = false
     @State private var passPage = 0
     @State private var sharePackage: PassSharePackage?
 
@@ -73,14 +74,28 @@ struct PassDetailsView: View {
                     .padding(.bottom, 40)
                 }
             }
-            .navigationTitle("Pass Details")
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: {
                         Image(systemName: "xmark")
+                            .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
+                            .frame(width: 32, height: 32)
+                            .background(Circle().fill(SlipTheme.glassSurface))
+                            .overlay(Circle().strokeBorder(SlipTheme.glassBorder, lineWidth: 1))
                     }
+                }
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "wave.3.right")
+                            .font(.system(size: 12, weight: .semibold))
+                        Text("PassKit • NFC Ready")
+                            .font(SlipTheme.labelMono())
+                            .tracking(0.4)
+                    }
+                    .foregroundStyle(SlipTheme.muted)
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     if sharePackage != nil || !(fields["qr_data"] ?? "").isEmpty {
@@ -93,11 +108,16 @@ struct PassDetailsView: View {
                         }
                         .accessibilityLabel("Bright QR")
                     }
-                    Button {
-                        showFieldEditor = true
+                    Menu {
+                        Button("Pass Details (Back)", systemImage: "info.circle") { showPassDetailsSheet = true }
+                        Button("Edit fields", systemImage: "pencil") { showFieldEditor = true }
                     } label: {
-                        Image(systemName: "pencil")
-                            .foregroundStyle(SlipTheme.accentSoft)
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                            .frame(width: 32, height: 32)
+                            .background(Circle().fill(SlipTheme.glassSurface))
+                            .overlay(Circle().strokeBorder(SlipTheme.glassBorder, lineWidth: 1))
                     }
                 }
             }
@@ -105,6 +125,15 @@ struct PassDetailsView: View {
             .onAppear {
                 hydrateWalletLink()
                 refreshSharePackage()
+            }
+            .sheet(isPresented: $showPassDetailsSheet) {
+                PassBackDetailsSheet(
+                    brandId: brand.id,
+                    brandTitle: brand.displayName,
+                    fields: fields,
+                    vaultRecordId: vaultRecordId,
+                    onDelete: deleteCurrentPass
+                )
             }
             .fullScreenCover(isPresented: $showBrightQR) {
                 let payload = fields["qr_data"] ?? sharePackage?.qrPayload ?? ""
@@ -232,37 +261,145 @@ struct PassDetailsView: View {
             Spacer()
             StatusPill(title: "Live Wallet Preview", tint: SlipTheme.accent)
             Spacer()
-            Image(systemName: "square.and.arrow.up")
-                .foregroundStyle(SlipTheme.muted)
+            HStack(spacing: 12) {
+                Button {
+                    showPassDetailsSheet = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(SlipTheme.accentSoft)
+                }
+                .accessibilityLabel("Pass Details")
+
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundStyle(SlipTheme.muted)
+            }
         }
     }
 
     private var livePassCard: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            TabView(selection: $passPage) {
-                WalletPassPreview(
-                    brandId: brand.id,
-                    displayName: brand.displayName,
-                    fields: $fields,
-                    accentRGB: brand.accentHint,
-                    editable: true
-                )
-                .tag(0)
+        VStack(alignment: .leading, spacing: 12) {
+            // Dual card mode selector (Boarding Pass vs. Gate Travel ID)
+            HStack {
+                HStack(spacing: 2) {
+                    Button {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
+                            passPage = 0
+                        }
+                        SlipHaptics.scrollTick()
+                    } label: {
+                        HStack(spacing: 5) {
+                            Image(systemName: "ticket.fill")
+                                .font(.system(size: 11, weight: .semibold))
+                            Text("Pass")
+                                .font(.system(size: 12, weight: .semibold))
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule().fill(passPage == 0 ? SlipTheme.accent.opacity(0.2) : Color.clear)
+                        )
+                        .overlay(
+                            Capsule().strokeBorder(passPage == 0 ? SlipTheme.accent.opacity(0.4) : Color.clear, lineWidth: 1)
+                        )
+                        .foregroundStyle(passPage == 0 ? SlipTheme.accentSoft : SlipTheme.muted)
+                    }
+                    .buttonStyle(.plain)
 
-                if let idDoc = identityStore.preferredForTravel() {
-                    IdentityCardView(document: idDoc)
-                        .tag(1)
+                    Button {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
+                            passPage = 1
+                        }
+                        SlipHaptics.scrollTick()
+                    } label: {
+                        HStack(spacing: 5) {
+                            Image(systemName: "person.text.rectangle")
+                                .font(.system(size: 11, weight: .semibold))
+                            Text("Gate ID")
+                                .font(.system(size: 12, weight: .semibold))
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule().fill(passPage == 1 ? SlipTheme.accent.opacity(0.2) : Color.clear)
+                        )
+                        .overlay(
+                            Capsule().strokeBorder(passPage == 1 ? SlipTheme.accent.opacity(0.4) : Color.clear, lineWidth: 1)
+                        )
+                        .foregroundStyle(passPage == 1 ? SlipTheme.accentSoft : SlipTheme.muted)
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(3)
+                .background(
+                    Capsule()
+                        .fill(Color.white.opacity(0.06))
+                        .overlay(Capsule().strokeBorder(Color.white.opacity(0.08), lineWidth: 1))
+                )
+
+                Spacer()
+
+                // Page indicator dots
+                HStack(spacing: 5) {
+                    Circle()
+                        .fill(passPage == 0 ? SlipTheme.accentSoft : Color.white.opacity(0.2))
+                        .frame(width: passPage == 0 ? 14 : 5, height: 5)
+                    Circle()
+                        .fill(passPage == 1 ? SlipTheme.accentSoft : Color.white.opacity(0.2))
+                        .frame(width: passPage == 1 ? 14 : 5, height: 5)
+                }
+                .animation(.spring(response: 0.3, dampingFraction: 0.8), value: passPage)
+            }
+
+            // Card face with natural intrinsic sizing & horizontal swipe gesture
+            ZStack(alignment: .top) {
+                if passPage == 0 {
+                    WalletPassPreview(
+                        brandId: brand.id,
+                        displayName: brand.displayName,
+                        fields: $fields,
+                        accentRGB: brand.accentHint,
+                        editable: true
+                    )
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .leading)),
+                        removal: .opacity.combined(with: .move(edge: .leading))
+                    ))
                 } else {
-                    identityEmptyCard
-                        .tag(1)
+                    Group {
+                        if let idDoc = identityStore.preferredForTravel() {
+                            IdentityCardView(document: idDoc)
+                        } else {
+                            identityEmptyCard
+                        }
+                    }
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .trailing)),
+                        removal: .opacity.combined(with: .move(edge: .trailing))
+                    ))
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .automatic))
-            .frame(minHeight: 420)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 25)
+                    .onEnded { value in
+                        if value.translation.width < -35 && passPage == 0 {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
+                                passPage = 1
+                            }
+                            SlipHaptics.scrollTick()
+                        } else if value.translation.width > 35 && passPage == 1 {
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
+                                passPage = 0
+                            }
+                            SlipHaptics.scrollTick()
+                        }
+                    }
+            )
 
             Text(passPage == 0
-                 ? "Swipe for government ID at the gate"
-                 : "Swipe back to boarding pass / ticket")
+                 ? "Swipe left or tap Gate ID for government travel ID"
+                 : "Swipe right or tap Pass to return to ticket")
                 .font(.caption)
                 .foregroundStyle(SlipTheme.muted)
                 .frame(maxWidth: .infinity)
@@ -276,7 +413,7 @@ struct PassDetailsView: View {
                         .foregroundStyle(SlipTheme.ink)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .background(Capsule().fill(Color(red: 0.35, green: 0.85, blue: 0.55).opacity(0.9)))
+                        .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color(red: 0.35, green: 0.85, blue: 0.55).opacity(0.9)))
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Pay now with UPI")
@@ -420,7 +557,7 @@ struct PassDetailsView: View {
                             .padding(.horizontal, 12)
                             .padding(.vertical, 10)
                             .background(
-                                Capsule().fill(selected ? SlipTheme.indigo : Color.white.opacity(0.08))
+                                RoundedRectangle(cornerRadius: 16, style: .continuous).fill(selected ? SlipTheme.indigo : Color.white.opacity(0.08))
                             )
                         }
                         .buttonStyle(.plain)
@@ -601,7 +738,7 @@ struct PassDetailsView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
                 .foregroundStyle(.black)
-                .background(Capsule().fill(Color.white))
+                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.white))
             }
             .disabled(isSubmitting)
             .buttonStyle(.plain)
@@ -1115,6 +1252,18 @@ struct PassDetailsView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             dismiss()
             onReturnHome?()
+        }
+    }
+
+    private func deleteCurrentPass() {
+        if let id = vaultRecordId, let record = vault.records.first(where: { $0.id == id }) {
+            do {
+                try vault.delete(record)
+                SlipHaptics.passSaved()
+                dismiss()
+            } catch {
+                errorMessage = "Failed to remove pass: \(error.localizedDescription)"
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ struct PassShell<Content: View>: View {
                 RoundedRectangle(cornerRadius: 26, style: .continuous)
                     .strokeBorder(
                         LinearGradient(
-                            colors: [Color.white.opacity(0.22), palette.border, Color.white.opacity(0.05)],
+                            colors: [Color.white.opacity(0.18), SlipTheme.glassBorder, Color.white.opacity(0.06)],
                             startPoint: UnitPoint(x: 0.2 + motion.roll * 0.15, y: 0),
                             endPoint: UnitPoint(x: 0.85 - motion.roll * 0.1, y: 1)
                         ),
@@ -207,9 +207,9 @@ struct PassMetaBar: View {
                 .padding(.horizontal, 9)
                 .padding(.vertical, 4)
                 .background(
-                    Capsule()
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
                         .fill(tint.opacity(0.12))
-                        .overlay(Capsule().strokeBorder(tint.opacity(0.35), lineWidth: 1))
+                        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(tint.opacity(0.35), lineWidth: 1))
                 )
         }
         .padding(.horizontal, 2)
@@ -317,9 +317,9 @@ struct StripHero: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(
-                                Capsule()
+                                RoundedRectangle(cornerRadius: 16, style: .continuous)
                                     .fill(Color.black.opacity(0.55))
-                                    .overlay(Capsule().strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
+                                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
                             )
                     }
                     Group {
@@ -384,7 +384,7 @@ struct TicketNotchDivider: View {
                 // dashed perforations
                 HStack(spacing: 5) {
                     ForEach(0..<18, id: \.self) { _ in
-                        Capsule().fill(Color.white.opacity(0.14)).frame(width: 6, height: 1.5)
+                        RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.white.opacity(0.14)).frame(width: 6, height: 1.5)
                     }
                 }
                 Spacer()

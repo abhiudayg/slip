@@ -41,9 +41,8 @@ struct ContentView: View {
                     SettingsView(onDone: { tab = .home })
                 }
             }
-
-            VStack {
-                Spacer()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
                 FloatingDock(
                     tab: $tab,
                     onScan: { showScanner = true },
@@ -58,9 +57,8 @@ struct ContentView: View {
                         }
                     }
                 )
-                .padding(.horizontal, 20)
-                .padding(.bottom, 10)
-                .zIndex(2)
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 8)
             }
 
             if showImportMenu {
@@ -71,7 +69,6 @@ struct ContentView: View {
                     onPDF: { showFileImporter = true },
                     onTemplates: { tab = .marketplace }
                 )
-                // Menu owns its spring/backdrop; keep host transition neutral.
                 .transition(.opacity)
                 .zIndex(10)
             }

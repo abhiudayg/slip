@@ -40,13 +40,13 @@ enum PassPalettes {
         glow: Color(red: 0.05, green: 0.15, blue: 0.40).opacity(0.55)
     )
     static let indigo = PassPalette(
-        top: Color(red: 0.035, green: 0.105, blue: 0.26),
-        mid: Color(red: 0.027, green: 0.082, blue: 0.21),
-        bottom: Color(red: 0.015, green: 0.047, blue: 0.13),
-        accent: Color(red: 0.25, green: 0.45, blue: 0.95),
-        accentSoft: Color(red: 0.55, green: 0.70, blue: 1.0),
-        border: Color(red: 0.25, green: 0.45, blue: 0.95).opacity(0.28),
-        glow: Color(red: 0.05, green: 0.12, blue: 0.45).opacity(0.55)
+        top: Color(hex: 0x0E2747),
+        mid: Color(hex: 0x091B33),
+        bottom: Color(hex: 0x071324),
+        accent: Color(hex: 0x60A5FA),
+        accentSoft: Color(hex: 0x93C5FD),
+        border: Color.white.opacity(0.12),
+        glow: Color(hex: 0x1E3A8A).opacity(0.55)
     )
     static let metro = PassPalette(
         top: Color(red: 0.12, green: 0.07, blue: 0.22),

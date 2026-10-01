@@ -46,7 +46,7 @@ struct AppClipRootView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
                             .foregroundStyle(.black)
-                            .background(Capsule().fill(Color.white))
+                            .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.white))
                         }
                         .disabled(model.isBuilding)
                         .buttonStyle(.plain)

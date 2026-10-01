@@ -209,7 +209,7 @@ struct BookMyShowTicketCard: View {
     var body: some View {
         let model = EventFaceModel.bookmyshow(fields)
         VStack(spacing: 12) {
-            PassMetaBar(left: "PASSKIT • EVENT_TICKET", right: "TURNSTILE QR", tint: p.accent)
+            PassMetaBar(left: "PASSKIT • NFC READY", right: "TURNSTILE QR", tint: p.accent)
             PassShell(palette: p) {
                 VStack(spacing: 0) {
                     BrandHeaderRow(
@@ -631,8 +631,8 @@ struct IndigoBoardingCard: View {
         BoardingCard(
             brand: "IndiGo",
             subtitle: "Boarding Pass",
-            metaLeft: "PASSKIT • BOARDING_PASS",
-            metaRight: PassFieldBag.value(fields, ["status"], fallback: "AZTEC 2D"),
+            metaLeft: "PASSKIT • NFC READY",
+            metaRight: PassFieldBag.value(fields, ["status"], fallback: "BOARDING"),
             palette: p,
             logo: LogoTile(systemImage: "airplane", colors: [p.accent, Color(red: 0.1, green: 0.25, blue: 0.7)]),
             fromCode: model.fromCode,
@@ -823,7 +823,7 @@ struct UPIPayPassCard: View {
                                 .foregroundStyle(.black)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
-                                .background(Capsule().fill(Color(red: 0.35, green: 0.85, blue: 0.55)))
+                                .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color(red: 0.35, green: 0.85, blue: 0.55)))
                         }
                         .buttonStyle(.plain)
                         .padding(.horizontal, 16)

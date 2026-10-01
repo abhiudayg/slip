@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Step between OCR/QR ingest and field extraction: confirm (or override) the brand.
+/// Artboard — Select Brand Template (Stitch `brandselectsheet_slip_wallet`).
 struct BrandSelectSheet: View {
     @EnvironmentObject private var model: AppModel
     @Environment(\.dismiss) private var dismiss
@@ -12,245 +12,553 @@ struct BrandSelectSheet: View {
     init(pending: PendingImport) {
         self.pending = pending
         let initial = pending.suggestedTemplateId.trimmingCharacters(in: .whitespacesAndNewlines)
-        _selectedId = State(initialValue: initial)
+        _selectedId = State(initialValue: initial.isEmpty ? "indigo" : initial)
     }
 
-    private var catalog: [BrandSummary] {
-        model.brands.isEmpty ? BrandSummary.fallbackCatalog : model.brands
+    private var hasSuggestion: Bool {
+        !pending.suggestedTemplateId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    private var selectedBrand: BrandSummary? {
-        catalog.first { $0.id == selectedId }
+    private var confidencePercent: Int {
+        Int((pending.confidence > 0 ? pending.confidence : 0.98) * 100)
     }
+
+    private struct CategoryItem: Identifiable {
+        let id: String
+        let title: String
+        let subtitle: String
+        let badge: String
+        let icon: String
+        let tint: Color
+        let templateId: String
+    }
+
+    private let categories: [CategoryItem] = [
+        CategoryItem(
+            id: "transit",
+            title: "Transit & Flights",
+            subtitle: "IndiGo, British Airways, Air India",
+            badge: "Dynamic Gate & Boarding",
+            icon: "airplane.departure",
+            tint: Color(hex: 0x38BDF8),
+            templateId: "indigo"
+        ),
+        CategoryItem(
+            id: "rail",
+            title: "Railways & Metro",
+            subtitle: "IRCTC Rail, Namma Metro, DMRC",
+            badge: "Live PNR & Tap-In",
+            icon: "tram.fill",
+            tint: Color(hex: 0xF87171),
+            templateId: "irctc"
+        ),
+        CategoryItem(
+            id: "cinema",
+            title: "Movies & Cinema",
+            subtitle: "BookMyShow, PVR INOX, Cinepolis",
+            badge: "Seat Map & Audio F&B",
+            icon: "film.fill",
+            tint: Color(hex: 0xFB7185),
+            templateId: "bookmyshow"
+        ),
+        CategoryItem(
+            id: "dining",
+            title: "Dining & Reservations",
+            subtitle: "Swiggy Dineout, Zomato, EazyDiner",
+            badge: "Table Priority NFC",
+            icon: "fork.knife",
+            tint: Color(hex: 0xC084FC),
+            templateId: "zomato"
+        ),
+        CategoryItem(
+            id: "mobility",
+            title: "Mobility & Car Keys",
+            subtitle: "Zoomcar Keyless, Uber Ride Pass",
+            badge: "BLE & Ultra Wideband",
+            icon: "key.fill",
+            tint: Color(hex: 0x34D399),
+            templateId: "zoomcar"
+        ),
+        CategoryItem(
+            id: "hotel",
+            title: "Hotels & Keyless Keys",
+            subtitle: "Airbnb Keyless, Marriott Bonvoy",
+            badge: "Door Lock NFC Tap",
+            icon: "bed.double.fill",
+            tint: Color(hex: 0xFBBF24),
+            templateId: "airbnb"
+        ),
+        CategoryItem(
+            id: "fitness",
+            title: "Fitness & Gym Access",
+            subtitle: "CultPass Elite, Anytime Fitness",
+            badge: "Turnstile QR & Barcode",
+            icon: "figure.run",
+            tint: Color(hex: 0xFB923C),
+            templateId: "cult"
+        ),
+        CategoryItem(
+            id: "fintech",
+            title: "Payments & Virtual",
+            subtitle: "UPI PayPass, Tata Neu Rewards",
+            badge: "Tokenized VAS 2.0",
+            icon: "creditcard.fill",
+            tint: Color(hex: 0x22D3EE),
+            templateId: "upi"
+        )
+    ]
 
     var body: some View {
         ZStack {
             MeshBackground()
+
             VStack(spacing: 0) {
-                header
+                // Top Drag Handle & Safe Header
+                dragHandle
+                headerBar
+
+                // Scrollable Content
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 18) {
-                        suggestionCard
-                        Text("Or pick another brand")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(SlipTheme.muted)
-                            .padding(.top, 4)
-                        brandList
+                    VStack(alignment: .leading, spacing: 20) {
+                        if hasSuggestion {
+                            aiSuggestionHeroCard
+                        }
+
+                        categoriesGridHeader
+                        categoriesGrid
+                        customTemplateCard
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 8)
-                    .padding(.bottom, 120)
+                    .padding(.top, 10)
+                    .padding(.bottom, 24)
                 }
-            }
 
-            VStack {
-                Spacer()
-                nextBar
+                // Fixed Footer Actions
+                footerActions
             }
         }
         .interactiveDismissDisabled(isAdvancing)
     }
 
-    private var header: some View {
-        HStack {
+    // MARK: - Drag Handle & Header
+
+    private var dragHandle: some View {
+        VStack(spacing: 0) {
+            RoundedRectangle(cornerRadius: 3, style: .continuous)
+                .fill(Color.white.opacity(0.2))
+                .frame(width: 44, height: 5)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+        }
+    }
+
+    private var headerBar: some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 8) {
+                    Text("Select Brand Template")
+                        .font(SlipTheme.headlineSM())
+                        .foregroundStyle(SlipTheme.ink)
+                    Text("v2.4")
+                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .foregroundStyle(SlipTheme.muted)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .fill(SlipTheme.cardHigh)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                                )
+                        )
+                }
+                Text("Match your pass or ticket to a verified dynamic layout")
+                    .font(SlipTheme.bodySM())
+                    .foregroundStyle(SlipTheme.muted)
+            }
+
+            Spacer(minLength: 8)
+
             Button {
                 model.pendingImport = nil
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.body.weight(.semibold))
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundStyle(SlipTheme.ink)
-                    .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.white.opacity(0.08)))
+                    .frame(width: 32, height: 32)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(SlipTheme.cardHigh)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                            )
+                    )
             }
             .buttonStyle(.plain)
             .disabled(isAdvancing)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Confirm brand")
-                    .font(.headline.weight(.bold))
-                    .foregroundStyle(SlipTheme.ink)
-                Text("Extraction starts after you tap Next")
-                    .font(.caption)
-                    .foregroundStyle(SlipTheme.muted)
-            }
-            Spacer()
         }
         .padding(.horizontal, 20)
-        .padding(.top, 16)
         .padding(.bottom, 12)
+        .overlay(alignment: .bottom) {
+            Divider().background(SlipTheme.glassBorder)
+        }
     }
 
-    private var suggestionCard: some View {
-        GlassCard(cornerRadius: 22, padding: 16) {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 10) {
+    // MARK: - AI Suggestion Card
+
+    private var aiSuggestionHeroCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            // Header: AI SUGGESTED MATCH + Confidence
+            HStack {
+                HStack(spacing: 6) {
                     Image(systemName: "sparkles")
-                        .foregroundStyle(SlipTheme.accentSoft)
-                    Text(hasSuggestion ? "Slip thinks this is" : "Couldn’t match a brand")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(SlipTheme.muted)
-                    Spacer()
-                    if hasSuggestion {
-                        Text("\(Int(pending.confidence * 100))%")
-                            .font(.caption.weight(.bold).monospacedDigit())
-                            .foregroundStyle(SlipTheme.accentSoft)
-                    }
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(SlipTheme.ink)
+                    Text("AI SUGGESTED MATCH")
+                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .tracking(0.8)
+                        .foregroundStyle(SlipTheme.ink)
                 }
-
-                Text(hasSuggestion ? pending.suggestedDisplayName : "Pick from the list below")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(SlipTheme.ink)
-
-                if !pending.rationale.isEmpty {
-                    Text(pending.rationale)
-                        .font(.caption)
-                        .foregroundStyle(SlipTheme.muted)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-
-                if hasSuggestion {
-                    Button {
-                        selectedId = pending.suggestedTemplateId
-                    } label: {
-                        Label(
-                            selectedId == pending.suggestedTemplateId ? "Using AI suggestion" : "Use AI suggestion",
-                            systemImage: selectedId == pending.suggestedTemplateId ? "checkmark.circle.fill" : "arrow.uturn.backward"
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(SlipTheme.cardHigh)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                         )
-                        .font(.subheadline.weight(.semibold))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .foregroundStyle(selectedId == pending.suggestedTemplateId ? .black : SlipTheme.ink)
-                        .background(
-                            Capsule().fill(
-                                selectedId == pending.suggestedTemplateId
-                                    ? Color.white
-                                    : Color.white.opacity(0.08)
+                )
+
+                Spacer()
+
+                HStack(spacing: 5) {
+                    RoundedRectangle(cornerRadius: 2, style: .continuous)
+                        .fill(SlipTheme.upiGreen)
+                        .frame(width: 6, height: 6)
+                    Text("\(confidencePercent)% Match")
+                        .font(SlipTheme.labelMono())
+                        .foregroundStyle(SlipTheme.primary)
+                }
+            }
+
+            // Hero Details
+            HStack(alignment: .top, spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [SlipTheme.meshViolet, SlipTheme.cardHigh],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
                             )
                         )
-                    }
-                    .buttonStyle(.plain)
+                        .frame(width: 48, height: 48)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                        )
+                    Image(systemName: "ticket.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(SlipTheme.ink)
                 }
 
-                previewSnippet
-            }
-        }
-    }
-
-    private var previewSnippet: some View {
-        let text = pending.ticket.recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
-        let qr = pending.ticket.qrPayload?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        return VStack(alignment: .leading, spacing: 6) {
-            if !qr.isEmpty {
-                Label(String(qr.prefix(64)), systemImage: "qrcode")
-                    .font(.caption2.monospaced())
-                    .foregroundStyle(SlipTheme.muted)
-                    .lineLimit(1)
-            }
-            if !text.isEmpty {
-                Text(String(text.prefix(160)) + (text.count > 160 ? "…" : ""))
-                    .font(.caption2)
-                    .foregroundStyle(SlipTheme.muted.opacity(0.9))
-                    .lineLimit(3)
-            }
-        }
-        .padding(.top, 4)
-    }
-
-    private var brandList: some View {
-        VStack(spacing: 8) {
-            ForEach(catalog) { brand in
-                Button {
-                    selectedId = brand.id
-                } label: {
-                    HStack(spacing: 12) {
-                        Circle()
-                            .fill(SlipTheme.color(fromRGB: brand.accentHint) ?? SlipTheme.accent)
-                            .frame(width: 12, height: 12)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(brand.displayName)
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundStyle(SlipTheme.ink)
-                            Text(brand.categoryTitle)
-                                .font(.caption2)
-                                .foregroundStyle(SlipTheme.muted)
-                        }
-                        Spacer()
-                        if selectedId == brand.id {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(SlipTheme.accentSoft)
-                        }
-                    }
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(selectedId == brand.id ? Color.white.opacity(0.12) : Color.white.opacity(0.05))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                    .strokeBorder(
-                                        selectedId == brand.id ? Color.white.opacity(0.28) : Color.white.opacity(0.08),
-                                        lineWidth: 1
-                                    )
-                            )
-                    )
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(pending.suggestedDisplayName)
+                        .font(SlipTheme.headlineSM())
+                        .foregroundStyle(SlipTheme.ink)
+                    Text("Auto-extracts gate, seat, showtime, barcode & live dynamic event countdown.")
+                        .font(SlipTheme.bodySM())
+                        .foregroundStyle(SlipTheme.muted)
+                        .lineLimit(2)
                 }
-                .buttonStyle(.plain)
             }
-        }
-    }
 
-    private var nextBar: some View {
-        VStack(spacing: 10) {
+            // Feature Tag Strip (15% curvature, no pills)
+            HStack(spacing: 8) {
+                featureTag(icon: "wave.3.right", text: "Apple VAS 2.0 Ready")
+                featureTag(icon: "sensor.tag.radiowaves.forward.fill", text: "NFC Turnstile")
+                featureTag(icon: "arrow.triangle.2.circlepath", text: "Live Activity")
+            }
+
+            // Continue CTA Button (Squircle, no pill)
             Button {
-                guard canAdvance else { return }
-                Task { @MainActor in
-                    isAdvancing = true
-                    await model.confirmBrandAndExtract(templateId: selectedId)
-                    isAdvancing = false
-                }
+                advanceWith(templateId: pending.suggestedTemplateId)
             } label: {
-                HStack {
+                HStack(spacing: 8) {
                     if isAdvancing {
-                        ProgressView()
-                            .tint(.black)
+                        ProgressView().tint(.black)
                     }
-                    Text(isAdvancing ? "Extracting…" : "Next · Extract fields")
-                        .font(.headline)
+                    Text("Continue with Suggested Template")
+                        .font(SlipTheme.bodyMD())
+                        .fontWeight(.semibold)
+                    Image(systemName: "arrow.forward")
+                        .font(.system(size: 13, weight: .semibold))
                 }
+                .foregroundStyle(Color.black)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .foregroundStyle(.black)
-                .background(Capsule().fill(canAdvance ? Color.white : Color.white.opacity(0.35)))
+                .padding(.vertical, 14)
+                .background(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(Color.white)
+                        .shadow(color: .white.opacity(0.15), radius: 8, y: 2)
+                )
             }
             .buttonStyle(.plain)
-            .disabled(!canAdvance || isAdvancing)
-
-            if let selectedBrand {
-                Text("Will extract \(selectedBrand.displayName) fields")
-                    .font(.caption2)
-                    .foregroundStyle(SlipTheme.muted)
-            }
+            .disabled(isAdvancing)
         }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 28)
-        .padding(.top, 12)
+        .padding(16)
         .background(
-            LinearGradient(
-                colors: [Color.black.opacity(0), Color.black.opacity(0.85)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea(edges: .bottom)
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(SlipTheme.cardHigh.opacity(0.85))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [Color.white.opacity(0.3), Color.white.opacity(0.05)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
         )
     }
 
-    private var hasSuggestion: Bool {
-        !pending.suggestedTemplateId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            && pending.suggestedDisplayName.lowercased() != "unknown"
+    private func featureTag(icon: String, text: String) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundStyle(SlipTheme.muted)
+            Text(text)
+                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .foregroundStyle(SlipTheme.muted)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(SlipTheme.card.opacity(0.7))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                )
+        )
     }
 
-    private var canAdvance: Bool {
-        !selectedId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    // MARK: - Categories Grid Header
+
+    private var categoriesGridHeader: some View {
+        HStack(alignment: .firstTextBaseline) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Select your own category")
+                    .font(SlipTheme.headlineSM())
+                    .foregroundStyle(SlipTheme.ink)
+                Text("Or pick a specialized layout template below")
+                    .font(SlipTheme.bodySM())
+                    .foregroundStyle(SlipTheme.muted)
+            }
+            Spacer()
+            Text("9 Layouts")
+                .font(SlipTheme.labelMono())
+                .foregroundStyle(SlipTheme.muted)
+        }
+    }
+
+    // MARK: - Categories Grid
+
+    private var categoriesGrid: some View {
+        Grid(horizontalSpacing: 10, verticalSpacing: 10) {
+            ForEach(0..<categories.count / 2, id: \.self) { row in
+                GridRow {
+                    categoryCard(categories[row * 2])
+                    categoryCard(categories[row * 2 + 1])
+                }
+            }
+        }
+    }
+
+    private func categoryCard(_ item: CategoryItem) -> some View {
+        Button {
+            selectedId = item.templateId
+            advanceWith(templateId: item.templateId)
+        } label: {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(alignment: .top, spacing: 10) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(item.tint.opacity(0.18))
+                            .frame(width: 36, height: 36)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .strokeBorder(item.tint.opacity(0.3), lineWidth: 1)
+                            )
+                        Image(systemName: item.icon)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(item.tint)
+                    }
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(item.title)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                            .lineLimit(1)
+                        Text(item.subtitle)
+                            .font(.system(size: 10, weight: .regular, design: .monospaced))
+                            .foregroundStyle(SlipTheme.muted)
+                            .lineLimit(1)
+                    }
+                }
+
+                Spacer(minLength: 4)
+
+                HStack {
+                    Text(item.badge)
+                        .font(.system(size: 9, weight: .medium, design: .monospaced))
+                        .foregroundStyle(SlipTheme.muted)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2.5)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .fill(SlipTheme.card.opacity(0.8))
+                        )
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundStyle(SlipTheme.muted)
+                }
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, minHeight: 96, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(SlipTheme.cardHigh.opacity(0.65))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Custom Template Card
+
+    private var customTemplateCard: some View {
+        Button {
+            selectedId = "custom"
+            advanceWith(templateId: "custom")
+        } label: {
+            HStack(spacing: 12) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .fill(SlipTheme.glassSurface)
+                        .frame(width: 36, height: 36)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                        )
+                    Image(systemName: "chevron.left.forwardslash.chevron.right")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(SlipTheme.ink)
+                }
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Custom PassKit Template")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(SlipTheme.ink)
+                    Text("Build your own with custom JSON fields, barcode & NFC payload")
+                        .font(.system(size: 11, weight: .regular))
+                        .foregroundStyle(SlipTheme.muted)
+                        .lineLimit(1)
+                }
+
+                Spacer()
+
+                HStack(spacing: 4) {
+                    Text("PKPASS")
+                        .font(SlipTheme.labelMono())
+                        .foregroundStyle(SlipTheme.muted)
+                    Image(systemName: "arrow.forward")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(SlipTheme.muted)
+                }
+            }
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(SlipTheme.cardHigh.opacity(0.5))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                            .foregroundStyle(SlipTheme.glassBorder)
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Footer Actions
+
+    private var footerActions: some View {
+        VStack(spacing: 10) {
+            Button {
+                selectedId = "custom"
+                advanceWith(templateId: "custom")
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(SlipTheme.muted)
+                    Text("Manual Pass Creator")
+                        .font(SlipTheme.bodyMD())
+                        .fontWeight(.medium)
+                        .foregroundStyle(SlipTheme.ink)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 13)
+                .background(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(SlipTheme.cardHigh)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                        )
+                )
+            }
+            .buttonStyle(.plain)
+
+            HStack(spacing: 6) {
+                Image(systemName: "lock.shield.fill")
+                    .font(.system(size: 11))
+                    .foregroundStyle(SlipTheme.upiGreen)
+                Text("Encrypted on-device via Apple Secure Enclave & Slip SecurePass™")
+                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    .foregroundStyle(SlipTheme.muted)
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 12)
+        .padding(.bottom, 24)
+        .background(
+            SlipTheme.canvasLowest.opacity(0.95)
+                .overlay(alignment: .top) {
+                    Divider().background(SlipTheme.glassBorder)
+                }
+        )
+    }
+
+    // MARK: - Actions
+
+    private func advanceWith(templateId: String) {
+        guard !isAdvancing else { return }
+        Task { @MainActor in
+            isAdvancing = true
+            await model.confirmBrandAndExtract(templateId: templateId)
+            isAdvancing = false
+        }
     }
 }
