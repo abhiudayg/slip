@@ -67,7 +67,7 @@ struct LoginView: View {
                         )
                     )
 
-                Text("iOS 26")
+                Text("iOS 27")
                     .font(.system(size: 12, weight: .semibold))
                     .tracking(0.4)
                     .textCase(.uppercase)

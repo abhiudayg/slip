@@ -27,7 +27,13 @@ rsync -az "$JAR" "$SSH_USER@$PUBLIC_IP:/opt/slip/bin/pass-engine.jar"
 rsync -az "$ROOT/templates/" "$SSH_USER@$PUBLIC_IP:/opt/slip/templates/"
 rsync -az "$ROOT/stations/" "$SSH_USER@$PUBLIC_IP:/opt/slip/stations/"
 
-"${SSH[@]}" 'sudo systemctl daemon-reload && sudo systemctl enable --now slip-pass-engine && sudo systemctl restart slip-pass-engine'
+"${SSH[@]}" 'sudo systemctl daemon-reload && sudo systemctl enable --now slip-pass-engine && sudo # Signing certs must be readable by service user `slip` (mode 600 + ubuntu owner breaks Generate Pass).
+if [[ -f /opt/slip/certs/pass_cert.p12 ]]; then
+  sudo chown slip:slip /opt/slip/certs/pass_cert.p12 /opt/slip/certs/AppleWWDRCAG4.cer 2>/dev/null || true
+  sudo chmod 640 /opt/slip/certs/pass_cert.p12
+  sudo chmod 644 /opt/slip/certs/AppleWWDRCAG4.cer 2>/dev/null || true
+fi
+systemctl restart slip-pass-engine'
 sleep 3
 curl -fsS "http://$PUBLIC_IP:8080/v1/health" || true
 echo

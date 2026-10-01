@@ -259,6 +259,8 @@ struct HealthResponse: Codable, Hashable {
 }
 
 final class PassAPIClient {
+    static let shared = PassAPIClient()
+
     private let baseURL: URL
     private let session: URLSession
 
@@ -305,6 +307,30 @@ final class PassAPIClient {
         try Self.throwIfNeeded(response, data: data)
         guard !data.isEmpty else { throw PassAPIError.emptyBody }
         return data
+    }
+
+
+    func registerLiveActivity(
+        activityId: String,
+        pushToken: String,
+        templateId: String,
+        displayName: String
+    ) async throws {
+        let url = baseURL.appendingPathComponent("v1/live-activities")
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        struct Body: Encodable {
+            var activityId: String
+            var pushToken: String
+            var templateId: String
+            var displayName: String
+        }
+        req.httpBody = try JSONEncoder().encode(
+            Body(activityId: activityId, pushToken: pushToken, templateId: templateId, displayName: displayName)
+        )
+        let (data, response) = try await URLSession.shared.data(for: req)
+        try Self.throwIfNeeded(response, data: data)
     }
 
     private static func throwIfNeeded(_ response: URLResponse, data: Data) throws {

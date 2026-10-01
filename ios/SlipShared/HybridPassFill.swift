@@ -4,7 +4,8 @@ import Foundation
 import FoundationModels
 #endif
 
-/// Hybrid extraction helpers: deterministic anchors stay locked; LLMs only fill fuzzy gaps.
+/// Hybrid extraction: Vision/regex lock rigid identifiers; Apple Intelligence fills fuzzy gaps only.
+/// AI baseline is iOS 27 Apple Intelligence (`FoundationModels`) — no third-party LLM APIs.
 enum HybridPassFill {
     /// Keys that must never be invented or overwritten by generative models.
     static let anchorKeys: Set<String> = [
@@ -12,7 +13,7 @@ enum HybridPassFill {
         "ifsc", "vpa", "upi_id", "plate", "vehicle_reg", "member_id", "membership"
     ]
 
-    /// Semantic / layout-fuzzy keys safe for targeted LLM fill when empty.
+    /// Semantic / layout-fuzzy keys safe for targeted on-device LLM fill when empty.
     static let fuzzyKeys: Set<String> = [
         "event", "restaurant", "venue", "property", "guest", "passenger",
         "vehicle", "pickup", "drop_off", "time", "party_size", "gate", "seat",
@@ -77,7 +78,7 @@ enum HybridPassFill {
         }
     }
 
-    /// Stage C: fill only empty fuzzy fields via on-device model, then optional Gemini.
+    /// Stage C: fill only empty fuzzy keys via on-device Apple Intelligence (iOS 27+).
     static func fillMissingFuzzy(
         templateId: String,
         fields: [String: String],
@@ -88,7 +89,7 @@ enum HybridPassFill {
 
         var merged = fields
         #if canImport(FoundationModels)
-        if #available(iOS 26.0, *) {
+        if #available(iOS 27.0, *) {
             if let filled = await FoundationFuzzyFiller.fill(
                 templateId: templateId,
                 missingKeys: missing,
@@ -98,16 +99,6 @@ enum HybridPassFill {
             }
         }
         #endif
-
-        let stillMissing = missingFuzzyKeys(in: merged, templateId: templateId)
-        if !stillMissing.isEmpty,
-           let filled = await GeminiFuzzyFiller.fill(
-            templateId: templateId,
-            missingKeys: stillMissing,
-            ticket: ticket
-           ) {
-            applyFuzzy(filled, into: &merged, allowed: Set(stillMissing))
-        }
         return merged
     }
 
@@ -125,7 +116,8 @@ enum HybridPassFill {
 }
 
 #if canImport(FoundationModels)
-@available(iOS 26.0, *)
+/// On-device Apple Intelligence fuzzy fill — iOS 27 Neural Engine / Private Cloud Compute only.
+@available(iOS 27.0, *)
 enum FoundationFuzzyFiller {
     static var isAvailable: Bool {
         if case .available = SystemLanguageModel.default.availability {
@@ -143,24 +135,32 @@ enum FoundationFuzzyFiller {
 
         let text = ticket.recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard text.count >= 12 else { return nil }
-        let clipped = String(text.prefix(2800))
+        // Larger local context window on iOS 27 — still clip for latency.
+        let clipped = String(text.prefix(4500))
         let keyList = missingKeys.joined(separator: ", ")
+        let brandHint = brandPrompt(for: templateId)
 
         let session = LanguageModelSession(instructions: """
-            You fill missing Apple Wallet pass fields for Indian tickets.
-            Brand/template is already known: \(templateId).
-            Only extract these keys: \(keyList).
-            Prefer empty strings over guesses. Never invent PNRs, booking IDs, or QR payloads.
-            Return JSON-shaped values via the schema only.
+            You extract missing Apple Wallet pass fields from Indian ticket / booking OCR.
+            Privacy: run entirely on-device. Never invent identifiers.
+            Template is already locked: \(templateId).
+            Only fill: \(keyList).
+            \(brandHint)
+            Rules:
+            - Prefer "" over guesses.
+            - Never invent PNRs, booking IDs, QR/barcode payloads, IFSC, VPA, or plate numbers.
+            - Seat lists stay as seat codes only (e.g. A5, B6) — never "SCREEN 2" alone.
+            - Dining brands put the place name in restaurant, never event.
+            - Theatre brands put the title in event, never restaurant.
             """)
 
         do {
             let response = try await session.respond(
                 to: """
-                Known template: \(templateId)
-                Missing fields to extract: \(keyList)
+                Template: \(templateId)
+                Extract ONLY these empty fields: \(keyList)
 
-                Ticket text (OCR):
+                Surrounding ticket text from Vision OCR (barcode payload intentionally omitted):
                 \(clipped)
                 """,
                 generating: FuzzyPassDraft.self
@@ -170,27 +170,79 @@ enum FoundationFuzzyFiller {
             return nil
         }
     }
+
+    private static func brandPrompt(for templateId: String) -> String {
+        switch templateId {
+        case "bookmyshow", "district":
+            return "Cinema/festival: event = movie or show title; venue = theatre; seat = seat codes."
+        case "easydiner", "zomato-dineout", "swiggy-dineout":
+            return "Dining: restaurant = venue name; party_size = guest count; time = reservation time."
+        case "airbnb":
+            return "Stay: property = listing title; guest = primary guest name."
+        case "indigo", "makemytrip", "cleartrip", "yatra":
+            return "Flight: origin/destination = airports; gate/seat when present in text."
+        case "irctc", "redbus", "uts", "chalo":
+            return "Transit: origin/destination stations; passenger name; seat/coach when present."
+        case "zoomcar", "uber", "ola":
+            return "Vehicle/ride: vehicle model; pickup and drop_off places."
+        default:
+            return "Use empty strings when the OCR does not clearly state a value."
+        }
+    }
 }
 
-@available(iOS 26.0, *)
-@Generable(description: "Only fuzzy / semantic ticket fields — never identifiers or QR")
+@available(iOS 27.0, *)
+@Generable(description: "Fuzzy semantic Wallet fields only — never QR, PNR, or booking IDs")
 struct FuzzyPassDraft {
+    @Guide(description: "Movie or show title for BookMyShow/District")
     var event: String?
+
+    @Guide(description: "Restaurant name for dining brands")
     var restaurant: String?
+
+    @Guide(description: "Cinema or venue name")
     var venue: String?
+
+    @Guide(description: "Airbnb / stay property title")
     var property: String?
+
+    @Guide(description: "Guest or reserved-for name")
     var guest: String?
+
+    @Guide(description: "Passenger name for trains/flights/buses")
     var passenger: String?
+
+    @Guide(description: "Car or vehicle model")
     var vehicle: String?
+
+    @Guide(description: "Pickup location text")
     var pickup: String?
+
+    @Guide(description: "Drop-off location text")
     var dropOff: String?
+
+    @Guide(description: "Showtime or reservation time")
     var time: String?
+
+    @Guide(description: "Party size as a number string, e.g. 2")
     var partySize: String?
+
+    @Guide(description: "Boarding or festival gate")
     var gate: String?
+
+    @Guide(description: "Origin station or airport")
     var origin: String?
+
+    @Guide(description: "Destination station or airport")
     var destination: String?
+
+    @Guide(description: "Bus service name if present")
     var bus: String?
+
+    @Guide(description: "Payee or member display name")
     var name: String?
+
+    @Guide(description: "Seat codes only, e.g. A5, B6 — never SCREEN N alone")
     var seat: String?
 
     static func asDictionary(_ draft: FuzzyPassDraft) -> [String: String] {
@@ -220,81 +272,3 @@ struct FuzzyPassDraft {
     }
 }
 #endif
-
-/// Optional cloud fallback when Apple Intelligence is unavailable. Key from App Group / Settings.
-enum GeminiFuzzyFiller {
-    static let apiKeyDefaultsKey = "slip.gemini.apiKey"
-
-    static var apiKey: String? {
-        let suite = UserDefaults(suiteName: SharedInbox.appGroupId)
-        let raw = (suite?.string(forKey: apiKeyDefaultsKey)
-            ?? UserDefaults.standard.string(forKey: apiKeyDefaultsKey)
-            ?? Bundle.main.object(forInfoDictionaryKey: "SlipGeminiAPIKey") as? String)
-            ?? ""
-        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? nil : trimmed
-    }
-
-    static func fill(
-        templateId: String,
-        missingKeys: [String],
-        ticket: ExtractedTicket
-    ) async -> [String: String]? {
-        guard let apiKey, !missingKeys.isEmpty else { return nil }
-        let text = ticket.recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard text.count >= 12 else { return nil }
-        let clipped = String(text.prefix(2800))
-        let keyList = missingKeys.joined(separator: ", ")
-
-        let prompt = """
-        Extract only these JSON keys from an Indian ticket (template \(templateId)): \(keyList).
-        Return a single JSON object with those keys as strings. Use "" when unknown.
-        Never invent booking IDs, PNRs, or QR codes. OCR text:
-        \(clipped)
-        """
-
-        guard let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\(apiKey)") else {
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 12
-        let body: [String: Any] = [
-            "contents": [
-                ["parts": [["text": prompt]]]
-            ],
-            "generationConfig": [
-                "temperature": 0.1,
-                "responseMimeType": "application/json"
-            ]
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
-        do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-                return nil
-            }
-            guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let candidates = root["candidates"] as? [[String: Any]],
-                  let content = candidates.first?["content"] as? [String: Any],
-                  let parts = content["parts"] as? [[String: Any]],
-                  let textOut = parts.first?["text"] as? String,
-                  let jsonData = textOut.data(using: .utf8),
-                  let parsed = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
-            else { return nil }
-
-            var out: [String: String] = [:]
-            for key in missingKeys {
-                if let s = parsed[key] as? String {
-                    let t = s.trimmingCharacters(in: .whitespacesAndNewlines)
-                    if !t.isEmpty { out[key] = t }
-                }
-            }
-            return out.isEmpty ? nil : out
-        } catch {
-            return nil
-        }
-    }
-}

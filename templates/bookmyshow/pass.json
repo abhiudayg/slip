@@ -29,26 +29,16 @@
         "value": "{{venue}}"
       },
       {
-        "key": "screen",
-        "label": "SCREEN",
-        "value": "{{screen}}"
+        "key": "seat",
+        "label": "SEATS",
+        "value": "{{seat}}"
       }
     ],
     "auxiliaryFields": [
       {
-        "key": "seat",
-        "label": "SEATS",
-        "value": "{{seat}}"
-      },
-      {
         "key": "time",
         "label": "Showtime",
         "value": "{{time}}"
-      },
-      {
-        "key": "date",
-        "label": "Date",
-        "value": "{{date}}"
       },
       {
         "key": "booking",
@@ -81,6 +71,16 @@
         "key": "about",
         "label": "Turnstile",
         "value": "Scan at audi turnstile. Brightness maximizes at venue."
+      },
+      {
+        "key": "screen",
+        "label": "SCREEN",
+        "value": "{{screen}}"
+      },
+      {
+        "key": "date",
+        "label": "Date",
+        "value": "{{date}}"
       }
     ],
     "headerFields": [

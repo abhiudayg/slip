@@ -14,7 +14,7 @@
     "messageEncoding": "iso-8859-1",
     "altText": "{{booking_id}}"
   },
-  "storeCard": {
+  "eventTicket": {
     "headerFields": [
       {
         "key": "tier",
@@ -73,11 +73,6 @@
         "key": "valid_thru",
         "label": "Valid Thru",
         "value": "{{valid_thru}}"
-      },
-      {
-        "key": "tier",
-        "label": "Tier",
-        "value": "{{tier}}"
       },
       {
         "key": "status",

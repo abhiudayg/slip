@@ -25,6 +25,26 @@ enum BookingReminderScheduler {
         }
 
         _ = await requestAuthorization()
+
+        let importAction = UNNotificationAction(
+            identifier: "slip.booking.import.action",
+            title: "Add to Slip",
+            options: [.foreground]
+        )
+        let importCat = UNNotificationCategory(
+            identifier: BookingInboxWatcher.categoryId,
+            actions: [importAction],
+            intentIdentifiers: [],
+            options: []
+        )
+        let reminderCat = UNNotificationCategory(
+            identifier: categoryId,
+            actions: [],
+            intentIdentifiers: [],
+            options: []
+        )
+        center.setNotificationCategories([importCat, reminderCat])
+
         var scheduled: [String] = []
 
         for record in vault.records where !record.isExpired {

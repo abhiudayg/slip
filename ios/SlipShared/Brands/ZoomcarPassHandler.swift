@@ -55,7 +55,7 @@ enum ZoomcarPassLogic {
         ) != nil
         guard branded || layout || (plateHit && carHit && h.contains("booking")) else { return nil }
 
-        var fields = extractFields(from: ticket.recognizedText, qr: qr)
+        let fields = extractFields(from: ticket.recognizedText, qr: qr)
         guard fields["vehicle"] != nil || fields["booking_id"] != nil || fields["qr_data"] != nil else {
             return nil
         }

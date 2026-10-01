@@ -70,11 +70,6 @@
         "value": "{{ifsc}}"
       },
       {
-        "key": "status",
-        "label": "Status",
-        "value": "{{status}}"
-      },
-      {
         "key": "about",
         "label": "NPCI",
         "value": "Works with Apple Double-Click Wallet shortcut. NPCI encrypted VPA."

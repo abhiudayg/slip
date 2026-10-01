@@ -310,7 +310,7 @@ struct DashboardView: View {
                         .background(Circle().fill(SlipTheme.cardHigh))
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Scrapbook")
+                .accessibilityLabel("Insights scrapbook")
             }
             Text(heroSubtitle)
                 .font(.system(size: 13, weight: .regular))

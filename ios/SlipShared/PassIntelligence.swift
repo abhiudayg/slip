@@ -110,7 +110,7 @@ enum IntelligentBrandClassifier {
             displayName = ai.displayName
         }
 
-        var result = ClassificationResult(
+        let result = ClassificationResult(
             templateId: templateId,
             displayName: displayName,
             confidence: max(ai.confidence, rules.confidence),

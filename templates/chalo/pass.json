@@ -57,16 +57,6 @@
         "key": "passenger",
         "label": "PASSENGER",
         "value": "{{passenger}}"
-      },
-      {
-        "key": "bus",
-        "label": "BUS",
-        "value": "{{bus}}"
-      },
-      {
-        "key": "duration",
-        "label": "DURATION",
-        "value": "{{duration}}"
       }
     ],
     "backFields": [
@@ -104,6 +94,16 @@
         "key": "about",
         "label": "About",
         "value": "Show this pass when boarding. Conductor e-verify via QR. Live GPS can sync to Dynamic Island when enabled."
+      },
+      {
+        "key": "bus",
+        "label": "BUS",
+        "value": "{{bus}}"
+      },
+      {
+        "key": "duration",
+        "label": "DURATION",
+        "value": "{{duration}}"
       }
     ]
   }

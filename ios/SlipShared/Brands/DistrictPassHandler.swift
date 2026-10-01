@@ -37,7 +37,7 @@ enum DistrictPassLogic {
         // Movie tickets on District share BMS-shaped fields (event/seat/venue/time).
         if movieHit && (h.contains("screen") || h.contains("inox") || h.contains("pvr") || h.contains("tickets")) {
             var fields = BookMyShowPassLogic.extractFields(from: ticket.recognizedText, qr: qr)
-            var relevant = fields.removeValue(forKey: "_relevantDateISO8601")
+            let relevant = fields.removeValue(forKey: "_relevantDateISO8601")
             let eventTitle = fields["event"]?.trimmingCharacters(in: .whitespacesAndNewlines)
             let display = (eventTitle?.isEmpty == false) ? eventTitle! : "District"
             return TicketText.result(

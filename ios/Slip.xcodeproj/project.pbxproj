@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C2AC1B0D570F04C787467E11 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9B8039A5D29ACAC41F270BB /* AppIntents.framework */; };
 		0189EFE0C3A1164FB0612305 /* PassPreviewMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EACFEBA952BD4E9F4C7FC /* PassPreviewMotion.swift */; };
 		05603735153BE6A86882E8A1 /* BrandConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */; };
 		057039AC490B965DC9DAE0DE /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
@@ -19,10 +20,17 @@
 		1ACB0AC58931C3876EDF0C31 /* WidgetPassSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCC4431F4DD860E75763FD3 /* WidgetPassSnapshot.swift */; };
 		1B6849EA654F4F8CA23D72E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC03091146138679A40E07D /* Assets.xcassets */; };
 		1BFB891C1AE1F110FD9F0B57 /* UPIPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ED4C6FB82E4BEB5C3A742B /* UPIPassHandler.swift */; };
+		1C20342836A22D2DDE84F52B /* SlipPassEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31725F44219A6185B6836965 /* SlipPassEntity.swift */; };
 		2029E24932F08C31041B3362 /* BookMyShowPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */; };
 		218C8D6F34763E6CF0DF7808 /* PassPreviewPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D7C5E9BB226E37E3215AD6 /* PassPreviewPalette.swift */; };
 		23C2763C8B8337C847564488 /* PassExpiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B73C337409A2C1A294FAF8 /* PassExpiration.swift */; };
 		23F58166111E7D3A2E4579AF /* SlipHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A17246EC381393678EA9CD /* SlipHaptics.swift */; };
+		9FE418496D8598281AB6B1E2 /* PassAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDF994EDA459306C2A482E1 /* PassAccessibility.swift */; };
+		6FDD9C4C75EE01F4C3C4F7A0 /* IdentityCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0051A597B72A074F42660EE /* IdentityCardView.swift */; };
+		521400C1B356EA50CDE58234 /* IdentityVaultStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B14960B127B1843A0D8C48B /* IdentityVaultStore.swift */; };
+		36E750DAB834011E3DA0B787 /* UPIPayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270FC77C9B4E9CBD53E3DF87 /* UPIPayLink.swift */; };
+		D0DE9C30A0452B767A61E8C9 /* GeofenceMapPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4393022B4EA8BF000E19ECF7 /* GeofenceMapPicker.swift */; };
+		F0973466DA4468CB4235ED34 /* BookingInboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972D9454276B6C07D4959872 /* BookingInboxWatcher.swift */; };
 		2450259A2F21741CCB88C1C6 /* SlipShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8C3937E9EB7CCBCB5E3104F4 /* SlipShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		27F4C2F57E9A02739DCFD0FC /* PassPreviewBezel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */; };
 		28D3A49DED56189D1F35747B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 526E9EDFA55AB39844FB95EF /* PrivacyInfo.xcprivacy */; };
@@ -151,6 +159,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B9B8039A5D29ACAC41F270BB /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
 		05BB745655B1D749A81B43E3 /* CataloguePassHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CataloguePassHandlers.swift; sourceTree = "<group>"; };
 		06232E38DEC6EF6D62B58748 /* PassShareControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassShareControls.swift; sourceTree = "<group>"; };
@@ -171,6 +180,7 @@
 		2EC03091146138679A40E07D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FDAEF1DC053AB1B2081D754 /* ZoomcarPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomcarPassHandler.swift; sourceTree = "<group>"; };
 		2FF4771877F849BEAFE88D29 /* PassPreviewBezel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassPreviewBezel.swift; sourceTree = "<group>"; };
+		31725F44219A6185B6836965 /* SlipPassEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassEntity.swift; sourceTree = "<group>"; };
 		333D62ACDC962B69A23566CA /* PassQRImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassQRImage.swift; sourceTree = "<group>"; };
 		365B78F8E06970C556062238 /* AirbnbPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirbnbPassHandler.swift; sourceTree = "<group>"; };
 		39EC3C6B6FD0A13C2C0F90A4 /* SlipPassLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipPassLiveActivityWidget.swift; sourceTree = "<group>"; };
@@ -208,6 +218,12 @@
 		946D52FF5E6AC40078C71BDA /* PassVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassVaultStore.swift; sourceTree = "<group>"; };
 		947791242B5917BADBD4EB17 /* BookMyShowPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMyShowPassHandler.swift; sourceTree = "<group>"; };
 		94A17246EC381393678EA9CD /* SlipHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipHaptics.swift; sourceTree = "<group>"; };
+		ECDF994EDA459306C2A482E1 /* PassAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassAccessibility.swift; sourceTree = "<group>"; };
+		B0051A597B72A074F42660EE /* IdentityCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityCardView.swift; sourceTree = "<group>"; };
+		5B14960B127B1843A0D8C48B /* IdentityVaultStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityVaultStore.swift; sourceTree = "<group>"; };
+		270FC77C9B4E9CBD53E3DF87 /* UPIPayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPIPayLink.swift; sourceTree = "<group>"; };
+		4393022B4EA8BF000E19ECF7 /* GeofenceMapPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceMapPicker.swift; sourceTree = "<group>"; };
+		972D9454276B6C07D4959872 /* BookingInboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingInboxWatcher.swift; sourceTree = "<group>"; };
 		965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailsView.swift; sourceTree = "<group>"; };
 		970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBusPassHandler.swift; sourceTree = "<group>"; };
 		9ADF376FEA8CA772D0EBD806 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -241,6 +257,17 @@
 		F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		F9E2B9D17720F58538E95835 /* PassSharePackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassSharePackage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		86299E927C1E154619F4905B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2AC1B0D570F04C787467E11 /* AppIntents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0BBAAA8F51B1E7D322CC4AE1 /* Brands */ = {
@@ -377,6 +404,13 @@
 				6EACDBB52650B738AC43FF42 /* SlipAddPassIntent.swift */,
 				17BBA75578DBF6F2AEE57DE8 /* SlipApp.swift */,
 				94A17246EC381393678EA9CD /* SlipHaptics.swift */,
+				ECDF994EDA459306C2A482E1 /* PassAccessibility.swift */,
+				B0051A597B72A074F42660EE /* IdentityCardView.swift */,
+				5B14960B127B1843A0D8C48B /* IdentityVaultStore.swift */,
+				270FC77C9B4E9CBD53E3DF87 /* UPIPayLink.swift */,
+				4393022B4EA8BF000E19ECF7 /* GeofenceMapPicker.swift */,
+				972D9454276B6C07D4959872 /* BookingInboxWatcher.swift */,
+				31725F44219A6185B6836965 /* SlipPassEntity.swift */,
 				0783491530619C761F358A92 /* SlipTheme.swift */,
 				BA342F771F1C606EE930BF56 /* WalletPassLink.swift */,
 				7294A8840E58044BC17602D9 /* WalletPassPreview.swift */,
@@ -451,6 +485,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F65C0A3032F85C12BD9BB716 /* Build configuration list for PBXNativeTarget "SlipShareExtension" */;
 			buildPhases = (
+				86299E927C1E154619F4905B /* Frameworks */,
 				C3A546E8A981E61C3A2566C7 /* Sources */,
 			);
 			buildRules = (
@@ -609,7 +644,14 @@
 				2C771A27CED1327FD71D2ED8 /* SlipAddPassIntent.swift in Sources */,
 				5AB58843BC21249F8DBD6DEA /* SlipApp.swift in Sources */,
 				23F58166111E7D3A2E4579AF /* SlipHaptics.swift in Sources */,
+				9FE418496D8598281AB6B1E2 /* PassAccessibility.swift in Sources */,
+				6FDD9C4C75EE01F4C3C4F7A0 /* IdentityCardView.swift in Sources */,
+				521400C1B356EA50CDE58234 /* IdentityVaultStore.swift in Sources */,
+				36E750DAB834011E3DA0B787 /* UPIPayLink.swift in Sources */,
+				D0DE9C30A0452B767A61E8C9 /* GeofenceMapPicker.swift in Sources */,
+				F0973466DA4468CB4235ED34 /* BookingInboxWatcher.swift in Sources */,
 				F94781AF9BC14704827E60DD /* SlipPassActivityAttributes.swift in Sources */,
+				1C20342836A22D2DDE84F52B /* SlipPassEntity.swift in Sources */,
 				FB37B03DFA4C2A20859BCA18 /* SlipTheme.swift in Sources */,
 				05FF6275844382BF0838AC96 /* TicketColorExtractor.swift in Sources */,
 				B07AD6BE9FA10487FA368CBF /* TicketExtractor.swift in Sources */,
@@ -815,6 +857,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
+				ENABLE_APP_INTENTS = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.0.0;
@@ -922,6 +965,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
+				ENABLE_APP_INTENTS = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 1.0.0;

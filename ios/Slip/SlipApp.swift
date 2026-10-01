@@ -6,6 +6,7 @@ struct SlipApp: App {
     @StateObject private var vault = PassVaultStore()
     @StateObject private var auth = AuthSession()
     @State private var brightQR: BrightQRRequest?
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
@@ -41,6 +42,19 @@ struct SlipApp: App {
                 }
                 if let passId = SlipDeepLink.parsePassId(from: url) {
                     brightQR = BrightQRRequest(passId: passId)
+                    return
+                }
+                if let passId = SlipSiriHandoff.consumePendingPassId() {
+                    brightQR = BrightQRRequest(passId: passId)
+                }
+            }
+            .onChange(of: scenePhase) { _, phase in
+                guard phase == .active else { return }
+                Task {
+                    await BookingInboxWatcher.scanClipboardIfNeeded()
+                    if vault.isUnlocked {
+                        await LiveStatusService.refreshActivePasses(from: vault)
+                    }
                 }
             }
             .fullScreenCover(item: $brightQR) { req in
@@ -48,6 +62,9 @@ struct SlipApp: App {
             }
             .onAppear {
                 model.consumeSharedPayloadIfNeeded()
+                if let passId = SlipSiriHandoff.consumePendingPassId() {
+                    brightQR = BrightQRRequest(passId: passId)
+                }
             }
         }
     }

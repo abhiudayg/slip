@@ -1,0 +1,114 @@
+import Foundation
+import UIKit
+import UserNotifications
+
+/// Lightweight local “mailbox/SMS” on-ramp: watch clipboard (and Share Extension text)
+/// for IRCTC / airline / Airbnb / BMS booking bodies and nudge the user to import.
+enum BookingInboxWatcher {
+    static let enabledKey = "slip.booking.clipboardWatch"
+    static let lastFingerprintKey = "slip.booking.lastClipboardFingerprint"
+    static let notificationId = "slip.booking.clipboard.nudge"
+    static let categoryId = "slip.booking.import"
+
+    static var isEnabled: Bool {
+        get { UserDefaults.standard.object(forKey: enabledKey) as? Bool ?? true }
+        set { UserDefaults.standard.set(newValue, forKey: enabledKey) }
+    }
+
+    /// Call when the app becomes active — never silently reads without a booking signal.
+    @MainActor
+    static func scanClipboardIfNeeded() async {
+        guard isEnabled else { return }
+        guard UIPasteboard.general.hasStrings,
+              let text = UIPasteboard.general.string,
+              text.count >= 48 else { return }
+
+        guard let hit = detect(in: text) else { return }
+
+        let fingerprint = fingerprint(for: text)
+        if UserDefaults.standard.string(forKey: lastFingerprintKey) == fingerprint { return }
+        UserDefaults.standard.set(fingerprint, forKey: lastFingerprintKey)
+
+        PendingBookingImport.save(text: text, brandHint: hit.brand)
+
+        _ = await BookingReminderScheduler.requestAuthorization()
+        let content = UNMutableNotificationContent()
+        content.title = hit.notificationTitle
+        content.body = "Add this \(hit.brandLabel) booking to Slip?"
+        content.sound = .default
+        content.categoryIdentifier = categoryId
+        content.userInfo = ["brandHint": hit.brand, "source": "clipboard"]
+
+        let req = UNNotificationRequest(
+            identifier: notificationId,
+            content: content,
+            trigger: nil
+        )
+        try? await UNUserNotificationCenter.current().add(req)
+        SlipHaptics.scrollTick()
+    }
+
+    struct Hit {
+        var brand: String
+        var brandLabel: String
+        var notificationTitle: String
+    }
+
+    static func detect(in text: String) -> Hit? {
+        let lower = text.lowercased()
+
+        if lower.contains("irctc")
+            || (lower.contains("pnr") && (lower.contains("train") || lower.contains("coach"))) {
+            return Hit(brand: "irctc", brandLabel: "IRCTC", notificationTitle: "Train booking detected")
+        }
+        if lower.contains("indigo") || lower.contains("6e-") || lower.contains("boarding pass")
+            || lower.contains("indigoairlines") {
+            return Hit(brand: "indigo", brandLabel: "flight", notificationTitle: "Flight booking detected")
+        }
+        if lower.contains("airbnb") || (lower.contains("check-in") && lower.contains("reservation")) {
+            return Hit(brand: "airbnb", brandLabel: "Airbnb", notificationTitle: "Stay booking detected")
+        }
+        if lower.contains("bookmyshow") || (lower.contains("bms") && lower.contains("seat"))
+            || lower.contains("district by zomato") {
+            return Hit(brand: "bookmyshow", brandLabel: "movie/event", notificationTitle: "Ticket booking detected")
+        }
+        if lower.contains("redbus") || lower.contains("bus ticket") {
+            return Hit(brand: "redbus", brandLabel: "bus", notificationTitle: "Bus booking detected")
+        }
+        if lower.contains("confirmation") && (lower.contains("flight") || lower.contains("pnr")) {
+            return Hit(brand: "indigo", brandLabel: "flight", notificationTitle: "Travel booking detected")
+        }
+        return nil
+    }
+
+    private static func fingerprint(for text: String) -> String {
+        let sample = String(text.prefix(400))
+        return String(sample.hashValue)
+    }
+}
+
+/// Staging area for clipboard / Mail share text awaiting confirm.
+enum PendingBookingImport {
+    private static let textKey = "slip.pending.bookingText"
+    private static let brandKey = "slip.pending.brandHint"
+
+    static func save(text: String, brandHint: String) {
+        let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
+        defaults.set(text, forKey: textKey)
+        defaults.set(brandHint, forKey: brandKey)
+    }
+
+    static func consume() -> (text: String, brandHint: String)? {
+        let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
+        guard let text = defaults.string(forKey: textKey), !text.isEmpty else { return nil }
+        let brand = defaults.string(forKey: brandKey) ?? ""
+        defaults.removeObject(forKey: textKey)
+        defaults.removeObject(forKey: brandKey)
+        return (text, brand)
+    }
+
+    static var hasPending: Bool {
+        let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
+        return (defaults.string(forKey: textKey) ?? "").isEmpty == false
+    }
+}

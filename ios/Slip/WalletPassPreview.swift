@@ -10,14 +10,15 @@ struct WalletPassPreview: View {
     var editable: Bool = true
 
     var body: some View {
-        PassDeviceBezel {
-            PassFlipContainer(
-                brandTitle: displayName,
-                backRows: PassBackContent.rows(brandId: brandId, fields: fields)
-            ) {
-                frontFace
-            }
+        PassFlipContainer(
+            brandTitle: displayName,
+            backRows: PassBackContent.rows(brandId: brandId, fields: fields),
+            payFields: fields
+        ) {
+            frontFace
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(PassAccessibility.summary(brandId: brandId, displayName: displayName, fields: fields))
         // Force card rebuild when any field value changes (SwiftUI can miss deep dict diffs).
         .id(fields.keys.sorted().map { "\($0)=\(fields[$0] ?? "")" }.joined(separator: "|"))
     }

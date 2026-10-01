@@ -14,7 +14,7 @@
     "messageEncoding": "iso-8859-1",
     "altText": "{{booking_id}}"
   },
-  "storeCard": {
+  "eventTicket": {
     "headerFields": [
       {
         "key": "ptype",
@@ -108,11 +108,6 @@
         "key": "wifi_password",
         "label": "Wi-Fi Password",
         "value": "{{wifi_password}}"
-      },
-      {
-        "key": "status",
-        "label": "Key Status",
-        "value": "{{status}}"
       },
       {
         "key": "about",

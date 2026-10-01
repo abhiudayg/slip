@@ -281,24 +281,13 @@ enum IRCTCPassLogic {
         ) {
             let normalized = emailDep.replacingOccurrences(of: "-", with: " ")
             if fields["dep"]?.isEmpty != false,
-               let clock = TicketText.firstMatch(in: normalized, pattern: #"\b([01]?\d|2[0-3]:[0-5]\d)\b"#) {
-                // fix pattern - use proper HH:mm
-            }
-            if fields["dep"]?.isEmpty != false,
-               let clock = TicketText.firstMatch(in: normalized, pattern: #"\b([01]?\d|2[0-3]):[0-5]\d\b"#) {
-                let hourMin = TicketText.firstMatch(in: normalized, pattern: #"\b(([01]?\d|2[0-3]):[0-5]\d)\b"#) ?? clock
-                fields["dep"] = hourMin.count == 4 ? "0\(hourMin)" : hourMin
-                if !hourMin.contains(":") {
-                    // no-op
-                }
-                // Normalize via collector
-                if let full = TicketText.firstMatch(in: normalized, pattern: #"\b((?:[01]?\d|2[0-3]):[0-5]\d)\b"#) {
-                    fields["dep"] = full.count == 4 ? "0\(full)" : (full.count == 5 ? full : full)
-                    let parts = full.split(separator: ":")
-                    if parts.count == 2 {
-                        let h = parts[0], m = parts[1]
-                        fields["dep"] = h.count == 1 ? "0\(h):\(m)" : "\(h):\(m)"
-                    }
+               let full = TicketText.firstMatch(in: normalized, pattern: #"\b((?:[01]?\d|2[0-3]):[0-5]\d)\b"#) {
+                let parts = full.split(separator: ":")
+                if parts.count == 2 {
+                    let h = parts[0], m = parts[1]
+                    fields["dep"] = h.count == 1 ? "0\(h):\(m)" : "\(h):\(m)"
+                } else {
+                    fields["dep"] = full
                 }
             }
             if datePart == nil,

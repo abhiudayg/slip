@@ -62,16 +62,6 @@
         "key": "dep",
         "label": "DEPART",
         "value": "{{dep}}"
-      },
-      {
-        "key": "arr",
-        "label": "ARRIVE",
-        "value": "{{arr}}"
-      },
-      {
-        "key": "terminal",
-        "label": "TERMINAL",
-        "value": "{{terminal}}"
       }
     ],
     "backFields": [
@@ -124,6 +114,16 @@
         "key": "about",
         "label": "About",
         "value": "Built from your booking PDF or screenshot. Surfaces near departure."
+      },
+      {
+        "key": "arr",
+        "label": "ARRIVE",
+        "value": "{{arr}}"
+      },
+      {
+        "key": "terminal",
+        "label": "TERMINAL",
+        "value": "{{terminal}}"
       }
     ]
   }

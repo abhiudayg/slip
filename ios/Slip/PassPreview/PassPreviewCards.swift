@@ -10,9 +10,7 @@ struct AirbnbRoomKeyCard: View {
         let propertyType = PassFieldBag.value(fields, ["property_type"], fallback: "Entire Coastal Villa")
         let address = PassFieldBag.value(fields, ["address", "city"], fallback: "Goa, India")
         let checkInDate = PassFieldBag.value(fields, ["check_in"], fallback: "Thu, 24 Oct")
-        let checkInTime = PassFieldBag.value(fields, ["check_in_time"], fallback: "14:00 onwards")
         let checkOutDate = PassFieldBag.value(fields, ["check_out"], fallback: "Mon, 28 Oct")
-        let checkOutTime = PassFieldBag.value(fields, ["check_out_time"], fallback: "11:00 am")
         let guest = {
             let g = PassFieldBag.value(fields, ["guest"], fallback: "—")
             let d = PassFieldBag.value(fields, ["guest_details"], fallback: "")
@@ -21,12 +19,8 @@ struct AirbnbRoomKeyCard: View {
         // Never fall back to booking_id — that made the PIN look stuck on the confirmation code.
         let pin = PassFieldBag.value(fields, ["door_pin"], fallback: "4 8 2 9 #")
         let booking = PassFieldBag.value(fields, ["booking_id", "qr_data"], fallback: "")
-        let wifi = PassFieldBag.value(fields, ["wifi_ssid"], fallback: "")
-        let wifiPass = PassFieldBag.value(fields, ["wifi_password"], fallback: "")
         let status = PassFieldBag.value(fields, ["status"], fallback: "ACTIVE")
-        let host = PassFieldBag.value(fields, ["host"], fallback: "")
         let hostBadge = PassFieldBag.value(fields, ["host_badge"], fallback: "")
-        let lockBrand = PassFieldBag.value(fields, ["lock_brand"], fallback: "")
 
         VStack(spacing: 12) {
             PassMetaBar(left: "PASSKIT • GENERIC_KEYLESS", right: "APPLE VAS NFC", tint: p.accent)
@@ -820,9 +814,27 @@ struct UPIPayPassCard: View {
                     .background(p.accent.opacity(0.05))
                     TicketNotchDivider(bg: Color(red: 0.07, green: 0.08, blue: 0.12))
                     QRPanel(caption: "Scan to pay via any UPI app", alt: model.vpa, accent: p.accentSoft)
+                    if UPIPayLink.canPay(fields: fields) {
+                        Button {
+                            UPIPayLink.open(fields: fields)
+                        } label: {
+                            Label("Pay Now", systemImage: "indianrupeesign.circle.fill")
+                                .font(.subheadline.weight(.bold))
+                                .foregroundStyle(.black)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(Capsule().fill(Color(red: 0.35, green: 0.85, blue: 0.55)))
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 14)
+                        .accessibilityLabel("Pay now with UPI")
+                    }
                 }
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(PassAccessibility.summary(brandId: "upi", displayName: "UPI PayPass", fields: fields))
     }
 }
 

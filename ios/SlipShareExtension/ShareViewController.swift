@@ -41,8 +41,26 @@ class ShareViewController: UIViewController {
             } else if provider.hasItemConformingToTypeIdentifier("com.adobe.pdf") {
                 let data = try await loadData(from: provider, typeIdentifier: "com.adobe.pdf")
                 extracted = await TicketExtractor.extract(fromPDF: data)
+            } else if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier)
+                        || provider.hasItemConformingToTypeIdentifier("public.utf8-plain-text")
+                        || provider.hasItemConformingToTypeIdentifier("public.text") {
+                let typeId = provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier)
+                    ? UTType.plainText.identifier
+                    : (provider.hasItemConformingToTypeIdentifier("public.utf8-plain-text")
+                       ? "public.utf8-plain-text" : "public.text")
+                let text = try await loadString(from: provider, typeIdentifier: typeId)
+                let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard trimmed.count >= 24 else {
+                    presentAlert("That text doesn’t look like a booking confirmation.")
+                    return
+                }
+                extracted = TicketExtractor.extract(
+                    payload: "",
+                    symbology: "none",
+                    surroundingText: trimmed
+                )
             } else {
-                presentAlert("Share a ticket PDF or screenshot with Slip.")
+                presentAlert("Share a ticket PDF, screenshot, or booking email text with Slip.")
                 return
             }
 
@@ -60,6 +78,21 @@ class ShareViewController: UIViewController {
         } catch {
             presentAlert(error.localizedDescription)
         }
+    }
+
+
+    private func loadString(from provider: NSItemProvider, typeIdentifier: String) async throws -> String {
+        let item = try await provider.loadItem(forTypeIdentifier: typeIdentifier)
+        if let s = item as? String { return s }
+        if let data = item as? Data, let s = String(data: data, encoding: .utf8) { return s }
+        if let url = item as? URL {
+            let accessing = url.startAccessingSecurityScopedResource()
+            defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+            return try String(contentsOf: url, encoding: .utf8)
+        }
+        throw NSError(domain: "SlipShare", code: 3, userInfo: [
+            NSLocalizedDescriptionKey: "Couldn’t read the shared text."
+        ])
     }
 
     private func loadData(from provider: NSItemProvider, typeIdentifier: String) async throws -> Data {

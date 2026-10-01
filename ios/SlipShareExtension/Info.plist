@@ -30,6 +30,8 @@
                     ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.image"
                     OR ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.pdf"
                     OR ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "com.adobe.pdf"
+                    OR ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
+                    OR ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.text"
                 ).@count &gt; 0
             ).@count &gt; 0</string>
 		</dict>

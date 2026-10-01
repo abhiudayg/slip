@@ -1,5 +1,6 @@
 import AppIntents
 import Foundation
+import UIKit
 
 /// Siri / Shortcuts entry: create a Slip pass from booking text (OCR-path fallback).
 struct CreatePassFromTextIntent: AppIntent {
@@ -26,6 +27,29 @@ struct CreatePassFromTextIntent: AppIntent {
     }
 }
 
+
+/// Pull booking text from the clipboard (Mail / SMS copy) and open confirm.
+struct ImportBookingFromClipboardIntent: AppIntent {
+    static var title: LocalizedStringResource = "Import Booking from Clipboard"
+    static var description = IntentDescription(
+        "Detect IRCTC, airline, or Airbnb booking text on the clipboard and open Slip to confirm."
+    )
+    static var openAppWhenRun: Bool = true
+
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        guard let text = UIPasteboard.general.string?.trimmingCharacters(in: .whitespacesAndNewlines),
+              text.count >= 24 else {
+            return .result(dialog: IntentDialog(stringLiteral: "Copy a booking email or SMS first, then try again."))
+        }
+        let brand = BookingInboxWatcher.detect(in: text)?.brand
+        PendingBookingImport.save(text: text, brandHint: brand ?? "")
+        let extracted = TicketExtractor.extract(payload: "", symbology: "none", surroundingText: text)
+        let classification = await IntelligentBrandClassifier.classify(extracted)
+        SharedInbox.save(classification)
+        return .result(dialog: IntentDialog(stringLiteral: "Slip has a \(classification.displayName) pass ready to confirm."))
+    }
+}
+
 struct SlipAppShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
@@ -39,6 +63,26 @@ struct SlipAppShortcuts: AppShortcutsProvider {
             systemImageName: "ticket"
         )
         AppShortcut(
+            intent: ShowSlipPassIntent(),
+            phrases: [
+                "Show my \(.applicationName) pass",
+                "Open my \(.applicationName) ticket",
+                "Show my boarding pass in \(.applicationName)"
+            ],
+            shortTitle: "Show Pass",
+            systemImageName: "qrcode"
+        )
+        AppShortcut(
+            intent: FindSlipPassIntent(),
+            phrases: [
+                "Find my ticket in \(.applicationName)",
+                "Find my flight in \(.applicationName)",
+                "Find my BookMyShow ticket in \(.applicationName)"
+            ],
+            shortTitle: "Find Pass",
+            systemImageName: "magnifyingglass"
+        )
+        AppShortcut(
             intent: CreatePassFromTextIntent(),
             phrases: [
                 "Create a \(.applicationName) pass from this booking",
@@ -46,6 +90,15 @@ struct SlipAppShortcuts: AppShortcutsProvider {
             ],
             shortTitle: "Create from Text",
             systemImageName: "wallet.pass"
+        )
+        AppShortcut(
+            intent: ImportBookingFromClipboardIntent(),
+            phrases: [
+                "Import booking from clipboard in \(.applicationName)",
+                "Add clipboard booking to \(.applicationName)"
+            ],
+            shortTitle: "Import Clipboard",
+            systemImageName: "doc.on.clipboard"
         )
     }
 }

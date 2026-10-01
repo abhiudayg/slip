@@ -20,6 +20,7 @@ struct ScrapbookView: View {
                     VStack(alignment: .leading, spacing: 22) {
                         header
                         statsRow
+                        wrappedShareCard
                         if !entries.airports.isEmpty {
                             mapSection
                         }
@@ -31,7 +32,7 @@ struct ScrapbookView: View {
                     .padding(.bottom, 40)
                 }
             }
-            .navigationTitle("Scrapbook")
+            .navigationTitle("Insights")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -48,11 +49,40 @@ struct ScrapbookView: View {
                 .font(.system(size: 28, weight: .semibold))
                 .tracking(-0.4)
                 .foregroundStyle(SlipTheme.ink)
-            Text("Archived and active passes — movies, flights, and nights out, woven into one scrapbook.")
+            Text(entries.wrappedLine)
                 .font(.subheadline)
                 .foregroundStyle(SlipTheme.muted)
         }
         .padding(.top, 8)
+    }
+
+
+    private var wrappedShareCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Wrapped")
+                .font(.headline)
+                .foregroundStyle(SlipTheme.ink)
+            Text(entries.wrappedLine)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(SlipTheme.ink)
+                .fixedSize(horizontal: false, vertical: true)
+            if entries.diningCount > 0 || entries.estimatedSavingsINR > 0 {
+                Text(entries.savingsLine)
+                    .font(.subheadline)
+                    .foregroundStyle(SlipTheme.muted)
+            }
+            ShareLink(item: entries.shareText) {
+                Label("Share Insights card", systemImage: "square.and.arrow.up")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(SlipTheme.accent)
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(RoundedRectangle(cornerRadius: 18).fill(SlipTheme.cardHigh))
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(Color.white.opacity(0.08), lineWidth: 1))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(entries.shareText)
     }
 
     private var statsRow: some View {
@@ -151,6 +181,33 @@ struct ScrapbookEntry {
     var trips: [String]
     var airports: [String]
     var mapPins: [(title: String, coordinate: CLLocationCoordinate2D)]
+    var flightCount: Int
+    var diningCount: Int
+    var estimatedSavingsINR: Int
+    var year: Int
+
+    var wrappedLine: String {
+        var chunks: [String] = []
+        if flightCount > 0 { chunks.append("flew \(flightCount) time\(flightCount == 1 ? "" : "s")") }
+        if !movies.isEmpty { chunks.append("watched \(movies.count) movie\(movies.count == 1 ? "" : "s")") }
+        if diningCount > 0 { chunks.append("dined out \(diningCount) time\(diningCount == 1 ? "" : "s")") }
+        if !concerts.isEmpty { chunks.append("caught \(concerts.count) event\(concerts.count == 1 ? "" : "s")") }
+        if chunks.isEmpty {
+            return "Your \(year) scrapbook is just getting started — add passes to unlock Insights."
+        }
+        return "You " + chunks.joined(separator: ", ") + "."
+    }
+
+    var savingsLine: String {
+        if estimatedSavingsINR > 0 {
+            return "Estimated Dineout / offers saved ≈ ₹\(estimatedSavingsINR.formatted())"
+        }
+        return "Keep dining & travel passes — Insights will estimate savings from amount fields."
+    }
+
+    var shareText: String {
+        "My \(year) in Slip: \(wrappedLine)" + (estimatedSavingsINR > 0 ? " Saved ≈ ₹\(estimatedSavingsINR)." : "")
+    }
 }
 
 enum ScrapbookStats {
@@ -165,6 +222,9 @@ enum ScrapbookStats {
         var airports = Set<String>()
         var pins: [(String, CLLocationCoordinate2D)] = []
         var total = 0
+        var flightCount = 0
+        var diningCount = 0
+        var estimatedSavingsINR = 0
 
         for record in records {
             let createdYear = Calendar.current.component(.year, from: record.createdAt)
@@ -179,6 +239,7 @@ enum ScrapbookStats {
             case "district":
                 if let e = nonEmpty(fields["event"]) { concerts.append(e) }
             case "indigo", "makemytrip", "cleartrip", "yatra":
+                flightCount += 1
                 if let o = nonEmpty(fields["origin"]) { airports.insert(short(o)) }
                 if let d = nonEmpty(fields["destination"]) { airports.insert(short(d)) }
                 let route = [fields["origin"], fields["destination"]].compactMap(nonEmpty).joined(separator: " → ")
@@ -189,7 +250,15 @@ enum ScrapbookStats {
             case "airbnb":
                 if let p = nonEmpty(fields["property"]) { trips.append(p) }
             case "easydiner", "zomato-dineout", "swiggy-dineout":
+                diningCount += 1
                 if let r = nonEmpty(fields["restaurant"]) { concerts.append(r) }
+                if let am = nonEmpty(fields["amount"]) ?? nonEmpty(fields["discount"]) {
+                    let digits = am.filter { $0.isNumber }
+                    if let n = Int(digits), n > 0, n < 100_000 {
+                        // Treat modest amounts as bill; attribute ~20% as offer savings heuristic.
+                        estimatedSavingsINR += max(50, n / 5)
+                    }
+                }
             default:
                 break
             }
@@ -205,7 +274,11 @@ enum ScrapbookStats {
             concerts: uniquePreserve(concerts),
             trips: uniquePreserve(trips),
             airports: airports.sorted(),
-            mapPins: pins
+            mapPins: pins,
+            flightCount: flightCount,
+            diningCount: diningCount,
+            estimatedSavingsINR: estimatedSavingsINR,
+            year: year
         )
     }
 

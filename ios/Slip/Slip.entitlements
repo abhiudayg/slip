@@ -20,5 +20,10 @@
 	<array>
 		<string>group.com.aeswibon.slip</string>
 	</array>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:slip.app</string>
+		<string>appclips:slip.app</string>
+	</array>
 </dict>
 </plist>

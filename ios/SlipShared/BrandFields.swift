@@ -210,49 +210,100 @@ enum BrandFields {
 
 
     /// Keys that belong on the Wallet face preview. Everything else with a value goes on the flip-side.
+    /// Keys rendered on the Wallet / preview front face — must stay off the flip/back.
+    /// Keep in sync with PassPreview cards + pass.json header/primary/secondary/auxiliary.
     static func faceFrontKeys(for templateId: String) -> Set<String> {
         let keys: [String]
         switch templateId {
         case "bookmyshow":
-            keys = ["event", "venue", "seat", "date", "time", "booking_id", "qr_data"]
+            keys = ["event", "venue", "screen", "seat", "date", "time", "format", "booking_id", "qr_data"]
         case "district":
-            keys = ["event", "venue", "tier", "date", "time", "gate", "booking_id", "qr_data"]
+            keys = ["event", "venue", "tier", "seat", "date", "time", "gate", "zone", "booking_id", "qr_data"]
         case "irctc":
-            keys = ["origin", "destination", "train", "dep", "coach", "seat", "passenger", "pnr", "qr_data"]
+            keys = [
+                "origin", "destination", "train", "dep", "date", "coach", "seat",
+                "passenger", "pnr", "duration", "qr_data"
+            ]
         case "indigo":
-            keys = ["origin", "destination", "flight", "dep", "gate", "seat", "passenger", "pnr", "qr_data"]
+            keys = [
+                "origin", "destination", "flight", "dep", "date", "gate", "seat",
+                "passenger", "pnr", "duration", "status", "qr_data"
+            ]
         case "namma-metro":
-            keys = ["origin", "destination", "ticket_type", "line", "booking_id", "qr_data", "valid_till"]
+            keys = [
+                "origin", "destination", "ticket_type", "line", "booking_id",
+                "issued_at", "valid_till", "qr_data"
+            ]
         case "redbus":
-            keys = ["origin", "destination", "dep", "seat", "passenger", "pnr", "qr_data"]
+            keys = [
+                "origin", "destination", "dep", "date", "arr", "seat", "passenger",
+                "pnr", "bus", "duration", "qr_data"
+            ]
         case "upi":
-            keys = ["name", "vpa", "bank", "qr_data", "status"]
+            keys = ["name", "vpa", "bank", "status", "qr_data"]
         case "easydiner":
-            keys = ["restaurant", "time", "date", "party_size", "guest", "booking_id", "qr_data", "discount"]
+            keys = ["restaurant", "tier", "time", "date", "party_size", "guest", "booking_id", "discount", "qr_data"]
         case "zomato-dineout":
             keys = ["restaurant", "time", "date", "party_size", "guest", "booking_id", "qr_data"]
         case "swiggy-dineout":
-            keys = ["restaurant", "offer_code", "discount", "booking_id", "qr_data", "valid_till"]
+            keys = ["restaurant", "time", "date", "party_size", "offer_code", "discount", "booking_id", "qr_data"]
         case "airbnb":
-            keys = ["property", "check_in", "check_out", "check_in_time", "check_out_time", "guest", "door_pin", "booking_id", "status"]
+            // Address / city live on the info (back) face; dates+guest+PIN stay on front.
+            keys = [
+                "property", "property_type",
+                "check_in", "check_out", "check_in_time", "check_out_time",
+                "guest", "door_pin", "status", "booking_id", "qr_data"
+            ]
         case "zoomcar":
-            keys = ["vehicle", "plate", "pickup", "drop_off", "door_pin", "key_status", "booking_id", "qr_data"]
+            keys = [
+                "vehicle", "plate", "pickup", "drop_off", "guest", "booking_id",
+                "door_pin", "key_status", "status", "qr_data"
+            ]
         case "cult", "golds-gym":
-            keys = ["name", "center", "plan", "member_id", "status", "qr_data", "valid_thru"]
+            keys = ["name", "center", "plan", "member_id", "status", "valid_thru", "qr_data"]
         case "uber", "ola":
             keys = ["pickup", "drop_off", "vehicle", "ride_pin", "eta", "status", "booking_id", "qr_data"]
         case "makemytrip", "cleartrip", "yatra":
-            keys = ["origin", "destination", "dep", "passenger", "pnr", "flight", "booking_id", "qr_data", "status"]
+            keys = [
+                "origin", "destination", "flight", "dep", "arr", "date", "passenger",
+                "seat", "pnr", "booking_id", "status", "duration", "qr_data"
+            ]
         case "uts", "chalo":
-            keys = ["origin", "destination", "dep", "time", "ticket_type", "booking_id", "qr_data"]
+            keys = [
+                "origin", "destination", "dep", "date", "time", "ticket_type",
+                "passenger", "pnr", "booking_id", "qr_data"
+            ]
         case "tata-neu", "reliance-smart", "shoppers-stop", "bigbasket":
-            keys = ["name", "store", "offer", "offer_code", "tier", "booking_id", "member_id", "qr_data"]
+            keys = ["name", "store", "offer", "offer_code", "tier", "member_id", "status", "booking_id", "qr_data"]
         default:
-            // First 5 schema keys + qr/booking style identifiers.
             let all = schema(for: templateId).all.filter { !geofenceKeys.contains($0) }
             keys = Array(all.prefix(6))
         }
-        return Set(keys)
+        return Set(keys).union(faceFrontCompanionKeys(Set(keys)))
+    }
+
+    /// Companion keys that share a front slot (e.g. check-in time under check-in date).
+    private static func faceFrontCompanionKeys(_ front: Set<String>) -> Set<String> {
+        var extra: Set<String> = []
+        if front.contains("check_in") { extra.insert("check_in_time") }
+        if front.contains("check_out") { extra.insert("check_out_time") }
+        if front.contains("time") { extra.insert("date") }
+        if front.contains("dep") { extra.formUnion(["date", "departTime"]) }
+        if front.contains("door_pin") { extra.insert("pin") }
+        if front.contains("drop_off") { extra.insert("drop") }
+        if front.contains("pickup") { extra.insert("pick_up") }
+        if front.contains("booking_id") { extra.formUnion(["booking", "confirmation"]) }
+        if front.contains("party_size") { extra.insert("party") }
+        if front.contains("check_in") { extra.insert("checkin") }
+        if front.contains("check_out") { extra.insert("checkout") }
+        return extra
+    }
+
+
+    /// Freeform `location` is seeded for geofencing but not shown in editors —
+    /// users drop a Map pin for latitude / longitude instead.
+    static func isEditorHidden(_ key: String) -> Bool {
+        key == "location"
     }
 
     static func faceBackKeys(for templateId: String) -> [String] {

@@ -53,9 +53,16 @@ struct PassSharePackage: Codable, Equatable, Sendable {
         return pkg
     }
 
+    /// Custom scheme — opens the full Slip app when installed.
     func deepLink() -> URL? {
         guard let token = encodeToken() else { return nil }
         return URL(string: "slip://import/\(token)")
+    }
+
+    /// HTTPS Universal Link / App Clip invocation (requires AASA + App Clip target).
+    func universalLink(host: String = "slip.app") -> URL? {
+        guard let token = encodeToken() else { return nil }
+        return URL(string: "https://\(host)/import/\(token)")
     }
 
     func asClassification() -> ClassificationResult {
@@ -85,13 +92,21 @@ struct PassSharePackage: Codable, Equatable, Sendable {
     }
 
     static func parse(from url: URL) -> PassSharePackage? {
-        guard url.scheme == "slip" else { return nil }
         let parts = url.pathComponents.filter { $0 != "/" }
-        if url.host == "import" || url.host == "share" {
-            if let token = parts.first { return decodeToken(token) }
+        if url.scheme == "slip" {
+            if url.host == "import" || url.host == "share" {
+                if let token = parts.first { return decodeToken(token) }
+            }
+            if let head = parts.first, (head == "import" || head == "share"), let token = parts.dropFirst().first {
+                return decodeToken(token)
+            }
+            return nil
         }
-        if let head = parts.first, (head == "import" || head == "share"), let token = parts.dropFirst().first {
-            return decodeToken(token)
+        // App Clip / Universal Link: https://slip.app/import/<token>
+        if url.scheme == "https" || url.scheme == "http" {
+            if let head = parts.first, (head == "import" || head == "share"), let token = parts.dropFirst().first {
+                return decodeToken(token)
+            }
         }
         return nil
     }

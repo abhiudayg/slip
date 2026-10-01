@@ -8,6 +8,7 @@ import com.slip.passengine.api.PassDtos.BrandSummary;
 import com.slip.passengine.api.PassDtos.CreatePassRequest;
 import com.slip.passengine.api.PassDtos.LocationDto;
 import com.slip.passengine.config.SlipProperties;
+import com.slip.passengine.passkit.PassUpdateStore;
 import com.slip.passengine.stations.StationCatalogService;
 import com.slip.passengine.template.TemplateCatalog;
 import java.io.ByteArrayOutputStream;
@@ -42,19 +43,22 @@ public class PassBuilderService {
   private final PassSigner signer;
   private final SlipProperties props;
   private final ObjectMapper mapper;
+  private final PassUpdateStore passUpdates;
 
   public PassBuilderService(
       TemplateCatalog templates,
       StationCatalogService stations,
       PassSigner signer,
       SlipProperties props,
-      ObjectMapper mapper
+      ObjectMapper mapper,
+      PassUpdateStore passUpdates
   ) {
     this.templates = templates;
     this.stations = stations;
     this.signer = signer;
     this.props = props;
     this.mapper = mapper;
+    this.passUpdates = passUpdates;
   }
 
   public byte[] buildPkpass(CreatePassRequest request) {
@@ -73,8 +77,9 @@ public class PassBuilderService {
         }
       }
     }
+    // Do not invent "—" for missing optionals — empty Wallet fields still take layout space on iPhone.
     for (String optional : brand.optionalFields()) {
-      fields.putIfAbsent(optional, "—");
+      fields.putIfAbsent(optional, "");
     }
 
     List<LocationDto> locations = stations.resolveLocations(
@@ -99,6 +104,7 @@ public class PassBuilderService {
 
     ObjectNode passJson = (ObjectNode) templates.loadPassBoilerplate(request.template()).deepCopy();
     injectPlaceholders(passJson, fields);
+    sanitizeFieldLayout(passJson);
     passJson.put("passTypeIdentifier", props.passTypeIdentifier());
     passJson.put("teamIdentifier", props.teamIdentifier());
     String serial = request.serialNumber();
@@ -130,6 +136,10 @@ public class PassBuilderService {
       // Apple Wallet moves the pass to Expired after this timestamp.
       passJson.put("expirationDate", request.expirationDate());
     }
+
+
+    maybeInjectNfc(passJson, request.template(), fields);
+    String authToken = maybeInjectWebService(passJson, serial, request.template(), fields);
 
     try {
       Map<String, byte[]> files = new HashMap<>();
@@ -166,8 +176,135 @@ public class PassBuilderService {
     } catch (ResponseStatusException e) {
       throw e;
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to build pkpass", e);
+      String detail = e.getMessage() == null || e.getMessage().isBlank()
+          ? e.getClass().getSimpleName()
+          : e.getMessage();
+      throw new ResponseStatusException(
+          HttpStatus.INTERNAL_SERVER_ERROR,
+          "Failed to build pkpass: " + detail,
+          e
+      );
     }
+  }
+
+
+  /** Drop blank front fields and enforce iPhone-safe Wallet slot caps. */
+  private void sanitizeFieldLayout(ObjectNode passJson) {
+    for (String style : List.of("boardingPass", "eventTicket", "storeCard", "coupon", "generic")) {
+      JsonNode sectionNode = passJson.get(style);
+      if (!(sectionNode instanceof ObjectNode section)) {
+        continue;
+      }
+      boolean boarding = "boardingPass".equals(style);
+      pruneFieldArray(section, "headerFields", 2, false);
+      pruneFieldArray(section, "primaryFields", boarding ? 2 : 1, false);
+      pruneFieldArray(section, "secondaryFields", 2, false);
+      pruneFieldArray(section, "auxiliaryFields", 2, false);
+      pruneFieldArray(section, "backFields", Integer.MAX_VALUE, true);
+    }
+  }
+
+  private void pruneFieldArray(ObjectNode section, String name, int maxKeep, boolean back) {
+    JsonNode arrNode = section.get(name);
+    if (!(arrNode instanceof ArrayNode arr) || arr.isEmpty()) {
+      return;
+    }
+    ArrayNode kept = mapper.createArrayNode();
+    ArrayNode overflow = mapper.createArrayNode();
+    for (JsonNode item : arr) {
+      if (!(item instanceof ObjectNode obj)) {
+        continue;
+      }
+      String value = obj.path("value").asText("").trim();
+      if (value.isEmpty() || "—".equals(value) || value.contains("{{")) {
+        continue;
+      }
+      if (kept.size() < maxKeep) {
+        kept.add(obj);
+      } else if (!back) {
+        overflow.add(obj);
+      }
+    }
+    section.set(name, kept);
+    if (!overflow.isEmpty() && !back) {
+      ArrayNode backFields = section.withArray("backFields");
+      java.util.HashSet<String> existing = new java.util.HashSet<>();
+      for (JsonNode b : backFields) {
+        existing.add(b.path("key").asText());
+      }
+      for (JsonNode extra : overflow) {
+        String key = extra.path("key").asText();
+        if (!key.isEmpty() && existing.add(key)) {
+          backFields.add(extra);
+        }
+      }
+    }
+  }
+
+
+  /**
+   * Apple VAS NFC — only when SLIP_NFC_ENCRYPTION_PUBLIC_KEY is configured and brand supports tap.
+   * Requires Apple NFC / VAS entitlement on the Pass Type ID.
+   */
+
+  /** Enables Apple Wallet silent updates when SLIP_WEB_SERVICE_URL is set. */
+  private String maybeInjectWebService(
+      ObjectNode passJson, String serial, String templateId, Map<String, String> fields
+  ) {
+    if (!props.webServiceEnabled()) {
+      passJson.remove("webServiceURL");
+      passJson.remove("authenticationToken");
+      return null;
+    }
+    // Reuse auth token on Wallet pull / rebuild so registrations stay valid.
+    String token = passUpdates.find(serial)
+        .map(s -> s.authenticationToken())
+        .orElseGet(() -> java.util.UUID.randomUUID().toString().replace("-", ""));
+    passJson.put("webServiceURL", props.webServiceUrlNormalized());
+    passJson.put("authenticationToken", token);
+    passUpdates.remember(serial, token, templateId, new HashMap<>(fields));
+    return token;
+  }
+
+  private void maybeInjectNfc(ObjectNode passJson, String templateId, Map<String, String> fields) {
+    if (!props.nfcEnabled()) {
+      passJson.remove("nfc");
+      return;
+    }
+    if (!List.of("airbnb", "zoomcar", "district").contains(templateId)) {
+      passJson.remove("nfc");
+      return;
+    }
+    String message = firstNonBlank(
+        fields.get("door_pin"),
+        fields.get("booking_id"),
+        fields.get("qr_data"),
+        fields.get("pnr"),
+        serialFallback(passJson)
+    );
+    if (message == null || message.isBlank() || "—".equals(message)) {
+      passJson.remove("nfc");
+      return;
+    }
+    ObjectNode nfc = passJson.putObject("nfc");
+    nfc.put("message", message);
+    nfc.put("encryptionPublicKey", props.nfcEncryptionPublicKey().trim());
+  }
+
+  private static String serialFallback(ObjectNode passJson) {
+    return passJson.path("serialNumber").asText("");
+  }
+
+  private static String firstNonBlank(String... values) {
+    if (values == null) {
+      return null;
+    }
+    for (String v : values) {
+      if (v != null && !v.isBlank()) {
+        return v.trim();
+      }
+    }
+    return null;
   }
 
   private void injectPlaceholders(JsonNode node, Map<String, String> fields) {

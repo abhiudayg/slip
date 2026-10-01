@@ -7,6 +7,7 @@ struct PassDetailsView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var vault: PassVaultStore
     @EnvironmentObject private var geofence: PassGeofenceManager
+    @StateObject private var identityStore = IdentityVaultStore.shared
 
     let brand: BrandSummary
     var onReturnHome: (() -> Void)? = nil
@@ -22,6 +23,9 @@ struct PassDetailsView: View {
     @State private var alreadyInAppleWallet = false
     @State private var latestPKPass: PKPass?
     @State private var showBrightQR = false
+    @State private var showGeofenceMap = false
+    @State private var showIdentityVault = false
+    @State private var passPage = 0
     @State private var sharePackage: PassSharePackage?
 
     enum TriggerMode: String, CaseIterable {
@@ -110,6 +114,20 @@ struct PassDetailsView: View {
                     payload: payload
                 ) { showBrightQR = false }
             }
+            .sheet(isPresented: $showIdentityVault) {
+                IdentityVaultSheet(store: identityStore)
+            }
+            .sheet(isPresented: $showGeofenceMap) {
+                GeofenceMapPicker(
+                    latitude: binding(for: "latitude"),
+                    longitude: binding(for: "longitude"),
+                    placeHint: geofencePlaceHint
+                ) {
+                    showGeofenceMap = false
+                    syncSurfaceTriggers()
+                }
+                .presentationDetents([.large])
+            }
             .alert("Couldn't create pass", isPresented: Binding(
                 get: { errorMessage != nil },
                 set: { if !$0 { errorMessage = nil } }
@@ -123,7 +141,7 @@ struct PassDetailsView: View {
                 NavigationStack {
                     Form {
                         Section("Required") {
-                            ForEach(BrandFields.schema(for: brand.id).required, id: \.self) { key in
+                            ForEach(BrandFields.schema(for: brand.id).required.filter { !BrandFields.isEditorHidden($0) }, id: \.self) { key in
                                 LabeledContent(BrandFields.label(for: key, templateId: brand.id)) {
                                     PassFieldEditor(key: key, templateId: brand.id, text: binding(for: key), style: .form)
                                         .multilineTextAlignment(.trailing)
@@ -131,7 +149,7 @@ struct PassDetailsView: View {
                                 }
                             }
                         }
-                        let optional = BrandFields.schema(for: brand.id).optional
+                        let optional = BrandFields.schema(for: brand.id).optional.filter { !BrandFields.isEditorHidden($0) }
                         if !optional.isEmpty {
                             Section("Optional") {
                                 ForEach(optional, id: \.self) { key in
@@ -220,12 +238,73 @@ struct PassDetailsView: View {
     }
 
     private var livePassCard: some View {
-        WalletPassPreview(
-            brandId: brand.id,
-            displayName: brand.displayName,
-            fields: $fields,
-            accentRGB: brand.accentHint,
-            editable: true
+        VStack(alignment: .leading, spacing: 10) {
+            TabView(selection: $passPage) {
+                WalletPassPreview(
+                    brandId: brand.id,
+                    displayName: brand.displayName,
+                    fields: $fields,
+                    accentRGB: brand.accentHint,
+                    editable: true
+                )
+                .tag(0)
+
+                if let idDoc = identityStore.preferredForTravel() {
+                    IdentityCardView(document: idDoc)
+                        .tag(1)
+                } else {
+                    identityEmptyCard
+                        .tag(1)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
+            .frame(minHeight: 420)
+
+            Text(passPage == 0
+                 ? "Swipe for government ID at the gate"
+                 : "Swipe back to boarding pass / ticket")
+                .font(.caption)
+                .foregroundStyle(SlipTheme.muted)
+                .frame(maxWidth: .infinity)
+
+            if UPIPayLink.canPay(fields: fields) {
+                Button {
+                    UPIPayLink.open(fields: fields)
+                } label: {
+                    Label("Pay Now with UPI", systemImage: "indianrupeesign.circle.fill")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(SlipTheme.ink)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Capsule().fill(Color(red: 0.35, green: 0.85, blue: 0.55).opacity(0.9)))
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Pay now with UPI")
+            }
+        }
+    }
+
+    private var identityEmptyCard: some View {
+        VStack(spacing: 14) {
+            Image(systemName: "person.text.rectangle")
+                .font(.system(size: 36))
+                .foregroundStyle(SlipTheme.accentSoft)
+            Text("Add Aadhaar / PAN / DL")
+                .font(.headline)
+                .foregroundStyle(SlipTheme.ink)
+            Text("Keep a masked ID next to your boarding pass — no frantic app switching at security.")
+                .font(.caption)
+                .foregroundStyle(SlipTheme.muted)
+                .multilineTextAlignment(.center)
+            Button("Open identity vault") { showIdentityVault = true }
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(SlipTheme.accent)
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity, minHeight: 280)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color.white.opacity(0.06))
         )
     }
 
@@ -263,7 +342,7 @@ struct PassDetailsView: View {
                         .textCase(.uppercase)
                         .padding(.top, 4)
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                        ForEach(schema.optional, id: \.self) { key in
+                        ForEach(schema.optional.filter { !BrandFields.isEditorHidden($0) }, id: \.self) { key in
                             fieldEditorCell(key)
                         }
                     }
@@ -375,35 +454,39 @@ struct PassDetailsView: View {
                 }
 
                 if triggerMode == .geofence {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Location")
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Venue pin")
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(SlipTheme.accentSoft)
                             .textCase(.uppercase)
-                        PassFieldEditor(key: "location", templateId: brand.id, text: binding(for: "location"), style: .summary)
-                            .padding(10)
+                        Text("Open the map, drop a pin at the venue — latitude and longitude fill automatically. Address stays on the pass; the freeform geofence location stays hidden.")
+                            .font(.caption2)
+                            .foregroundStyle(SlipTheme.muted)
+                            .fixedSize(horizontal: false, vertical: true)
+
+                        Button {
+                            showGeofenceMap = true
+                        } label: {
+                            Label(
+                                hasMapPin ? "Adjust pin on Map" : "Drop pin in Apple Maps",
+                                systemImage: "map.fill"
+                            )
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(SlipTheme.ink)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
                             .background(
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                    .fill(Color.white.opacity(0.06))
+                                    .fill(SlipTheme.indigo.opacity(0.28))
                             )
-                            .onChange(of: fields["location"] ?? "") { _, _ in
-                                syncSurfaceTriggers()
+                        }
+                        .buttonStyle(.plain)
+
+                        if hasMapPin {
+                            HStack(spacing: 10) {
+                                coordChip(label: "Lat", value: fields["latitude"] ?? "")
+                                coordChip(label: "Lon", value: fields["longitude"] ?? "")
                             }
-                        HStack(spacing: 10) {
-                            PassFieldEditor(key: "latitude", templateId: brand.id, text: binding(for: "latitude"), style: .compact)
-                                .padding(10)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(Color.white.opacity(0.06))
-                                )
-                                .onChange(of: fields["latitude"] ?? "") { _, _ in syncSurfaceTriggers() }
-                            PassFieldEditor(key: "longitude", templateId: brand.id, text: binding(for: "longitude"), style: .compact)
-                                .padding(10)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(Color.white.opacity(0.06))
-                                )
-                                .onChange(of: fields["longitude"] ?? "") { _, _ in syncSurfaceTriggers() }
                         }
                     }
                 }
@@ -426,6 +509,44 @@ struct PassDetailsView: View {
         .onAppear { syncSurfaceTriggers() }
     }
 
+
+    private var hasMapPin: Bool {
+        BrandFields.parseCoordinate(fields["latitude"]) != nil
+            && BrandFields.parseCoordinate(fields["longitude"]) != nil
+    }
+
+    private var geofencePlaceHint: String {
+        let candidates = [
+            fields["address"], fields["venue"], fields["property"],
+            fields["city"], fields["restaurant"], fields["origin"]
+        ]
+        for raw in candidates {
+            let v = (raw ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            if !v.isEmpty { return v }
+        }
+        return brand.displayName
+    }
+
+    private func coordChip(label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label)
+                .font(.caption2.weight(.bold))
+                .foregroundStyle(SlipTheme.muted)
+                .textCase(.uppercase)
+            Text(value)
+                .font(.caption.monospaced())
+                .foregroundStyle(SlipTheme.ink)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(Color.white.opacity(0.06))
+        )
+    }
+
     private var geofenceHelpText: String {
         if triggerMode == .departure {
             return "Departure-time Lock Screen priority uses the ticket time when available. Geofences stay off in this mode."
@@ -437,7 +558,7 @@ struct PassDetailsView: View {
                 let label = geofence.lastRegisteredLabel.map { " · \($0)" } ?? ""
                 return "Monitoring \(geofence.monitoredRegionCount) region\(plural)\(label). You’ll get a notification on entry."
             }
-            return "Always location granted. Add a Location (or lat/lon) so geofence can arm."
+            return "Always location granted. Drop a map pin so geofence can arm."
         case .authorizedWhenInUse:
             return "While Using is not enough for background wakeups — Slip will ask for Always when you enable auto-surface."
         case .denied, .restricted:

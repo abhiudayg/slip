@@ -14,7 +14,7 @@
     "messageEncoding": "iso-8859-1",
     "altText": "{{vpa}}"
   },
-  "storeCard": {
+  "eventTicket": {
     "headerFields": [
       {
         "key": "status",
@@ -68,11 +68,6 @@
         "key": "ifsc",
         "label": "IFSC",
         "value": "{{ifsc}}"
-      },
-      {
-        "key": "status",
-        "label": "Status",
-        "value": "{{status}}"
       },
       {
         "key": "about",

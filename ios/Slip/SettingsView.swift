@@ -13,9 +13,11 @@ struct SettingsView: View {
     @State private var avatarPickerItem: PhotosPickerItem?
     @State private var isEditingName = false
     @State private var draftName = ""
-    @State private var geminiAPIKey = ""
-    @State private var geminiKeySaved = false
     @State private var aviationAPIKey = ""
+    @State private var clipboardWatch = true
+    @State private var showIdentityVault = false
+    @StateObject private var identityStore = IdentityVaultStore.shared
+    @State private var railProxyURL = ""
     var onDone: (() -> Void)? = nil
 
     private var profileName: String {
@@ -173,60 +175,33 @@ struct SettingsView: View {
                     }
                 }
 
-                section(title: "Hybrid AI Extraction") {
+                section(title: "Apple Intelligence Extraction") {
                     HStack(alignment: .top, spacing: 12) {
                         iconCircle("sparkles", tint: SlipTheme.indigo)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Anchors first, fuzzy second")
+                            Text("On-device · iOS 27")
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(SlipTheme.ink)
-                            Text("Vision + regex lock QR / PNR / booking IDs. Apple Intelligence (or optional Gemini) only fills missing movie, restaurant, and venue names.")
+                            Text("Vision locks QR / PNR / booking IDs. Apple Intelligence (Foundation Models) fills only missing movie, restaurant, and venue names — no Gemini or cloud LLM. Ticket text stays on-device or Private Cloud Compute.")
                                 .font(.caption)
                                 .foregroundStyle(SlipTheme.muted)
                         }
                     }
                     divider
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Gemini API key (optional fallback)")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(SlipTheme.muted)
-                        SecureField("AIza…", text: $geminiAPIKey)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                            .font(.subheadline.monospaced())
-                            .padding(12)
-                            .background(RoundedRectangle(cornerRadius: 12).fill(Color.white.opacity(0.06)))
-                            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Color.white.opacity(0.1), lineWidth: 1))
-                        HStack {
-                            Button("Save key") {
-                                let trimmed = geminiAPIKey.trimmingCharacters(in: .whitespacesAndNewlines)
-                                UserDefaults.standard.set(trimmed, forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
-                                UserDefaults(suiteName: SharedInbox.appGroupId)?
-                                    .set(trimmed, forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
-                                geminiKeySaved = true
-                            }
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(SlipTheme.accent)
-                            if geminiKeySaved || !(GeminiFuzzyFiller.apiKey ?? "").isEmpty {
-                                Text("Saved on device")
-                                    .font(.caption2)
-                                    .foregroundStyle(SlipTheme.upiGreen)
-                            }
-                            Spacer()
-                            Button("Clear") {
-                                geminiAPIKey = ""
-                                UserDefaults.standard.removeObject(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
-                                UserDefaults(suiteName: SharedInbox.appGroupId)?
-                                    .removeObject(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
-                                geminiKeySaved = false
-                            }
-                            .font(.caption)
-                            .foregroundStyle(SlipTheme.muted)
+                    HStack(alignment: .top, spacing: 12) {
+                        iconCircle("mic.fill", tint: SlipTheme.accent)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Siri & App Entities")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(SlipTheme.ink)
+                            Text("Ask Siri to show or find a Slip pass. Unlock the vault once so QRs sync for Shortcuts.")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
                         }
                     }
                 }
 
-                section(title: "Live Tracking & Reminders") {
+section(title: "Live Tracking & Reminders") {
                     HStack(alignment: .top, spacing: 12) {
                         iconCircle("airplane.departure", tint: SlipTheme.indigo)
                         VStack(alignment: .leading, spacing: 4) {
@@ -257,6 +232,56 @@ struct SettingsView: View {
                         }
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(SlipTheme.accent)
+                    }
+                    divider
+                    Toggle(isOn: $clipboardWatch) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Booking clipboard watch")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(SlipTheme.ink)
+                            Text("When you copy an IRCTC, airline, or Airbnb email/SMS, Slip nudges you to import it. Share booking text via the Share Sheet too.")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                    }
+                    .tint(SlipTheme.accent)
+                    .onChange(of: clipboardWatch) { _, on in
+                        BookingInboxWatcher.isEnabled = on
+                    }
+                    divider
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Train status proxy (optional)")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(SlipTheme.muted)
+                        TextField("https://…/train-status", text: $railProxyURL)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .font(.subheadline.monospaced())
+                            .foregroundStyle(SlipTheme.ink)
+                            .onChange(of: railProxyURL) { _, value in
+                                let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                                UserDefaults.standard.set(trimmed, forKey: LiveStatusService.railProxyDefaultsKey)
+                                UserDefaults(suiteName: SharedInbox.appGroupId)?
+                                    .set(trimmed, forKey: LiveStatusService.railProxyDefaultsKey)
+                            }
+                    }
+                    divider
+                    Button {
+                        showIdentityVault = true
+                    } label: {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Identity vault")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(SlipTheme.ink)
+                            Text("Encrypted Aadhaar / PAN / DL for gate checks — DigiLocker OAuth when approved.")
+                                .font(.caption)
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .buttonStyle(.plain)
+                    .sheet(isPresented: $showIdentityVault) {
+                        IdentityVaultSheet(store: identityStore)
                     }
                     divider
                     FamilyVaultShareCard()
@@ -316,11 +341,12 @@ struct SettingsView: View {
             .padding(.bottom, 120)
         }
         .onAppear {
-            geminiAPIKey = UserDefaults.standard.string(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
-                ?? UserDefaults(suiteName: SharedInbox.appGroupId)?.string(forKey: GeminiFuzzyFiller.apiKeyDefaultsKey)
-                ?? ""
             aviationAPIKey = UserDefaults.standard.string(forKey: LiveStatusService.apiKeyDefaultsKey)
                 ?? UserDefaults(suiteName: SharedInbox.appGroupId)?.string(forKey: LiveStatusService.apiKeyDefaultsKey)
+                ?? ""
+            clipboardWatch = BookingInboxWatcher.isEnabled
+            railProxyURL = UserDefaults.standard.string(forKey: LiveStatusService.railProxyDefaultsKey)
+                ?? UserDefaults(suiteName: SharedInbox.appGroupId)?.string(forKey: LiveStatusService.railProxyDefaultsKey)
                 ?? ""
         }
         .onChange(of: avatarPickerItem) { _, item in

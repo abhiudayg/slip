@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "9HSMVVUMVX.com.aeswibon.slip",
+        "paths": [ "/import/*", "/share/*" ]
+      }
+    ]
+  },
+  "appclips": {
+    "apps": [ "9HSMVVUMVX.com.aeswibon.slip.Clip" ]
+  }
+}

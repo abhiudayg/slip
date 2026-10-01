@@ -14,7 +14,7 @@
     "messageEncoding": "iso-8859-1",
     "altText": "{{booking_id}}"
   },
-  "coupon": {
+  "eventTicket": {
     "primaryFields": [
       {
         "key": "restaurant",

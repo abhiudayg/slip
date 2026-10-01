@@ -5,6 +5,8 @@ import UIKit
 struct PassFlipContainer<Front: View>: View {
     let brandTitle: String
     let backRows: [PassBackRow]
+    /// Optional fields for UPI / dining "Pay Now" on the back face.
+    var payFields: [String: String] = [:]
     @ViewBuilder var front: () -> Front
 
     @State private var flipped = false
@@ -16,7 +18,7 @@ struct PassFlipContainer<Front: View>: View {
                 .rotation3DEffect(.degrees(flipped ? -180 : 0), axis: (x: 0, y: 1, z: 0), perspective: 0.65)
                 .accessibilityHidden(flipped)
 
-            PassBackFace(brandTitle: brandTitle, rows: backRows) {
+            PassBackFace(brandTitle: brandTitle, rows: backRows, payFields: payFields) {
                 withAnimation(.spring(response: 0.55, dampingFraction: 0.86)) {
                     flipped = false
                 }
@@ -26,11 +28,12 @@ struct PassFlipContainer<Front: View>: View {
             .accessibilityHidden(!flipped)
         }
         .overlay(alignment: .topTrailing) {
-            if !flipped && !backRows.isEmpty {
+            if !flipped {
                 Button {
                     withAnimation(.spring(response: 0.55, dampingFraction: 0.86)) {
                         flipped = true
                     }
+                    SlipHaptics.scrollTick()
                 } label: {
                     Image(systemName: "info.circle.fill")
                         .font(.system(size: 20, weight: .semibold))
@@ -49,6 +52,7 @@ struct PassFlipContainer<Front: View>: View {
 struct PassBackFace: View {
     let brandTitle: String
     let rows: [PassBackRow]
+    var payFields: [String: String] = [:]
     var onDone: () -> Void
 
     var body: some View {
@@ -66,6 +70,22 @@ struct PassBackFace: View {
                             .foregroundStyle(Color.cyan.opacity(0.9))
                     }
 
+                    if UPIPayLink.canPay(fields: payFields) {
+                        Button {
+                            UPIPayLink.open(fields: payFields)
+                        } label: {
+                            Label("Pay Now with UPI", systemImage: "indianrupeesign.circle.fill")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.black)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(Capsule().fill(Color(red: 0.35, green: 0.85, blue: 0.55)))
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Pay now with UPI")
+                        .accessibilityHint("Opens Google Pay, PhonePe, or another UPI app")
+                    }
+
                     Text("More details")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.55))
@@ -73,7 +93,7 @@ struct PassBackFace: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 12) {
                             if rows.isEmpty {
-                                Text("All key details are already on the front of this pass.")
+                                Text("Address, Wi‑Fi, host, and other secondary fields show here when filled.")
                                     .font(.subheadline)
                                     .foregroundStyle(.white.opacity(0.65))
                             } else {

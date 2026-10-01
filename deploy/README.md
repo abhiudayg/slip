@@ -39,7 +39,7 @@ On the VM (`/opt/slip/certs/` + `/opt/slip/etc/pass-engine.env`):
 ```bash
 source deploy/oci/state.env
 scp /path/to/pass_cert.p12 /path/to/AppleWWDRCAG4.cer ubuntu@$PUBLIC_IP:/opt/slip/certs/
-ssh ubuntu@$PUBLIC_IP 'sudo chown slip:slip /opt/slip/certs/pass_cert.p12 /opt/slip/certs/AppleWWDRCAG4.cer && sudo chmod 600 /opt/slip/certs/pass_cert.p12'
+ssh ubuntu@$PUBLIC_IP 'sudo chown slip:slip /opt/slip/certs/pass_cert.p12 /opt/slip/certs/AppleWWDRCAG4.cer && sudo chmod 640 /opt/slip/certs/pass_cert.p12 && sudo chmod 644 /opt/slip/certs/AppleWWDRCAG4.cer'
 ```
 
 Set in `/opt/slip/etc/pass-engine.env` (never commit):

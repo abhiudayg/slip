@@ -62,16 +62,6 @@
         "key": "dep",
         "label": "DEPART",
         "value": "{{dep}}"
-      },
-      {
-        "key": "arr",
-        "label": "ARRIVE",
-        "value": "{{arr}}"
-      },
-      {
-        "key": "class",
-        "label": "CLASS",
-        "value": "{{class}}"
       }
     ],
     "backFields": [
@@ -124,6 +114,16 @@
         "key": "about",
         "label": "About",
         "value": "Built from your IRCTC booking PDF or SMS screenshot."
+      },
+      {
+        "key": "arr",
+        "label": "ARRIVE",
+        "value": "{{arr}}"
+      },
+      {
+        "key": "class",
+        "label": "CLASS",
+        "value": "{{class}}"
       }
     ]
   }

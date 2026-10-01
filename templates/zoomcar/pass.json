@@ -14,7 +14,7 @@
     "messageEncoding": "iso-8859-1",
     "altText": "{{booking_id}}"
   },
-  "generic": {
+  "eventTicket": {
     "headerFields": [
       {
         "key": "status",

@@ -2,6 +2,7 @@ import ActivityKit
 import Foundation
 
 /// Starts / ends Dynamic Island + Lock Screen Live Activities for a Slip pass.
+/// Requests an ActivityKit push token so pass-engine (or APNs) can update the Island while the app is suspended.
 @MainActor
 enum PassLiveActivityController {
     static var areActivitiesEnabled: Bool {
@@ -32,21 +33,52 @@ enum PassLiveActivityController {
 
         let stale = Calendar.current.date(byAdding: .hour, value: 12, to: Date())
         do {
-            // End any prior Slip activities so Island stays tidy.
             for activity in Activity<SlipPassActivityAttributes>.activities {
                 Task { await activity.end(nil, dismissalPolicy: .immediate) }
             }
             let content = ActivityContent(state: state, staleDate: stale)
-            _ = try Activity.request(attributes: attributes, content: content, pushType: nil)
+            let activity = try Activity.request(
+                attributes: attributes,
+                content: content,
+                pushType: .token
+            )
+            Task { await observePushToken(activity, classification: classification) }
             return true
         } catch {
-            return false
+            // Fallback: some simulators / restricted devices reject pushType — start without remote updates.
+            do {
+                let content = ActivityContent(state: state, staleDate: stale)
+                _ = try Activity.request(attributes: attributes, content: content, pushType: nil)
+                return true
+            } catch {
+                return false
+            }
         }
     }
 
     static func endAll() {
         for activity in Activity<SlipPassActivityAttributes>.activities {
             Task { await activity.end(nil, dismissalPolicy: .after(.now + 2)) }
+        }
+    }
+
+    private static func observePushToken(
+        _ activity: Activity<SlipPassActivityAttributes>,
+        classification: ClassificationResult
+    ) async {
+        for await tokenData in activity.pushTokenUpdates {
+            let token = tokenData.map { String(format: "%02x", $0) }.joined()
+            guard !token.isEmpty else { continue }
+            do {
+                try await PassAPIClient.shared.registerLiveActivity(
+                    activityId: activity.id,
+                    pushToken: token,
+                    templateId: classification.templateId,
+                    displayName: classification.displayName
+                )
+            } catch {
+                // Token registration is best-effort; local updates still work.
+            }
         }
     }
 

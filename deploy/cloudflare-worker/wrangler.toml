@@ -1,0 +1,7 @@
+name = "slip-pass-edge"
+main = "src/index.js"
+compatibility_date = "2024-09-01"
+
+[vars]
+# Override in dashboard / secrets — never put .p12 here.
+PASS_ENGINE_ORIGIN = "https://YOUR_OCI_PASS_ENGINE_HOST"

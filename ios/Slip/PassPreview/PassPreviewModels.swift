@@ -46,10 +46,26 @@ struct PassBackRow: Identifiable, Hashable {
 /// Flip-side rows: everything with a value that is not on the Wallet face.
 enum PassBackContent {
     static func rows(brandId: String, fields: [String: String]) -> [PassBackRow] {
+        let front = BrandFields.faceFrontKeys(for: brandId)
         var rows: [PassBackRow] = []
+        var seenLabels = Set<String>()
+        var seenValues = Set<String>()
+        // Values already shown on the face — avoid repeating identical strings on flip.
+        for key in front {
+            if let v = PassFieldBag.nonEmpty(fields[key] ?? "") {
+                seenValues.insert(v.lowercased())
+            }
+        }
         for key in BrandFields.faceBackKeys(for: brandId) {
+            guard !front.contains(key) else { continue }
             guard let raw = fields[key], let value = PassFieldBag.nonEmpty(raw) else { continue }
             let label = BrandFields.label(for: key, templateId: brandId)
+            let labelKey = label.lowercased()
+            let valueKey = value.lowercased()
+            if seenLabels.contains(labelKey) { continue }
+            if seenValues.contains(valueKey) { continue }
+            seenLabels.insert(labelKey)
+            seenValues.insert(valueKey)
             rows.append(PassBackRow(label: label, value: value))
         }
         return rows

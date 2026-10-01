@@ -245,7 +245,7 @@ enum BookMyShowPassLogic {
         ]
         for pattern in candidates {
             if let raw = TicketText.firstMatch(in: body, pattern: pattern) {
-                var cleaned = raw.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
+                let cleaned = raw.replacingOccurrences(of: #"\s+"#, with: " ", options: .regularExpression)
                     .trimmingCharacters(in: .whitespacesAndNewlines)
                     .uppercased()
                 // Reject auditorium / chrome false positives.

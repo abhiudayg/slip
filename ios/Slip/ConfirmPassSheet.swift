@@ -414,6 +414,10 @@ struct ConfirmPassSheet: View {
                     rowDivider
                     summaryRow("Stay type", key: "property_type", icon: "building.2.fill", placeholder: "Entire home")
                     rowDivider
+                    summaryRow("Address", key: "address", icon: "mappin.and.ellipse", placeholder: "Street address")
+                    rowDivider
+                    summaryRow("City / area", key: "city", icon: "building.2", placeholder: "City")
+                    rowDivider
                     summaryRow("Check-in", key: "check_in", icon: "arrow.down.to.line", placeholder: "Check-in date")
                     rowDivider
                     summaryRow("Check-in time", key: "check_in_time", icon: "clock", placeholder: "After 1:00 PM")
@@ -464,8 +468,6 @@ struct ConfirmPassSheet: View {
                     }
                 }
 
-                rowDivider
-                summaryRow("Location", key: "location", icon: "location.fill", placeholder: "Venue, address, or lat, lon")
             }
         }
     }
