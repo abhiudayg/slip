@@ -1,0 +1,421 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Select Brand Template - Slip Wallet</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#b6b4bf",
+            "mesh-teal": "#0c2329",
+            "error": "#ffb4ab",
+            "outline": "#919095",
+            "secondary-fixed": "#e4e1ec",
+            "tertiary": "#ccc5bf",
+            "surface-bright": "#3a3939",
+            "on-background": "#e5e2e1",
+            "surface": "#141313",
+            "surface-dim": "#141313",
+            "inverse-surface": "#e5e2e1",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "text-primary": "#F5F5F7",
+            "surface-container-lowest": "#0e0e0e",
+            "surface-container-low": "#1c1b1b",
+            "primary-fixed-dim": "#c8c6c8",
+            "on-primary-container": "#7a797b",
+            "mesh-base": "#070709",
+            "surface-variant": "#353434",
+            "primary-container": "#0a0a0c",
+            "tertiary-fixed": "#e8e1db",
+            "primary-fixed": "#e5e1e4",
+            "surface-container": "#201f1f",
+            "on-secondary": "#303038",
+            "primary": "#c8c6c8",
+            "background": "#141313",
+            "on-surface-variant": "#c8c5ca",
+            "secondary": "#c7c5d0",
+            "on-tertiary": "#33302c",
+            "on-tertiary-container": "#7d7973",
+            "secondary-fixed-dim": "#c7c5d0",
+            "on-secondary-fixed-variant": "#46464f",
+            "on-primary-fixed": "#1c1b1d",
+            "text-secondary": "#8E8E93",
+            "on-error": "#690005",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "tertiary-container": "#0c0a07",
+            "on-primary": "#313032",
+            "on-error-container": "#ffdad6",
+            "surface-container-highest": "#353434",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "glass-border": "rgba(255, 255, 255, 0.12)",
+            "outline-variant": "#47464a",
+            "on-secondary-fixed": "#1b1b23",
+            "secondary-container": "#46464f",
+            "inverse-on-surface": "#313030",
+            "mesh-violet": "#1f1035",
+            "on-tertiary-fixed": "#1e1b17",
+            "error-container": "#93000a",
+            "inverse-primary": "#5f5e60",
+            "surface-tint": "#c8c6c8",
+            "on-primary-fixed-variant": "#474649",
+            "surface-container-high": "#2b2a2a",
+            "on-surface": "#e5e2e1"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "4px",
+            "margin": "20px",
+            "gutter": "16px",
+            "space-xl": "32px",
+            "space-md": "16px",
+            "space-lg": "24px",
+            "space-sm": "8px"
+          },
+          "fontFamily": {
+            "headline-lg": ["Inter"],
+            "code-mono": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-mono": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "code-mono": ["15px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-xl": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["17px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Smooth custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+
+    /* Ambient radial glow backdrop */
+    .ambient-glow {
+      background: radial-gradient(circle at 50% 20%, rgba(31, 16, 53, 0.45) 0%, rgba(12, 35, 41, 0.25) 50%, rgba(7, 7, 9, 0) 100%);
+    }
+
+    .shimmer-border {
+      position: relative;
+    }
+    .shimmer-border::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 1rem;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.04) 50%, rgba(200,198,200,0.2) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-mesh-base text-text-primary antialiased font-body-md min-h-screen relative flex items-end sm:items-center justify-center overflow-x-hidden p-0 sm:p-4">
+<!-- Background App Mockup Overlay (Simulating underlying Slip home dashboard) -->
+<div class="fixed inset-0 pointer-events-none opacity-40 z-0 bg-cover bg-center" data-alt="A dark mode mobile digital pass wallet interface in deep obsidian slate with subtle violet ambient rim lighting showing stacked physical-style Apple Wallet passes and transit tickets. Highly polished iOS aesthetic with frosted glass reflections, crisp monospaced typography, and fine 1px metallic borders creating a tranquil, ultra-luxury atmosphere." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCKPWnSUuMCSNpBbL41fucvpLioeUEFb1D_pPPYc-4hKW1gFEu5JQWA1CASp708dUGorEZAKfrRetGkssTE5lLkiC3SreL8Id87GqkNB9yYiF5kMAxlb6EBtBUG6McmdTa53gUWJoJRcoNw5g2pi5nEP2FiZtKD1Gpg6NcqqiwZA2d1zHnQdhh5AOJVjKAkM8NgzDZwFQGEpsOm2XqjQGbGFuvnGsCiN_izDSH7TwbQdUbidpYE-NzuFqu5bfG-F0yh6oLTA4mWVQ')">
+<div class="absolute inset-0 bg-background/85 backdrop-blur-md"></div>
+</div>
+<!-- Ambient dynamic glow -->
+<div class="fixed inset-0 pointer-events-none ambient-glow z-0"></div>
+<!-- iOS Modal Bottom Sheet Container -->
+<!-- Enforcing NO pill shapes (strictly 14-16px rounded-2xl / rounded-xl, 15% curvature) -->
+<div class="relative z-20 w-full max-w-lg bg-surface-container-lowest/95 backdrop-blur-3xl rounded-t-[28px] sm:rounded-[24px] border border-glass-border shadow-2xl shadow-black/80 flex flex-col max-h-[813px] overflow-hidden transition-all duration-300">
+<!-- Top Drag Handle & Safe Header -->
+<div class="pt-3 pb-1 px-5 flex flex-col items-center select-none shrink-0">
+<!-- Rounded rectangle drag handle (15% rounding, no pill) -->
+<div class="w-11 h-1.5 bg-surface-variant rounded-[3px] opacity-75 mb-3"></div>
+<!-- Modal Header Bar -->
+<div class="w-full flex items-center justify-between pb-3 border-b border-glass-border">
+<div class="flex flex-col pr-2">
+<div class="flex items-center gap-2">
+<span class="text-headline-sm font-headline-sm text-text-primary tracking-tight">Select Brand Template</span>
+<span class="bg-surface-container-high border border-glass-border px-1.5 py-0.5 rounded-[6px] text-label-mono font-label-mono text-text-secondary text-[10px]">v2.4</span>
+</div>
+<span class="text-body-sm font-body-sm text-text-secondary mt-0.5">Match your pass or ticket to a verified dynamic layout</span>
+</div>
+<!-- Close Action (Rectangular squircle icon container) -->
+<button aria-label="Close" class="w-8 h-8 rounded-[10px] bg-surface-container-high/80 hover:bg-surface-variant border border-glass-border flex items-center justify-center text-text-secondary hover:text-text-primary transition-all duration-150 active:scale-95 shrink-0" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Scrollable Content Canvas -->
+<div class="overflow-y-auto px-5 py-4 space-y-6 flex-1 overscroll-contain">
+<!-- 1. AI AUTOMATICALLY SELECTED CATEGORY / SUGGESTED TEMPLATE -->
+<section class="space-y-3">
+<!-- AI Badge & Confidence Row -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 bg-surface-container-high border border-glass-border px-2.5 py-1 rounded-[8px]">
+<span class="material-symbols-outlined text-primary text-[15px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-label-mono font-label-mono text-[11px] tracking-wider text-text-primary font-semibold">AI SUGGESTED MATCH</span>
+</div>
+<div class="flex items-center gap-1.5 text-label-mono font-label-mono text-[11px] text-primary">
+<span class="w-2 h-2 rounded-[2px] bg-emerald-400"></span>
+<span>98% Match • Ticketmaster &amp; Live Nation</span>
+</div>
+</div>
+<!-- Hero Suggested Template Card (Squircle 16px corner radius) -->
+<div class="shimmer-border relative bg-surface-container-low/90 rounded-[18px] p-4 border border-glass-border space-y-4 hover:border-primary/40 transition-all duration-200">
+<div class="flex items-start gap-3.5">
+<!-- Brand Category Icon squircle container -->
+<div class="w-12 h-12 rounded-[12px] bg-gradient-to-br from-mesh-violet via-surface-container-high to-surface-variant border border-glass-border flex items-center justify-center text-text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[26px]">confirmation_number</span>
+</div>
+<!-- Pass Identity Details -->
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm text-text-primary font-semibold truncate">Concert &amp; Event Pass</h3>
+</div>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] mt-0.5 truncate">
+                BookMyShow • District • Ticketmaster
+              </p>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1.5 line-clamp-2">
+                Auto-extracts gate, seat, showtime, barcode &amp; live dynamic event countdown.
+              </p>
+</div>
+</div>
+<!-- Feature Tag Strip (Rounded rectangles, no pills) -->
+<div class="flex flex-wrap items-center gap-2 pt-1 border-t border-glass-border/60">
+<div class="flex items-center gap-1.5 bg-surface-container-highest/80 border border-glass-border px-2.5 py-1 rounded-[6px]">
+<span class="material-symbols-outlined text-[13px] text-primary">contactless</span>
+<span class="text-label-mono font-label-mono text-[11px] text-text-primary">Apple VAS 2.0 Ready</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-highest/80 border border-glass-border px-2.5 py-1 rounded-[6px]">
+<span class="material-symbols-outlined text-[13px] text-secondary">sensors</span>
+<span class="text-label-mono font-label-mono text-[11px] text-text-secondary">NFC Turnstile</span>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-highest/80 border border-glass-border px-2.5 py-1 rounded-[6px]">
+<span class="material-symbols-outlined text-[13px] text-secondary">update</span>
+<span class="text-label-mono font-label-mono text-[11px] text-text-secondary">Live Activity Sync</span>
+</div>
+</div>
+<!-- Suggested Action Button (Slightly rounded rectangle 16px, strictly NO pill) -->
+<button class="w-full bg-text-primary hover:bg-white text-surface-container-lowest font-headline-sm font-semibold py-3 px-4 rounded-[14px] flex items-center justify-center gap-2 shadow-lg shadow-black/40 active:scale-[0.98] transition-all duration-150" type="button">
+<span>Continue with Suggested Template</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- 2. CATEGORY SELECTOR / ALL BRAND TEMPLATES GRID -->
+<section class="space-y-3">
+<div class="flex items-baseline justify-between">
+<div>
+<h4 class="text-headline-sm font-headline-sm text-text-primary font-semibold">Select your own category</h4>
+<p class="text-body-sm font-body-sm text-text-secondary">Or pick a specialized layout template below</p>
+</div>
+<span class="text-label-mono font-label-mono text-[11px] text-text-secondary">9 Layouts</span>
+</div>
+<!-- Bento Grid of Brand Categories (Rounded-2xl rectangles) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+<!-- 1. Transit & Flights -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-sky-950/50 border border-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">flight_takeoff</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Transit &amp; Flights</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">IndiGo, British Airways, Air India</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Dynamic Gate &amp; Boarding</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 2. Railways & Metro -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-red-950/50 border border-red-500/20 text-red-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">train</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Railways &amp; Metro</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">IRCTC Rail, Namma Metro, DMRC</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Live PNR &amp; Tap-In</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 3. Movies & Cinema -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-rose-950/50 border border-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">theaters</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Movies &amp; Cinema</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">BookMyShow, PVR INOX, Cinepolis</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Seat Map &amp; Audio F&amp;B</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 4. Dining & Reservations -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-purple-950/50 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">restaurant</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Dining &amp; Reservations</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">Swiggy Dineout, Zomato, EazyDiner</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Table Priority NFC</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 5. Mobility & Car Keys -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-emerald-950/50 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">key</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Mobility &amp; Car Keys</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">Zoomcar Keyless, Uber Ride Pass</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">BLE &amp; Ultra Wideband</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 6. Hotels & Keyless Room Keys -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-amber-950/50 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">hotel</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Hotels &amp; Keyless Keys</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">Airbnb Keyless, Marriott Bonvoy</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Door Lock NFC Tap</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 7. Fitness & Gym Access -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-orange-950/50 border border-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">fitness_center</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Fitness &amp; Gym Access</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">CultPass Elite, Anytime Fitness</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Turnstile QR &amp; Barcode</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 8. Payments & Virtual Cards -->
+<div class="group relative bg-surface-container-low hover:bg-surface-container border border-glass-border hover:border-primary/40 rounded-[16px] p-3.5 flex flex-col justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-cyan-950/50 border border-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[22px]">credit_card</span>
+</div>
+<div class="min-w-0 flex-1">
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold truncate group-hover:text-white">Payments &amp; Virtual</h5>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px] truncate mt-0.5">UPI PayPass, Tata Neu Rewards</p>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-2 border-t border-glass-border/40">
+<span class="bg-surface-container-highest px-2 py-0.5 rounded-[6px] text-label-mono font-label-mono text-[10px] text-text-secondary">Tokenized VAS 2.0</span>
+<span class="material-symbols-outlined text-[16px] text-text-secondary group-hover:text-primary group-hover:translate-x-0.5 transition-all">chevron_right</span>
+</div>
+</div>
+<!-- 9. Custom Blank PKPass (Span 2 col) -->
+<div class="sm:col-span-2 group relative bg-surface-container-high/60 hover:bg-surface-container-high border border-dashed border-glass-border hover:border-primary/60 rounded-[16px] p-3.5 flex items-center justify-between transition-all duration-150 cursor-pointer active:scale-[0.98]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-surface-variant/80 border border-glass-border text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</div>
+<div>
+<h5 class="text-headline-sm font-headline-sm text-[15px] text-text-primary font-semibold group-hover:text-white">Custom PassKit Template</h5>
+<p class="text-body-sm font-body-sm text-text-secondary text-[12px]">Build your own with custom JSON fields, barcode &amp; NFC payload</p>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-label-mono font-label-mono text-[11px] text-text-secondary shrink-0">
+<span>PKPASS</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Sheet Fixed Footer / Actions -->
+<div class="px-5 pt-3 pb-6 border-t border-glass-border bg-surface-container-lowest/95 backdrop-blur-md space-y-3 shrink-0">
+<!-- Manual Pass Creator Secondary Button (14px rounded rectangle, strictly NO pill shape) -->
+<button class="w-full bg-surface-container hover:bg-surface-variant border border-glass-border hover:border-primary/30 text-text-primary font-headline-sm font-medium py-3 px-4 rounded-[14px] flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-[18px] text-text-secondary">edit_note</span>
+<span>Manual Pass Creator</span>
+</button>
+<!-- Security verification footer note -->
+<div class="flex items-center justify-center gap-1.5 text-center text-text-secondary text-[11px] font-label-mono">
+<span class="material-symbols-outlined text-[13px] text-emerald-400">verified_user</span>
+<span>Encrypted on-device via Apple Secure Enclave &amp; Slip SecurePass™</span>
+</div>
+</div>
+</div>
+</body></html>

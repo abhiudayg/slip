@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-on-surface":"#313030","on-tertiary-container":"#7d7973","glass-surface":"rgba(255, 255, 255, 0.08)","surface-container-lowest":"#0e0e0e","secondary-fixed":"#e4e1ec","on-primary-fixed-variant":"#474649","primary":"#c8c6c8","on-primary-container":"#7a797b","tertiary-container":"#0c0a07","error-container":"#93000a","mesh-base":"#070709","inverse-surface":"#e5e2e1","on-background":"#e5e2e1","tertiary":"#ccc5bf","surface":"#141313","mesh-teal":"#0c2329","text-secondary":"#8E8E93","secondary":"#c7c5d0","tertiary-fixed":"#e8e1db","surface-tint":"#c8c6c8","text-primary":"#F5F5F7","outline":"#919095","on-error-container":"#ffdad6","primary-container":"#0a0a0c","primary-fixed-dim":"#c8c6c8","on-surface-variant":"#c8c5ca","surface-container-high":"#2b2a2a","surface-variant":"#353434","on-secondary-container":"#b6b4bf","surface-bright":"#3a3939","glass-border":"rgba(255, 255, 255, 0.12)","background":"#141313","on-tertiary":"#33302c","outline-variant":"#47464a","on-tertiary-fixed":"#1e1b17","surface-container-low":"#1c1b1b","on-error":"#690005","on-tertiary-fixed-variant":"#4a4642","surface-container":"#201f1f","surface-dim":"#141313","primary-fixed":"#e5e1e4","surface-container-highest":"#353434","tertiary-fixed-dim":"#ccc5bf","on-primary":"#313032","on-primary-fixed":"#1c1b1d","on-surface":"#e5e2e1","mesh-violet":"#1f1035","inverse-primary":"#5f5e60","error":"#ffb4ab","on-secondary-fixed-variant":"#46464f","on-secondary-fixed":"#1b1b23","secondary-container":"#46464f","on-secondary":"#303038","secondary-fixed-dim":"#c7c5d0"},borderRadius:{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},spacing:{"gutter":"16px","space-sm":"8px","margin":"20px","space-lg":"24px","space-md":"16px","space-xl":"32px","space-xs":"4px"},fontFamily:{"body-lg":["Inter"],"code-mono":["JetBrains Mono"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-md":["Inter"],"label-mono":["JetBrains Mono"],"headline-md":["Inter"],"headline-sm":["Inter"]},fontSize:{"body-lg":["17px",{"lineHeight":"22px","fontWeight":"400"}],"code-mono":["15px",{"lineHeight":"20px","letterSpacing":"0.1em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl":["34px",{"lineHeight":"41px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["15px",{"lineHeight":"20px","fontWeight":"400"}],"label-mono":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"600"}],"headline-sm":["17px",{"lineHeight":"22px","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col selection:bg-surface-tint selection:text-surface"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">info</span></div><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Pass Flip Details</h1></div><div class="flex items-center gap-space-md"><button class="min-h-[44px] min-w-[44px] px-space-md rounded-full bg-glass-surface hover:bg-surface-container-high transition-colors flex items-center justify-center text-primary font-headline-sm text-headline-sm" onclick="history.back()" type="button">Done</button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface pb-safe"><div class="flex flex-col w-full text-on-surface">
+<!-- Ambient glow backdrop -->
+<div class="relative w-full px-gutter py-space-md flex flex-col gap-space-lg">
+<!-- Active Pass Status Pill & Issuer Branding -->
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-space-xs bg-surface-container-high px-3 py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-secondary-fixed tracking-wider uppercase">ACTIVE &amp; CONFIRMED</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-low px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: 'FILL' 1;">confirmation_number</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant font-medium">BookMyShow PKPass</span>
+</div>
+</div>
+<!-- Cinematic Hero Summary Panel -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container-low shadow-xl">
+<div class="h-32 w-full bg-cover bg-center relative" data-alt="Expansive golden orange desert dune landscape under deep twilight sky with dramatic rim lighting inspired by cinematic sci-fi aesthetics and Dune film tone." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDfAtZQmM97pVEp9ANyGG-CeXFu3j1AOp-TpSsl7RervhcXBozoW0OxMz-e_FFI7ux27HmgN6VNouf_6w1S88YmrWVWn-9us1GMDie3Sub8Mn7QpU2MTpaNfFFE6Gw_VwppVf0yCE3fsoRCHtnC-H3W5WTfLgPwpJ1wzSqbMAgGnhMWlBw2h56tT4UMZETOMdu-IzJoxKltNTQe8ljurL3rRJa8tMPoi3j6veVsk5vJmdTzlOrWz1c')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/60 to-transparent"></div>
+<div class="absolute top-3 right-3 bg-mesh-base/80 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary-fixed text-[14px]">theaters</span>
+<span class="font-label-mono text-label-mono text-tertiary-fixed">DIRECTOR'S CUT</span>
+</div>
+</div>
+<div class="px-space-md pb-space-md -mt-6 relative z-10 flex flex-col gap-space-sm">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary tracking-widest uppercase">Feature Presentation</span>
+<h2 class="font-headline-md text-headline-md text-text-primary tracking-tight">Dune: Part Two (IMAX 70mm)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">PVR INOX: Director's Cut, Ambience Mall, Vasant Kunj, New Delhi</p>
+</div>
+<!-- Metric Grid Badges -->
+<div class="grid grid-cols-3 gap-2 pt-space-xs">
+<div class="bg-surface-container rounded-md p-2.5 flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Audi</span>
+<span class="font-headline-sm text-headline-sm text-text-primary mt-0.5">02</span>
+<span class="font-label-mono text-label-mono text-secondary text-[10px]">Laser Suite</span>
+</div>
+<div class="bg-surface-container rounded-md p-2.5 flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Seats</span>
+<span class="font-headline-sm text-headline-sm text-text-primary mt-0.5">F14, F15</span>
+<span class="font-label-mono text-label-mono text-secondary text-[10px]">Prime Recliner</span>
+</div>
+<div class="bg-surface-container rounded-md p-2.5 flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Showtime</span>
+<span class="font-code-mono text-code-mono text-text-primary mt-0.5">19:15</span>
+<span class="font-label-mono text-label-mono text-secondary text-[10px]">Fri 24 Oct</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Venue & Entry Details -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs px-1">
+<span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
+<h3 class="font-label-mono text-label-mono text-text-secondary tracking-widest uppercase">Venue &amp; Entry Logistics</h3>
+</div>
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col gap-space-md">
+<!-- Physical Location Map Anchor -->
+<div class="w-full h-28 rounded-md overflow-hidden relative" data-location="Ambience Mall, Nelson Mandela Marg, Vasant Kunj, New Delhi" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUkeiBdRwGSvTgtPkFrSvVn2QbZ8sQXf1ZmK5c5p-RT3UsFdmUj3ACKxLEkb8Cxt3YAL2K3Jendazen5NF3ovz77ZrPJnWGaD9FCLM36jJokz1a7nYPXxvxnDcDQG8B-MXueLttjji88KjMKlw9_uLLMRkfmeHyo0qzQ9u3k3GAAnyvrIJ3Rq7vOKsAfT1fkDe0sU7eaXfQaBl0e4lSVfpV3B9tK67rjhmDhWvJf_vYljZtqDMYUs')">
+<div class="absolute inset-0 bg-mesh-base/40"></div>
+<div class="absolute bottom-2 left-2 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded text-on-surface font-label-mono text-label-mono flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary-fixed">directions_car</span>
+<span>Valet at Gate 2</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Address &amp; Parking</span>
+<p class="font-body-sm text-body-sm text-on-surface">3rd Floor, Ambience Mall, Nelson Mandela Marg, Vasant Kunj. Dedicated Director's Cut valet available at Gate 2 with express guest elevators directly to the lounge.</p>
+</div>
+<div class="h-[1px] w-full bg-surface-container-highest"></div>
+<div class="flex flex-col gap-1">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Technical Projection &amp; Sound</span>
+<p class="font-body-sm text-body-sm text-on-surface">IMAX with Laser 70mm Aspect Ratio 1.43:1 dual-projector rig, Dolby Atmos 128 Channels discrete spatial acoustics.</p>
+</div>
+<div class="h-[1px] w-full bg-surface-container-highest"></div>
+<!-- F&B Order Voucher Card Block -->
+<div class="bg-surface-container-low rounded-md p-space-sm flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-md bg-surface-container-high flex items-center justify-center shrink-0 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">room_service</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-text-primary text-[15px]">F&amp;B Butler Voucher</span>
+<span class="font-label-mono text-label-mono text-secondary-fixed bg-surface-container px-2 py-0.5 rounded">PRE-ORDERED</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">2x Prime Recliner + Gourmet Caramel Popcorn Combo &amp; 2x Artisanal Cold Brew. Present QR at Audi 2 Service Butler or request in-seat delivery via button.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Booking & Policy Info -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs px-1">
+<span class="material-symbols-outlined text-primary text-[18px]">receipt_long</span>
+<h3 class="font-label-mono text-label-mono text-text-secondary tracking-widest uppercase">Transaction &amp; Terms</h3>
+</div>
+<div class="bg-surface-container rounded-lg p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between py-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Booking Reference</span>
+<span class="font-code-mono text-code-mono text-text-primary tracking-wider">BMS-WMS9842109</span>
+</div>
+<div class="flex items-center justify-between py-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Total Amount Paid</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">₹2,480.00</span>
+</div>
+<div class="flex items-center justify-between py-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Payment Method</span>
+<span class="font-body-sm text-body-sm text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">contactless</span> Apple Pay (UPI Linked)
+          </span>
+</div>
+<div class="flex items-center justify-between py-1">
+<span class="font-body-sm text-body-sm text-text-secondary">Purchased Date</span>
+<span class="font-label-mono text-label-mono text-on-surface">20 Oct 2024 • 14:22 IST</span>
+</div>
+<div class="h-[1px] w-full bg-surface-container-highest my-1"></div>
+<div class="flex flex-col gap-1">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Cancellation &amp; Reschedule Policy</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Non-refundable within 4 hours of showtime. Exchange to voucher permitted up to 2 hours prior via BookMyShow Concierge.</p>
+</div>
+</div>
+</div>
+<!-- Section: iOS System Integration & Toggles -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs px-1">
+<span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+<h3 class="font-label-mono text-label-mono text-text-secondary tracking-widest uppercase">System Behaviors</h3>
+</div>
+<div class="bg-surface-container rounded-lg overflow-hidden flex flex-col">
+<!-- Automatic Updates Toggle -->
+<div class="p-space-md flex items-center justify-between">
+<div class="flex flex-col pr-space-md">
+<span class="font-headline-sm text-headline-sm text-text-primary text-[15px]">Automatic Updates</span>
+<span class="font-body-sm text-body-sm text-text-secondary mt-0.5">Push alerts for runtime changes &amp; screen gate adjustments</span>
+</div>
+<button aria-checked="true" class="toggle-btn w-12 h-7 bg-primary rounded-full relative p-0.5 transition-colors focus:outline-none" onclick="toggleSwitch(this)" role="switch" type="button">
+<span class="dot block w-6 h-6 bg-on-primary rounded-full shadow transition-transform translate-x-5"></span>
+</button>
+</div>
+<div class="h-[1px] w-full bg-surface-container-highest"></div>
+<!-- Lock Screen Suggestion Toggle -->
+<div class="p-space-md flex items-center justify-between">
+<div class="flex flex-col pr-space-md">
+<span class="font-headline-sm text-headline-sm text-text-primary text-[15px]">Suggest on Lock Screen</span>
+<span class="font-body-sm text-body-sm text-text-secondary mt-0.5">Surfaces pass when within 500m of Ambience Mall</span>
+</div>
+<button aria-checked="true" class="toggle-btn w-12 h-7 bg-primary rounded-full relative p-0.5 transition-colors focus:outline-none" onclick="toggleSwitch(this)" role="switch" type="button">
+<span class="dot block w-6 h-6 bg-on-primary rounded-full shadow transition-transform translate-x-5"></span>
+</button>
+</div>
+<div class="h-[1px] w-full bg-surface-container-highest"></div>
+<!-- Live Activity & Dynamic Island Toggle -->
+<div class="p-space-md flex items-center justify-between">
+<div class="flex flex-col pr-space-md">
+<span class="font-headline-sm text-headline-sm text-text-primary text-[15px]">Live Activity &amp; Island</span>
+<span class="font-body-sm text-body-sm text-text-secondary mt-0.5">Countdown timer &amp; in-seat service summoning widget</span>
+</div>
+<button aria-checked="true" class="toggle-btn w-12 h-7 bg-primary rounded-full relative p-0.5 transition-colors focus:outline-none" onclick="toggleSwitch(this)" role="switch" type="button">
+<span class="dot block w-6 h-6 bg-on-primary rounded-full shadow transition-transform translate-x-5"></span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick Pass Actions -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<button class="flex items-center justify-center gap-2 bg-surface-container-high hover:bg-surface-container-highest active:scale-95 transition rounded-full py-3.5 px-4 text-on-surface font-headline-sm text-headline-sm text-[15px]" type="button">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+<span>Share via AirDrop</span>
+</button>
+<button class="flex items-center justify-center gap-2 bg-surface-container-high hover:bg-surface-container-highest active:scale-95 transition rounded-full py-3.5 px-4 text-on-surface font-headline-sm text-headline-sm text-[15px]" type="button">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span>Export to Wallet</span>
+</button>
+</div>
+<!-- Danger Removal Action -->
+<div class="pt-space-xs">
+<button class="w-full flex items-center justify-center gap-2 bg-error-container text-on-error-container hover:opacity-90 active:scale-98 transition rounded-full py-3.5 px-4 font-headline-sm text-headline-sm text-[15px]" id="removePassBtn" onclick="confirmRemoval()" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+<span>Remove Pass</span>
+</button>
+</div>
+<!-- Security & PKPass Verification Footer -->
+<div class="flex flex-col items-center justify-center gap-1.5 py-space-md text-center">
+<div class="flex items-center gap-1.5 text-text-secondary">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-mono text-label-mono">Signed by BookMyShow Private CA</span>
+</div>
+<p class="font-label-mono text-label-mono text-outline uppercase tracking-wider text-[10px]">
+        SERIAL: BMS-9842-DUNE2-PVR
+      </p>
+<p class="font-label-mono text-label-mono text-outline-variant text-[9px] max-w-xs truncate">
+        SHA-256: 7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
+      </p>
+</div>
+</div>
+</div>
+<script>
+  function toggleSwitch(btn) {
+    const isChecked = btn.getAttribute('aria-checked') === 'true';
+    const nextState = !isChecked;
+    btn.setAttribute('aria-checked', String(nextState));
+    const dot = btn.querySelector('.dot');
+    if (nextState) {
+      btn.classList.remove('bg-surface-container-highest');
+      btn.classList.add('bg-primary');
+      dot.classList.remove('translate-x-0', 'bg-on-surface-variant');
+      dot.classList.add('translate-x-5', 'bg-on-primary');
+    } else {
+      btn.classList.remove('bg-primary');
+      btn.classList.add('bg-surface-container-highest');
+      dot.classList.remove('translate-x-5', 'bg-on-primary');
+      dot.classList.add('translate-x-0', 'bg-on-surface-variant');
+    }
+  }
+
+  function confirmRemoval() {
+    const btn = document.getElementById('removePassBtn');
+    if (btn.dataset.confirming === 'true') {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Erasing from Enclave...';
+      setTimeout(() => {
+        history.back();
+      }, 700);
+    } else {
+      btn.dataset.confirming = 'true';
+      btn.classList.remove('bg-error-container', 'text-on-error-container');
+      btn.classList.add('bg-on-error', 'text-error');
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">warning</span> Tap Again to Confirm Removal';
+      setTimeout(() => {
+        if (btn && btn.dataset.confirming === 'true') {
+          btn.dataset.confirming = 'false';
+          btn.classList.remove('bg-on-error', 'text-error');
+          btn.classList.add('bg-error-container', 'text-on-error-container');
+          btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">delete_forever</span> Remove Pass';
+        }
+      }, 4000);
+    }
+  }
+</script></main></body></html>

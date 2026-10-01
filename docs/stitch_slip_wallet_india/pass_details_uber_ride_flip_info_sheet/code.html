@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-on-surface":"#313030","on-tertiary-container":"#7d7973","glass-surface":"rgba(255, 255, 255, 0.08)","surface-container-lowest":"#0e0e0e","secondary-fixed":"#e4e1ec","on-primary-fixed-variant":"#474649","primary":"#c8c6c8","on-primary-container":"#7a797b","tertiary-container":"#0c0a07","error-container":"#93000a","mesh-base":"#070709","inverse-surface":"#e5e2e1","on-background":"#e5e2e1","tertiary":"#ccc5bf","surface":"#141313","mesh-teal":"#0c2329","text-secondary":"#8E8E93","secondary":"#c7c5d0","tertiary-fixed":"#e8e1db","surface-tint":"#c8c6c8","text-primary":"#F5F5F7","outline":"#919095","on-error-container":"#ffdad6","primary-container":"#0a0a0c","primary-fixed-dim":"#c8c6c8","on-surface-variant":"#c8c5ca","surface-container-high":"#2b2a2a","surface-variant":"#353434","on-secondary-container":"#b6b4bf","surface-bright":"#3a3939","glass-border":"rgba(255, 255, 255, 0.12)","background":"#141313","on-tertiary":"#33302c","outline-variant":"#47464a","on-tertiary-fixed":"#1e1b17","surface-container-low":"#1c1b1b","on-error":"#690005","on-tertiary-fixed-variant":"#4a4642","surface-container":"#201f1f","surface-dim":"#141313","primary-fixed":"#e5e1e4","surface-container-highest":"#353434","tertiary-fixed-dim":"#ccc5bf","on-primary":"#313032","on-primary-fixed":"#1c1b1d","on-surface":"#e5e2e1","mesh-violet":"#1f1035","inverse-primary":"#5f5e60","error":"#ffb4ab","on-secondary-fixed-variant":"#46464f","on-secondary-fixed":"#1b1b23","secondary-container":"#46464f","on-secondary":"#303038","secondary-fixed-dim":"#c7c5d0"},borderRadius:{"DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px"},spacing:{"gutter":"16px","space-sm":"8px","margin":"20px","space-lg":"24px","space-md":"16px","space-xl":"32px","space-xs":"4px"},fontFamily:{"body-lg":["Inter"],"code-mono":["JetBrains Mono"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-xl":["Inter"],"body-md":["Inter"],"label-mono":["JetBrains Mono"],"headline-md":["Inter"],"headline-sm":["Inter"]},fontSize:{"body-lg":["17px",{"lineHeight":"22px","fontWeight":"400"}],"code-mono":["15px",{"lineHeight":"20px","letterSpacing":"0.1em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl":["34px",{"lineHeight":"41px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["15px",{"lineHeight":"20px","fontWeight":"400"}],"label-mono":["12px",{"lineHeight":"16px","letterSpacing":"0.05em","fontWeight":"500"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"600"}],"headline-sm":["17px",{"lineHeight":"22px","fontWeight":"600"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen flex flex-col selection:bg-surface-tint selection:text-surface"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">info</span></div><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Pass Flip Details</h1></div><div class="flex items-center gap-space-md"><button class="min-h-[44px] min-w-[44px] px-space-md rounded-full bg-glass-surface hover:bg-surface-container-high transition-colors flex items-center justify-center text-primary font-headline-sm text-headline-sm" onclick="history.back()" type="button">Done</button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 bg-surface pb-safe"><div class="flex flex-col w-full pb-12">
+<div class="px-gutter pt-space-md pb-space-lg flex flex-col gap-space-lg">
+<div class="flex items-center justify-between bg-surface-container-high/60 backdrop-blur-xl px-space-md py-space-sm rounded-full shadow-sm">
+<div class="flex items-center gap-space-sm">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-fixed opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-text-primary"></span>
+</span>
+<span class="font-label-mono text-label-mono text-text-primary tracking-widest uppercase">Trip Active • On Route</span>
+</div>
+<div class="px-2.5 py-1 rounded-full bg-primary-container text-on-surface text-[11px] font-label-mono font-semibold tracking-wider uppercase">
+        Uber Black
+      </div>
+</div>
+<div class="relative w-full rounded-2xl overflow-hidden shadow-md bg-surface-container">
+<div class="w-full h-44 bg-cover bg-center" data-location="Indiranagar 100ft Rd to Kempegowda Intl Airport Terminal 2 Bangalore" style=""></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/40 to-transparent"></div>
+<div class="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-text-primary" style="font-variation-settings: 'FILL' 1;">near_me</span>
+<span class="font-label-mono text-label-mono text-text-primary">ETA 28 MINS</span>
+</div>
+<span class="font-label-mono text-[11px] text-text-secondary">34.8 KM REMAINING</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="flex flex-col items-center pt-1">
+<div class="w-2.5 h-2.5 rounded-full bg-text-primary"></div>
+<div class="w-[2px] h-10 bg-surface-variant my-1"></div>
+<div class="w-2.5 h-2.5 rounded-sm bg-text-secondary"></div>
+</div>
+<div class="flex-1 flex flex-col gap-space-md min-w-0">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Pickup Location</span>
+<p class="font-headline-sm text-headline-sm text-text-primary truncate">Indiranagar 100ft Rd</p>
+<p class="font-body-sm text-body-sm text-text-secondary truncate">12th Main, Flagship Store, Bengaluru</p>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Destination</span>
+<p class="font-headline-sm text-headline-sm text-text-primary truncate">Kempegowda Intl Airport</p>
+<p class="font-body-sm text-body-sm text-text-secondary truncate">Terminal 2, Departures Kerbside, Bengaluru</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-space-md rounded-xl flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-text-primary text-[22px]">directions_car</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary truncate">Mercedes-Benz E-Class</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">Black Obsidian Metallic</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest px-3 py-1.5 rounded-lg shrink-0">
+<span class="font-code-mono text-code-mono text-text-primary font-bold tracking-widest">KA 01 MJ 7720</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-space-md shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="relative w-12 h-12 rounded-full overflow-hidden bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Chauffeur headshot portrait in sharp black suit and crisp white collar with clean studio lighting, dark modern aesthetic, friendly professional expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEY8_JW6_A9eY3knMY-e33eYKocvSHp2-P4wjw1yABBAQwaYKIH4MOihNPjnnB2Sz87X3h1kslyj3dod78VQQJrGeAIlweZXxZpAAZMDq2LHpMxymLvADjvNu5lDe5j861_xEXFwbH_AYcX18L-_S-N__LmAAu6WTMsH1_NQOQhAm40hlCaFjBzbmdcjAKfNoQJWswNQijIAZPFu7KztT7R2vdxrPcjVuc4lxwCYd-lx-aRq0i4pA"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Chauffeur</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">Vikram S.</span>
+<div class="flex items-center gap-1 text-[13px] text-text-secondary font-label-mono">
+<span class="material-symbols-outlined text-[14px] text-text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-text-primary">4.96</span>
+<span>• 6,240+ trips</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Call Chauffeur" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</button>
+<button aria-label="Message Chauffeur" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container-highest/60 rounded-xl p-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Start Ride PIN</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Provide this code to driver at vehicle</span>
+</div>
+<div class="bg-surface-container-lowest px-4 py-2 rounded-lg tracking-widest font-code-mono text-[20px] font-bold text-text-primary">
+          7294
+        </div>
+</div>
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center gap-2 text-text-primary">
+<span class="material-symbols-outlined text-[18px]">contactless</span>
+<span class="font-label-mono text-label-mono font-semibold uppercase">Apple VAS 2.0 Encrypted Cab Verification</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+          VAS token active. Hold your device near the dashboard mount cradle to automatically broadcast ride credentials and confirm manifest.
+        </p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex justify-between items-baseline">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Estimated Total</span>
+<span class="font-headline-md text-headline-md text-text-primary">₹1,850.00</span>
+</div>
+<div class="flex justify-between items-center text-text-secondary font-body-sm text-body-sm">
+<span>Tolls, Taxes &amp; Peak Access</span>
+<span class="font-label-mono text-text-primary">Included</span>
+</div>
+<div class="flex justify-between items-center text-text-secondary font-body-sm text-body-sm pt-2">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">credit_card</span>
+<span>Corporate Card</span>
+</span>
+<span class="font-label-mono text-text-primary">•••• 4092</span>
+</div>
+<div class="flex justify-between items-center text-text-secondary font-body-sm text-body-sm pt-1">
+<span>Trip Reference</span>
+<span class="font-label-mono text-label-mono text-text-secondary">UBER-TRIP-9842-7720</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl overflow-hidden shadow-sm">
+<div class="p-space-md flex items-center justify-between">
+<div class="flex flex-col pr-4 min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary">Live Activity &amp; Dynamic Island</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Real-time driver route &amp; pickup alerts on Lock Screen</span>
+</div>
+<button aria-checked="true" class="w-12 h-7 bg-primary rounded-full relative transition-colors cursor-pointer shrink-0" id="toggle-live-activity" role="switch" type="button">
+<span class="absolute right-1 top-1 w-5 h-5 rounded-full bg-surface transition-transform" id="knob-live-activity"></span>
+</button>
+</div>
+<div class="h-[1px] bg-surface-container"></div>
+<div class="p-space-md flex items-center justify-between">
+<div class="flex flex-col pr-4 min-w-0">
+<span class="font-headline-sm text-headline-sm text-text-primary">Geofence Location Alert</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Present pass automatically at pickup point</span>
+</div>
+<button aria-checked="true" class="w-12 h-7 bg-primary rounded-full relative transition-colors cursor-pointer shrink-0" id="toggle-geofence" role="switch" type="button">
+<span class="absolute right-1 top-1 w-5 h-5 rounded-full bg-surface transition-transform" id="knob-geofence"></span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<button class="w-full bg-surface-container-low hover:bg-surface-container-high transition-colors p-space-md rounded-2xl flex items-center justify-between text-left" type="button">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[18px]">security</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Safety Toolkit • SOS</span>
+<span class="font-body-sm text-body-sm text-text-secondary">24/7 dedicated response &amp; authorities</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">chevron_right</span>
+</button>
+<button class="w-full bg-surface-container-low hover:bg-surface-container-high transition-colors p-space-md rounded-2xl flex items-center justify-between text-left" type="button">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Share Trip Status</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Send live telemetry to emergency contacts</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">chevron_right</span>
+</button>
+<button class="w-full bg-surface-container-low hover:bg-surface-container-high transition-colors p-space-md rounded-2xl flex items-center justify-between text-left" type="button">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary">Apple Wallet Archive</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Export cryptographic pass bundle</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">download</span>
+</button>
+</div>
+<div class="pt-2">
+<button class="w-full py-4 rounded-2xl bg-error-container/40 hover:bg-error-container/60 transition-colors flex items-center justify-center gap-2 text-error" type="button">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+<span class="font-headline-sm text-headline-sm font-semibold">Cancel Trip / Remove Pass</span>
+</button>
+</div>
+<div class="flex flex-col items-center justify-center gap-1.5 py-4 text-center">
+<div class="flex items-center gap-1.5 text-text-secondary font-label-mono text-[11px]">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>SERIAL: UBER-VAS-9842-7720</span>
+</div>
+<p class="font-label-mono text-[10px] text-text-secondary/70">
+        SHA-256 rotating payload valid for 60s • Signed by Uber Technologies PKPass CA
+      </p>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const bindToggle = (buttonId, knobId) => {
+      const btn = document.getElementById(buttonId);
+      const knob = document.getElementById(knobId);
+      if (!btn || !knob) return;
+      btn.addEventListener('click', () => {
+        const isChecked = btn.getAttribute('aria-checked') === 'true';
+        const nextState = !isChecked;
+        btn.setAttribute('aria-checked', String(nextState));
+        if (nextState) {
+          btn.classList.remove('bg-surface-container-highest');
+          btn.classList.add('bg-primary');
+          knob.classList.remove('left-1');
+          knob.classList.add('right-1');
+        } else {
+          btn.classList.remove('bg-primary');
+          btn.classList.add('bg-surface-container-highest');
+          knob.classList.remove('right-1');
+          knob.classList.add('left-1');
+        }
+      });
+    };
+    bindToggle('toggle-live-activity', 'knob-live-activity');
+    bindToggle('toggle-geofence', 'knob-geofence');
+  })();
+</script></main></body></html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>UberCard • Trip Pass Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "text-primary": "#F5F5F7",
+            "surface": "#141313",
+            "on-primary-fixed": "#1c1b1d",
+            "primary-fixed": "#e5e1e4",
+            "on-primary-container": "#7a797b",
+            "on-surface": "#e5e2e1",
+            "surface-bright": "#3a3939",
+            "secondary": "#c7c5d0",
+            "outline": "#919095",
+            "secondary-fixed-dim": "#c7c5d0",
+            "on-secondary-fixed-variant": "#46464f",
+            "inverse-on-surface": "#313030",
+            "on-tertiary": "#33302c",
+            "on-secondary-fixed": "#1b1b23",
+            "on-error": "#690005",
+            "surface-container": "#201f1f",
+            "on-secondary": "#303038",
+            "secondary-container": "#46464f",
+            "surface-container-lowest": "#0e0e0e",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "primary-container": "#0a0a0c",
+            "outline-variant": "#47464a",
+            "primary": "#c8c6c8",
+            "on-error-container": "#ffdad6",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "tertiary-fixed": "#e8e1db",
+            "tertiary-container": "#0c0a07",
+            "primary-fixed-dim": "#c8c6c8",
+            "inverse-primary": "#5f5e60",
+            "on-primary": "#313032",
+            "on-tertiary-container": "#7d7973",
+            "surface-container-high": "#2b2a2a",
+            "error-container": "#93000a",
+            "mesh-violet": "#1f1035",
+            "on-background": "#e5e2e1",
+            "error": "#ffb4ab",
+            "on-surface-variant": "#c8c5ca",
+            "tertiary": "#ccc5bf",
+            "surface-dim": "#141313",
+            "surface-container-low": "#1c1b1b",
+            "on-secondary-container": "#b6b4bf",
+            "secondary-fixed": "#e4e1ec",
+            "text-secondary": "#8E8E93",
+            "background": "#141313",
+            "inverse-surface": "#e5e2e1",
+            "surface-container-highest": "#353434",
+            "mesh-teal": "#0c2329",
+            "surface-tint": "#c8c6c8",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "on-tertiary-fixed": "#1e1b17",
+            "mesh-base": "#070709",
+            "on-primary-fixed-variant": "#474649",
+            "surface-variant": "#353434",
+            "glass-border": "rgba(255, 255, 255, 0.12)"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "16px",
+            "space-xl": "32px",
+            "space-xs": "4px",
+            "space-sm": "8px",
+            "margin": "20px",
+            "gutter": "16px",
+            "space-lg": "24px"
+          },
+          "fontFamily": {
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "headline-sm": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-mono": ["JetBrains Mono"],
+            "code-mono": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-sm": ["17px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "code-mono": ["15px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Subtle mesh ambient backdrop */
+    .ambient-bg {
+      background: radial-gradient(circle at 50% 0%, #1f1035 0%, #070709 70%, #0a0a0c 100%);
+    }
+    /* Notched ticket top lanyard cutout */
+    .lanyard-cutout {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 18px;
+      background-color: #0a0a0c;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      z-index: 20;
+    }
+    /* Ticket notch puncture loop */
+    .lanyard-cutout::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary-container text-text-primary min-h-screen ambient-bg flex flex-col items-center justify-start p-4 sm:p-6 font-body-md selection:bg-surface-bright selection:text-text-primary relative overflow-x-hidden">
+<!-- Mobile Viewport Container: 430px PassKit Canvas Frame -->
+<div class="w-full max-w-[420px] flex flex-col relative pb-10">
+<!-- Top Navigation Bar: Close, PassKit Pill, More Options -->
+<header class="w-full flex items-center justify-between pt-2 pb-4 px-1 z-30">
+<button aria-label="Close pass view" class="w-10 h-10 rounded-DEFAULT bg-glass-surface border border-glass-border flex items-center justify-center text-text-primary hover:bg-surface-container-high transition-all active:scale-95 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-DEFAULT bg-surface-container-high/80 border border-glass-border backdrop-blur-xl">
+<span class="material-symbols-outlined text-text-secondary text-[16px]">contactless</span>
+<span class="font-label-mono text-label-mono text-text-secondary font-medium tracking-wide">PASSKIT • APPLE VAS READY</span>
+</div>
+<button aria-label="More options" class="w-10 h-10 rounded-DEFAULT bg-glass-surface border border-glass-border flex items-center justify-center text-text-primary hover:bg-surface-container-high transition-all active:scale-95 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</header>
+<!-- Main Pass Container: EventTicketShell -->
+<main class="w-full relative bg-surface-container-low/90 backdrop-blur-2xl border border-glass-border rounded-DEFAULT shadow-2xl shadow-black/80 overflow-hidden flex flex-col transition-all">
+<!-- Top Center Lanyard Hole Notch -->
+<div aria-hidden="true" class="lanyard-cutout"></div>
+<!-- Pass Top Header Band -->
+<div class="px-5 pt-7 pb-4 bg-gradient-to-b from-surface-container-high/50 to-transparent border-b border-glass-border relative">
+<div class="flex items-center justify-between">
+<!-- Uber Brand & Tier Badge -->
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold tracking-tighter text-text-primary">Uber</span>
+<span class="px-2 py-0.5 rounded-DEFAULT bg-surface-container-highest border border-glass-border font-label-mono text-[10px] text-text-primary font-semibold tracking-wider">BLACK</span>
+</div>
+<!-- Trip Pass Status & Driver En Route Pill -->
+<div class="flex flex-col items-end gap-1">
+<span class="font-label-mono text-[11px] text-text-secondary tracking-wider">TRIP PASS • CONFIRMED</span>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-DEFAULT bg-surface-container-highest/90 border border-glass-border">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-DEFAULT bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-DEFAULT h-2 w-2 bg-text-primary"></span>
+</span>
+<span class="font-label-mono text-label-mono text-text-primary font-medium tracking-tight">DRIVER EN ROUTE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Hero Vehicle Banner Section -->
+<div class="px-5 py-4 border-b border-glass-border bg-glass-surface/30 flex items-center justify-between">
+<div class="flex items-center gap-3.5">
+<!-- Frosted Glass Vehicle Icon Container (Rounded Rectangle, not pill) -->
+<div class="w-14 h-14 rounded-DEFAULT bg-surface-container-high/70 border border-glass-border flex items-center justify-center text-text-primary backdrop-blur-md shadow-inner">
+<span class="material-symbols-outlined text-[30px]" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary">EXECUTIVE VEHICLE</span>
+<h2 class="font-headline-sm text-headline-sm text-text-primary tracking-tight">Mercedes-Benz E-Class</h2>
+<div class="flex items-center gap-2 mt-0.5">
+<span class="font-body-sm text-body-sm text-text-secondary">Black Obsidian Metallic</span>
+</div>
+</div>
+</div>
+<!-- License Plate Badge -->
+<div class="px-2.5 py-1.5 rounded-DEFAULT bg-surface-container-lowest border border-glass-border text-center shadow-sm">
+<span class="font-label-mono text-[10px] text-text-secondary block leading-none mb-0.5">IND</span>
+<span class="font-code-mono text-code-mono text-text-primary tracking-widest font-bold">KA 01 MJ 7720</span>
+</div>
+</div>
+<!-- Grid Data Blocks (FieldBlocks) -->
+<div class="px-5 py-4 divide-y divide-glass-border/60">
+<!-- Pickup & Destination Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4">
+<!-- Pickup Point -->
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="material-symbols-outlined text-text-secondary text-[14px]">trip_origin</span>
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Pickup Point</span>
+</div>
+<div class="font-body-md text-body-md font-semibold text-text-primary">Indiranagar 100ft Rd</div>
+<div class="font-body-sm text-body-sm text-text-secondary truncate">12th Main, Flagship Store</div>
+</div>
+<!-- Drop Location -->
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="material-symbols-outlined text-text-secondary text-[14px]">location_on</span>
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Drop Location</span>
+</div>
+<div class="font-body-md text-body-md font-semibold text-text-primary">Kempegowda Intl Airport</div>
+<div class="font-body-sm text-body-sm text-text-secondary truncate">Terminal 2, Departures</div>
+</div>
+</div>
+<!-- Driver & OTP / PIN Row -->
+<div class="grid grid-cols-12 gap-3 pt-4 items-center">
+<!-- Driver Info (7 Cols) -->
+<div class="col-span-7 flex items-center gap-3">
+<div class="w-12 h-12 rounded-DEFAULT overflow-hidden border border-glass-border bg-surface-container-high shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A distinguished Indian chauffeur in a tailored crisp suit and formal collar, professional headshot with subtle cinematic rim lighting in a luxury dark vehicle interior, photorealistic style, sharp focus, refined palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxjj8IjNcuShJpboZmLSadwi9TmUfeck09lZNOFiHUaI05zZci49dh7a8I_Q9rHv0sbng0mFfd4fdLt8gIlBHe6kRCjkmMWxs-kysIUj8EZ9fzUWXieRwG5WwanBKb0IFcE3P_NCw_J59DnA9aVBAJtjf9EnJ5XlIKiMJrDJwukSaM15yj88LA-_v8RTZ4cXEyxjCf-vUid7ggfZnLquSonqeW24UgkYR0vaS_1WMNq_i14Kz3tgpAoTngMV54Dr7sgl4Yt9U8ag">
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-mono text-[11px] text-text-secondary uppercase">Your Captain</span>
+<div class="font-headline-sm text-headline-sm text-text-primary truncate">Vikram S.</div>
+<div class="flex items-center gap-1 text-text-secondary font-label-mono text-[11px]">
+<span class="text-text-primary font-semibold">★ 4.96</span>
+<span>• 6,240+ trips</span>
+</div>
+</div>
+</div>
+<!-- Start Ride OTP (5 Cols) -->
+<div class="col-span-5 bg-surface-container-high/60 border border-glass-border rounded-DEFAULT p-2.5 flex flex-col items-center justify-center text-center">
+<span class="font-label-mono text-[10px] text-text-secondary uppercase tracking-wider">Start Ride PIN</span>
+<div class="font-code-mono text-[22px] font-bold text-text-primary tracking-widest my-0.5">7294</div>
+<span class="font-label-mono text-[9px] text-text-secondary">Share with driver only</span>
+</div>
+</div>
+</div>
+<!-- Apple VAS / NFC Reader Interactive Verification Banner -->
+<div class="mx-5 my-2 p-3 rounded-DEFAULT bg-surface-container-high/50 border border-glass-border flex items-center justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-DEFAULT bg-surface-container-highest border border-glass-border flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[18px]">sensors</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-[11px] text-text-primary font-medium">Hold Near Driver's Phone</span>
+<span class="font-label-mono text-[10px] text-text-secondary">Apple VAS 2.0 Encrypted Cab Verification</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-secondary text-[18px]">arrow_forward</span>
+</div>
+<!-- Ticket Perforation Barcode Stub / QR Code Section -->
+<div class="relative px-5 pt-5 pb-6 bg-surface-container-lowest/80 border-t border-glass-border flex flex-col items-center justify-center">
+<!-- Scannable Matrix / Simulated Hi-Res QR Code -->
+<div class="p-3 bg-text-primary rounded-DEFAULT shadow-lg flex items-center justify-center">
+<!-- Precision SVG QR Code Representation -->
+<svg class="w-36 h-36 text-surface-container-lowest" fill="currentColor" viewBox="0 0 100 100">
+<!-- Corner Finder 1 -->
+<rect fill="currentColor" height="26" rx="3" width="26" x="5" y="5"></rect>
+<rect fill="#F5F5F7" height="18" rx="2" width="18" x="9" y="9"></rect>
+<rect fill="currentColor" height="10" width="10" x="13" y="13"></rect>
+<!-- Corner Finder 2 -->
+<rect fill="currentColor" height="26" rx="3" width="26" x="69" y="5"></rect>
+<rect fill="#F5F5F7" height="18" rx="2" width="18" x="73" y="9"></rect>
+<rect fill="currentColor" height="10" width="10" x="77" y="13"></rect>
+<!-- Corner Finder 3 -->
+<rect fill="currentColor" height="26" rx="3" width="26" x="5" y="69"></rect>
+<rect fill="#F5F5F7" height="18" rx="2" width="18" x="9" y="73"></rect>
+<rect fill="currentColor" height="10" width="10" x="13" y="77"></rect>
+<!-- Timing and Alignment Patterns -->
+<rect height="5" width="5" x="35" y="10"></rect>
+<rect height="5" width="5" x="45" y="10"></rect>
+<rect height="5" width="5" x="55" y="10"></rect>
+<rect height="5" width="5" x="10" y="35"></rect>
+<rect height="5" width="5" x="10" y="45"></rect>
+<rect height="5" width="5" x="10" y="55"></rect>
+<!-- Center Alignment Mark -->
+<rect fill="currentColor" height="20" rx="2" width="20" x="40" y="40"></rect>
+<rect fill="#F5F5F7" height="12" width="12" x="44" y="44"></rect>
+<rect fill="currentColor" height="4" width="4" x="48" y="48"></rect>
+<!-- Data Grid Cells -->
+<rect height="5" width="5" x="35" y="25"></rect>
+<rect height="5" width="5" x="45" y="25"></rect>
+<rect height="5" width="5" x="60" y="25"></rect>
+<rect height="5" width="5" x="25" y="35"></rect>
+<rect height="5" width="5" x="65" y="35"></rect>
+<rect height="5" width="5" x="25" y="45"></rect>
+<rect height="5" width="5" x="65" y="45"></rect>
+<rect height="5" width="5" x="25" y="55"></rect>
+<rect height="5" width="5" x="65" y="55"></rect>
+<rect height="5" width="5" x="35" y="70"></rect>
+<rect height="5" width="5" x="45" y="70"></rect>
+<rect height="5" width="5" x="65" y="70"></rect>
+<rect height="5" width="5" x="35" y="85"></rect>
+<rect height="5" width="5" x="50" y="85"></rect>
+<rect height="5" width="5" x="65" y="85"></rect>
+<rect height="5" width="5" x="80" y="45"></rect>
+<rect height="5" width="5" x="80" y="55"></rect>
+<rect height="5" width="5" x="80" y="65"></rect>
+<rect height="5" width="5" x="80" y="80"></rect>
+</svg>
+</div>
+<!-- Token String -->
+<span class="font-code-mono text-label-mono text-text-secondary mt-3 tracking-wider">UBER-TRIP-9842-7720</span>
+<span class="font-label-mono text-[10px] text-outline mt-0.5">ENCRYPTED VAS TOKEN • ROTATES EVERY 60S</span>
+<!-- CRITICAL REQUIREMENT: Circular (i) info button at the BOTTOM RIGHT corner of pass -->
+<button aria-label="Pass information details" class="absolute bottom-4 right-4 w-7 h-7 rounded-full bg-surface-container-highest border border-glass-border flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface-bright transition-all shadow-md active:scale-90" type="button">
+<span class="material-symbols-outlined text-[16px]">info</span>
+</button>
+</div>
+</main>
+<!-- Post-Pass External Actions -->
+<section class="w-full mt-4 flex flex-col gap-2.5">
+<!-- Primary Apple Wallet Button (Strictly Rounded-DEFAULT 16px corner radius, NOT rounded-full) -->
+<button class="w-full h-12 bg-text-primary text-surface-container-lowest font-headline-sm text-headline-sm font-semibold rounded-DEFAULT flex items-center justify-center gap-2 hover:bg-white active:scale-[0.98] transition-all shadow-xl shadow-black/50" type="button">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 170 170">
+<path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.85-11.93-14.42-6-9.13-10.74-19.14-14.23-30.04-3.48-10.9-5.23-21.41-5.23-31.54 0-14.45 3.69-26.47 11.08-36.05 7.39-9.57 16.5-14.42 27.34-14.54 4.8 0 10.12 1.34 15.98 4.04 5.86 2.69 9.5 4.09 10.92 4.18 1.83-.22 5.76-1.68 11.78-4.39 6.03-2.7 11.22-3.95 15.58-3.76 12.18.66 21.84 4.88 28.98 12.67-10.66 6.44-15.89 15.42-15.69 26.96.22 9.04 3.73 16.63 10.53 22.78 6.79 6.15 14.86 9.69 24.2 10.62-1.96 5.88-4.46 11.85-7.51 17.92zM119.22 31.81c0-7.07 2.58-13.78 7.74-20.13 5.16-6.35 11.53-10.56 19.12-12.62.87 6.64-.87 13.23-5.22 19.78-4.35 6.55-10.33 10.87-17.95 12.97-.66-0-.99 0-.99 0-.44-0-.98-.44-2.7-0z"></path>
+</svg>
+<span>Add to Apple Wallet</span>
+</button>
+<!-- Secondary Row Actions: Track Live Ride & Contact Driver -->
+<div class="grid grid-cols-2 gap-2.5">
+<button class="h-11 bg-surface-container-high/80 border border-glass-border text-text-primary font-body-md text-body-md font-medium rounded-DEFAULT flex items-center justify-center gap-2 hover:bg-surface-bright active:scale-98 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">navigation</span>
+<span>Track Live Ride</span>
+</button>
+<button class="h-11 bg-surface-container-high/80 border border-glass-border text-text-primary font-body-md text-body-md font-medium rounded-DEFAULT flex items-center justify-center gap-2 hover:bg-surface-bright active:scale-98 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Contact Driver</span>
+</button>
+</div>
+<!-- Trust & Safety Footer Note -->
+<div class="flex items-center justify-center gap-1.5 py-2 text-text-secondary">
+<span class="material-symbols-outlined text-text-secondary text-[14px]">verified_user</span>
+<span class="font-label-mono text-[11px] tracking-wide">24/7 Uber Safety Concierge &amp; Emergency SOS</span>
+</div>
+</section>
+</div>
+</body></html>

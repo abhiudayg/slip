@@ -1,0 +1,220 @@
+<!DOCTYPE html><html class="h-full bg-black text-white antialiased" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>Slip Wallet - Live Scanner View</title>
+<!-- Tailwind CSS CDN with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Inter', 'sans-serif'],
+            mono: ['"SF Mono"', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+          },
+          colors: {
+            brand: {
+              emerald: '#10B981',
+              cyan: '#06B6D4',
+              glow: '#34D399',
+            },
+          },
+          animation: {
+            'laser-sweep': 'sweep 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+            'pulse-subtle': 'pulseSubtle 2.2s ease-in-out infinite',
+          },
+          keyframes: {
+            sweep: {
+              '0%, 100%': { transform: 'translateY(0%)', opacity: '0.2' },
+              '50%': { transform: 'translateY(190px)', opacity: '0.9' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '1' },
+              '50%': { opacity: '0.45' },
+            },
+          },
+          borderRadius: {
+            'ios-card': '16px',
+            'ios-btn': '16px',
+          }
+        }
+      }
+    };
+  </script>
+<!-- BEGIN: Custom Viewfinder Styles -->
+<style data-purpose="viewfinder-cosmetics">
+    /* High precision laser beam scanning line */
+    .laser-line {
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0) 0%, rgba(16, 185, 129, 0.95) 50%, rgba(16, 185, 129, 0) 100%);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.8), 0 0 24px rgba(6, 182, 212, 0.5);
+    }
+    
+    /* Radial vignette to frame camera depth */
+    .camera-vignette {
+      background: radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.72) 80%, rgba(0, 0, 0, 0.96) 100%);
+    }
+
+    /* Precision corner cuts for rounded viewfinder */
+    .focus-bracket {
+      width: 22px;
+      height: 22px;
+      position: absolute;
+      border-color: #34D399;
+      filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.7));
+    }
+  </style>
+<!-- END: Custom Viewfinder Styles -->
+</head>
+<body class="h-full w-full overflow-hidden bg-black select-none font-sans flex flex-col justify-between relative">
+<!-- BEGIN: Camera Background Simulation -->
+<div class="absolute inset-0 z-0 overflow-hidden" data-purpose="camera-stream-simulator">
+<!-- Camera perspective photo asset from DataStore -->
+<img alt="Camera viewfinder stream of printed boarding pass and event ticket" class="w-full h-full object-cover object-center scale-[1.03] filter brightness-[0.82] contrast-[1.08]" src="https://lh3.googleusercontent.com/aida/AEtjO1WNtCe_dSS-SkkeS-PUEydmCOOrIYNJlOmGXbsNiZXwZ54-UighiAiN4vnKp9gOGZc6ahv4NlluEf74AlDGEOrCq8GLi3WKVTwGVxTg5WF8k_UzLnVwF5asjyZUTGee3urMN8ZVSTRurHgc7EF7BhLGRVBpz1NzuKN64EdF0QHK24IN3Jo9eUI1xlSjAab3njJEfdSF0HRJiN1LOQb7e3gOvFognIooMK7hsLlrYyBqSjLtmn4-yQto">
+<!-- Atmospheric dark tinted overlay & camera vignette -->
+<div class="absolute inset-0 camera-vignette pointer-events-none"></div>
+<div class="absolute inset-0 bg-black/35 pointer-events-none"></div>
+</div>
+<!-- END: Camera Background Simulation -->
+<!-- BEGIN: Top Area & HUD Navigation -->
+<header class="relative z-20 flex flex-col w-full pt-safe" data-purpose="top-navigation-hud">
+<!-- iOS Standard Status Bar -->
+<div class="w-full px-7 pt-3.5 pb-2 flex justify-between items-center text-xs tracking-tight text-white font-medium" data-purpose="ios-status-bar">
+<span>9:41</span>
+<!-- Dynamic Island / Top notch gap simulation -->
+<div class="w-28 h-4 rounded-xl bg-transparent"></div>
+<div class="flex items-center space-x-1.5">
+<!-- Cellular Bars -->
+<svg class="w-4 h-3.5 fill-current" viewBox="0 0 18 12">
+<rect height="4" rx="0.5" width="3" x="0" y="8"></rect>
+<rect height="6" rx="0.5" width="3" x="4" y="6"></rect>
+<rect height="9" rx="0.5" width="3" x="8" y="3"></rect>
+<rect height="12" rx="0.5" width="3" x="12" y="0"></rect>
+</svg>
+<!-- Wi-Fi -->
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 16 12">
+<path d="M8 2.5C4.7 2.5 1.8 3.9 0 6.2L1.8 8C3.2 6.3 5.4 5.2 8 5.2C10.6 5.2 12.8 6.3 14.2 8L16 6.2C14.2 3.9 11.3 2.5 8 2.5ZM8 7C6.3 7 4.8 7.8 3.8 9.1L8 13.5L12.2 9.1C11.2 7.8 9.7 7 8 7Z"></path>
+</svg>
+<!-- Battery with fill -->
+<div class="flex items-center">
+<div class="w-5 h-2.5 border border-white/70 rounded-[4px] p-0.5 flex items-center">
+<div class="h-full w-3.5 bg-white rounded-[1.5px]"></div>
+</div>
+<div class="w-0.5 h-1 bg-white/70 rounded-r-sm"></div>
+</div>
+</div>
+</div>
+<!-- Top Navigation Controls -->
+<div class="w-full px-5 py-3 flex items-center justify-between" data-purpose="scanner-header-controls">
+<!-- Close / Back Button -->
+<button aria-label="Close Scanner" class="w-11 h-11 rounded-2xl bg-neutral-900/60 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white/90 active:scale-95 transition-all shadow-lg active:bg-neutral-800/80" type="button">
+<svg class="w-5 h-5 stroke-current stroke-[2.2]" fill="none" viewBox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Center Status Badge (Strict 16px rounded-2xl geometry) -->
+<div class="px-4 py-2 rounded-2xl bg-neutral-900/70 backdrop-blur-xl border border-white/10 flex items-center space-x-2.5 shadow-xl shadow-black/40">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+</span>
+<span class="text-[12px] font-semibold tracking-wider uppercase text-neutral-200">Scanning Pass / Ticket</span>
+</div>
+<!-- Flashlight / Torch Toggle -->
+<button aria-label="Toggle Flashlight" class="w-11 h-11 rounded-2xl bg-neutral-900/60 backdrop-blur-xl border border-white/10 flex items-center justify-center text-amber-300 active:scale-95 transition-all shadow-lg active:bg-neutral-800/80" type="button">
+<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+<path d="M13 2L4.5 13.5H11L9.5 22L20 9.5H13.5L15 2H13Z"></path>
+</svg>
+</button>
+</div>
+</header>
+<!-- END: Top Area & HUD Navigation -->
+<!-- BEGIN: Central Viewfinder Cutout & OCR Engine Overlay -->
+<main class="relative z-10 flex-1 flex flex-col items-center justify-center px-6" data-purpose="optical-target-hud">
+<!-- Camera Optical Telemetry Specs -->
+<div class="mb-3.5 flex items-center space-x-3 text-[11px] font-mono tracking-widest text-emerald-400/90 uppercase drop-shadow-md">
+<span class="inline-flex items-center space-x-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>PASSKIT AI OCR v4.2</span>
+</span>
+<span class="text-white/30">•</span>
+<span class="text-neutral-300">AUTO-ALIGN ACTIVE</span>
+</div>
+<!-- Central Scanner Frame (Strict 16px Rounded Rectangle) -->
+<div class="relative w-full max-w-[325px] h-[220px] rounded-2xl border-2 border-white/25 overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.7)] backdrop-brightness-110" data-purpose="viewfinder-bounding-box">
+<!-- Corner Focus Brackets (Slightly Rounded 16px corners) -->
+<!-- Top Left -->
+<div class="focus-bracket top-0 left-0 border-t-[3.5px] border-l-[3.5px] rounded-tl-2xl"></div>
+<!-- Top Right -->
+<div class="focus-bracket top-0 right-0 border-t-[3.5px] border-r-[3.5px] rounded-tr-2xl"></div>
+<!-- Bottom Left -->
+<div class="focus-bracket bottom-0 left-0 border-b-[3.5px] border-l-[3.5px] rounded-bl-2xl"></div>
+<!-- Bottom Right -->
+<div class="focus-bracket bottom-0 right-0 border-b-[3.5px] border-r-[3.5px] rounded-br-2xl"></div>
+<!-- Center Crosshair / Alignment Reticle -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+<div class="w-8 h-[1px] bg-emerald-400"></div>
+<div class="h-8 w-[1px] bg-emerald-400 absolute"></div>
+</div>
+<!-- Scanning Sweep Laser Beam -->
+<div class="absolute inset-x-0 top-0 h-[2.5px] laser-line animate-laser-sweep pointer-events-none"></div>
+<!-- Subtle Viewfinder Internal Grid Overlay -->
+<div class="absolute inset-0 bg-[linear-gradient(to_right,#10b98108_1px,transparent_1px),linear-gradient(to_bottom,#10b98108_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+<!-- Pass Type Live Detection Badge -->
+<div class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center space-x-1.5">
+<svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-mono font-medium text-neutral-300 tracking-wider uppercase">BCBP / AZTEC / QR DETECTED</span>
+</div>
+</div>
+<!-- Directional Subtitle Guidance -->
+<p class="mt-4 text-center text-xs tracking-wide text-neutral-300/90 font-medium drop-shadow-md">
+      Align boarding pass barcode or concert ticket QR
+    </p>
+</main>
+<!-- END: Central Viewfinder Cutout & OCR Engine Overlay -->
+<!-- BEGIN: Bottom Controls & Action Bar -->
+<footer class="relative z-20 w-full px-5 pb-8 pt-4 flex flex-col items-center bg-gradient-to-t from-black via-black/85 to-transparent backdrop-blur-md" data-purpose="scanner-footer-controls">
+<!-- Information Cue -->
+<div class="w-full flex items-center justify-center space-x-1.5 mb-3.5">
+<svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<span class="text-xs text-neutral-400 font-medium">Automatic capture when ticket is steady</span>
+</div>
+<!-- Primary Action: Import from PDF Button (Rounded-2xl ~16px radius) -->
+<button class="w-full h-14 rounded-2xl bg-white text-neutral-950 font-semibold text-base flex items-center justify-center space-x-3 shadow-xl shadow-white/10 active:scale-[0.985] active:bg-neutral-200 transition-all mb-3" data-purpose="import-pdf-button" type="button">
+<!-- Document / PDF Icon -->
+<svg class="w-5 h-5 text-neutral-900 fill-none stroke-current stroke-[2.2]" viewBox="0 0 24 24">
+<path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M12 3v6a1 1 0 001 1h6" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M9 13h6m-6 4h4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Import from PDF</span>
+</button>
+<!-- Secondary Action Grid (Strictly 16px Rounded Rectangles) -->
+<div class="w-full grid grid-cols-2 gap-3" data-purpose="secondary-actions-bar">
+<!-- Photos / Gallery Picker Button -->
+<button class="h-13 py-3.5 px-4 rounded-2xl bg-neutral-900/80 backdrop-blur-xl border border-white/10 flex items-center justify-center space-x-2 text-neutral-200 active:bg-neutral-800 transition-all active:scale-[0.98]" data-purpose="gallery-picker" type="button">
+<svg class="w-5 h-5 text-neutral-300 stroke-[1.9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<rect height="18" rx="4" stroke-linecap="round" stroke-linejoin="round" width="18" x="3" y="3"></rect>
+<circle cx="8.5" cy="8.5" fill="currentColor" r="1.5"></circle>
+<path d="M21 15l-5-5L5 21" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-sm font-medium">Photos</span>
+</button>
+<!-- Cancel Button -->
+<button class="h-13 py-3.5 px-4 rounded-2xl bg-neutral-900/80 backdrop-blur-xl border border-white/10 flex items-center justify-center text-neutral-200 text-sm font-medium active:bg-neutral-800 transition-all active:scale-[0.98]" data-purpose="cancel-scan-action" type="button">
+        Cancel
+      </button>
+</div>
+<!-- Manual Entry Link -->
+<button class="mt-3.5 py-1 text-xs font-medium text-emerald-400/90 active:text-emerald-300 transition-colors" data-purpose="manual-code-entry" type="button">
+      Can't scan? Enter details manually
+    </button>
+<!-- iOS Home Indicator -->
+<div class="w-32 h-1 bg-white/45 rounded-full mt-4" data-purpose="ios-home-indicator"></div>
+</footer>
+<!-- END: Bottom Controls & Action Bar -->
+</body></html>

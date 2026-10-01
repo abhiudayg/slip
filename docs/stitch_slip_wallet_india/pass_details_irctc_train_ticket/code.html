@@ -1,0 +1,432 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Pass Details - IRCTC Rail e-Ticket | Slip</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-secondary": "#303038",
+            "on-secondary-container": "#b6b4bf",
+            "secondary-fixed": "#e4e1ec",
+            "primary-fixed-dim": "#c8c6c8",
+            "surface-container-highest": "#353434",
+            "on-primary-container": "#7a797b",
+            "surface-variant": "#353434",
+            "primary-container": "#0a0a0c",
+            "on-surface": "#e5e2e1",
+            "tertiary": "#ccc5bf",
+            "mesh-violet": "#1f1035",
+            "surface-container-high": "#2b2a2a",
+            "inverse-primary": "#5f5e60",
+            "primary-fixed": "#e5e1e4",
+            "surface-dim": "#141313",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "on-tertiary": "#33302c",
+            "mesh-base": "#070709",
+            "surface": "#141313",
+            "surface-container": "#201f1f",
+            "on-secondary-fixed": "#1b1b23",
+            "on-secondary-fixed-variant": "#46464f",
+            "text-primary": "#F5F5F7",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "primary": "#c8c6c8",
+            "on-tertiary-container": "#7d7973",
+            "outline": "#919095",
+            "on-primary-fixed": "#1c1b1d",
+            "text-secondary": "#8E8E93",
+            "mesh-teal": "#0c2329",
+            "outline-variant": "#47464a",
+            "tertiary-fixed": "#e8e1db",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "secondary-fixed-dim": "#c7c5d0",
+            "on-error-container": "#ffdad6",
+            "surface-container-lowest": "#0e0e0e",
+            "surface-bright": "#3a3939",
+            "on-error": "#690005",
+            "glass-border": "rgba(255, 255, 255, 0.12)",
+            "on-primary-fixed-variant": "#474649",
+            "background": "#141313",
+            "inverse-surface": "#e5e2e1",
+            "on-surface-variant": "#c8c5ca",
+            "tertiary-container": "#0c0a07",
+            "secondary": "#c7c5d0",
+            "inverse-on-surface": "#313030",
+            "error": "#ffb4ab",
+            "error-container": "#93000a",
+            "surface-container-low": "#1c1b1b",
+            "on-primary": "#313032",
+            "on-tertiary-fixed": "#1e1b17",
+            "surface-tint": "#c8c6c8",
+            "secondary-container": "#46464f",
+            "on-background": "#e5e2e1"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "1rem",
+            "2xl": "1.25rem",
+            "full": "1.25rem"
+          },
+          spacing: {
+            "space-sm": "8px",
+            "margin": "20px",
+            "gutter": "16px",
+            "space-xl": "32px",
+            "space-md": "16px",
+            "space-lg": "24px",
+            "space-xs": "4px"
+          },
+          fontFamily: {
+            "code-mono": ["JetBrains Mono", "monospace"],
+            "label-mono": ["JetBrains Mono", "monospace"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "headline-xl": ["Inter", "sans-serif"],
+            "headline-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-lg": ["Inter", "sans-serif"]
+          },
+          fontSize: {
+            "code-mono": ["15px", { lineHeight: "20px", letterSpacing: "0.1em", fontWeight: "600" }],
+            "label-mono": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "500" }],
+            "headline-sm": ["17px", { lineHeight: "22px", fontWeight: "600" }],
+            "headline-xl": ["34px", { lineHeight: "41px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-md": ["22px", { lineHeight: "28px", fontWeight: "600" }],
+            "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+            "body-lg": ["17px", { lineHeight: "22px", fontWeight: "400" }],
+            "body-md": ["15px", { lineHeight: "20px", fontWeight: "400" }],
+            "headline-lg": ["28px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "600" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Subtle notch mask styling for genuine ticket aesthetics */
+    .notch-left {
+      position: absolute;
+      left: -12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0a0a0c;
+      box-shadow: inset -2px 0 3px rgba(0,0,0,0.8), 1px 0 0 rgba(255,255,255,0.12);
+      z-index: 10;
+    }
+    .notch-right {
+      position: absolute;
+      right: -12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #0a0a0c;
+      box-shadow: inset 2px 0 3px rgba(0,0,0,0.8), -1px 0 0 rgba(255,255,255,0.12);
+      z-index: 10;
+    }
+    
+    /* Barcode generation simulated pattern */
+    .barcode-lines {
+      background: repeating-linear-gradient(
+        90deg,
+        #111 0px,
+        #111 3px,
+        transparent 3px,
+        transparent 5px,
+        #111 5px,
+        #111 9px,
+        transparent 9px,
+        transparent 11px,
+        #111 11px,
+        #111 13px,
+        transparent 13px,
+        transparent 17px,
+        #111 17px,
+        #111 22px,
+        transparent 22px,
+        transparent 24px,
+        #111 24px,
+        #111 26px,
+        transparent 26px,
+        transparent 30px,
+        #111 30px,
+        #111 35px,
+        transparent 35px,
+        transparent 37px
+      );
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-primary-container text-text-primary min-h-screen antialiased selection:bg-rose-900 selection:text-white flex flex-col items-center justify-start pb-12">
+<!-- Ambient Obsidian Background Glows -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[340px] h-[340px] bg-red-950/20 rounded-full blur-[100px]"></div>
+<div class="absolute top-[420px] -right-24 w-[260px] h-[260px] bg-amber-950/15 rounded-full blur-[90px]"></div>
+<div class="absolute bottom-10 left-[-40px] w-[300px] h-[300px] bg-mesh-violet/30 rounded-full blur-[110px]"></div>
+</div>
+<!-- Mobile Container Constraint (Safe Area Wrapper) -->
+<div class="relative z-10 w-full max-w-md px-4 pt-4 sm:px-5 flex flex-col">
+<!-- Top Action Bar (Close, NFC Status Meta, Overflow) -->
+<header class="flex items-center justify-between w-full mb-4">
+<!-- Close Action -->
+<button aria-label="Close pass" class="w-10 h-10 rounded-xl bg-surface-container/70 border border-glass-border flex items-center justify-center text-text-primary backdrop-blur-xl active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+<!-- PassKit NFC Rail Meta Badge -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container-high/80 border border-glass-border backdrop-blur-xl shadow-lg shadow-black/40">
+<div class="relative flex items-center justify-center w-2 h-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400"></span>
+</div>
+<span class="font-label-mono text-label-mono tracking-wider text-text-primary uppercase text-[11px]">
+          PASSKIT • NFC RAIL READY
+        </span>
+</div>
+<!-- More / Overflow Menu -->
+<button aria-label="Pass options" class="w-10 h-10 rounded-xl bg-surface-container/70 border border-glass-border flex items-center justify-center text-text-primary backdrop-blur-xl active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_horiz">more_horiz</span>
+</button>
+</header>
+<!-- Main IRCTC Card Container (PassShell Layout) -->
+<article class="relative w-full rounded-2xl bg-[#141315]/90 border border-glass-border shadow-2xl shadow-black/80 backdrop-blur-2xl overflow-hidden flex flex-col">
+<!-- IRCTC Crimson & Amber Branding Gradient Top Ribbon -->
+<div class="h-1.5 w-full bg-gradient-to-r from-red-700 via-rose-600 to-amber-500"></div>
+<!-- Card Upper Section: Brand Header -->
+<div class="p-5 pb-4 border-b border-glass-border/40">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<!-- Crimson Red IRCTC Logo Emblem Container -->
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-red-700 to-red-900 border border-rose-400/30 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
+<span class="material-symbols-outlined text-white text-[24px]" data-icon="train">train</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-text-primary font-bold tracking-tight">IRCTC Rail</span>
+<span class="material-symbols-outlined text-amber-400 text-[18px]" data-icon="verified" data-weight="fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<span class="font-label-mono text-label-mono text-[11px] text-text-secondary tracking-wider uppercase">
+                INDIAN RAILWAYS • E-TICKET
+              </span>
+</div>
+</div>
+<!-- Status Badge -->
+<div class="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-950/50 border border-emerald-500/30">
+<span class="material-symbols-outlined text-emerald-400 text-[14px]" data-icon="check_circle">check_circle</span>
+<span class="font-label-mono text-label-mono text-[11px] text-emerald-300 font-semibold uppercase">
+              CONFIRMED • RAC 0
+            </span>
+</div>
+</div>
+</div>
+<!-- Hero Section: Train Transit Hero Banner -->
+<div class="p-5 pt-4 bg-gradient-to-b from-surface-container-high/40 to-transparent">
+<div class="flex items-center justify-between mb-3">
+<!-- Frosted Train Identifier Block -->
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-xl bg-red-900/30 border border-red-500/20 flex items-center justify-center text-rose-300">
+<span class="material-symbols-outlined text-[18px]" data-icon="electric_bolt">electric_bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary font-semibold leading-tight">12952 • Tejas Rajdhani Express</span>
+<span class="font-body-sm text-body-sm text-text-secondary text-[12px]">High Priority Superfast Special</span>
+</div>
+</div>
+<div class="px-2 py-0.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 font-label-mono text-[11px]">
+            ON TIME
+          </div>
+</div>
+<!-- Station Origin to Destination Large Typography Block -->
+<div class="flex items-center justify-between py-2">
+<!-- Origin -->
+<div class="flex flex-col text-left">
+<span class="font-headline-xl text-headline-xl text-text-primary tracking-tight font-extrabold">NDLS</span>
+<span class="font-body-sm text-body-sm text-text-secondary">New Delhi</span>
+<span class="font-label-mono text-label-mono text-rose-400 text-[11px] mt-0.5">Platform 3</span>
+</div>
+<!-- Route Transit Glyph & Duration -->
+<div class="flex flex-col items-center justify-center px-3 grow max-w-[150px]">
+<span class="font-label-mono text-label-mono text-text-secondary text-[11px] mb-1">15h 40m</span>
+<div class="w-full flex items-center justify-center relative">
+<div class="w-full h-[1.5px] bg-gradient-to-r from-red-600 via-amber-400 to-rose-500"></div>
+<div class="absolute w-2 h-2 rounded-xl bg-amber-400 shadow-sm shadow-amber-400"></div>
+</div>
+<span class="font-body-sm text-body-sm text-text-secondary text-[11px] mt-1">Non-stop Speed</span>
+</div>
+<!-- Destination -->
+<div class="flex flex-col text-right">
+<span class="font-headline-xl text-headline-xl text-text-primary tracking-tight font-extrabold">MMCT</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Mumbai Central</span>
+<span class="font-label-mono text-label-mono text-rose-400 text-[11px] mt-0.5">Platform 1</span>
+</div>
+</div>
+<!-- Time Stamps Strip -->
+<div class="flex items-center justify-between mt-3 pt-3 border-t border-glass-border/30">
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-text-secondary text-[10px] uppercase">DEPARTURE</span>
+<span class="font-code-mono text-code-mono text-text-primary font-bold">16:55 <span class="text-xs font-normal text-text-secondary">TODAY</span></span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-label-mono text-label-mono text-text-secondary text-[10px] uppercase">ARRIVAL</span>
+<span class="font-code-mono text-code-mono text-text-primary font-bold">08:35 <span class="text-xs font-normal text-text-secondary">TOMORROW</span></span>
+</div>
+</div>
+</div>
+<!-- Transit Grid FieldBlocks (Bento Layout) -->
+<div class="p-5 pt-3 grid grid-cols-2 gap-2.5 bg-surface-container-lowest/50">
+<!-- Field 1: Coach & Berth Assignment -->
+<div class="p-3 rounded-xl bg-surface-container/60 border border-glass-border flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary text-[10px] uppercase">COACH / BERTH</span>
+<span class="material-symbols-outlined text-rose-400 text-[16px]" data-icon="airline_seat_recline_extra">airline_seat_recline_extra</span>
+</div>
+<div class="mt-1">
+<span class="font-code-mono text-headline-md text-text-primary font-bold">B4 • 37</span>
+<p class="font-body-sm text-body-sm text-text-secondary text-[11px] leading-tight mt-0.5">Lower Berth • AC 3-Tier</p>
+</div>
+</div>
+<!-- Field 2: PNR Number with Tap to Copy -->
+<div class="p-3 rounded-xl bg-surface-container/60 border border-glass-border flex flex-col justify-between group cursor-pointer active:scale-98 transition-transform">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary text-[10px] uppercase">PNR NUMBER</span>
+<span class="material-symbols-outlined text-text-secondary group-hover:text-text-primary text-[15px]" data-icon="content_copy">content_copy</span>
+</div>
+<div class="mt-1">
+<span class="font-code-mono text-headline-sm text-text-primary font-bold tracking-wider">284-9182740</span>
+<p class="font-body-sm text-body-sm text-emerald-400 text-[11px] leading-tight mt-0.5">Verified PNR Valid</p>
+</div>
+</div>
+<!-- Field 3: Quota & Booking Class -->
+<div class="p-3 rounded-xl bg-surface-container/60 border border-glass-border flex flex-col justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary text-[10px] uppercase">CLASS &amp; QUOTA</span>
+<div class="mt-1">
+<span class="font-code-mono text-code-mono text-text-primary font-bold">3A (AC 3 Tier)</span>
+<p class="font-body-sm text-body-sm text-text-secondary text-[11px] leading-tight mt-0.5">General Quota (GN)</p>
+</div>
+</div>
+<!-- Field 4: Catering / Meal Choice -->
+<div class="p-3 rounded-xl bg-surface-container/60 border border-glass-border flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary text-[10px] uppercase">MEAL SERVICE</span>
+<span class="material-symbols-outlined text-amber-400 text-[16px]" data-icon="restaurant">restaurant</span>
+</div>
+<div class="mt-1">
+<span class="font-code-mono text-code-mono text-text-primary font-bold">Veg Opted</span>
+<p class="font-body-sm text-body-sm text-text-secondary text-[11px] leading-tight mt-0.5">Dinner &amp; Morning Tea</p>
+</div>
+</div>
+</div>
+<!-- Notches & Tear-off Divider Section -->
+<div class="relative w-full h-6 flex items-center justify-center my-0 bg-surface-container-lowest/50">
+<!-- Left Physical Notch -->
+<div class="notch-left"></div>
+<!-- Dashed Tear-Off Divider Line -->
+<div class="w-full border-b border-dashed border-neutral-600/60 mx-4"></div>
+<!-- Right Physical Notch -->
+<div class="notch-right"></div>
+</div>
+<!-- NFC / VAS Action Bar -->
+<div class="px-5 pt-3 pb-2 bg-surface-container-lowest/50 flex flex-col">
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-gradient-to-r from-surface-container-high/60 to-surface-container/60 border border-glass-border">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[20px]" data-icon="contactless">contactless</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-text-primary text-[13px] font-semibold">Hold Near TTE Terminal</span>
+<span class="font-label-mono text-label-mono text-[10px] text-text-secondary">Apple VAS 2.0 Certified High-Speed Tap</span>
+</div>
+</div>
+<div class="px-2 py-1 rounded-xl bg-black/40 border border-white/10 font-label-mono text-[10px] text-neutral-300">
+            NFC READY
+          </div>
+</div>
+</div>
+<!-- Barcode / QR Panel (High Contrast Section) -->
+<div class="p-5 pt-2 pb-6 bg-surface-container-lowest/50 flex flex-col items-center">
+<!-- High-Contrast Crisp White Scan Container -->
+<div class="w-full bg-white rounded-xl p-4 flex flex-col items-center shadow-lg">
+<div class="w-full flex items-center justify-between mb-3 border-b border-neutral-200 pb-2">
+<div class="flex items-center gap-1.5 text-neutral-800 font-label-mono text-[11px] font-bold">
+<span class="material-symbols-outlined text-red-600 text-[16px]" data-icon="qr_code_2">qr_code_2</span>
+<span>IRCTC CRIS ENCRYPTED BARCODE</span>
+</div>
+<span class="text-neutral-500 font-label-mono text-[10px]">TICKET ID: #9182</span>
+</div>
+<!-- Stylized High-Density Barcode Simulation -->
+<div class="w-full h-14 barcode-lines rounded-xl overflow-hidden mb-2.5 border border-neutral-300"></div>
+<!-- Pass Meta Label -->
+<div class="w-full flex items-center justify-between text-neutral-700 font-code-mono text-[12px] px-1 font-semibold">
+<span>PNR: 284-9182740-B4</span>
+<span class="text-neutral-500 text-[10px]">SECURE TICKET</span>
+</div>
+</div>
+<!-- Security Verification Caption -->
+<div class="flex items-center justify-center gap-1.5 mt-3 text-text-secondary">
+<span class="material-symbols-outlined text-[14px] text-emerald-400" data-icon="lock">lock</span>
+<span class="font-label-mono text-label-mono text-[10px] tracking-wide uppercase">
+            VAS 2.0 Encrypted • Slip SecurePass™ System
+          </span>
+</div>
+</div>
+</article>
+<!-- Bottom Action Buttons Cluster (Strictly rounded-2xl & rounded-xl, 15% radius) -->
+<section class="mt-4 flex flex-col gap-2.5">
+<!-- Primary Action: Add to Apple Wallet Button (White bg, rounded-2xl) -->
+<button class="w-full h-14 bg-white hover:bg-neutral-100 text-black font-headline-sm rounded-2xl flex items-center justify-center gap-2.5 shadow-xl shadow-black/50 active:scale-[0.98] transition-transform duration-150" type="button">
+<svg aria-hidden="true" class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-0.92.04-2.02.62-2.67 1.37-.58.67-1.09 1.74-0.96 2.78 1.03.08 2.08-.53 2.71-1.28z"></path>
+</svg>
+<span class="font-bold tracking-tight">Add to Apple Wallet</span>
+</button>
+<!-- Secondary Action Grid (Strictly rounded-2xl dark glass buttons) -->
+<div class="grid grid-cols-3 gap-2">
+<!-- Live Train Status -->
+<button class="h-13 py-3 px-2 rounded-2xl bg-surface-container/80 border border-glass-border hover:bg-surface-container-high/90 flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-rose-400 text-[20px]" data-icon="near_me">near_me</span>
+<span class="font-label-mono text-label-mono text-[10px] text-text-primary text-center">Live Status</span>
+</button>
+<!-- Show Food Menu -->
+<button class="h-13 py-3 px-2 rounded-2xl bg-surface-container/80 border border-glass-border hover:bg-surface-container-high/90 flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-amber-400 text-[20px]" data-icon="room_service">room_service</span>
+<span class="font-label-mono text-label-mono text-[10px] text-text-primary text-center">Food Menu</span>
+</button>
+<!-- Share PNR -->
+<button class="h-13 py-3 px-2 rounded-2xl bg-surface-container/80 border border-glass-border hover:bg-surface-container-high/90 flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-text-primary text-[20px]" data-icon="ios_share">ios_share</span>
+<span class="font-label-mono text-label-mono text-[10px] text-text-primary text-center">Share PNR</span>
+</button>
+</div>
+<!-- Auxiliary Concierge & Support Footer Meta Note -->
+<div class="mt-3 flex items-center justify-center gap-2 p-3 rounded-2xl bg-surface-container-low/40 border border-glass-border/30 text-center">
+<span class="material-symbols-outlined text-text-secondary text-[16px]" data-icon="headset_mic">headset_mic</span>
+<span class="font-label-mono text-label-mono text-[11px] text-text-secondary">
+          24/7 Rail Madad &amp; IRCTC Concierge Helpline: <span class="text-text-primary font-bold">139</span>
+</span>
+</div>
+</section>
+</div>
+</body></html>

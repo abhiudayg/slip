@@ -1,0 +1,415 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Swiggy Dineout • Slip Pass Details</title>
+<!-- Material Symbols Outlined Font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Inter & JetBrains Mono Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration Verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-bright": "#3a3939",
+            "on-tertiary": "#33302c",
+            "primary-container": "#0a0a0c",
+            "surface-container-low": "#1c1b1b",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "on-surface-variant": "#c8c5ca",
+            "primary": "#c8c6c8",
+            "on-secondary-fixed-variant": "#46464f",
+            "primary-fixed": "#e5e1e4",
+            "glass-border": "rgba(255, 255, 255, 0.12)",
+            "outline-variant": "#47464a",
+            "on-secondary": "#303038",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "on-primary-container": "#7a797b",
+            "tertiary-fixed": "#e8e1db",
+            "tertiary": "#ccc5bf",
+            "surface-tint": "#c8c6c8",
+            "surface-dim": "#141313",
+            "on-primary-fixed": "#1c1b1d",
+            "background": "#141313",
+            "surface-container-highest": "#353434",
+            "on-secondary-fixed": "#1b1b23",
+            "inverse-surface": "#e5e2e1",
+            "primary-fixed-dim": "#c8c6c8",
+            "mesh-base": "#070709",
+            "surface": "#141313",
+            "on-error-container": "#ffdad6",
+            "secondary": "#c7c5d0",
+            "on-error": "#690005",
+            "surface-variant": "#353434",
+            "surface-container-high": "#2b2a2a",
+            "secondary-fixed": "#e4e1ec",
+            "on-primary": "#313032",
+            "secondary-fixed-dim": "#c7c5d0",
+            "secondary-container": "#46464f",
+            "error": "#ffb4ab",
+            "on-secondary-container": "#b6b4bf",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "tertiary-container": "#0c0a07",
+            "outline": "#919095",
+            "on-tertiary-fixed": "#1e1b17",
+            "on-surface": "#e5e2e1",
+            "inverse-on-surface": "#313030",
+            "surface-container": "#201f1f",
+            "text-primary": "#F5F5F7",
+            "mesh-teal": "#0c2329",
+            "on-tertiary-container": "#7d7973",
+            "error-container": "#93000a",
+            "text-secondary": "#8E8E93",
+            "inverse-primary": "#5f5e60",
+            "on-background": "#e5e2e1",
+            "surface-container-lowest": "#0e0e0e",
+            "mesh-violet": "#1f1035",
+            "on-primary-fixed-variant": "#474649"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "16px",
+            "space-lg": "24px",
+            "space-xs": "4px",
+            "gutter": "16px",
+            "space-xl": "32px",
+            "space-sm": "8px",
+            "margin": "20px"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-mono": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "code-mono": ["JetBrains Mono"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "body-sm": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "headline-sm": ["17px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "code-mono": ["15px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    
+    /* Ticket Lanyard Notch styling */
+    .ticket-lanyard-notch {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 18px;
+      background-color: #141313;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      z-index: 10;
+    }
+    
+    /* Custom ambient gradient backdrop */
+    .mesh-gradient-bg {
+      background: radial-gradient(circle at 50% 10%, rgba(147, 10, 10, 0.28) 0%, rgba(20, 19, 19, 0.85) 60%, #141313 100%),
+                  radial-gradient(circle at 80% 40%, rgba(31, 16, 53, 0.4) 0%, transparent 65%),
+                  #141313;
+    }
+
+    .pass-card-gradient {
+      background: linear-gradient(175deg, #241416 0%, #171419 40%, #0e0e0e 100%);
+    }
+
+    /* Subtle pulsing ring for NFC indicator */
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.08); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen selection:bg-error-container selection:text-text-primary">
+<!-- Ambient Ambient Glow Backdrop Canvas -->
+<div class="fixed inset-0 pointer-events-none mesh-gradient-bg z-0"></div>
+<!-- Main Mobile Canvas Container (Max Width Mobile Screen) -->
+<div class="relative z-10 max-w-md mx-auto min-h-screen px-5 pt-3 pb-12 flex flex-col justify-between">
+<!-- Top Bar & Meta Navigation (Task-focused context: Bottom bar suppressed per semantic shell mandate) -->
+<header class="flex items-center justify-between py-3 mb-3">
+<!-- Circular Dismiss / Close Button -->
+<button aria-label="Close" class="w-10 h-10 rounded-full bg-surface-container-high/80 border border-glass-border backdrop-blur-xl flex items-center justify-center text-text-primary active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+<!-- Center Metadata Badge: Strictly slightly rounded rectangle (~10-12px), NOT full pill -->
+<div class="px-3.5 py-1.5 rounded-[12px] bg-surface-container-high/70 border border-glass-border backdrop-blur-xl flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-text-primary tracking-wider uppercase">PASSKIT • NFC DINING READY</span>
+</div>
+<!-- Circular Options / More Button -->
+<button aria-label="More options" class="w-10 h-10 rounded-full bg-surface-container-high/80 border border-glass-border backdrop-blur-xl flex items-center justify-center text-text-primary active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_horiz">more_horiz</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="space-y-4">
+<!-- THE CARD SHELL: EventTicketShell (Deep charcoal/burgundy with Swiggy Dineout crimson accent border, 15% rounding approx 26px) -->
+<div class="relative rounded-[26px] pass-card-gradient border border-error-container/40 shadow-2xl shadow-black/80 p-5 overflow-hidden">
+<!-- Top-Center Lanyard Notch Cutout -->
+<div class="ticket-lanyard-notch flex items-center justify-center">
+<div class="w-4 h-1 rounded-full bg-outline-variant/60 -mt-1"></div>
+</div>
+<!-- Ambient Interior Highlight Glow -->
+<div class="absolute -top-16 left-1/2 -translate-x-1/2 w-48 h-48 bg-error-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Card Header & Brand Row -->
+<div class="pt-3 pb-4 border-b border-glass-border flex items-center justify-between relative z-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-[12px] bg-error-container/40 border border-glass-border flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-text-primary text-[22px]" data-icon="restaurant" data-weight="fill" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-text-primary tracking-tight">SWIGGY DINEOUT</div>
+<div class="font-label-mono text-[10px] leading-3 text-text-secondary tracking-wider mt-0.5">DINING ACCESS &amp; RESERVATION</div>
+</div>
+</div>
+<!-- Status Tag: Strictly rounded-rectangle badge (~12px) -->
+<div class="px-2.5 py-1 rounded-[12px] bg-error-container/30 border border-error/30 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span class="font-label-mono text-[11px] leading-none text-text-primary font-semibold">CONFIRMED</span>
+</div>
+</div>
+<!-- Hero Section: Venue & Category Privilege -->
+<div class="py-5 flex items-start justify-between gap-3 relative z-10">
+<div class="space-y-1">
+<div class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-wider">FINE DINING PRIVILEGE</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary leading-tight">Bastian At The Top</h1>
+<div class="flex items-center gap-1 text-text-secondary pt-0.5">
+<span class="material-symbols-outlined text-[16px] text-error" data-icon="location_on">location_on</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Bandra West, Mumbai • 1.2 km away</span>
+</div>
+</div>
+<!-- Frosted Glass Thumbnail Frame (Slightly rounded rectangle, approx 16px radius) -->
+<div class="shrink-0 w-16 h-16 rounded-[16px] bg-glass-surface/90 border border-glass-border backdrop-blur-2xl flex flex-col items-center justify-center shadow-lg relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-tr from-error-container/20 to-transparent pointer-events-none"></div>
+<span class="material-symbols-outlined text-[26px] text-text-primary transition-transform group-hover:scale-110 duration-200" data-icon="wine_bar" data-weight="fill" style="font-variation-settings: 'FILL' 1;">wine_bar</span>
+<span class="font-label-mono text-[9px] text-text-secondary tracking-widest mt-0.5">ROOFTOP</span>
+</div>
+</div>
+<!-- Information Grid (FieldBlocks: 2x2 Structured Grid of rounded-rectangle cards ~16px radius) -->
+<div class="grid grid-cols-2 gap-2.5 py-2 relative z-10">
+<!-- Block 1: Reservation Time -->
+<div class="rounded-[16px] bg-surface-container/60 border border-glass-border p-3 flex flex-col justify-between">
+<div class="flex items-center gap-1.5 text-text-secondary mb-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="schedule">schedule</span>
+<span class="font-label-mono text-[11px] uppercase tracking-wide">Time</span>
+</div>
+<div>
+<div class="font-headline-sm text-[15px] leading-5 text-text-primary font-semibold">8:30 PM, TODAY</div>
+<div class="font-body-sm text-[11px] leading-4 text-text-secondary mt-0.5">Table reserved for 2 hrs</div>
+</div>
+</div>
+<!-- Block 2: Guests -->
+<div class="rounded-[16px] bg-surface-container/60 border border-glass-border p-3 flex flex-col justify-between">
+<div class="flex items-center gap-1.5 text-text-secondary mb-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="group">group</span>
+<span class="font-label-mono text-[11px] uppercase tracking-wide">Party Size</span>
+</div>
+<div>
+<div class="font-headline-sm text-[15px] leading-5 text-text-primary font-semibold">4 GUESTS</div>
+<div class="font-body-sm text-[11px] leading-4 text-text-secondary mt-0.5">Indoor Booth • Lounge</div>
+</div>
+</div>
+<!-- Block 3: Discount / Privilege -->
+<div class="rounded-[16px] bg-surface-container/60 border border-glass-border p-3 flex flex-col justify-between">
+<div class="flex items-center gap-1.5 text-error mb-1">
+<span class="material-symbols-outlined text-[15px]" data-icon="loyalty" data-weight="fill" style="font-variation-settings: 'FILL' 1;">loyalty</span>
+<span class="font-label-mono text-[11px] uppercase tracking-wide text-text-secondary">Privilege</span>
+</div>
+<div>
+<div class="font-headline-sm text-[15px] leading-5 text-text-primary font-semibold">FLAT 25% OFF</div>
+<div class="font-body-sm text-[11px] leading-4 text-text-secondary mt-0.5">Dineout VIP Privilege Applied</div>
+</div>
+</div>
+<!-- Block 4: Booking ID -->
+<div class="rounded-[16px] bg-surface-container/60 border border-glass-border p-3 flex flex-col justify-between">
+<div class="flex items-center justify-between text-text-secondary mb-1">
+<span class="font-label-mono text-[11px] uppercase tracking-wide">Booking ID</span>
+<span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-text-primary" data-icon="content_copy">content_copy</span>
+</div>
+<div>
+<div class="font-code-mono text-[14px] leading-5 text-text-primary font-semibold tracking-normal">DIN-9842-SWG</div>
+<div class="font-body-sm text-[11px] leading-4 text-text-secondary mt-0.5">Pre-verified by host</div>
+</div>
+</div>
+</div>
+<!-- NFC / Auto-Checkin Banner (Rounded rectangle block with 16px radius) -->
+<div class="mt-3 rounded-[16px] bg-surface-container-high/60 border border-glass-border p-3.5 flex items-center justify-between relative overflow-hidden backdrop-blur-md">
+<div class="flex items-center gap-3">
+<div class="relative w-9 h-9 rounded-[12px] bg-error-container/30 border border-glass-border flex items-center justify-center shrink-0">
+<div class="absolute inset-0 rounded-[12px] border border-error/40 animate-pulse-ring"></div>
+<span class="material-symbols-outlined text-text-primary text-[20px]" data-icon="contactless">contactless</span>
+</div>
+<div>
+<div class="font-headline-sm text-[14px] leading-tight text-text-primary font-semibold">Hold Near Host Podium</div>
+<div class="font-label-mono text-[10px] text-text-secondary tracking-wider mt-0.5">VAS 2.0 AUTO-CHECK-IN</div>
+</div>
+</div>
+<div class="px-2.5 py-1 rounded-[10px] bg-surface-bright/70 border border-glass-border">
+<span class="font-label-mono text-[11px] text-text-primary font-semibold tracking-wider">READY</span>
+</div>
+</div>
+<!-- Perforation Divider Line -->
+<div class="relative my-5 flex items-center justify-center">
+<div class="w-full border-t border-dashed border-outline-variant/50"></div>
+<div class="absolute left-[-26px] w-4 h-4 rounded-full bg-background border-r border-glass-border"></div>
+<div class="absolute right-[-26px] w-4 h-4 rounded-full bg-background border-l border-glass-border"></div>
+</div>
+<!-- Barcode / QR Code Panel (High contrast white rounded square 16px container) -->
+<div class="relative rounded-[20px] bg-surface-container-lowest/80 border border-glass-border p-4 flex flex-col items-center text-center">
+<!-- Realistic High-Contrast QR Container (16px radius) -->
+<div class="p-3 bg-white rounded-[16px] shadow-lg flex items-center justify-center">
+<!-- Precise QR Matrix SVG Representation -->
+<svg class="w-40 h-40" fill="none" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="140" width="140"></rect>
+<!-- Top Left Corner Finder -->
+<rect fill="black" height="36" width="36" x="10" y="10"></rect>
+<rect fill="white" height="24" width="24" x="16" y="16"></rect>
+<rect fill="black" height="12" width="12" x="22" y="22"></rect>
+<!-- Top Right Corner Finder -->
+<rect fill="black" height="36" width="36" x="94" y="10"></rect>
+<rect fill="white" height="24" width="24" x="100" y="16"></rect>
+<rect fill="black" height="12" width="12" x="106" y="22"></rect>
+<!-- Bottom Left Corner Finder -->
+<rect fill="black" height="36" width="36" x="10" y="94"></rect>
+<rect fill="white" height="24" width="24" x="16" y="100"></rect>
+<rect fill="black" height="12" width="12" x="22" y="106"></rect>
+<!-- Data Matrix Pixels -->
+<rect fill="black" height="12" width="6" x="52" y="10"></rect>
+<rect fill="black" height="6" width="12" x="64" y="10"></rect>
+<rect fill="black" height="18" width="6" x="82" y="10"></rect>
+<rect fill="black" height="6" width="18" x="52" y="28"></rect>
+<rect fill="black" height="18" width="6" x="76" y="22"></rect>
+<rect fill="black" height="6" width="12" x="10" y="52"></rect>
+<rect fill="black" height="18" width="6" x="28" y="52"></rect>
+<rect fill="black" height="12" width="12" x="38" y="52"></rect>
+<rect fill="black" height="12" width="12" x="58" y="46"></rect>
+<rect fill="black" height="6" width="18" x="76" y="46"></rect>
+<rect fill="black" height="6" width="30" x="100" y="52"></rect>
+<rect fill="black" height="6" width="18" x="10" y="76"></rect>
+<rect fill="black" height="12" width="12" x="34" y="70"></rect>
+<rect fill="black" height="30" width="6" x="52" y="64"></rect>
+<rect fill="black" height="12" width="12" x="64" y="64"></rect>
+<rect fill="black" height="18" width="12" x="82" y="58"></rect>
+<rect fill="black" height="18" width="6" x="100" y="64"></rect>
+<rect fill="black" height="12" width="18" x="112" y="70"></rect>
+<rect fill="black" height="12" width="12" x="52" y="100"></rect>
+<rect fill="black" height="6" width="18" x="70" y="94"></rect>
+<rect fill="black" height="18" width="12" x="94" y="88"></rect>
+<rect fill="black" height="6" width="18" x="112" y="88"></rect>
+<rect fill="black" height="12" width="18" x="52" y="118"></rect>
+<rect fill="black" height="24" width="12" x="76" y="106"></rect>
+<rect fill="black" height="12" width="18" x="94" y="112"></rect>
+<rect fill="black" height="30" width="12" x="118" y="100"></rect>
+<!-- Central brand micro-dot -->
+<rect fill="#93000a" height="10" rx="2" width="10" x="65" y="65"></rect>
+</svg>
+</div>
+<!-- Passcode String -->
+<div class="mt-3 font-code-mono text-code-mono text-text-primary tracking-widest font-semibold">
+            SWG-VAS-9842-8812
+          </div>
+<!-- Security label -->
+<div class="mt-1 font-label-mono text-[11px] text-text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[13px] text-primary" data-icon="verified_user">verified_user</span>
+<span>Swiggy Dineout Verified • Slip SecurePass™</span>
+</div>
+<!-- Bottom Right Circular (i) Info Button (view pass back sheet) -->
+<button aria-label="Pass Details Information" class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-surface-container-high/90 border border-glass-border flex items-center justify-center text-text-secondary hover:text-text-primary active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="info">info</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons Cluster: STRICTLY slightly rounded rectangles (approx 16px radius, rounded-2xl), STRICTLY NO PILL SHAPES -->
+<div class="space-y-2.5 pt-2">
+<!-- Apple Wallet Button (Strictly rounded-2xl rectangle) -->
+<button class="w-full h-14 rounded-2xl bg-black border border-glass-border text-white flex items-center justify-center gap-2.5 shadow-xl active:scale-[0.98] transition-transform duration-150 group" type="button">
+<!-- Sleek monochrome Apple SVG logo -->
+<svg class="w-5 h-5 fill-current" viewBox="0 0 170 170">
+<path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.6-7.85-11.75-14.43-5.77-9.13-10.36-19.53-13.78-31.18-3.42-11.66-5.13-22.77-5.13-33.34 0-14.13 3.69-25.7 11.08-34.72 7.39-9.02 16.52-13.63 27.4-13.84 5.33 0 10.74 1.34 16.22 4.02 5.48 2.68 9.38 4.09 11.7 4.23 2.12-.14 6.13-1.63 12.02-4.44 5.89-2.82 11.19-4.12 15.9-3.92 12.18.63 21.94 4.89 29.28 12.78-10.74 6.52-16.01 15.53-15.8 27.02.21 9.02 3.69 16.59 10.43 22.71 6.74 6.12 14.54 9.53 23.41 10.23-2.35 7.18-5.38 14.55-9.1 22.12zM119.22 33.15c0-6.95 2.53-13.58 7.6-19.89 5.07-6.31 11.47-10.35 19.2-12.12.85 7.06-1.48 13.91-7 20.55-5.52 6.64-12.12 10.47-19.8 11.46z"></path>
+</svg>
+<span class="font-headline-sm text-body-lg text-text-primary tracking-tight">Add to Apple Wallet</span>
+</button>
+<!-- Secondary Action Buttons (In a row, sleek rounded-2xl containers) -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Get Directions Button -->
+<button class="h-12 rounded-2xl bg-surface-container-high/80 border border-glass-border flex items-center justify-center gap-2 text-text-primary hover:bg-glass-surface active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="near_me">near_me</span>
+<span class="font-headline-sm text-[14px]">Get Directions</span>
+</button>
+<!-- Share Pass Button -->
+<button class="h-12 rounded-2xl bg-surface-container-high/80 border border-glass-border flex items-center justify-center gap-2 text-text-primary hover:bg-glass-surface active:scale-[0.98] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="ios_share">ios_share</span>
+<span class="font-headline-sm text-[14px]">Share Pass</span>
+</button>
+</div>
+<!-- Bottom Concierge / Support Card (Pill-less, rounded-2xl container) -->
+<div class="rounded-2xl bg-surface-container/60 border border-glass-border p-3.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-[10px] bg-surface-bright/60 flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="headset_mic">headset_mic</span>
+</div>
+<div>
+<div class="font-label-mono text-[10px] uppercase tracking-wide text-text-secondary">24/7 Priority Support</div>
+<div class="font-body-sm text-[13px] text-text-primary font-medium">Concierge: 1800 208 9898</div>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-[12px] bg-surface-container-high border border-glass-border font-label-mono text-[11px] text-text-primary hover:bg-glass-surface active:scale-95 transition-all" type="button">
+            CALL
+          </button>
+</div>
+</div>
+</main>
+<!-- Footer Note -->
+<footer class="pt-4 text-center">
+<p class="font-label-mono text-[10px] text-outline tracking-wider">
+        SWIGGY DINEOUT PASS #9842 • ISSUED VIA SLIP WALLET ENGINE
+      </p>
+</footer>
+</div>
+</body></html>

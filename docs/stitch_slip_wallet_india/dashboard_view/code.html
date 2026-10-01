@@ -1,0 +1,458 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Slip Wallet — Dashboard</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Inter & JetBrains Mono Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#353434",
+            "mesh-teal": "#0c2329",
+            "on-secondary-fixed-variant": "#46464f",
+            "primary": "#c8c6c8",
+            "primary-container": "#0a0a0c",
+            "on-tertiary-container": "#7d7973",
+            "on-background": "#e5e2e1",
+            "surface-container": "#201f1f",
+            "on-error": "#690005",
+            "tertiary-container": "#0c0a07",
+            "surface": "#141313",
+            "on-surface": "#e5e2e1",
+            "on-primary-fixed-variant": "#474649",
+            "error-container": "#93000a",
+            "tertiary-fixed": "#e8e1db",
+            "text-secondary": "#8E8E93",
+            "secondary": "#c7c5d0",
+            "on-error-container": "#ffdad6",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "error": "#ffb4ab",
+            "surface-tint": "#c8c6c8",
+            "primary-fixed": "#e5e1e4",
+            "mesh-base": "#070709",
+            "glass-border": "rgba(255, 255, 255, 0.12)",
+            "on-secondary-container": "#b6b4bf",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "on-tertiary-fixed": "#1e1b17",
+            "outline": "#919095",
+            "surface-container-high": "#2b2a2a",
+            "tertiary": "#ccc5bf",
+            "outline-variant": "#47464a",
+            "background": "#141313",
+            "surface-container-low": "#1c1b1b",
+            "on-primary-fixed": "#1c1b1d",
+            "on-surface-variant": "#c8c5ca",
+            "secondary-fixed-dim": "#c7c5d0",
+            "text-primary": "#F5F5F7",
+            "secondary-container": "#46464f",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "surface-dim": "#141313",
+            "inverse-primary": "#5f5e60",
+            "on-secondary": "#303038",
+            "primary-fixed-dim": "#c8c6c8",
+            "surface-variant": "#353434",
+            "surface-bright": "#3a3939",
+            "on-primary-container": "#7a797b",
+            "inverse-surface": "#e5e2e1",
+            "inverse-on-surface": "#313030",
+            "on-tertiary": "#33302c",
+            "on-primary": "#313032",
+            "surface-container-lowest": "#0e0e0e",
+            "mesh-violet": "#1f1035",
+            "secondary-fixed": "#e4e1ec"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "16px",
+            "space-lg": "24px",
+            "space-xs": "4px",
+            "gutter": "16px",
+            "space-sm": "8px",
+            "space-xl": "32px",
+            "margin": "20px"
+          },
+          "fontFamily": {
+            "body-sm": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "label-mono": ["JetBrains Mono"],
+            "body-md": ["Inter"],
+            "code-mono": ["JetBrains Mono"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-sm": ["17px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "code-mono": ["15px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+            "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Ticket notch styling */
+    .ticket-cutout-left {
+      position: absolute;
+      left: -10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 9999px;
+      background-color: #0e0e0e;
+      box-shadow: inset -2px 0 3px rgba(0,0,0,0.5);
+    }
+    .ticket-cutout-right {
+      position: absolute;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 9999px;
+      background-color: #0e0e0e;
+      box-shadow: inset 2px 0 3px rgba(0,0,0,0.5);
+    }
+    
+    /* Smooth card stack transitions */
+    .wallet-card {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+    .wallet-card:active {
+      transform: scale(0.985) translateY(-4px);
+    }
+    
+    /* Custom subtle glass gradient */
+    .glass-specular {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+    
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-text-primary antialiased min-h-screen flex justify-center selection:bg-primary/20 selection:text-text-primary font-body-md overflow-x-hidden">
+<!-- Mobile Device Shell Container -->
+<div class="relative w-full max-w-md min-h-screen bg-surface-container-lowest pb-32 flex flex-col justify-start overflow-hidden shadow-2xl">
+<!-- Ambient Dynamic Mesh Background (Dark indigo/violet/teal glow) -->
+<div class="fixed inset-0 pointer-events-none z-0">
+<div class="absolute -top-32 -left-20 w-96 h-96 rounded-full bg-mesh-violet opacity-40 blur-3xl"></div>
+<div class="absolute top-1/4 -right-24 w-80 h-80 rounded-full bg-mesh-teal opacity-30 blur-3xl"></div>
+<div class="absolute bottom-20 left-10 w-96 h-96 rounded-full bg-secondary-container opacity-20 blur-3xl"></div>
+<div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-[60px]"></div>
+</div>
+<!-- Status Bar (iOS standard) -->
+<div class="relative z-50 flex items-center justify-between px-7 pt-3.5 pb-1 text-text-primary select-none">
+<span class="font-headline-sm text-body-sm font-semibold tracking-tight">9:41</span>
+<div class="flex items-center gap-1.5 text-text-primary">
+<span class="material-symbols-outlined text-[17px]">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[17px]">wifi</span>
+<div class="w-6 h-3 rounded-full border border-text-primary/70 p-0.5 flex items-center">
+<div class="w-full h-full bg-text-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- TopAppBar (Matches Shared Component JSON specification) -->
+<header class="fixed top-0 left-0 right-0 z-40 flex justify-between items-center w-full px-5 pt-11 pb-3 max-w-md mx-auto bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-glass-border dark:border-glass-border shadow-none">
+<div class="flex items-center gap-3">
+<!-- Leading Avatar -->
+<div class="relative w-10 h-10 rounded-full overflow-hidden p-[1px] bg-gradient-to-tr from-primary/40 to-glass-border shadow-sm">
+<img class="w-full h-full object-cover rounded-full" data-alt="A refined high-contrast studio portrait profile of Alex, an urban professional in an upscale dark aesthetic with soft indigo rim lighting and minimalist luxury background, perfectly centered." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmOcMUAWSni3nRSK-4FR3GKXgAwvmnAHRl5jQexECMmJozXnjPQb14sPjFabdQjxh2nmJig_Fv-Y-usZJF4ZClQgxY0bp_tLw8qrJ95onPfy2_of_PS5oiF0Y9-0Tgt1gjiG3mWLVNaRuyYZZxkr9kqzoMkCnNNxngMUWDaZt6Jp0nkZQVjDZdUptjtswAR3ECiAk8KeHz2IJSSVpj4LQ0ruZorKIw3CGm5yPksDb-kywdryebDgfKUHec-Fu6hKSKlQsYopHOnQ">
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm text-text-primary dark:text-text-primary font-bold tracking-tight">Good evening, Alex</h1>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px]">3 UPCOMING PASSES TODAY</p>
+</div>
+</div>
+<!-- Trailing Notification Button -->
+<button class="relative flex items-center justify-center w-10 h-10 rounded-full bg-surface-container/70 border border-glass-border hover:text-text-primary hover:bg-glass-surface active:scale-95 transition-all duration-150 text-text-secondary">
+<span class="material-symbols-outlined text-[20px] text-text-primary">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+</button>
+</header>
+<!-- Main Content Canvas (Scrollable area) -->
+<main class="relative z-10 flex-1 px-5 pt-28 flex flex-col space-y-5">
+<!-- Wallet Controls: Segmented Filter & Add Pass Pill -->
+<section class="flex items-center justify-between gap-3 pt-1">
+<!-- Apple-style Segmented Glass Capsule -->
+<div class="flex items-center p-1 bg-surface-container-high/60 backdrop-blur-md rounded-full border border-glass-border text-label-mono font-label-mono">
+<button class="relative px-4 py-1.5 rounded-full text-text-primary bg-glass-surface font-semibold shadow-sm transition-all duration-200">
+            Active (4)
+          </button>
+<button class="px-4 py-1.5 rounded-full text-text-secondary hover:text-text-primary transition-all duration-200">
+            Expired (2)
+          </button>
+</div>
+<!-- Add Pass Mini Button -->
+<button class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container border border-glass-border text-label-mono font-label-mono text-text-primary hover:bg-glass-surface active:scale-95 transition-all duration-150 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">add</span>
+<span>Add Pass</span>
+</button>
+</section>
+<!-- Stacked Pass Wallet System -->
+<section class="relative pt-2 pb-4 flex flex-col space-y-[-78px]">
+<!-- PASS 1: IndiGo Flight Pass (BoardingCard Transit Hero) -->
+<article class="wallet-card relative z-30 w-full rounded-lg bg-gradient-to-b from-[#0e2747] via-[#091b33] to-[#071324] border border-glass-border shadow-2xl overflow-hidden cursor-pointer">
+<!-- Glass Specular Reflection Sheen -->
+<div class="absolute inset-0 glass-specular pointer-events-none"></div>
+<!-- Top Brand Header Section -->
+<div class="p-5 pb-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<!-- Flight Emblem / Wordmark -->
+<div class="w-7 h-7 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-400/30">
+<span class="material-symbols-outlined text-blue-300 text-[16px]">flight_takeoff</span>
+</div>
+<div>
+<span class="text-headline-sm font-headline-sm font-bold text-text-primary tracking-tight">IndiGo</span>
+<span class="text-label-mono font-label-mono text-blue-300/80 text-[11px] ml-1.5 font-bold">6E 204</span>
+</div>
+</div>
+<!-- Status Badge Pill -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-label-mono font-label-mono text-[10px]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+<span>BOARDING IN 45M</span>
+</div>
+</div>
+<!-- Route Display Hierarchy -->
+<div class="flex items-center justify-between my-3 px-1">
+<div>
+<span class="text-label-mono font-label-mono text-text-secondary text-[11px] block">DEPARTURE</span>
+<span class="text-headline-xl font-headline-xl font-bold tracking-tight text-text-primary">BLR</span>
+<span class="text-body-sm font-body-sm text-text-secondary block mt-0.5">Bengaluru T1</span>
+</div>
+<!-- Flight Vector Graphic -->
+<div class="flex flex-col items-center justify-center px-4 flex-1">
+<div class="w-full flex items-center justify-center relative">
+<div class="h-[1px] w-full border-t border-dashed border-primary/40"></div>
+<div class="absolute bg-[#0b203c] px-2 flex items-center text-primary">
+<span class="material-symbols-outlined text-[18px] rotate-90">flight</span>
+</div>
+</div>
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] mt-2">2h 45m NON-STOP</span>
+</div>
+<div class="text-right">
+<span class="text-label-mono font-label-mono text-text-secondary text-[11px] block">ARRIVAL</span>
+<span class="text-headline-xl font-headline-xl font-bold tracking-tight text-text-primary">DEL</span>
+<span class="text-body-sm font-body-sm text-text-secondary block mt-0.5">New Delhi T3</span>
+</div>
+</div>
+<!-- Flight Details Bento Grid -->
+<div class="grid grid-cols-4 gap-2 pt-4 mt-2 border-t border-glass-border text-center">
+<div class="bg-surface-container-lowest/30 rounded-DEFAULT p-2 border border-glass-border">
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">DEP TIME</span>
+<span class="text-headline-sm font-headline-sm font-bold text-text-primary">19:40</span>
+</div>
+<div class="bg-surface-container-lowest/30 rounded-DEFAULT p-2 border border-glass-border">
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">BOARDING</span>
+<span class="text-headline-sm font-headline-sm font-bold text-blue-300">19:05</span>
+</div>
+<div class="bg-surface-container-lowest/30 rounded-DEFAULT p-2 border border-glass-border">
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">GATE</span>
+<span class="text-headline-sm font-headline-sm font-bold text-text-primary">4B</span>
+</div>
+<div class="bg-surface-container-lowest/30 rounded-DEFAULT p-2 border border-glass-border">
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">SEAT</span>
+<span class="text-headline-sm font-headline-sm font-bold text-text-primary">12F</span>
+</div>
+</div>
+</div>
+<!-- Physical Perforation & Cutout Dividers -->
+<div class="relative w-full h-5 flex items-center justify-between">
+<div class="ticket-cutout-left top-1/2 -translate-y-1/2"></div>
+<div class="w-full mx-5 border-b border-dashed border-glass-border"></div>
+<div class="ticket-cutout-right top-1/2 -translate-y-1/2"></div>
+</div>
+<!-- Bottom Scannable Stub Section -->
+<div class="p-5 pt-3 bg-surface-container-lowest/40 backdrop-blur-sm flex items-center justify-between">
+<div class="flex items-center gap-3">
+<!-- Digital Barcode / Aztec QR Mock Matrix -->
+<div class="p-2 rounded-DEFAULT bg-white flex items-center justify-center shadow-md">
+<div class="grid grid-cols-5 gap-0.5 w-10 h-10">
+<div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
+<div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div>
+<div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div>
+<div class="bg-white"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
+<div class="bg-black"></div><div class="bg-black"></div><div class="bg-black"></div><div class="bg-white"></div><div class="bg-black"></div>
+</div>
+</div>
+<div>
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">PASSENGER / PNR</span>
+<span class="text-headline-sm font-headline-sm font-semibold text-text-primary text-[14px]">ALEXANDER V.</span>
+<span class="font-code-mono text-code-mono text-blue-300 text-[13px] tracking-wider font-bold">HM2ZH3</span>
+</div>
+</div>
+<!-- Apple Wallet NFC Contactless Glyph -->
+<div class="flex flex-col items-end gap-1">
+<div class="w-9 h-9 rounded-full bg-glass-surface border border-glass-border flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[20px]">contactless</span>
+</div>
+<span class="text-label-mono font-label-mono text-text-secondary text-[9px]">HOLD NEAR</span>
+</div>
+</div>
+</article>
+<!-- PASS 2: BookMyShow Cinema Ticket (EventTicket - Dune: Part Two) -->
+<article class="wallet-card relative z-20 w-full rounded-lg bg-gradient-to-br from-[#2b1008] via-[#1a0804] to-[#0c0504] border border-amber-900/30 shadow-xl overflow-hidden cursor-pointer">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-2 bg-surface-container-lowest rounded-b-md border-b border-x border-glass-border"></div>
+<div class="p-5 pb-24">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-label-mono font-label-mono text-[10px] font-bold border border-rose-500/30">BOOKMYSHOW</span>
+<span class="text-label-mono font-label-mono text-amber-400 text-[11px]">IMAX 70MM</span>
+</div>
+<span class="text-label-mono font-label-mono text-text-secondary text-[11px]">TODAY • 21:15</span>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-headline-md font-headline-md font-bold text-text-primary tracking-tight">Dune: Part Two</h3>
+<p class="text-body-sm font-body-sm text-text-secondary">PVR Director’s Cut • Audi 2</p>
+</div>
+<div class="text-right">
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">SEATS</span>
+<span class="text-headline-sm font-headline-sm font-bold text-amber-200">F14, F15</span>
+</div>
+</div>
+</div>
+</article>
+<!-- PASS 3: Zomato Dining Pass (The Table - Colaba) -->
+<article class="wallet-card relative z-10 w-full rounded-lg bg-gradient-to-br from-[#0c2419] via-[#091710] to-[#050c08] border border-emerald-900/40 shadow-lg overflow-hidden cursor-pointer">
+<div class="p-5 pb-24">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-[13px]">wine_bar</span>
+</div>
+<span class="text-label-mono font-label-mono text-emerald-400 text-[10px] font-bold uppercase tracking-wider">Zomato Gold Reserve</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 text-label-mono font-label-mono text-[10px]">CONFIRMED</span>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-headline-md font-headline-md font-bold text-text-primary tracking-tight">The Table</h3>
+<p class="text-body-sm font-body-sm text-text-secondary">Colaba, Mumbai • 2 Guests</p>
+</div>
+<div class="text-right">
+<span class="text-label-mono font-label-mono text-text-secondary text-[10px] block">RESERVATION</span>
+<span class="text-headline-sm font-headline-sm font-bold text-text-primary">9:30 PM</span>
+</div>
+</div>
+</div>
+</article>
+<!-- PASS 4: Zoomcar Keyless Drive Pass -->
+<article class="wallet-card relative z-0 w-full rounded-lg bg-gradient-to-br from-[#1b1c20] via-[#111215] to-[#0a0a0c] border border-glass-border shadow-md overflow-hidden cursor-pointer">
+<div class="p-5 pb-10">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300">
+<span class="material-symbols-outlined text-[13px]">key</span>
+</div>
+<span class="text-label-mono font-label-mono text-cyan-300 text-[10px] font-bold">DIGITAL CAR KEY</span>
+</div>
+<div class="flex items-center gap-1 text-cyan-400 text-label-mono font-label-mono text-[11px]">
+<span class="material-symbols-outlined text-[14px]">contactless</span>
+<span>NFC READY</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div>
+<h3 class="text-headline-sm font-headline-sm font-bold text-text-primary">BMW 3 Series Gran Limousine</h3>
+<p class="text-body-sm font-body-sm text-text-secondary">KA 03 MX 9912 • Tap door handle to unlock</p>
+</div>
+</div>
+</div>
+</article>
+</section>
+<!-- Quick Action Utilities Section -->
+<section class="grid grid-cols-2 gap-3 pt-4">
+<!-- Quick NFC Pass Transmit Card -->
+<div class="p-4 rounded-lg bg-surface-container/60 backdrop-blur-md border border-glass-border flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 border border-glass-border flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-text-primary text-[14px]">Express Transit</h4>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px]">No Face ID required</p>
+</div>
+</div>
+<!-- Archive & Receipts Card -->
+<div class="p-4 rounded-lg bg-surface-container/60 backdrop-blur-md border border-glass-border flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-glass-border flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+</div>
+<div>
+<h4 class="text-headline-sm font-headline-sm text-text-primary text-[14px]">History &amp; Tax</h4>
+<p class="text-label-mono font-label-mono text-text-secondary text-[11px]">18 archived passes</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Matches Shared Component JSON specification) -->
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-between px-3 py-2 gap-3 max-w-xs mx-auto bg-surface-container-high/70 dark:bg-surface-container-high/70 backdrop-blur-2xl rounded-full border border-glass-border dark:border-glass-border shadow-2xl shadow-black/60">
+<!-- Destination 1: Home (Active Destination) -->
+<button aria-label="Home" class="flex items-center justify-center bg-primary text-surface-container-lowest rounded-full w-12 h-12 shadow-lg shadow-primary/25 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+</button>
+<!-- Destination 2: Scan & Import -->
+<button aria-label="Document Scanner" class="flex items-center justify-center text-text-secondary dark:text-text-secondary w-12 h-12 rounded-full hover:text-text-primary hover:bg-glass-surface transition-colors duration-200 active:scale-90 duration-150">
+<span class="material-symbols-outlined">document_scanner</span>
+</button>
+<!-- Destination 3: Explore / Discover -->
+<button aria-label="Explore" class="flex items-center justify-center text-text-secondary dark:text-text-secondary w-12 h-12 rounded-full hover:text-text-primary hover:bg-glass-surface transition-colors duration-200 active:scale-90 duration-150">
+<span class="material-symbols-outlined">explore</span>
+</button>
+<!-- Destination 4: Settings -->
+<button aria-label="Settings" class="flex items-center justify-center text-text-secondary dark:text-text-secondary w-12 h-12 rounded-full hover:text-text-primary hover:bg-glass-surface transition-colors duration-200 active:scale-90 duration-150">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</nav>
+<!-- iOS Home Indicator Pill -->
+<div class="fixed bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-text-secondary/40 rounded-full pointer-events-none z-50"></div>
+</div>
+</body></html>

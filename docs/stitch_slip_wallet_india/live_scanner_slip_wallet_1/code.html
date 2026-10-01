@@ -1,0 +1,273 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>LiveScannerView - Slip Wallet</title>
+<!-- Material Symbols Outlined font -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#c8c6c8",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "on-error-container": "#ffdad6",
+            "tertiary-container": "#0c0a07",
+            "text-primary": "#F5F5F7",
+            "surface-container-high": "#2b2a2a",
+            "primary-fixed-dim": "#c8c6c8",
+            "secondary-container": "#46464f",
+            "on-primary-fixed-variant": "#474649",
+            "surface-bright": "#3a3939",
+            "on-tertiary": "#33302c",
+            "surface-container-lowest": "#0e0e0e",
+            "glass-border": "rgba(255, 255, 255, 0.12)",
+            "text-secondary": "#8E8E93",
+            "inverse-surface": "#e5e2e1",
+            "on-secondary-fixed-variant": "#46464f",
+            "secondary": "#c7c5d0",
+            "surface-tint": "#c8c6c8",
+            "on-surface": "#e5e2e1",
+            "on-secondary-container": "#b6b4bf",
+            "on-secondary": "#303038",
+            "on-primary-fixed": "#1c1b1d",
+            "surface-variant": "#353434",
+            "on-secondary-fixed": "#1b1b23",
+            "on-primary-container": "#7a797b",
+            "mesh-teal": "#0c2329",
+            "surface-container-low": "#1c1b1b",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "mesh-base": "#070709",
+            "secondary-fixed-dim": "#c7c5d0",
+            "surface-dim": "#141313",
+            "tertiary-fixed": "#e8e1db",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "outline": "#919095",
+            "secondary-fixed": "#e4e1ec",
+            "surface-container-highest": "#353434",
+            "mesh-violet": "#1f1035",
+            "on-background": "#e5e2e1",
+            "surface-container": "#201f1f",
+            "on-tertiary-container": "#7d7973",
+            "on-tertiary-fixed": "#1e1b17",
+            "primary-container": "#0a0a0c",
+            "primary-fixed": "#e5e1e4",
+            "background": "#141313",
+            "outline-variant": "#47464a",
+            "tertiary": "#ccc5bf",
+            "error-container": "#93000a",
+            "inverse-on-surface": "#313030",
+            "on-surface-variant": "#c8c5ca",
+            "surface": "#141313",
+            "on-error": "#690005",
+            "inverse-primary": "#5f5e60",
+            "on-primary": "#313032",
+            "error": "#ffb4ab"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "16px",
+            "space-xl": "32px",
+            "margin": "20px",
+            "space-xs": "4px",
+            "space-sm": "8px",
+            "space-lg": "24px",
+            "gutter": "16px"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "code-mono": ["JetBrains Mono"],
+            "headline-sm": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "label-mono": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-lg": ["17px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+            "headline-xl": ["34px", {"lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "code-mono": ["15px", {"lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+            "headline-sm": ["17px", {"lineHeight": "22px", "fontWeight": "600"}],
+            "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+            "body-md": ["15px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "label-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+    }
+
+    @keyframes scanMotion {
+      0% {
+        top: 0%;
+        opacity: 0.2;
+      }
+      15% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        top: 100%;
+        opacity: 0.2;
+      }
+    }
+
+    .scanner-beam {
+      animation: scanMotion 2.4s ease-in-out infinite alternate;
+      box-shadow: 0 0 16px 2px rgba(52, 211, 153, 0.75), 0 0 32px 6px rgba(52, 211, 153, 0.35);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+
+    .reticle-pulse {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-background text-text-primary antialiased min-h-screen flex justify-center items-center select-none overflow-x-hidden p-0 m-0">
+<!-- Mobile Viewport Container: Slip Native iOS Scanner Frame -->
+<main class="relative w-full max-w-md h-[100dvh] max-h-[920px] bg-black overflow-hidden flex flex-col justify-between shadow-2xl">
+<!-- Background: Realistic Camera Feed Image -->
+<img alt="Camera feed showing boarding pass and ticket scanning viewfinder" class="absolute inset-0 w-full h-full object-cover object-center z-0 filter brightness-[0.95] contrast-[1.05]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5klQEqvRuZNdvyi76OBL7rr7ingdj-ATPsBeSCxv8K8y5lmNKe-q-tRCxlYE3POrMnGg6J-jWtP6w47KohFBSTeSIIXPJIcPqUZvUeNQ-7DgU3z0XKTn4wVinZ2ZWLR4CmhoEmvARKjEXX4q9enAuRreT4NpJCZ1-sujU1dMV8mbGoDPBYJCqETrPT0BnyTx00eDMcpFQ4oLx5Mnj6gB-acba9Tcx9_UPnAOL4p5HvU8nbLBPpjxD8yJHwSRoUawRjVDuJehOLg">
+<!-- Cutout Mask Layer: 4 outer blocks masking camera feed with 0.65 black glass overlay -->
+<!-- Top Mask block -->
+<div class="absolute top-0 left-0 right-0 z-10 bg-black/65 backdrop-blur-[2px] transition-colors" style="bottom: calc(50% + 140px);"></div>
+<!-- Bottom Mask block -->
+<div class="absolute bottom-0 left-0 right-0 z-10 bg-black/65 backdrop-blur-[2px] transition-colors" style="top: calc(50% + 140px);"></div>
+<!-- Left Mask block -->
+<div class="absolute left-0 z-10 bg-black/65 backdrop-blur-[2px]" style="top: calc(50% - 140px); bottom: calc(50% - 140px); right: calc(50% + 140px);"></div>
+<!-- Right Mask block -->
+<div class="absolute right-0 z-10 bg-black/65 backdrop-blur-[2px]" style="top: calc(50% - 140px); bottom: calc(50% - 140px); left: calc(50% + 140px);"></div>
+<!-- Central Scanning Frame / Viewfinder Boundary -->
+<!-- CRITICAL RULE: Rounded-2xl / rounded-[16px] - Strictly NOT a pill -->
+<section aria-label="Camera Viewfinder Frame" class="absolute z-20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-[16px] pointer-events-none border border-white/20 shadow-inner overflow-hidden">
+<!-- Continuous Animated Emerald Laser Scan Beam -->
+<div class="scanner-beam absolute left-0 right-0 h-[2.5px] bg-emerald-400 z-20"></div>
+<!-- Laser Gradient Flare Behind Beam -->
+<div class="absolute inset-0 bg-gradient-to-b from-emerald-500/10 via-transparent to-transparent pointer-events-none opacity-40"></div>
+<!-- Precision HUD Targeting Corner Brackets (Exact 16px corner radius contour) -->
+<!-- Top Left -->
+<div class="absolute top-0 left-0 w-7 h-7 border-t-[3.5px] border-l-[3.5px] border-emerald-400 rounded-tl-[16px] drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+<!-- Top Right -->
+<div class="absolute top-0 right-0 w-7 h-7 border-t-[3.5px] border-r-[3.5px] border-emerald-400 rounded-tr-[16px] drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+<!-- Bottom Left -->
+<div class="absolute bottom-0 left-0 w-7 h-7 border-b-[3.5px] border-l-[3.5px] border-emerald-400 rounded-bl-[16px] drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+<!-- Bottom Right -->
+<div class="absolute bottom-0 right-0 w-7 h-7 border-b-[3.5px] border-r-[3.5px] border-emerald-400 rounded-br-[16px] drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+<!-- Central Subtle Alignment Crosshair -->
+<div class="absolute inset-0 flex items-center justify-center opacity-30">
+<div class="w-8 h-[1px] bg-white/60"></div>
+<div class="h-8 w-[1px] bg-white/60 -ml-4"></div>
+</div>
+<!-- Real-time HUD Grid Coordinate Marks inside frame -->
+<div class="absolute bottom-2 left-2 text-[10px] font-label-mono text-label-mono text-emerald-400/80 tracking-widest uppercase">
+        ISO-800 · 4K 60FPS
+      </div>
+<div class="absolute top-2 right-2 text-[10px] font-label-mono text-label-mono text-emerald-400/80 tracking-widest uppercase">
+        AUTO-FOCUS
+      </div>
+</section>
+<!-- Top Overlay Controls & Status HUD (Z-30) -->
+<header class="relative z-30 pt-10 px-5 flex flex-col gap-4">
+<!-- Top Row: Flash / Torch Toggle & Optical Settings -->
+<div class="flex items-center justify-between">
+<!-- Close / Dismiss Mini-Action -->
+<button aria-label="Dismiss scanner" class="w-11 h-11 flex items-center justify-center rounded-[14px] bg-surface-container-high/60 backdrop-blur-xl border border-glass-border text-text-primary active:scale-95 transition-transform duration-150 shadow-md" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Auto-Detect Status Capsule - NOT a pill, 10px rounded -->
+<div class="px-3.5 py-1.5 rounded-[10px] bg-surface-container-lowest/80 backdrop-blur-xl border border-emerald-500/30 flex items-center gap-2 shadow-lg">
+<span class="w-2 h-2 rounded-[3px] bg-emerald-400 animate-ping"></span>
+<span class="font-label-mono text-label-mono text-emerald-300 font-semibold uppercase tracking-wider text-[11px]">SCANNING TICKET / PASS</span>
+</div>
+<!-- Flash / Torch Toggle Button - 14px rounded rectangle -->
+<button aria-label="Toggle flashlight" class="w-11 h-11 flex items-center justify-center rounded-[14px] bg-surface-container-high/60 backdrop-blur-xl border border-glass-border text-text-primary active:scale-95 transition-transform duration-150 shadow-md hover:bg-glass-surface" id="torch-button" type="button">
+<span class="material-symbols-outlined text-[20px]">flash_on</span>
+</button>
+</div>
+<!-- PassKit AI OCR Active Reticle Banner -->
+<div class="self-center mt-2 flex items-center gap-2 px-3 py-1.5 rounded-[12px] bg-surface-container/70 backdrop-blur-md border border-glass-border shadow-sm">
+<span class="material-symbols-outlined text-emerald-400 text-[16px]">qr_code_scanner</span>
+<span class="font-label-mono text-label-mono text-text-primary text-[11px]">PassKit AI OCR Active</span>
+</div>
+</header>
+<!-- Center Helper: Instruction Label positioned directly below viewfinder -->
+<div class="relative z-30 flex flex-col items-center justify-center px-8 text-center pointer-events-none mt-auto mb-3">
+<div class="px-4 py-2 rounded-[14px] bg-surface-container-lowest/60 backdrop-blur-xl border border-glass-border/50 shadow-lg max-w-[320px]">
+<p class="font-body-sm text-body-sm text-text-primary font-medium tracking-tight">
+          Position pass or boarding card within frame to automatically import into Slip
+        </p>
+</div>
+</div>
+<!-- Bottom Controls & Action Bar (Z-30) -->
+<footer class="relative z-30 pb-9 px-5 flex flex-col gap-3">
+<!-- Import from Photos Button - CRITICAL: rounded-[16px], NOT a pill -->
+<button class="w-full h-14 rounded-[16px] bg-surface-container-high/85 hover:bg-surface-bright backdrop-blur-2xl border border-glass-border flex items-center justify-center gap-3 px-5 text-text-primary active:scale-[0.98] transition-all duration-150 shadow-lg shadow-black/40" type="button">
+<span class="material-symbols-outlined text-text-primary text-[22px]">photo_library</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary tracking-tight">Import from Photos</span>
+</button>
+<!-- Bottom Split Actions: Manual Code Entry & Cancel Button -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Shortcut: Enter Details Manually - rounded-[16px] -->
+<button class="h-12 rounded-[16px] bg-surface-container-low/80 hover:bg-surface-container-high/90 backdrop-blur-xl border border-glass-border flex items-center justify-center gap-2 px-3 text-text-secondary active:scale-[0.98] transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-[18px]">keyboard</span>
+<span class="font-label-mono text-label-mono text-text-primary text-[12px] font-medium">Enter Details</span>
+</button>
+<!-- Cancel / Dismiss Action - rounded-[16px] -->
+<button class="h-12 rounded-[16px] bg-surface-container-low/80 hover:bg-surface-container-high/90 backdrop-blur-xl border border-glass-border flex items-center justify-center px-4 text-text-secondary active:scale-[0.98] transition-all duration-150" type="button">
+<span class="font-headline-sm text-headline-sm text-text-primary font-semibold text-[15px]">Cancel</span>
+</button>
+</div>
+<!-- iOS Home Bar Indicator -->
+<div class="w-32 h-1 bg-white/30 rounded-full mx-auto mt-2"></div>
+</footer>
+</main>
+<!-- Interactive feedback for Torch toggle -->
+<script>
+    const torchBtn = document.getElementById('torch-button');
+    if (torchBtn) {
+      let active = false;
+      torchBtn.addEventListener('click', () => {
+        active = !active;
+        const icon = torchBtn.querySelector('.material-symbols-outlined');
+        if (active) {
+          torchBtn.classList.add('bg-white', 'text-black', 'shadow-white/30');
+          torchBtn.classList.remove('bg-surface-container-high/60', 'text-text-primary');
+          if (icon) icon.textContent = 'flash_off';
+        } else {
+          torchBtn.classList.remove('bg-white', 'text-black', 'shadow-white/30');
+          torchBtn.classList.add('bg-surface-container-high/60', 'text-text-primary');
+          if (icon) icon.textContent = 'flash_on';
+        }
+      });
+    }
+  </script>
+</body></html>

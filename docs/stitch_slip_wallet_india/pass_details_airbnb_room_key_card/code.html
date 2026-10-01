@@ -1,0 +1,393 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Airbnb Room Key Card • Slip Wallet</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Inter & JetBrains Mono Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed": "#1c1b1d",
+            "surface-bright": "#3a3939",
+            "on-secondary-fixed": "#1b1b23",
+            "on-surface-variant": "#c8c5ca",
+            "surface-container": "#201f1f",
+            "primary": "#c8c6c8",
+            "surface-tint": "#c8c6c8",
+            "outline-variant": "#47464a",
+            "on-surface": "#e5e2e1",
+            "mesh-teal": "#0c2329",
+            "surface-container-highest": "#353434",
+            "secondary-fixed-dim": "#c7c5d0",
+            "mesh-base": "#070709",
+            "outline": "#919095",
+            "background": "#141313",
+            "primary-container": "#0a0a0c",
+            "on-secondary": "#303038",
+            "mesh-violet": "#1f1035",
+            "surface-container-low": "#1c1b1b",
+            "on-secondary-container": "#b6b4bf",
+            "surface-variant": "#353434",
+            "tertiary-fixed-dim": "#ccc5bf",
+            "on-primary": "#313032",
+            "glass-surface": "rgba(255, 255, 255, 0.08)",
+            "error-container": "#93000a",
+            "on-tertiary-container": "#7d7973",
+            "glass-border": "rgba(255, 255, 255, 0.12)",
+            "on-error-container": "#ffdad6",
+            "on-secondary-fixed-variant": "#46464f",
+            "secondary-container": "#46464f",
+            "secondary": "#c7c5d0",
+            "error": "#ffb4ab",
+            "inverse-primary": "#5f5e60",
+            "on-background": "#e5e2e1",
+            "on-tertiary": "#33302c",
+            "text-primary": "#F5F5F7",
+            "surface-container-high": "#2b2a2a",
+            "surface-container-lowest": "#0e0e0e",
+            "surface-dim": "#141313",
+            "surface": "#141313",
+            "tertiary-fixed": "#e8e1db",
+            "tertiary": "#ccc5bf",
+            "on-error": "#690005",
+            "primary-fixed": "#e5e1e4",
+            "on-tertiary-fixed-variant": "#4a4642",
+            "secondary-fixed": "#e4e1ec",
+            "inverse-surface": "#e5e2e1",
+            "on-primary-container": "#7a797b",
+            "text-secondary": "#8E8E93",
+            "on-tertiary-fixed": "#1e1b17",
+            "tertiary-container": "#0c0a07",
+            "inverse-on-surface": "#313030",
+            "on-primary-fixed-variant": "#474649",
+            "primary-fixed-dim": "#c8c6c8"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "16px",
+            "space-sm": "8px",
+            "margin": "20px",
+            "space-xs": "4px",
+            "space-lg": "24px",
+            "space-xl": "32px",
+            "space-md": "16px"
+          },
+          "fontFamily": {
+            "headline-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-xl": ["Inter"],
+            "code-mono": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-mono": ["JetBrains Mono"],
+            "headline-md": ["Inter"]
+          },
+          "fontSize": {
+            "headline-sm": ["17px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-xl": ["34px", { "lineHeight": "41px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "code-mono": ["15px", { "lineHeight": "20px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "body-md": ["15px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "body-lg": ["17px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Ticket Notch Cutout */
+    .ticket-lanyard-notch {
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 18px;
+      background-color: #141313;
+      border-bottom-left-radius: 9999px;
+      border-bottom-right-radius: 9999px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      z-index: 20;
+    }
+    /* Ambient Glow Animation */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.04); }
+    }
+    .ambient-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased selection:bg-surface-variant selection:text-text-primary min-h-screen pb-16 flex justify-center">
+<!-- Mobile Screen Constraint Wrapper -->
+<div class="relative w-full max-w-md min-h-screen bg-background flex flex-col justify-start overflow-x-hidden">
+<!-- Background Ambient Lighting Mesh -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-96 bg-mesh-teal/30 rounded-full blur-3xl ambient-glow"></div>
+<div class="absolute top-80 -left-20 w-72 h-72 bg-mesh-violet/25 rounded-full blur-3xl"></div>
+<div class="absolute bottom-10 right-0 w-80 h-80 bg-mesh-teal/20 rounded-full blur-3xl"></div>
+</div>
+<!-- Sticky Sub-Page Top Bar (Task-focused: Back / Close flow - Navigation Shell excluded per Destination Rule) -->
+<header class="sticky top-0 z-40 w-full px-5 pt-4 pb-3 flex items-center justify-between bg-background/80 backdrop-blur-xl border-b border-glass-border">
+<!-- Close Action Button -->
+<button aria-label="Close pass details" class="w-10 h-10 rounded-full bg-surface-container-high/60 border border-glass-border flex items-center justify-center text-text-primary active:scale-95 transition-transform duration-150 focus:outline-none">
+<span class="material-symbols-outlined text-[20px]" data-icon="close">close</span>
+</button>
+<!-- Center Status Tag -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low/80 border border-glass-border shadow-inner">
+<span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-text-primary uppercase tracking-wider font-semibold">PASSKIT • NFC KEY READY</span>
+</div>
+<!-- More Menu Action Button -->
+<button aria-label="Pass options" class="w-10 h-10 rounded-full bg-surface-container-high/60 border border-glass-border flex items-center justify-center text-text-primary active:scale-95 transition-transform duration-150 focus:outline-none">
+<span class="material-symbols-outlined text-[20px]" data-icon="more_horiz">more_horiz</span>
+</button>
+</header>
+<!-- Main Content Canvas (Pass Details View) -->
+<main class="relative z-10 px-5 pt-3 flex flex-col gap-6 w-full">
+<!-- EventTicketShell Card Container -->
+<div class="relative w-full rounded-2xl bg-surface-container-low/90 backdrop-blur-2xl border border-glass-border shadow-2xl shadow-black/80 overflow-hidden flex flex-col">
+<!-- Distinctive Top-Center Notch Cutout -->
+<div class="ticket-lanyard-notch flex items-center justify-center">
+<div class="w-6 h-1 rounded-full bg-surface-container-highest/80"></div>
+</div>
+<!-- Card Header Section -->
+<div class="pt-6 px-5 pb-4 flex flex-col gap-3 border-b border-glass-border/70">
+<div class="flex items-center justify-between">
+<!-- Airbnb Brand Cluster -->
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container-highest flex items-center justify-center border border-glass-border">
+<span class="material-symbols-outlined text-rose-400 text-[18px]" data-icon="cottage">cottage</span>
+</div>
+<span class="font-headline-sm text-headline-sm font-bold text-text-primary tracking-tight">Airbnb • Stays</span>
+</div>
+<!-- Status Badge Capsule -->
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">
+<span class="material-symbols-outlined text-[14px]" data-icon="vpn_key">vpn_key</span>
+<span class="font-label-mono text-label-mono text-[11px] font-semibold tracking-wide">ACTIVE KEY</span>
+</div>
+</div>
+<!-- Property & Room Meta -->
+<div class="flex flex-col gap-0.5 mt-1">
+<h1 class="font-headline-lg text-headline-lg font-bold text-text-primary tracking-tight leading-tight">The Glasshouse Loft, Soho</h1>
+<p class="font-body-md text-body-md text-text-secondary">Master Suite &amp; Penthouse Deck • Room 402</p>
+</div>
+</div>
+<!-- Hero Section: Frosted Glass Access Banner -->
+<div class="px-5 py-4">
+<div class="relative w-full rounded-2xl bg-gradient-to-br from-surface-container-high/80 via-surface-container/60 to-surface-container-high/30 p-4 border border-glass-border overflow-hidden">
+<!-- Ambient Corner Highlight -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-4">
+<!-- Frosted Glass Bed / Hotel Icon Badge -->
+<div class="w-14 h-14 rounded-2xl bg-glass-surface backdrop-blur-md border border-glass-border flex items-center justify-center text-text-primary shadow-lg shadow-black/20 shrink-0">
+<span class="material-symbols-outlined text-[30px] text-amber-200" data-icon="bed">bed</span>
+</div>
+<!-- Keyless Entry Banner Text -->
+<div class="flex flex-col justify-center">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">Access Protocol</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-text-primary">Apple VAS 2.0 Keyless Access</span>
+<div class="flex items-center gap-1 mt-0.5 text-emerald-400">
+<span class="material-symbols-outlined text-[15px]" data-icon="contactless">contactless</span>
+<span class="font-label-mono text-label-mono text-[11px] font-medium">NFC Hardware Active &amp; Linked</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Grid (FieldBlocks) -->
+<div class="px-5 py-1">
+<div class="grid grid-cols-2 gap-2.5">
+<!-- CHECK-IN -->
+<div class="p-3.5 rounded-2xl bg-surface-container/70 border border-glass-border flex flex-col justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">CHECK-IN</span>
+<div class="mt-1">
+<span class="font-headline-sm text-headline-sm font-bold text-text-primary block">15 OCT, 03:00 PM</span>
+<span class="font-body-sm text-body-sm text-emerald-400 block mt-0.5">Early Access Confirmed</span>
+</div>
+</div>
+<!-- CHECK-OUT -->
+<div class="p-3.5 rounded-2xl bg-surface-container/70 border border-glass-border flex flex-col justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">CHECK-OUT</span>
+<div class="mt-1">
+<span class="font-headline-sm text-headline-sm font-bold text-text-primary block">20 OCT, 11:00 AM</span>
+<span class="font-body-sm text-body-sm text-text-secondary block mt-0.5">Flexible Key Valid</span>
+</div>
+</div>
+<!-- GUESTS -->
+<div class="p-3.5 rounded-2xl bg-surface-container/70 border border-glass-border flex flex-col justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">GUESTS</span>
+<div class="mt-1">
+<span class="font-headline-sm text-headline-sm font-bold text-text-primary block">2 Guests</span>
+<span class="font-body-sm text-body-sm text-text-secondary block mt-0.5">Alexander &amp; Sarah</span>
+</div>
+</div>
+<!-- KEY PIN / DOOR CODE -->
+<div class="p-3.5 rounded-2xl bg-surface-container/70 border border-glass-border flex flex-col justify-between">
+<span class="font-label-mono text-label-mono text-text-secondary uppercase">KEY PIN / DOOR CODE</span>
+<div class="mt-1 flex items-baseline justify-between">
+<span class="font-code-mono text-code-mono text-headline-sm font-bold text-amber-300 tracking-widest">7392#</span>
+<span class="material-symbols-outlined text-text-secondary text-[16px]" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- CONFIRMATION CODE (Full Width) -->
+<div class="col-span-2 p-3.5 rounded-2xl bg-surface-container/70 border border-glass-border flex items-center justify-between">
+<div>
+<span class="font-label-mono text-label-mono text-text-secondary uppercase block">CONFIRMATION CODE</span>
+<span class="font-code-mono text-code-mono font-bold text-text-primary text-[15px] tracking-wider mt-0.5 block">HM849201X</span>
+</div>
+<button aria-label="Copy confirmation code" class="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-surface-container-high border border-glass-border text-text-primary hover:bg-glass-surface active:scale-95 transition-all text-xs font-label-mono">
+<span class="material-symbols-outlined text-[14px]" data-icon="content_copy">content_copy</span>
+<span>COPY</span>
+</button>
+</div>
+</div>
+</div>
+<!-- NFC Door Unlock & Prompt Block -->
+<div class="px-5 pt-3 pb-2">
+<div class="w-full rounded-2xl bg-surface-container-high/50 border border-glass-border p-3.5 flex items-center gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-primary-container border border-glass-border flex items-center justify-center text-text-primary shrink-0">
+<span class="material-symbols-outlined text-[24px] text-amber-200" data-icon="contactless">contactless</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono font-semibold text-text-primary uppercase tracking-wide">HOLD NEAR DOOR LOCK</span>
+<span class="font-body-sm text-body-sm text-text-secondary">Tap iPhone or Apple Watch near smart door lock to unlock</span>
+</div>
+</div>
+</div>
+<!-- Perforation Divider Line -->
+<div class="relative my-3 w-full flex items-center justify-center px-4">
+<div class="w-full border-t border-dashed border-glass-border/60"></div>
+</div>
+<!-- QR Code & PassKit Security Section -->
+<div class="px-5 pb-5 pt-1 flex flex-col items-center justify-center">
+<!-- White Rounded QR Code Backing Square -->
+<div class="w-40 h-40 bg-white rounded-2xl p-2.5 flex items-center justify-center shadow-lg shadow-black/40">
+<!-- SVG Scannable PassKit QR Vector -->
+<svg class="w-full h-full text-black" fill="currentColor" viewBox="0 0 100 100">
+<!-- Corner Finder 1 -->
+<rect fill="none" height="26" rx="4" stroke="black" stroke-width="4" width="26" x="6" y="6"></rect>
+<rect fill="black" height="14" rx="2" width="14" x="12" y="12"></rect>
+<!-- Corner Finder 2 -->
+<rect fill="none" height="26" rx="4" stroke="black" stroke-width="4" width="26" x="68" y="6"></rect>
+<rect fill="black" height="14" rx="2" width="14" x="74" y="12"></rect>
+<!-- Corner Finder 3 -->
+<rect fill="none" height="26" rx="4" stroke="black" stroke-width="4" width="26" x="6" y="68"></rect>
+<rect fill="black" height="14" rx="2" width="14" x="12" y="74"></rect>
+<!-- Matrix Data Grids -->
+<rect fill="black" height="6" width="8" x="38" y="8"></rect>
+<rect fill="black" height="12" width="6" x="52" y="8"></rect>
+<rect fill="black" height="6" width="14" x="42" y="20"></rect>
+<rect fill="black" height="10" width="6" x="8" y="38"></rect>
+<rect fill="black" height="6" width="8" x="20" y="44"></rect>
+<rect fill="black" height="6" width="6" x="38" y="36"></rect>
+<rect fill="black" height="8" width="8" x="48" y="38"></rect>
+<rect fill="black" height="12" width="6" x="62" y="36"></rect>
+<rect fill="black" height="6" width="18" x="74" y="42"></rect>
+<rect fill="black" height="6" width="12" x="40" y="52"></rect>
+<rect fill="black" height="8" width="6" x="58" y="54"></rect>
+<rect fill="black" height="6" width="10" x="70" y="54"></rect>
+<rect fill="black" height="8" width="8" x="86" y="52"></rect>
+<rect fill="black" height="8" width="8" x="38" y="68"></rect>
+<rect fill="black" height="18" width="6" x="52" y="68"></rect>
+<rect fill="black" height="6" width="12" x="64" y="68"></rect>
+<rect fill="black" height="6" width="12" x="82" y="72"></rect>
+<rect fill="black" height="8" width="6" x="40" y="84"></rect>
+<rect fill="black" height="10" width="14" x="66" y="82"></rect>
+<rect fill="black" height="6" width="8" x="86" y="86"></rect>
+</svg>
+</div>
+<!-- Serial String & Encryption Meta -->
+<div class="mt-3 flex flex-col items-center text-center">
+<span class="font-code-mono text-code-mono text-xs text-text-primary tracking-widest font-semibold">AB-VAS-9842-4021</span>
+<span class="font-label-mono text-label-mono text-[10px] text-text-secondary mt-0.5">Encrypted VAS 2.0 • Slip SecurePass™</span>
+</div>
+<!-- CRITICAL REQUIREMENT: Small circular (i) info button at the BOTTOM RIGHT of the pass card itself -->
+<div class="w-full flex justify-end mt-1 px-1">
+<button aria-label="Pass information &amp; back side details" class="w-7 h-7 rounded-full bg-surface-container-highest/80 border border-glass-border flex items-center justify-center text-text-secondary hover:text-text-primary active:scale-90 transition-transform duration-150 focus:outline-none">
+<span class="material-symbols-outlined text-[16px]" data-icon="info">info</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Action Buttons (Outside the Pass Card) - Strictly Rounded-2xl (15% rounding, NOT pill) -->
+<div class="flex flex-col gap-3 w-full">
+<!-- Primary Action Button: 'Add to Apple Wallet' -->
+<button class="w-full h-14 rounded-2xl bg-text-primary text-on-primary-fixed flex items-center justify-center gap-2.5 font-headline-sm text-headline-sm font-semibold shadow-xl shadow-white/5 active:scale-[0.98] transition-transform duration-150 focus:outline-none">
+<!-- Inline Apple Icon SVG -->
+<svg class="w-5 h-5 fill-current" viewBox="0 0 170 170">
+<path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.08-7.66-7.85-11.92-14.3-6.42-9.74-11.36-20.73-14.82-32.97-3.46-12.24-5.19-23.77-5.19-34.59 0-14.07 3.58-25.75 10.74-35.04 7.16-9.29 16.27-13.98 27.34-14.08 4.48 0 9.77 1.25 15.86 3.76 6.1 2.5 10.08 3.82 11.95 3.96 1.63-.14 5.75-1.52 12.37-4.13 6.62-2.61 12.04-3.79 16.28-3.53 12.24.77 21.94 5.34 29.11 13.72-10.72 6.5-16.01 15.53-15.86 27.09.15 9.07 3.65 16.79 10.51 23.16 6.86 6.37 15.11 9.88 24.75 10.54-2.17 6.41-4.78 12.82-7.83 19.23zM119.22 33.15c0-6.72 2.37-13.06 7.11-19.01 4.75-5.95 10.66-9.87 17.75-11.76.1 1.02.15 1.95.15 2.8 0 6.64-2.5 13.08-7.51 19.32-5.01 6.24-11.01 10.02-18 11.34-.1-.89-.15-1.78-.15-2.69z"></path>
+</svg>
+<span>Add to Apple Wallet</span>
+</button>
+<!-- Secondary Action Row - Rounded-2xl Rectangles -->
+<div class="grid grid-cols-3 gap-2.5">
+<!-- Unlock Door Now Action -->
+<button class="h-16 rounded-2xl bg-surface-container-high/70 border border-glass-border flex flex-col items-center justify-center gap-1 text-text-primary active:scale-95 hover:bg-surface-variant transition-all focus:outline-none">
+<span class="material-symbols-outlined text-[20px] text-amber-200" data-icon="lock_open">lock_open</span>
+<span class="font-label-mono text-[11px] font-medium tracking-tight">Unlock Door</span>
+</button>
+<!-- Get Directions Action -->
+<button class="h-16 rounded-2xl bg-surface-container-high/70 border border-glass-border flex flex-col items-center justify-center gap-1 text-text-primary active:scale-95 hover:bg-surface-variant transition-all focus:outline-none">
+<span class="material-symbols-outlined text-[20px] text-secondary" data-icon="near_me">near_me</span>
+<span class="font-label-mono text-[11px] font-medium tracking-tight">Directions</span>
+</button>
+<!-- Contact Host Action -->
+<button class="h-16 rounded-2xl bg-surface-container-high/70 border border-glass-border flex flex-col items-center justify-center gap-1 text-text-primary active:scale-95 hover:bg-surface-variant transition-all focus:outline-none">
+<span class="material-symbols-outlined text-[20px] text-secondary" data-icon="chat">chat</span>
+<span class="font-label-mono text-[11px] font-medium tracking-tight">Contact Host</span>
+</button>
+</div>
+<!-- Concierge / Assistance Bar - Rounded-2xl Rectangle -->
+<div class="w-full rounded-2xl bg-surface-container/50 border border-glass-border p-3 flex items-center justify-between mt-1">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-xl bg-surface-container-high flex items-center justify-center border border-glass-border text-text-secondary">
+<span class="material-symbols-outlined text-[18px]" data-icon="support_agent">support_agent</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-mono text-label-mono text-[10px] text-text-secondary uppercase">Emergency &amp; Support</span>
+<span class="font-body-sm text-body-sm font-medium text-text-primary">24/7 Airbnb Superhost Concierge</span>
+</div>
+</div>
+<a aria-label="Call concierge" class="px-2.5 py-1.5 rounded-xl bg-surface-container-high border border-glass-border text-emerald-400 font-label-mono text-label-mono text-xs font-semibold flex items-center gap-1 active:scale-95 transition-transform" href="tel:+18554247262">
+<span class="material-symbols-outlined text-[14px]" data-icon="call">call</span>
+<span>CALL</span>
+</a>
+</div>
+</div>
+</main>
+</div>
+</body></html>
