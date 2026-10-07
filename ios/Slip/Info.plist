@@ -35,21 +35,7 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>161.33.86.15</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
+
 	<key>NSMotionUsageDescription</key>
 	<string>Slip uses motion to add a subtle Wallet-like shine on pass previews.</string>
 	<key>NSCameraUsageDescription</key>
@@ -82,6 +68,11 @@
 	<array>
 		<string>location</string>
 		<string>fetch</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Inter.ttf</string>
+		<string>JetBrainsMono.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "SlipLogo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "SlipLogo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
