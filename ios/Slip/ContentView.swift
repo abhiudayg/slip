@@ -17,6 +17,22 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             MeshBackground()
+            
+            VStack {
+                if model.isJailbroken {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                        Text("Device Security Compromised (Jailbreak Detected)")
+                            .font(SlipTheme.labelMono())
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                    .background(Color.red.opacity(0.8))
+                    .foregroundColor(.white)
+                    .zIndex(100)
+                }
+                Spacer()
+            }
 
             Group {
                 switch tab {
@@ -122,6 +138,10 @@ struct ContentView: View {
                 onPDF: { data in
                     showScanner = false
                     Task { await model.classifyPDF(data) }
+                },
+                onManualEntry: {
+                    showScanner = false
+                    tab = .marketplace
                 },
                 onCancel: {
                     showScanner = false

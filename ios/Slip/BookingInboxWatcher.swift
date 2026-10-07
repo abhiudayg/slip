@@ -19,7 +19,26 @@ enum BookingInboxWatcher {
     @MainActor
     static func scanClipboardIfNeeded() async {
         guard isEnabled else { return }
-        guard UIPasteboard.general.hasStrings,
+        
+        // On iOS 15+, pre-filter using detection patterns to avoid paste banner 
+        // when the clipboard clearly doesn't contain a booking (no numbers or URLs).
+        let hasPotentialBooking: Bool
+        if #available(iOS 15.0, *) {
+            hasPotentialBooking = await withCheckedContinuation { continuation in
+                UIPasteboard.general.detectPatterns(for: [.probableWebURL, .number]) { result in
+                    switch result {
+                    case .success(let patterns):
+                        continuation.resume(returning: !patterns.isEmpty)
+                    case .failure:
+                        continuation.resume(returning: UIPasteboard.general.hasStrings)
+                    }
+                }
+            }
+        } else {
+            hasPotentialBooking = UIPasteboard.general.hasStrings
+        }
+        
+        guard hasPotentialBooking,
               let text = UIPasteboard.general.string,
               text.count >= 48 else { return }
 
@@ -94,16 +113,26 @@ enum PendingBookingImport {
 
     static func save(text: String, brandHint: String) {
         let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
-        defaults.set(text, forKey: textKey)
+        // Encrypt booking text before persisting to App Group.
+        if let sealed = try? VaultCrypto.seal(text),
+           let data = try? JSONEncoder().encode(sealed) {
+            defaults.set(data, forKey: textKey)
+        }
         defaults.set(brandHint, forKey: brandKey)
     }
 
     static func consume() -> (text: String, brandHint: String)? {
         let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
-        guard let text = defaults.string(forKey: textKey), !text.isEmpty else { return nil }
-        let brand = defaults.string(forKey: brandKey) ?? ""
+        guard let data = defaults.data(forKey: textKey) else { return nil }
         defaults.removeObject(forKey: textKey)
+        let brand = defaults.string(forKey: brandKey) ?? ""
         defaults.removeObject(forKey: brandKey)
+        // Decrypt the sealed booking text.
+        guard let box = try? JSONDecoder().decode(VaultCrypto.SealedBox.self, from: data),
+              let text = try? VaultCrypto.open(box, as: String.self),
+              !text.isEmpty else {
+            return nil
+        }
         return (text, brand)
     }
 

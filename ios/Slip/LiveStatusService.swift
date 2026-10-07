@@ -52,11 +52,13 @@ enum LiveStatusService {
             let flight = (payload.fields["flight"] ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
             guard !flight.isEmpty else { return nil }
             let iata = flight.uppercased().replacingOccurrences(of: " ", with: "")
-            guard let url = URL(string: "https://api.aviationstack.com/v1/flights?access_key=\(apiKey)&flight_iata=\(iata)&limit=1") else {
+            guard let url = URL(string: "https://api.aviationstack.com/v1/flights?flight_iata=\(iata)&limit=1") else {
                 return nil
             }
+            var req = URLRequest(url: url)
+            req.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
             do {
-                let (data, response) = try await URLSession.shared.data(from: url)
+                let (data, response) = try await URLSession.shared.data(for: req)
                 guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else { return nil }
                 guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                       let list = root["data"] as? [[String: Any]],

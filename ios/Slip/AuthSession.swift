@@ -1,14 +1,71 @@
 import AuthenticationServices
+import Security
 import SwiftUI
 import UIKit
+
+// MARK: - Keychain helper for sensitive auth fields
+
+private enum SecureStore {
+    private static let service = "com.aeswibon.slip.auth"
+
+    static func set(_ value: String, forKey account: String) {
+        let data = Data(value.utf8)
+        // Delete any pre-existing item (both sync scopes) before writing.
+        let deleteQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecAttrSynchronizable as String: kSecAttrSynchronizableAny
+        ]
+        SecItemDelete(deleteQuery as CFDictionary)
+
+        let addQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlocked,
+            kSecAttrSynchronizable as String: kCFBooleanFalse as Any,
+            kSecValueData as String: data
+        ]
+        SecItemAdd(addQuery as CFDictionary, nil)
+    }
+
+    static func get(forKey account: String) -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecAttrSynchronizable as String: kSecAttrSynchronizableAny,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+        guard status == errSecSuccess, let data = item as? Data else { return nil }
+        let value = String(data: data, encoding: .utf8)
+        return value?.isEmpty == true ? nil : value
+    }
+
+    static func remove(forKey account: String) {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecAttrSynchronizable as String: kSecAttrSynchronizableAny
+        ]
+        SecItemDelete(query as CFDictionary)
+    }
+}
 
 /// Session gate — Sign in with Apple before the vault UI. Cloud API status is probed here.
 @MainActor
 final class AuthSession: ObservableObject {
     private enum Keys {
+        /// Sensitive fields stored in Keychain via SecureStore.
         static let userID = "slip.auth.userID"
-        static let displayName = "slip.auth.displayName"
         static let email = "slip.auth.email"
+        /// Non-sensitive fields remain in UserDefaults.
+        static let displayName = "slip.auth.displayName"
         static let avatarJPEG = "slip.auth.avatarJPEG"
     }
 
@@ -56,17 +113,36 @@ final class AuthSession: ObservableObject {
     }
 
     init() {
-        userID = defaults.string(forKey: Keys.userID) ?? ""
+        // Migration: move legacy plaintext UserDefaults → Keychain on first launch.
+        migrateToKeychainIfNeeded()
+
+        userID = SecureStore.get(forKey: Keys.userID) ?? ""
         displayName = defaults.string(forKey: Keys.displayName) ?? ""
-        email = defaults.string(forKey: Keys.email) ?? ""
+        email = SecureStore.get(forKey: Keys.email) ?? ""
         if let data = defaults.data(forKey: Keys.avatarJPEG), !data.isEmpty {
             avatarImage = UIImage(data: data)
         }
     }
 
+    /// One-time migration from plaintext UserDefaults to Keychain for sensitive fields.
+    private func migrateToKeychainIfNeeded() {
+        if SecureStore.get(forKey: Keys.userID) == nil,
+           let legacyID = defaults.string(forKey: Keys.userID),
+           !legacyID.isEmpty {
+            SecureStore.set(legacyID, forKey: Keys.userID)
+            defaults.removeObject(forKey: Keys.userID)
+        }
+        if SecureStore.get(forKey: Keys.email) == nil,
+           let legacyEmail = defaults.string(forKey: Keys.email),
+           !legacyEmail.isEmpty {
+            SecureStore.set(legacyEmail, forKey: Keys.email)
+            defaults.removeObject(forKey: Keys.email)
+        }
+    }
+
     /// Confirms the stored Apple user is still authorized; signs out if revoked.
     func validatePersistedAppleSession() async {
-        let stored = defaults.string(forKey: Keys.userID) ?? ""
+        let stored = SecureStore.get(forKey: Keys.userID) ?? ""
         guard !stored.isEmpty else {
             if !userID.isEmpty { signOut() }
             return
@@ -116,22 +192,22 @@ final class AuthSession: ObservableObject {
     ) {
         let id = "simulator.slip.\(UUID().uuidString)"
         userID = id
-        defaults.set(id, forKey: Keys.userID)
+        SecureStore.set(id, forKey: Keys.userID)
         self.displayName = displayName
         defaults.set(displayName, forKey: Keys.displayName)
         self.email = email
-        defaults.set(email, forKey: Keys.email)
+        SecureStore.set(email, forKey: Keys.email)
     }
 
     func applyAppleCredential(userID: String, fullName: PersonNameComponents?, email: String?) {
         self.userID = userID
-        defaults.set(userID, forKey: Keys.userID)
+        SecureStore.set(userID, forKey: Keys.userID)
 
         if let email {
             let trimmed = email.trimmingCharacters(in: .whitespacesAndNewlines)
             if !trimmed.isEmpty {
                 self.email = trimmed
-                defaults.set(trimmed, forKey: Keys.email)
+                SecureStore.set(trimmed, forKey: Keys.email)
             }
         }
 
@@ -181,16 +257,16 @@ final class AuthSession: ObservableObject {
         userID = ""
         displayName = ""
         email = ""
-        defaults.removeObject(forKey: Keys.userID)
+        SecureStore.remove(forKey: Keys.userID)
         defaults.removeObject(forKey: Keys.displayName)
-        defaults.removeObject(forKey: Keys.email)
+        SecureStore.remove(forKey: Keys.email)
         updateAvatar(nil)
     }
 
     private func restoreLocalSession(userID: String) {
         self.userID = userID
         displayName = defaults.string(forKey: Keys.displayName) ?? ""
-        email = defaults.string(forKey: Keys.email) ?? ""
+        email = SecureStore.get(forKey: Keys.email) ?? ""
         if let data = defaults.data(forKey: Keys.avatarJPEG), !data.isEmpty {
             avatarImage = UIImage(data: data)
         }

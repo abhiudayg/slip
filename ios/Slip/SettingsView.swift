@@ -10,6 +10,7 @@ struct SettingsView: View {
 
     @AppStorage("slip.settings.faceId") private var faceIdEnabled = true
     @AppStorage("slip.settings.nfcFaceId") private var requireNfcFaceId = true
+    @AppStorage("slip.settings.autoLockMinutes") private var autoLockMinutes = 5
     @AppStorage("slip.settings.autoArchive") private var autoArchiveExpired = true
     @AppStorage("slip.settings.cardStackPhysics") private var cardStackPhysics = true
     @AppStorage("slip.settings.haptics") private var hapticFeedback = true
@@ -101,7 +102,7 @@ struct SettingsView: View {
                     onDone?()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.slipSystem(size: 15, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                         .frame(width: 36, height: 36)
                         .background(
@@ -128,7 +129,7 @@ struct SettingsView: View {
                     // Notification center
                 } label: {
                     Image(systemName: "bell.fill")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.slipSystem(size: 15, weight: .semibold))
                         .foregroundStyle(SlipTheme.muted)
                         .frame(width: 36, height: 36)
                         .background(
@@ -168,13 +169,15 @@ struct SettingsView: View {
             sectionHeader("ACCOUNT & CREDENTIALS")
 
             VStack(spacing: 0) {
+                let avatar = auth.avatarImage
+                let mono = auth.monogram
                 // Profile Row
                 HStack(spacing: 14) {
                     PhotosPicker(selection: $avatarPickerItem, matching: .images) {
                         ZStack(alignment: .bottomTrailing) {
                             ProfileAvatarView(
-                                image: auth.avatarImage,
-                                monogram: auth.monogram,
+                                image: avatar,
+                                monogram: mono,
                                 size: 52
                             )
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -188,7 +191,7 @@ struct SettingsView: View {
                                     .fill(Color(hex: 0x007AFF))
                                     .frame(width: 18, height: 18)
                                 Image(systemName: "key.fill")
-                                    .font(.system(size: 9, weight: .bold))
+                                    .font(.slipSystem(size: 9, weight: .bold))
                                     .foregroundStyle(.white)
                             }
                             .offset(x: 3, y: 3)
@@ -202,7 +205,7 @@ struct SettingsView: View {
                                 .font(SlipTheme.headlineSM())
                                 .foregroundStyle(SlipTheme.ink)
                             Text("PRO")
-                                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                                .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                                 .foregroundStyle(SlipTheme.ink)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
@@ -223,7 +226,7 @@ struct SettingsView: View {
 
                         HStack(spacing: 4) {
                             Image(systemName: "person.badge.key.fill")
-                                .font(.system(size: 11))
+                                .font(.slipSystem(size: 11))
                                 .foregroundStyle(SlipTheme.muted)
                             Text("Apple ID Linked")
                                 .font(SlipTheme.labelMono())
@@ -239,7 +242,7 @@ struct SettingsView: View {
                         isEditingName = true
                     } label: {
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.muted)
                     }
                     .buttonStyle(.plain)
@@ -265,10 +268,13 @@ struct SettingsView: View {
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.slipSystem(size: 14, weight: .semibold))
                         .foregroundStyle(SlipTheme.muted)
                 }
                 .padding(16)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("PassKit and Apple Wallet Sync")
+                .accessibilityValue("Connected and Active")
             }
             .background(cardBackground)
         }
@@ -289,6 +295,31 @@ struct SettingsView: View {
                     subtitle: nil,
                     isOn: $faceIdEnabled
                 )
+
+                if faceIdEnabled {
+                    Divider().background(SlipTheme.glassBorder)
+                    
+                    HStack(spacing: 12) {
+                        squircleIcon("clock.fill", color: SlipTheme.upiGreen)
+                        
+                        Text("Auto-Lock")
+                            .font(SlipTheme.bodyMD())
+                            .fontWeight(.medium)
+                            .foregroundStyle(SlipTheme.ink)
+                        
+                        Spacer()
+                        
+                        Picker("", selection: $autoLockMinutes) {
+                            Text("Immediately").tag(0)
+                            Text("After 1 minute").tag(1)
+                            Text("After 5 minutes").tag(5)
+                            Text("After 15 minutes").tag(15)
+                        }
+                        .tint(SlipTheme.muted)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                }
 
                 Divider().background(SlipTheme.glassBorder)
 
@@ -324,11 +355,16 @@ struct SettingsView: View {
                             .font(SlipTheme.labelMono())
                             .foregroundStyle(SlipTheme.muted)
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.muted)
                     }
                 }
                 .padding(16)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Passkey Management")
+                .accessibilityValue("2 keys")
+                .accessibilityHint("Double tap to manage FIDO2 WebAuthn vaults")
+                .accessibilityAddTraits(.isButton)
 
                 Divider().background(SlipTheme.glassBorder)
 
@@ -355,6 +391,9 @@ struct SettingsView: View {
                         )
                 }
                 .padding(16)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Secure Enclave Hardware")
+                .accessibilityValue("Level 3 Encrypted")
             }
             .background(cardBackground)
         }
@@ -403,7 +442,7 @@ struct SettingsView: View {
                 } label: {
                     HStack(spacing: 8) {
                         Image(systemName: isSyncing ? "arrow.triangle.2.circlepath" : "arrow.clockwise")
-                            .font(.system(size: 15, weight: .bold))
+                            .font(.slipSystem(size: 15, weight: .bold))
                             .rotationEffect(.degrees(isSyncing ? 360 : 0))
                             .animation(isSyncing ? .linear(duration: 1).repeatForever(autoreverses: false) : .default, value: isSyncing)
                         Text(syncToast ? "Synced with iCloud!" : "Sync Now")
@@ -441,7 +480,7 @@ struct SettingsView: View {
                             .font(SlipTheme.labelMono())
                             .foregroundStyle(SlipTheme.muted)
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.muted)
                     }
                 }
@@ -485,7 +524,7 @@ struct SettingsView: View {
                             .font(SlipTheme.labelMono())
                             .foregroundStyle(SlipTheme.muted)
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.muted)
                     }
                 }
@@ -530,7 +569,7 @@ struct SettingsView: View {
                     sectionHeader("REALTIME & PROTOCOL SERVICES")
                     Spacer()
                     Image(systemName: showAdvanced ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.slipSystem(size: 12, weight: .semibold))
                         .foregroundStyle(SlipTheme.muted)
                 }
             }
@@ -574,7 +613,7 @@ struct SettingsView: View {
                             }
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .font(.system(size: 14, weight: .semibold))
+                                .font(.slipSystem(size: 14, weight: .semibold))
                                 .foregroundStyle(SlipTheme.muted)
                         }
                         .padding(16)
@@ -599,7 +638,7 @@ struct SettingsView: View {
                     .font(SlipTheme.labelMono())
                     .foregroundStyle(SlipTheme.muted)
                 Text("Encrypted with Apple VAS 2.0 & PassKit Standard")
-                    .font(.system(size: 11, weight: .regular, design: .monospaced))
+                    .font(.slipSystem(size: 11, weight: .regular, design: .monospaced))
                     .foregroundStyle(SlipTheme.muted.opacity(0.7))
             }
 
@@ -654,7 +693,7 @@ struct SettingsView: View {
                         .strokeBorder(color.opacity(0.35), lineWidth: 1)
                 )
             Image(systemName: systemName)
-                .font(.system(size: 15, weight: .semibold))
+                .font(.slipSystem(size: 15, weight: .semibold))
                 .foregroundStyle(color)
         }
     }
@@ -688,6 +727,11 @@ struct SettingsView: View {
                 .tint(SlipTheme.upiGreen)
         }
         .padding(16)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+        .accessibilityValue(isOn.wrappedValue ? "On" : "Off")
+        .accessibilityHint(subtitle ?? "Double tap to toggle setting")
+        .accessibilityAddTraits(.isButton)
     }
 
     private func applyPickedAvatar(_ item: PhotosPickerItem) async {

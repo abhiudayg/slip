@@ -265,7 +265,7 @@ final class PassAPIClient {
     private let session: URLSession
 
     /// OCI Always Free pass-engine (Neon-backed). Prefer Info.plist `SlipAPIBaseURL`.
-    static let cloudDefaultBaseURL = "http://161.33.86.15:8080"
+    static let cloudDefaultBaseURL = "https://161.33.86.15:8080"
 
     var baseURLString: String { baseURL.absoluteString }
 
@@ -276,37 +276,97 @@ final class PassAPIClient {
         self.session = session
     }
 
+    /// Returns the current auth token from Keychain, if available.
+    private var authToken: String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: "com.aeswibon.slip.api",
+            kSecAttrAccount as String: "bearer-token",
+            kSecAttrSynchronizable as String: kSecAttrSynchronizableAny,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        var item: CFTypeRef?
+        guard SecItemCopyMatching(query as CFDictionary, &item) == errSecSuccess,
+              let data = item as? Data,
+              let token = String(data: data, encoding: .utf8),
+              !token.isEmpty else {
+            return nil
+        }
+        return token
+    }
+
+    private func authorizedRequest(url: URL, method: String = "GET") -> URLRequest {
+        var req = URLRequest(url: url)
+        req.httpMethod = method
+        if let token = authToken {
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        return req
+    }
+
+    private func performWithRetry<T>(
+        request: URLRequest,
+        maxRetries: Int = 3,
+        operation: (Data) throws -> T
+    ) async throws -> T {
+        var attempts = 0
+        var currentDelay: UInt64 = 1_000_000_000 // 1 second
+        
+        while true {
+            do {
+                let (data, response) = try await session.data(for: request)
+                try Self.throwIfNeeded(response, data: data)
+                return try operation(data)
+            } catch {
+                attempts += 1
+                if attempts >= maxRetries {
+                    throw error
+                }
+                // Exponential backoff
+                try? await Task.sleep(nanoseconds: currentDelay)
+                currentDelay *= 2
+            }
+        }
+    }
+
     func fetchHealth() async throws -> HealthResponse {
         let url = baseURL.appendingPathComponent("v1/health")
-        let (data, response) = try await session.data(from: url)
-        try Self.throwIfNeeded(response, data: data)
-        return try JSONDecoder().decode(HealthResponse.self, from: data)
+        let req = authorizedRequest(url: url)
+        return try await performWithRetry(request: req) { data in
+            try JSONDecoder().decode(HealthResponse.self, from: data)
+        }
     }
 
     func fetchBrands() async throws -> [BrandSummary] {
         let url = baseURL.appendingPathComponent("v1/brands")
-        let (data, response) = try await session.data(from: url)
-        try Self.throwIfNeeded(response, data: data)
-        return try JSONDecoder().decode([BrandSummary].self, from: data)
+        let req = authorizedRequest(url: url)
+        do {
+            return try await performWithRetry(request: req) { data in
+                try JSONDecoder().decode([BrandSummary].self, from: data)
+            }
+        } catch {
+            return BrandSummary.fallbackCatalog
+        }
     }
 
     func fetchStations(catalogId: String) async throws -> StationCatalog {
         let url = baseURL.appendingPathComponent("v1/stations/\(catalogId)")
-        let (data, response) = try await session.data(from: url)
-        try Self.throwIfNeeded(response, data: data)
-        return try JSONDecoder().decode(StationCatalog.self, from: data)
+        let req = authorizedRequest(url: url)
+        return try await performWithRetry(request: req) { data in
+            try JSONDecoder().decode(StationCatalog.self, from: data)
+        }
     }
 
     func createPass(_ request: CreatePassRequest) async throws -> Data {
         let url = baseURL.appendingPathComponent("v1/passes")
-        var req = URLRequest(url: url)
-        req.httpMethod = "POST"
+        var req = authorizedRequest(url: url, method: "POST")
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try JSONEncoder().encode(request)
-        let (data, response) = try await session.data(for: req)
-        try Self.throwIfNeeded(response, data: data)
-        guard !data.isEmpty else { throw PassAPIError.emptyBody }
-        return data
+        return try await performWithRetry(request: req) { data in
+            guard !data.isEmpty else { throw PassAPIError.emptyBody }
+            return data
+        }
     }
 
 
@@ -317,8 +377,7 @@ final class PassAPIClient {
         displayName: String
     ) async throws {
         let url = baseURL.appendingPathComponent("v1/live-activities")
-        var req = URLRequest(url: url)
-        req.httpMethod = "POST"
+        var req = authorizedRequest(url: url, method: "POST")
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         struct Body: Encodable {
             var activityId: String
@@ -337,9 +396,11 @@ final class PassAPIClient {
         guard let http = response as? HTTPURLResponse else { return }
         guard (200..<300).contains(http.statusCode) else {
             if let err = try? JSONDecoder().decode(ServerError.self, from: data) {
-                throw PassAPIError.server(err.message)
+                // Sanitize: only forward the server message, not internal details.
+                let safe = err.message.prefix(200)
+                throw PassAPIError.server(String(safe))
             }
-            throw PassAPIError.server("HTTP \(http.statusCode)")
+            throw PassAPIError.server("Request failed (\(http.statusCode)). Please try again.")
         }
     }
 

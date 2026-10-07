@@ -28,7 +28,7 @@ enum PkpassCache {
                 try? FileManager.default.removeItem(at: file)
             }
         }
-        try? data.write(to: url, options: .atomic)
+        try? data.write(to: url, options: [.atomic, .completeFileProtection])
         // Also mirror last-known into App Group for Watch handoff diagnostics.
         if let defaults = UserDefaults(suiteName: "group.com.aeswibon.slip") {
             defaults.set(hash, forKey: "slip.pkpass.hash.\(recordId)")

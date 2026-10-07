@@ -17,12 +17,40 @@ final class AppModel: ObservableObject {
     @Published var isExtracting = false
     /// Overlay copy while OCR vs field extraction.
     @Published var extractingStatus: String = "Reading ticket"
+    @Published var isJailbroken = false
 
     let api: PassAPIClient
     let appGroup = Bundle.main.object(forInfoDictionaryKey: "SlipAppGroup") as? String ?? SharedInbox.appGroupId
 
     init(api: PassAPIClient = PassAPIClient()) {
         self.api = api
+        self.isJailbroken = Self.checkJailbreak()
+    }
+
+    private static func checkJailbreak() -> Bool {
+        #if targetEnvironment(simulator)
+        return false
+        #else
+        let suspiciousFiles = [
+            "/Applications/Cydia.app",
+            "/bin/bash",
+            "/usr/sbin/sshd",
+            "/etc/apt"
+        ]
+        for file in suspiciousFiles {
+            if FileManager.default.fileExists(atPath: file) {
+                return true
+            }
+        }
+        let testPath = "/private/jailbreak.txt"
+        do {
+            try "test".write(toFile: testPath, atomically: true, encoding: .utf8)
+            try FileManager.default.removeItem(atPath: testPath)
+            return true
+        } catch {
+            return false
+        }
+        #endif
     }
 
     func bootstrap() async {

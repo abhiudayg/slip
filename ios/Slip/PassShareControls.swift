@@ -5,13 +5,19 @@ import SwiftUI
 struct PassShareControls: View {
     let package: PassSharePackage
 
+    @EnvironmentObject private var vault: PassVaultStore
+    @State private var showShareSheet = false
+
     var body: some View {
         if let url = package.universalLink() ?? package.deepLink() {
-            ShareLink(
-                item: url,
-                subject: Text(package.displayName),
-                message: Text("Here's your \(package.displayName) pass for Slip. Tap to open in Slip (App Clip when available).")
-            ) {
+            Button {
+                Task {
+                    if await vault.unlock(reason: "Authenticate to share this pass") {
+                        SlipHaptics.shareReady()
+                        showShareSheet = true
+                    }
+                }
+            } label: {
                 Label("Share pass", systemImage: "square.and.arrow.up")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(SlipTheme.ink)
@@ -20,9 +26,27 @@ struct PassShareControls: View {
                     .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(SlipTheme.cardHigh))
                     .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
             }
-            .simultaneousGesture(TapGesture().onEnded { SlipHaptics.shareReady() })
+            .sheet(isPresented: $showShareSheet) {
+                ShareSheet(items: [
+                    url,
+                    "Here's your \(package.displayName) pass for Slip. Tap to open in Slip (App Clip when available)."
+                ])
+                .presentationDetents([.medium, .large])
+            }
         }
     }
+}
+
+struct ShareSheet: UIViewControllerRepresentable {
+    var items: [Any]
+    var activities: [UIActivity]? = nil
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: items, applicationActivities: activities)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }
 
 /// CloudKit Shared Zone on-ramp (family / couple wallet).

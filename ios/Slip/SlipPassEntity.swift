@@ -79,7 +79,7 @@ struct SlipPassEntityQuery: EntityStringQuery {
 /// “Hey Siri, show my Slip pass…”
 struct ShowSlipPassIntent: AppIntent {
     static var title: LocalizedStringResource = "Show Slip Pass"
-    static var description = IntentDescription("Open a pass from your Slip vault — works with Siri semantic search.")
+    static var description = IntentDescription("Open a pass from your Slip vault — works with semantic search.")
     static var openAppWhenRun: Bool = true
 
     @Parameter(title: "Pass")

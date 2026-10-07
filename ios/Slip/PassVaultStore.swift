@@ -66,6 +66,17 @@ final class PassVaultRecord {
     }
 }
 
+enum VaultStoreError: LocalizedError {
+    case containerUnavailable
+
+    var errorDescription: String? {
+        switch self {
+        case .containerUnavailable:
+            return "Vault storage is unavailable. Please restart the app."
+        }
+    }
+}
+
 @MainActor
 final class PassVaultStore: ObservableObject {
     static let cloudContainerId = "iCloud.com.aeswibon.slip"
@@ -74,9 +85,10 @@ final class PassVaultStore: ObservableObject {
     @Published private(set) var records: [PassVaultRecord] = []
     @Published private(set) var isUnlocked = false
     @Published var lastError: String?
+    @Published private(set) var containerFailed = false
 
-    private let container: ModelContainer
-    private let context: ModelContext
+    private let container: ModelContainer?
+    private let context: ModelContext?
     private let cloudDB: CKDatabase?
 
     init(inMemory: Bool = false) {
@@ -88,11 +100,15 @@ final class PassVaultStore: ObservableObject {
             cloudKitDatabase: .none // encrypt-before-write; custom CK sync
         )
         do {
-            container = try ModelContainer(for: schema, configurations: [config])
+            let c = try ModelContainer(for: schema, configurations: [config])
+            container = c
+            context = ModelContext(c)
         } catch {
-            fatalError("PassVaultStore container failed: \(error)")
+            container = nil
+            context = nil
+            containerFailed = true
+            lastError = "Vault storage unavailable: \(error.localizedDescription). Please restart the app or reinstall."
         }
-        context = ModelContext(container)
         let isTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         if inMemory || isTesting {
             cloudDB = nil
@@ -103,6 +119,10 @@ final class PassVaultStore: ObservableObject {
     }
 
     func refresh() {
+        guard let context else {
+            records = []
+            return
+        }
         let descriptor = FetchDescriptor<PassVaultRecord>(
             sortBy: [SortDescriptor(\.updatedAt, order: .reverse)]
         )
@@ -262,6 +282,9 @@ final class PassVaultStore: ObservableObject {
             walletSerialNumber: walletPass?.serialNumber,
             walletPassTypeIdentifier: walletPass?.passTypeIdentifier
         )
+        guard let context else {
+            throw VaultStoreError.containerUnavailable
+        }
         context.insert(record)
         try context.save()
         refresh()
@@ -315,6 +338,9 @@ final class PassVaultStore: ObservableObject {
         } else if let walletAdded {
             record.walletAdded = walletAdded
         }
+        guard let context else {
+            throw VaultStoreError.containerUnavailable
+        }
         try context.save()
         refresh()
         Task { await pushToCloud(record) }
@@ -332,6 +358,9 @@ final class PassVaultStore: ObservableObject {
             record.walletPassTypeIdentifier = pass.passTypeIdentifier
         }
         record.updatedAt = Date()
+        guard let context else {
+            throw VaultStoreError.containerUnavailable
+        }
         try context.save()
         refresh()
         Task { await pushToCloud(record) }
@@ -341,6 +370,9 @@ final class PassVaultStore: ObservableObject {
         guard record.walletAdded else { return }
         record.walletAdded = false
         record.updatedAt = Date()
+        guard let context else {
+            throw VaultStoreError.containerUnavailable
+        }
         try context.save()
         refresh()
         Task { await pushToCloud(record) }
@@ -393,7 +425,7 @@ final class PassVaultStore: ObservableObject {
         }
 
         if changed > 0 {
-            try? context.save()
+            try? context?.save()
             refresh()
         }
         return changed
@@ -401,6 +433,9 @@ final class PassVaultStore: ObservableObject {
 
     func delete(_ record: PassVaultRecord) throws {
         let name = record.cloudKitRecordName ?? record.id
+        guard let context else {
+            throw VaultStoreError.containerUnavailable
+        }
         context.delete(record)
         try context.save()
         refresh()
@@ -410,7 +445,7 @@ final class PassVaultStore: ObservableObject {
     // MARK: - CloudKit sync (ciphertext only)
 
     func syncFromCloud() async {
-        guard let cloudDB else { return }
+        guard let cloudDB, let context else { return }
         let query = CKQuery(recordType: Self.recordType, predicate: NSPredicate(value: true))
         do {
             let (results, _) = try await cloudDB.records(matching: query)
@@ -464,6 +499,7 @@ final class PassVaultStore: ObservableObject {
     }
 
     private func upsertFromCloud(_ ck: CKRecord) throws {
+        guard let context else { return }
         let id = ck.recordID.recordName
         let descriptor = FetchDescriptor<PassVaultRecord>(
             predicate: #Predicate { $0.id == id }

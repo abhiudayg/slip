@@ -129,7 +129,9 @@ enum VaultCrypto {
         let mk = try masterKey()
         do {
             let wrappedBox = try AES.GCM.SealedBox(combined: box.wrappedDEK)
-            let dekBytes = try AES.GCM.open(wrappedBox, using: mk)
+            var dekBytes = try AES.GCM.open(wrappedBox, using: mk)
+            defer { dekBytes.resetBytes(in: 0..<dekBytes.count) }
+            
             guard dekBytes.count == 32 else { throw VaultCryptoError.invalidKey }
             let dek = SymmetricKey(data: dekBytes)
 
@@ -137,7 +139,10 @@ enum VaultCrypto {
             combined.append(box.nonce)
             combined.append(box.ciphertext)
             let sealed = try AES.GCM.SealedBox(combined: combined)
-            let plain = try AES.GCM.open(sealed, using: dek)
+            
+            var plain = try AES.GCM.open(sealed, using: dek)
+            defer { plain.resetBytes(in: 0..<plain.count) }
+            
             return try JSONDecoder().decode(T.self, from: plain)
         } catch is VaultCryptoError {
             throw VaultCryptoError.decryptionFailed

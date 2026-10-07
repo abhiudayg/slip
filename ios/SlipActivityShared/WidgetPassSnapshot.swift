@@ -28,19 +28,32 @@ enum WidgetPassStore {
         UserDefaults(suiteName: appGroupId)
     }
 
+    private static var fileURL: URL? {
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupId)?
+            .appendingPathComponent("WidgetPasses.json")
+    }
+
     static func save(_ passes: [WidgetPassSnapshot], selectedIndex: Int = 0) {
         guard let defaults else { return }
         let active = passes.filter { !$0.isExpired && !$0.qrPayload.isEmpty }
-        guard let data = try? JSONEncoder().encode(active) else { return }
-        defaults.set(data, forKey: passesKey)
+        if let data = try? JSONEncoder().encode(active), let url = fileURL {
+            try? data.write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+        }
         defaults.set(max(0, min(selectedIndex, max(0, active.count - 1))), forKey: selectedIndexKey)
         defaults.set(Date().timeIntervalSince1970, forKey: updatedAtKey)
+        // Clear legacy unencrypted data
+        defaults.removeObject(forKey: passesKey)
     }
 
     static func load() -> [WidgetPassSnapshot] {
-        guard let defaults,
-              let data = defaults.data(forKey: passesKey),
+        guard let url = fileURL,
+              let data = try? Data(contentsOf: url),
               let passes = try? JSONDecoder().decode([WidgetPassSnapshot].self, from: data) else {
+            // Fallback for legacy
+            if let defaults = defaults, let oldData = defaults.data(forKey: passesKey),
+               let oldPasses = try? JSONDecoder().decode([WidgetPassSnapshot].self, from: oldData) {
+                return oldPasses.filter { !$0.isExpired && !$0.qrPayload.isEmpty }
+            }
             return []
         }
         return passes.filter { !$0.isExpired && !$0.qrPayload.isEmpty }
