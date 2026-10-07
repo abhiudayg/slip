@@ -80,17 +80,45 @@ enum SlipTheme {
         return Color(red: parts[0] / 255, green: parts[1] / 255, blue: parts[2] / 255)
     }
 
-    // MARK: Typography tokens (Inter → SF Pro; JetBrains Mono → monospaced)
+    // MARK: - Typography tokens (Google Stitch: Inter & JetBrains Mono)
 
-    static func headlineXL() -> Font { .system(size: 34, weight: .bold) }
-    static func headlineLG() -> Font { .system(size: 28, weight: .semibold) }
-    static func headlineMD() -> Font { .system(size: 22, weight: .semibold) }
-    static func headlineSM() -> Font { .system(size: 17, weight: .semibold) }
-    static func bodyLG() -> Font { .system(size: 17, weight: .regular) }
-    static func bodyMD() -> Font { .system(size: 15, weight: .regular) }
-    static func bodySM() -> Font { .system(size: 13, weight: .regular) }
-    static func labelMono() -> Font { .system(size: 12, weight: .medium, design: .monospaced) }
-    static func codeMono() -> Font { .system(size: 15, weight: .semibold, design: .monospaced) }
+    private static let fontsRegistered: Bool = {
+        for fontName in ["Inter.ttf", "JetBrainsMono.ttf"] {
+            let base = fontName.replacingOccurrences(of: ".ttf", with: "")
+            if let url = Bundle.main.url(forResource: base, withExtension: "ttf", subdirectory: "Fonts") ??
+                         Bundle.main.url(forResource: base, withExtension: "ttf") ??
+                         Bundle.main.url(forResource: fontName, withExtension: nil) {
+                var error: Unmanaged<CFError>?
+                CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error)
+            }
+        }
+        return true
+    }()
+
+    public static func registerCustomFonts() {
+        _ = fontsRegistered
+    }
+
+    public static func inter(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
+        _ = fontsRegistered
+        return Font.custom("Inter", size: size).weight(weight)
+    }
+
+    public static func jetBrainsMono(_ size: CGFloat, weight: Font.Weight = .medium) -> Font {
+        _ = fontsRegistered
+        return Font.custom("JetBrainsMono", size: size).weight(weight)
+    }
+
+    static func headlineXL() -> Font { inter(34, weight: .bold) }
+    static func headlineLG() -> Font { inter(28, weight: .semibold) }
+    static func headlineMD() -> Font { inter(22, weight: .semibold) }
+    static func headlineSM() -> Font { inter(17, weight: .semibold) }
+    static func bodyLG() -> Font { inter(17, weight: .regular) }
+    static func bodyMD() -> Font { inter(15, weight: .regular) }
+    static func bodySM() -> Font { inter(13, weight: .regular) }
+    static func labelMono(_ size: CGFloat = 12, weight: Font.Weight = .medium) -> Font { jetBrainsMono(size, weight: weight) }
+    static func codeMono(_ size: CGFloat = 15, weight: Font.Weight = .semibold) -> Font { jetBrainsMono(size, weight: weight) }
+    static func captionMono(_ size: CGFloat = 10, weight: Font.Weight = .medium) -> Font { jetBrainsMono(size, weight: weight) }
 }
 
 extension Color {
@@ -99,6 +127,16 @@ extension Color {
         let g = Double((hex >> 8) & 0xFF) / 255
         let b = Double(hex & 0xFF) / 255
         self.init(.sRGB, red: r, green: g, blue: b, opacity: opacity)
+    }
+}
+
+extension Font {
+    static func slipSystem(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design = .default) -> Font {
+        if design == .monospaced {
+            return SlipTheme.jetBrainsMono(size, weight: weight)
+        } else {
+            return SlipTheme.inter(size, weight: weight)
+        }
     }
 }
 
@@ -244,7 +282,7 @@ struct StatusPill: View {
         HStack(spacing: 5) {
             if let systemImage {
                 Image(systemName: systemImage)
-                    .font(.system(size: 10, weight: .bold))
+                    .font(.slipSystem(size: 10, weight: .bold))
                     .symbolRenderingMode(.hierarchical)
             } else {
                 Circle()
@@ -302,7 +340,7 @@ struct StudioTopBar<Avatar: View>: View {
             if let onSearch {
                 Button(action: onSearch) {
                     Image(systemName: "bell.fill")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.slipSystem(size: 16, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                         .frame(width: 40, height: 40)
                         .background(Circle().fill(SlipTheme.card.opacity(0.7)))
@@ -388,11 +426,9 @@ struct ProfileAvatarView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                    Text(monogram.isEmpty ? "S" : monogram)
-                        .font(.system(size: size * (monogram.count > 1 ? 0.32 : 0.4), weight: .bold))
-                        .foregroundStyle(.white)
-                        .minimumScaleFactor(0.6)
-                        .lineLimit(1)
+                    Image(systemName: "person.fill")
+                        .font(.slipSystem(size: size * 0.45, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.9))
                 }
             }
             .frame(width: size, height: size)
@@ -436,11 +472,7 @@ struct FloatingDock: View {
         HStack(spacing: 0) {
             dockIcon("house.fill", selected: tab == .home) { tab = .home }
             dockIcon("doc.viewfinder", selected: false) {
-                if let onImport {
-                    onImport()
-                } else {
-                    onScan()
-                }
+                onScan()
             }
             dockIcon("safari.fill", selected: tab == .marketplace) { tab = .marketplace }
             dockIcon("gearshape", selected: tab == .settings) { tab = .settings }
@@ -470,7 +502,7 @@ struct FloatingDock: View {
     ) -> some View {
         Button(action: action) {
             Image(systemName: systemName)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.slipSystem(size: 18, weight: .semibold))
                 .foregroundStyle(selected ? SlipTheme.canvasLowest : SlipTheme.muted)
                 .frame(width: 48, height: 48)
                 .background(

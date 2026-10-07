@@ -157,13 +157,13 @@ struct EditableFieldBlock: View {
             MonoLabel(text: label, color: labelColor)
             if editable {
                 TextField(fallback, text: binding(valueKey), axis: .vertical)
-                    .font(.system(size: valueSize, weight: .bold))
+                    .font(.slipSystem(size: valueSize, weight: .bold))
                     .foregroundStyle(valueColor)
                     .multilineTextAlignment(align == .trailing ? .trailing : .leading)
                     .lineLimit(2)
             } else {
                 Text(displayValue)
-                    .font(.system(size: valueSize, weight: .bold))
+                    .font(.slipSystem(size: valueSize, weight: .bold))
                     .foregroundStyle(valueColor)
                     .multilineTextAlignment(align == .trailing ? .trailing : .leading)
                     .lineLimit(2)
@@ -172,13 +172,13 @@ struct EditableFieldBlock: View {
             if let subKey {
                 if editable {
                     TextField("Time", text: binding(subKey))
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.slipSystem(size: 11, weight: .medium, design: .monospaced))
                         .foregroundStyle(Color.white.opacity(0.5))
                         .multilineTextAlignment(align == .trailing ? .trailing : .leading)
                         .lineLimit(1)
                 } else if let sub {
                     Text(sub)
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.slipSystem(size: 11, weight: .medium, design: .monospaced))
                         .foregroundStyle(Color.white.opacity(0.5))
                         .lineLimit(1)
                 }
@@ -225,7 +225,7 @@ struct BookMyShowTicketCard: View {
                     VStack(alignment: .leading, spacing: 4) {
                         MonoLabel(text: "Cinema", color: p.accentSoft.opacity(0.7))
                         Text(model.venueLine)
-                            .font(.system(size: 14, weight: .bold))
+                            .font(.slipSystem(size: 14, weight: .bold))
                             .foregroundStyle(.white)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -248,7 +248,7 @@ struct BookMyShowTicketCard: View {
         VStack(alignment: .leading, spacing: 4) {
             MonoLabel(text: label, color: p.accentSoft.opacity(0.7))
             Text(value)
-                .font(.system(size: 13, weight: .bold, design: .monospaced))
+                .font(.slipSystem(size: 13, weight: .bold, design: .monospaced))
                 .foregroundStyle(.white)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
@@ -285,7 +285,7 @@ struct DistrictFestivalCard: View {
                     )
                     StripHero(title: model.title, badge: "Live Arena", trailing: nil, palette: p, height: 110)
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(model.venueLine).font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.white.opacity(0.85))
+                        Text(model.venueLine).font(.slipSystem(size: 14, weight: .semibold)).foregroundStyle(Color.white.opacity(0.85))
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 18)
@@ -511,14 +511,14 @@ struct BoardingCard: View {
                     HStack(alignment: .center) {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(fromCode)
-                                .font(.system(size: 34, weight: .heavy, design: .monospaced))
+                                .font(.slipSystem(size: 34, weight: .heavy, design: .monospaced))
                                 .foregroundStyle(.white)
                             Text(fromName)
-                                .font(.system(size: 12, weight: .medium))
+                                .font(.slipSystem(size: 12, weight: .medium))
                                 .foregroundStyle(Color.white.opacity(0.65))
                                 .lineLimit(1)
                             if let fromDesc {
-                                Text(fromDesc).font(.system(size: 10, weight: .medium, design: .monospaced)).foregroundStyle(palette.accentSoft)
+                                Text(fromDesc).font(.slipSystem(size: 10, weight: .medium, design: .monospaced)).foregroundStyle(palette.accentSoft)
                             }
                         }
                         Spacer()
@@ -526,14 +526,14 @@ struct BoardingCard: View {
                         Spacer()
                         VStack(alignment: .trailing, spacing: 3) {
                             Text(toCode)
-                                .font(.system(size: 34, weight: .heavy, design: .monospaced))
+                                .font(.slipSystem(size: 34, weight: .heavy, design: .monospaced))
                                 .foregroundStyle(.white)
                             Text(toName)
-                                .font(.system(size: 12, weight: .medium))
+                                .font(.slipSystem(size: 12, weight: .medium))
                                 .foregroundStyle(Color.white.opacity(0.65))
                                 .lineLimit(1)
                             if let toDesc {
-                                Text(toDesc).font(.system(size: 10, weight: .medium, design: .monospaced)).foregroundStyle(palette.accentSoft)
+                                Text(toDesc).font(.slipSystem(size: 10, weight: .medium, design: .monospaced)).foregroundStyle(palette.accentSoft)
                             }
                         }
                     }
@@ -575,7 +575,7 @@ struct BoardingCard: View {
                     
                     if let footer {
                         Text(footer)
-                            .font(.system(size: 11, weight: .semibold))
+                            .font(.slipSystem(size: 11, weight: .semibold))
                             .foregroundStyle(palette.accentSoft.opacity(0.9))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 18)
@@ -768,6 +768,13 @@ struct ZoomcarKeylessCard: View {
                     }
                     .padding(16)
                     .background(p.accent.opacity(0.06))
+                    if let fL = model.footerLeft, let fR = model.footerRight {
+                        HStack {
+                            FieldBlock(label: fL.0, value: fL.1, labelColor: p.accentSoft.opacity(0.7))
+                            FieldBlock(label: fR.0, value: fR.1, align: .trailing, labelColor: p.accentSoft.opacity(0.7))
+                        }
+                        .padding(16)
+                    }
                     NFCPanel(title: model.nfcTitle, subtitle: "More details on back", tint: p.accent)
                     if !model.booking.isEmpty {
                         HStack {
@@ -1059,7 +1066,7 @@ struct GenericStitchCard: View {
             PassShell(palette: palette) {
                 VStack(alignment: .leading, spacing: 14) {
                     Text(displayName)
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.slipSystem(size: 18, weight: .bold))
                         .foregroundStyle(.white)
                     ForEach(Array(fields.filter {
                         let k = $0.key

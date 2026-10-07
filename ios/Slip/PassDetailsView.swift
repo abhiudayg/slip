@@ -80,7 +80,7 @@ struct PassDetailsView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: {
                         Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
                             .frame(width: 32, height: 32)
                             .background(Circle().fill(SlipTheme.glassSurface))
@@ -90,7 +90,7 @@ struct PassDetailsView: View {
                 ToolbarItem(placement: .principal) {
                     HStack(spacing: 6) {
                         Image(systemName: "wave.3.right")
-                            .font(.system(size: 12, weight: .semibold))
+                            .font(.slipSystem(size: 12, weight: .semibold))
                         Text("PassKit • NFC Ready")
                             .font(SlipTheme.labelMono())
                             .tracking(0.4)
@@ -113,7 +113,7 @@ struct PassDetailsView: View {
                         Button("Edit fields", systemImage: "pencil") { showFieldEditor = true }
                     } label: {
                         Image(systemName: "ellipsis")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
                             .frame(width: 32, height: 32)
                             .background(Circle().fill(SlipTheme.glassSurface))
@@ -206,7 +206,7 @@ struct PassDetailsView: View {
                     NavigationStack {
                         VStack(spacing: 20) {
                             Image(systemName: walletSheetIcon)
-                                .font(.system(size: 44))
+                                .font(.slipSystem(size: 44))
                                 .foregroundStyle(walletSheetTint)
                             Text(walletSheetTitle)
                                 .font(.title2.weight(.semibold))
@@ -266,7 +266,7 @@ struct PassDetailsView: View {
                     showPassDetailsSheet = true
                 } label: {
                     Image(systemName: "info.circle")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.slipSystem(size: 16, weight: .semibold))
                         .foregroundStyle(SlipTheme.accentSoft)
                 }
                 .accessibilityLabel("Pass Details")
@@ -290,9 +290,9 @@ struct PassDetailsView: View {
                     } label: {
                         HStack(spacing: 5) {
                             Image(systemName: "ticket.fill")
-                                .font(.system(size: 11, weight: .semibold))
+                                .font(.slipSystem(size: 11, weight: .semibold))
                             Text("Pass")
-                                .font(.system(size: 12, weight: .semibold))
+                                .font(.slipSystem(size: 12, weight: .semibold))
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -314,9 +314,9 @@ struct PassDetailsView: View {
                     } label: {
                         HStack(spacing: 5) {
                             Image(systemName: "person.text.rectangle")
-                                .font(.system(size: 11, weight: .semibold))
+                                .font(.slipSystem(size: 11, weight: .semibold))
                             Text("Gate ID")
-                                .font(.system(size: 12, weight: .semibold))
+                                .font(.slipSystem(size: 12, weight: .semibold))
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -424,7 +424,7 @@ struct PassDetailsView: View {
     private var identityEmptyCard: some View {
         VStack(spacing: 14) {
             Image(systemName: "person.text.rectangle")
-                .font(.system(size: 36))
+                .font(.slipSystem(size: 36))
                 .foregroundStyle(SlipTheme.accentSoft)
             Text("Add Aadhaar / PAN / DL")
                 .font(.headline)
@@ -498,7 +498,7 @@ struct PassDetailsView: View {
                     .minimumScaleFactor(0.85)
                 Spacer(minLength: 0)
                 Text(BrandFields.kind(for: key).rawValue)
-                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .font(.slipSystem(size: 9, weight: .bold, design: .monospaced))
                     .foregroundStyle(SlipTheme.muted.opacity(0.7))
                     .textCase(.uppercase)
             }
@@ -760,7 +760,7 @@ struct PassDetailsView: View {
     private func routeEndpoint(code: String, name: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(code)
-                .font(.system(size: 28, weight: .bold))
+                .font(.slipSystem(size: 28, weight: .bold))
                 .tracking(-0.5)
                 .foregroundStyle(SlipTheme.ink)
             Text(name)

@@ -29,7 +29,7 @@ struct GeofenceMapPicker: View {
 
                 // Crosshair so the center is the drop target.
                 Image(systemName: "mappin")
-                    .font(.system(size: 36, weight: .semibold))
+                    .font(.slipSystem(size: 36, weight: .semibold))
                     .foregroundStyle(.red)
                     .shadow(color: .black.opacity(0.35), radius: 3, y: 2)
                     // Map pin glyph hotspot (tip), not screen layout.

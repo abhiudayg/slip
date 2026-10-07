@@ -13,16 +13,16 @@ struct QRPanel: View {
                     .frame(width: 132, height: 132)
                     .shadow(color: accent.opacity(0.25), radius: 16, y: 6)
                 Image(systemName: "qrcode")
-                    .font(.system(size: 78, weight: .regular))
+                    .font(.slipSystem(size: 78, weight: .regular))
                     .foregroundStyle(.black.opacity(0.92))
             }
             Text(caption.uppercased())
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .font(SlipTheme.captionMono(10, weight: .bold))
                 .foregroundStyle(accent.opacity(0.85))
                 .tracking(1.2)
             if !alt.isEmpty {
                 Text(alt)
-                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                    .font(SlipTheme.captionMono(14, weight: .bold))
                     .foregroundStyle(.white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
@@ -69,16 +69,16 @@ struct NFCPanel: View {
                     )
                     .frame(width: 68, height: 68)
                 Image(systemName: "wave.3.right")
-                    .font(.system(size: 26, weight: .semibold))
+                    .font(.slipSystem(size: 26, weight: .semibold))
                     .foregroundStyle(tint)
                     .rotationEffect(.degrees(90))
             }
             Text(title)
-                .font(.system(size: 14, weight: .bold))
+                .font(SlipTheme.inter(14, weight: .bold))
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
             Text(subtitle)
-                .font(.system(size: 11, weight: .medium, design: .monospaced))
+                .font(SlipTheme.captionMono(11, weight: .medium))
                 .foregroundStyle(tint.opacity(0.85))
                 .multilineTextAlignment(.center)
         }
@@ -96,7 +96,7 @@ struct RouteConnector: View {
     var body: some View {
         VStack(spacing: 6) {
             Text(duration)
-                .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                .font(SlipTheme.captionMono(10, weight: .semibold))
                 .foregroundStyle(tint.opacity(0.9))
             HStack(spacing: 0) {
                 Circle()
@@ -109,7 +109,7 @@ struct RouteConnector: View {
                     .frame(height: 2)
                     .overlay(
                         Image(systemName: icon)
-                            .font(.system(size: 11, weight: .bold))
+                            .font(.slipSystem(size: 11, weight: .bold))
                             .foregroundStyle(tint)
                             .offset(y: -10)
                     )
@@ -137,10 +137,10 @@ struct BrandHeaderRow: View {
                 logo
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title)
-                        .font(.system(size: 16, weight: .bold))
+                        .font(SlipTheme.inter(16, weight: .bold))
                         .foregroundStyle(.white)
                     Text(subtitle.uppercased())
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(SlipTheme.captionMono(10, weight: .semibold))
                         .foregroundStyle(accentSoft.opacity(0.9))
                         .tracking(0.8)
                 }
@@ -149,7 +149,7 @@ struct BrandHeaderRow: View {
             VStack(alignment: .trailing, spacing: 3) {
                 MonoLabel(text: trailingLabel, color: accentSoft.opacity(0.7))
                 Text(trailingValue)
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(SlipTheme.captionMono(12, weight: .bold))
                     .foregroundStyle(trailingColor)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)

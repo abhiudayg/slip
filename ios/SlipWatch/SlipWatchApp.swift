@@ -71,7 +71,7 @@ struct WatchQRDetailView: View {
                     .padding(8)
                     .background(Color.white, in: RoundedRectangle(cornerRadius: 10))
                 Text(pass.qrPayload)
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.slipSystem(size: 9, design: .monospaced))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }

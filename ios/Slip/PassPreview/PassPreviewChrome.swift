@@ -33,7 +33,7 @@ struct PassShell<Content: View>: View {
             .overlay(alignment: .bottomLeading) {
                 if let appIcon {
                     Image(systemName: appIcon)
-                        .font(.system(size: 20))
+                        .font(.slipSystem(size: 20))
                         .foregroundStyle(Color.white.opacity(0.8))
                         .padding(20)
                 }
@@ -117,7 +117,7 @@ struct EventTicketShell<Content: View>: View {
             .overlay(alignment: .bottomLeading) {
                 if let appIcon {
                     Image(systemName: appIcon)
-                        .font(.system(size: 20))
+                        .font(.slipSystem(size: 20))
                         .foregroundStyle(Color.white.opacity(0.8))
                         .padding(20)
                 }
@@ -153,11 +153,11 @@ struct EventTicketHeader: View {
             } else {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(.system(size: 22, weight: .heavy))
+                        .font(SlipTheme.inter(22, weight: .heavy))
                         .foregroundStyle(brandColor)
                     if let subtitle {
                         Text(subtitle)
-                            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                            .font(SlipTheme.captionMono(10, weight: .semibold))
                             .foregroundStyle(brandColor.opacity(0.8))
                     }
                 }
@@ -166,12 +166,12 @@ struct EventTicketHeader: View {
             VStack(alignment: .trailing, spacing: 3) {
                 if let r1 = rightText1 {
                     Text(r1.uppercased())
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .font(SlipTheme.captionMono(10, weight: .bold))
                         .foregroundStyle(Color.white.opacity(0.7))
                 }
                 if let r2 = rightText2 {
                     Text(r2)
-                        .font(.system(size: 14, weight: .bold))
+                        .font(SlipTheme.inter(14, weight: .bold))
                         .foregroundStyle(.white)
                 }
             }
@@ -195,14 +195,14 @@ struct PassMetaBar: View {
                     .frame(width: 7, height: 7)
                     .shadow(color: tint.opacity(0.8), radius: 4)
                 Text(left)
-                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                    .font(SlipTheme.captionMono(10, weight: .semibold))
                     .foregroundStyle(Color.white.opacity(0.5))
                     .tracking(0.5)
                     .lineLimit(1)
             }
             Spacer(minLength: 8)
             Text(right)
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                .font(SlipTheme.captionMono(10, weight: .bold))
                 .foregroundStyle(tint.opacity(0.95))
                 .padding(.horizontal, 9)
                 .padding(.vertical, 4)
@@ -227,7 +227,7 @@ struct LogoTile: View {
             .frame(width: 38, height: 38)
             .overlay(
                 Image(systemName: systemImage)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.slipSystem(size: 16, weight: .bold))
                     .foregroundStyle(glyphColor)
             )
             .shadow(color: colors.first?.opacity(0.45) ?? .clear, radius: 8, y: 3)
@@ -239,8 +239,7 @@ struct MonoLabel: View {
     var color: Color = Color.white.opacity(0.45)
     var body: some View {
         Text(text.uppercased())
-            .font(.caption2.weight(.semibold))
-            .monospaced()
+            .font(SlipTheme.captionMono(10, weight: .semibold))
             .foregroundStyle(color)
             .tracking(0.9)
     }
@@ -259,14 +258,14 @@ struct FieldBlock: View {
         VStack(alignment: align, spacing: 3) {
             MonoLabel(text: label, color: labelColor)
             Text(value)
-                .font(.system(size: valueSize, weight: .bold))
+                .font(SlipTheme.inter(valueSize, weight: .bold))
                 .foregroundStyle(valueColor)
                 .multilineTextAlignment(align == .trailing ? .trailing : .leading)
                 .lineLimit(2)
                 .minimumScaleFactor(0.85)
             if let sub, !sub.isEmpty {
                 Text(sub)
-                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                    .font(SlipTheme.captionMono(11, weight: .medium))
                     .foregroundStyle(Color.white.opacity(0.5))
                     .lineLimit(1)
             }
@@ -312,7 +311,7 @@ struct StripHero: View {
                 VStack(alignment: .leading, spacing: 6) {
                     if let badge, !badge.isEmpty {
                         Text(badge.uppercased())
-                            .font(.system(size: 9, weight: .bold, design: .monospaced))
+                            .font(SlipTheme.captionMono(9, weight: .bold))
                             .foregroundStyle(palette.accentSoft)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
@@ -325,13 +324,13 @@ struct StripHero: View {
                     Group {
                         if let titleBinding {
                             TextField(title, text: titleBinding, axis: .vertical)
-                                .font(.system(size: 20, weight: .heavy))
+                                .font(SlipTheme.inter(20, weight: .heavy))
                                 .foregroundStyle(.white)
                                 .shadow(color: .black.opacity(0.35), radius: 6, y: 2)
                                 .lineLimit(2)
                         } else {
                             Text(title)
-                                .font(.system(size: 20, weight: .heavy))
+                                .font(SlipTheme.inter(20, weight: .heavy))
                                 .foregroundStyle(.white)
                                 .shadow(color: .black.opacity(0.35), radius: 6, y: 2)
                                 .lineLimit(2)
@@ -345,7 +344,7 @@ struct StripHero: View {
                         .frame(width: 54, height: 72)
                         .overlay(
                             Image(systemName: thumbnailImage)
-                                .font(.system(size: 24))
+                                .font(.slipSystem(size: 24))
                                 .foregroundStyle(Color.white.opacity(0.7))
                         )
                         .overlay(
@@ -355,7 +354,7 @@ struct StripHero: View {
                         .shadow(color: .black.opacity(0.2), radius: 4, y: 2)
                 } else if let trailing, !trailing.isEmpty {
                     Text(trailing)
-                        .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                        .font(SlipTheme.captionMono(11, weight: .semibold))
                         .foregroundStyle(Color.white.opacity(0.85))
                         .shadow(color: .black.opacity(0.4), radius: 4, y: 1)
                 }

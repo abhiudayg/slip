@@ -46,7 +46,7 @@ struct ScrapbookView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Your \(year) in Slip")
-                .font(.system(size: 28, weight: .semibold))
+                .font(.slipSystem(size: 28, weight: .semibold))
                 .tracking(-0.4)
                 .foregroundStyle(SlipTheme.ink)
             Text(entries.wrappedLine)

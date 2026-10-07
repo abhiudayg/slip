@@ -72,7 +72,7 @@ struct MarketplaceView: View {
                 if let onClose {
                     Button(action: onClose) {
                         Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.slipSystem(size: 14, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
                             .frame(width: 36, height: 36)
                             .background(Circle().fill(SlipTheme.card.opacity(0.7)))
@@ -84,7 +84,7 @@ struct MarketplaceView: View {
                         // Notifications / activity sheet
                     } label: {
                         Image(systemName: "bell.fill")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.slipSystem(size: 16, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
                             .frame(width: 40, height: 40)
                             .background(Circle().fill(SlipTheme.card.opacity(0.7)))
@@ -115,7 +115,7 @@ struct MarketplaceView: View {
                     .fill(SlipTheme.meshTeal.opacity(0.8))
                     .frame(width: 36, height: 36)
                 Image(systemName: "envelope.badge.fill")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.slipSystem(size: 16, weight: .semibold))
                     .foregroundStyle(Color(hex: 0x5EEAD4))
             }
 
@@ -124,7 +124,7 @@ struct MarketplaceView: View {
                     .font(SlipTheme.headlineSM())
                     .foregroundStyle(SlipTheme.ink)
                 Text("IndiGo 6E-241 & BookMyShow tickets")
-                    .font(.system(size: 11, weight: .regular))
+                    .font(.slipSystem(size: 11, weight: .regular))
                     .foregroundStyle(SlipTheme.muted)
             }
 
@@ -177,7 +177,7 @@ struct MarketplaceView: View {
                         query = ""
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 14))
+                            .font(.slipSystem(size: 14))
                             .foregroundStyle(SlipTheme.muted)
                     }
                     .buttonStyle(.plain)
@@ -195,7 +195,7 @@ struct MarketplaceView: View {
                 // Filter action
             } label: {
                 Image(systemName: "slider.horizontal.3")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.slipSystem(size: 16, weight: .semibold))
                     .foregroundStyle(SlipTheme.ink)
                     .frame(width: 44, height: 44)
                     .background(
@@ -252,7 +252,7 @@ struct MarketplaceView: View {
     ) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Image(systemName: icon)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.slipSystem(size: 18, weight: .semibold))
                 .foregroundStyle(SlipTheme.ink)
                 .frame(width: 40, height: 40)
                 .background(
@@ -265,7 +265,7 @@ struct MarketplaceView: View {
                 .font(SlipTheme.headlineSM())
                 .foregroundStyle(SlipTheme.ink)
             Text(subtitle)
-                .font(.system(size: 12, weight: .regular))
+                .font(.slipSystem(size: 12, weight: .regular))
                 .foregroundStyle(SlipTheme.muted)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -276,7 +276,7 @@ struct MarketplaceView: View {
                     .font(SlipTheme.labelMono())
                     .foregroundStyle(SlipTheme.primary)
                 Image(systemName: "arrow.forward")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.slipSystem(size: 11, weight: .semibold))
                     .foregroundStyle(SlipTheme.primary)
             }
         }
@@ -321,7 +321,7 @@ struct MarketplaceView: View {
                         selectedCategory = cat
                     } label: {
                         Text(cat)
-                            .font(.system(size: 12, weight: selected ? .bold : .medium))
+                            .font(.slipSystem(size: 12, weight: selected ? .bold : .medium))
                             .foregroundStyle(selected ? Color.black : SlipTheme.muted)
                             .padding(.horizontal, 14)
                             .frame(height: 32)
@@ -390,7 +390,7 @@ struct MarketplaceView: View {
                         )
                     if let icon = meta.systemIcon {
                         Image(systemName: icon)
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.slipSystem(size: 20, weight: .semibold))
                             .foregroundStyle(meta.tint)
                     } else {
                         Text(meta.badge)
@@ -406,7 +406,7 @@ struct MarketplaceView: View {
                             .font(SlipTheme.headlineSM())
                             .foregroundStyle(SlipTheme.ink)
                         Text(meta.category.uppercased())
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                             .tracking(0.6)
                             .foregroundStyle(meta.tint)
                             .padding(.horizontal, 8)
@@ -445,7 +445,7 @@ struct MarketplaceView: View {
                                 .fontWeight(.bold)
                                 .foregroundStyle(SlipTheme.ink)
                             Image(systemName: "airplane.departure")
-                                .font(.system(size: 11))
+                                .font(.slipSystem(size: 11))
                                 .foregroundStyle(SlipTheme.muted)
                             Text("BLR")
                                 .font(SlipTheme.labelMono())
@@ -505,7 +505,7 @@ struct MarketplaceView: View {
                         .fill(SlipTheme.glassSurface)
                         .frame(width: 38, height: 38)
                     Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.slipSystem(size: 20, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                 }
 
@@ -514,14 +514,14 @@ struct MarketplaceView: View {
                         .font(SlipTheme.headlineSM())
                         .foregroundStyle(SlipTheme.ink)
                     Text("Build a custom PKPass template in seconds")
-                        .font(.system(size: 11, weight: .regular))
+                        .font(.slipSystem(size: 11, weight: .regular))
                         .foregroundStyle(SlipTheme.muted)
                 }
 
                 Spacer()
 
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.slipSystem(size: 14, weight: .semibold))
                     .foregroundStyle(SlipTheme.muted)
             }
             .padding(14)

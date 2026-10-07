@@ -162,10 +162,10 @@ struct ConfirmPassSheet: View {
 
                     HStack(spacing: 4) {
                         Image(systemName: "sparkles")
-                            .font(.system(size: 10, weight: .bold))
+                            .font(.slipSystem(size: 10, weight: .bold))
                             .foregroundStyle(SlipTheme.primary)
                         Text("\(confidencePercent) Confidence")
-                            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .semibold, design: .monospaced))
                             .foregroundStyle(SlipTheme.muted)
                     }
                     .padding(.horizontal, 8)
@@ -193,7 +193,7 @@ struct ConfirmPassSheet: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.slipSystem(size: 13, weight: .semibold))
                     .foregroundStyle(SlipTheme.ink)
                     .frame(width: 32, height: 32)
                     .background(
@@ -228,10 +228,10 @@ struct ConfirmPassSheet: View {
                     } label: {
                         HStack(spacing: 6) {
                             Image(systemName: isSelected ? "checkmark.circle.fill" : "person.fill")
-                                .font(.system(size: 11))
+                                .font(.slipSystem(size: 11))
                                 .foregroundStyle(isSelected ? SlipTheme.upiGreen : SlipTheme.muted)
                             Text(name)
-                                .font(.system(size: 12, weight: isSelected ? .bold : .medium))
+                                .font(.slipSystem(size: 12, weight: isSelected ? .bold : .medium))
                                 .foregroundStyle(isSelected ? SlipTheme.ink : SlipTheme.muted)
                         }
                         .padding(.horizontal, 12)
@@ -274,7 +274,7 @@ struct ConfirmPassSheet: View {
                     .foregroundStyle(SlipTheme.muted)
                 Spacer()
                 Text("iOS 18+ READY")
-                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .font(.slipSystem(size: 9, weight: .bold, design: .monospaced))
                     .foregroundStyle(SlipTheme.muted.opacity(0.7))
             }
             .padding(.horizontal, 4)
@@ -291,7 +291,7 @@ struct ConfirmPassSheet: View {
                                     .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                             )
                         Image(systemName: "rectangle.on.rectangle.angled")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.slipSystem(size: 16, weight: .semibold))
                             .foregroundStyle(SlipTheme.primary)
                     }
 
@@ -327,7 +327,7 @@ struct ConfirmPassSheet: View {
                                     .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                             )
                         Image(systemName: "location.north.line.fill")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.slipSystem(size: 16, weight: .semibold))
                             .foregroundStyle(SlipTheme.primary)
                     }
 
@@ -385,12 +385,12 @@ struct ConfirmPassSheet: View {
                                         .fill(SlipTheme.card)
                                         .frame(width: 28, height: 28)
                                     Image(systemName: "pencil.line")
-                                        .font(.system(size: 13, weight: .semibold))
+                                        .font(.slipSystem(size: 13, weight: .semibold))
                                         .foregroundStyle(SlipTheme.ink)
                                 }
                                 Spacer()
                                 Text("\(classification.fields.count) FILLED")
-                                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                                    .font(.slipSystem(size: 9, weight: .bold, design: .monospaced))
                                     .foregroundStyle(SlipTheme.muted)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2.5)
@@ -401,10 +401,10 @@ struct ConfirmPassSheet: View {
                             }
                             VStack(alignment: .leading, spacing: 1) {
                                 Text("Edit Pass Fields")
-                                    .font(.system(size: 13, weight: .semibold))
+                                    .font(.slipSystem(size: 13, weight: .semibold))
                                     .foregroundStyle(SlipTheme.ink)
                                 Text("Customize seats & info")
-                                    .font(.system(size: 11, weight: .regular))
+                                    .font(.slipSystem(size: 11, weight: .regular))
                                     .foregroundStyle(SlipTheme.muted)
                             }
                         }
@@ -433,7 +433,7 @@ struct ConfirmPassSheet: View {
                                         .fill(SlipTheme.card)
                                         .frame(width: 28, height: 28)
                                     Image(systemName: "sparkles")
-                                        .font(.system(size: 13, weight: .semibold))
+                                        .font(.slipSystem(size: 13, weight: .semibold))
                                         .foregroundStyle(SlipTheme.primary)
                                 }
                                 Spacer()
@@ -443,10 +443,10 @@ struct ConfirmPassSheet: View {
                             }
                             VStack(alignment: .leading, spacing: 1) {
                                 Text("Re-analyze Pass")
-                                    .font(.system(size: 13, weight: .semibold))
+                                    .font(.slipSystem(size: 13, weight: .semibold))
                                     .foregroundStyle(SlipTheme.ink)
                                 Text("Run vision OCR again")
-                                    .font(.system(size: 11, weight: .regular))
+                                    .font(.slipSystem(size: 11, weight: .regular))
                                     .foregroundStyle(SlipTheme.muted)
                             }
                         }
@@ -478,7 +478,7 @@ struct ConfirmPassSheet: View {
             }
             if let batchError {
                 Text(batchError)
-                    .font(.system(size: 11, weight: .regular))
+                    .font(.slipSystem(size: 11, weight: .regular))
                     .foregroundStyle(.red)
                     .multilineTextAlignment(.center)
             }
@@ -498,7 +498,7 @@ struct ConfirmPassSheet: View {
                         ProgressView().tint(.black)
                     } else {
                         Image(systemName: "wallet.pass.fill")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.slipSystem(size: 16, weight: .semibold))
                     }
                     Text(isMultiTraveler ? "Save \(classifications.count) Passes to Vault" : "Save to Vault")
                         .font(SlipTheme.headlineSM())
@@ -532,10 +532,10 @@ struct ConfirmPassSheet: View {
             // Security Footnote
             HStack(spacing: 6) {
                 Image(systemName: "lock.shield.fill")
-                    .font(.system(size: 11))
+                    .font(.slipSystem(size: 11))
                     .foregroundStyle(SlipTheme.muted)
                 Text("Protected by Apple Secure Enclave & Slip SecurePass™")
-                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    .font(.slipSystem(size: 10, weight: .regular, design: .monospaced))
                     .foregroundStyle(SlipTheme.muted.opacity(0.8))
             }
         }

@@ -160,7 +160,7 @@ struct BrandSelectSheet: View {
                         .font(SlipTheme.headlineSM())
                         .foregroundStyle(SlipTheme.ink)
                     Text("v2.4")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .font(SlipTheme.captionMono(10, weight: .bold))
                         .foregroundStyle(SlipTheme.muted)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -185,7 +185,7 @@ struct BrandSelectSheet: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.slipSystem(size: 13, weight: .semibold))
                     .foregroundStyle(SlipTheme.ink)
                     .frame(width: 32, height: 32)
                     .background(
@@ -215,10 +215,10 @@ struct BrandSelectSheet: View {
             HStack {
                 HStack(spacing: 6) {
                     Image(systemName: "sparkles")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.slipSystem(size: 12, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                     Text("AI SUGGESTED MATCH")
-                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .font(SlipTheme.labelMono(11, weight: .bold))
                         .tracking(0.8)
                         .foregroundStyle(SlipTheme.ink)
                 }
@@ -262,7 +262,7 @@ struct BrandSelectSheet: View {
                                 .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                         )
                     Image(systemName: "ticket.fill")
-                        .font(.system(size: 22, weight: .semibold))
+                        .font(.slipSystem(size: 22, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                 }
 
@@ -296,7 +296,7 @@ struct BrandSelectSheet: View {
                         .font(SlipTheme.bodyMD())
                         .fontWeight(.semibold)
                     Image(systemName: "arrow.forward")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.slipSystem(size: 13, weight: .semibold))
                 }
                 .foregroundStyle(Color.black)
                 .frame(maxWidth: .infinity)
@@ -331,10 +331,10 @@ struct BrandSelectSheet: View {
     private func featureTag(icon: String, text: String) -> some View {
         HStack(spacing: 4) {
             Image(systemName: icon)
-                .font(.system(size: 10, weight: .semibold))
+                .font(.slipSystem(size: 10, weight: .semibold))
                 .foregroundStyle(SlipTheme.muted)
             Text(text)
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .font(SlipTheme.captionMono(10, weight: .medium))
                 .foregroundStyle(SlipTheme.muted)
         }
         .padding(.horizontal, 8)
@@ -397,17 +397,17 @@ struct BrandSelectSheet: View {
                                     .strokeBorder(item.tint.opacity(0.3), lineWidth: 1)
                             )
                         Image(systemName: item.icon)
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.slipSystem(size: 16, weight: .semibold))
                             .foregroundStyle(item.tint)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(item.title)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(SlipTheme.inter(13, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
                             .lineLimit(1)
                         Text(item.subtitle)
-                            .font(.system(size: 10, weight: .regular, design: .monospaced))
+                            .font(SlipTheme.captionMono(10, weight: .regular))
                             .foregroundStyle(SlipTheme.muted)
                             .lineLimit(1)
                     }
@@ -417,7 +417,7 @@ struct BrandSelectSheet: View {
 
                 HStack {
                     Text(item.badge)
-                        .font(.system(size: 9, weight: .medium, design: .monospaced))
+                        .font(SlipTheme.captionMono(9, weight: .medium))
                         .foregroundStyle(SlipTheme.muted)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2.5)
@@ -427,7 +427,7 @@ struct BrandSelectSheet: View {
                         )
                     Spacer()
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.slipSystem(size: 11, weight: .semibold))
                         .foregroundStyle(SlipTheme.muted)
                 }
             }
@@ -462,16 +462,16 @@ struct BrandSelectSheet: View {
                                 .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                         )
                     Image(systemName: "chevron.left.forwardslash.chevron.right")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.slipSystem(size: 14, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Custom PassKit Template")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.slipSystem(size: 13, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                     Text("Build your own with custom JSON fields, barcode & NFC payload")
-                        .font(.system(size: 11, weight: .regular))
+                        .font(.slipSystem(size: 11, weight: .regular))
                         .foregroundStyle(SlipTheme.muted)
                         .lineLimit(1)
                 }
@@ -483,7 +483,7 @@ struct BrandSelectSheet: View {
                         .font(SlipTheme.labelMono())
                         .foregroundStyle(SlipTheme.muted)
                     Image(systemName: "arrow.forward")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.slipSystem(size: 12, weight: .semibold))
                         .foregroundStyle(SlipTheme.muted)
                 }
             }
@@ -511,7 +511,7 @@ struct BrandSelectSheet: View {
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "square.and.pencil")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.slipSystem(size: 15, weight: .semibold))
                         .foregroundStyle(SlipTheme.muted)
                     Text("Manual Pass Creator")
                         .font(SlipTheme.bodyMD())
@@ -533,10 +533,10 @@ struct BrandSelectSheet: View {
 
             HStack(spacing: 6) {
                 Image(systemName: "lock.shield.fill")
-                    .font(.system(size: 11))
+                    .font(.slipSystem(size: 11))
                     .foregroundStyle(SlipTheme.upiGreen)
                 Text("Encrypted on-device via Apple Secure Enclave & Slip SecurePass™")
-                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    .font(.slipSystem(size: 10, weight: .regular, design: .monospaced))
                     .foregroundStyle(SlipTheme.muted)
             }
         }

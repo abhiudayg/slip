@@ -6,15 +6,17 @@ import UIKit
 import UniformTypeIdentifiers
 import Vision
 
-/// Artboard — Live Camera Scanner (Stitch `live_scanner_slip_wallet_1`).
+/// Artboard — Live Camera Scanner (Stitch `live_scanner_slip_wallet_1` & `live_scanner_slip_wallet_2`).
 struct LiveScannerView: View {
     var onCode: (String, String) -> Void
     var onImage: (UIImage) -> Void
     var onPDF: ((Data) -> Void)? = nil
+    var onManualEntry: (() -> Void)? = nil
     var onCancel: () -> Void
 
     @State private var isTorchOn = false
-    @State private var scanLineOffset: CGFloat = -130
+    @State private var scanLineOffset: CGFloat = -120
+    @State private var isPulsing = false
     @State private var recentThumbs: [(id: String, image: UIImage)] = []
     @State private var photoAuthDenied = false
     @State private var photoItem: PhotosPickerItem?
@@ -23,40 +25,29 @@ struct LiveScannerView: View {
 
     var body: some View {
         ZStack {
-            // Live Camera Background
+            // Camera Feed (Live AVFoundation on hardware, realistic interactive feed on Simulator)
+            #if targetEnvironment(simulator)
+            SimulatedCameraFeedView {
+                onCode("INDIGO|6E204|DEL-BLR|14A|SEAT|ALEX", "org.iso.PDF417")
+            }
+            .ignoresSafeArea()
+            #else
             ScannerCameraRepresentable(onCode: onCode, isTorchOn: isTorchOn)
                 .ignoresSafeArea()
+            #endif
 
-            // Viewfinder Cutout Mask (darkening outside 280x280 box)
-            GeometryReader { proxy in
-                let size = proxy.size
-                let boxSize: CGFloat = 280
-                let topOffset = (size.height - boxSize) / 2
-                let leftOffset = (size.width - boxSize) / 2
-
-                ZStack {
-                    // Top Mask
-                    Color.black.opacity(0.65)
-                        .frame(width: size.width, height: max(topOffset, 0))
-                        .position(x: size.width / 2, y: topOffset / 2)
-
-                    // Bottom Mask
-                    Color.black.opacity(0.65)
-                        .frame(width: size.width, height: max(topOffset, 0))
-                        .position(x: size.width / 2, y: size.height - topOffset / 2)
-
-                    // Left Mask
-                    Color.black.opacity(0.65)
-                        .frame(width: max(leftOffset, 0), height: boxSize)
-                        .position(x: leftOffset / 2, y: size.height / 2)
-
-                    // Right Mask
-                    Color.black.opacity(0.65)
-                        .frame(width: max(leftOffset, 0), height: boxSize)
-                        .position(x: size.width - leftOffset / 2, y: size.height / 2)
+            // Cutout Mask: darkens the screen outside the 280x280 viewfinder box
+            Color.black.opacity(0.65)
+                .mask {
+                    Rectangle()
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .frame(width: 280, height: 280)
+                                .blendMode(.destinationOut)
+                        }
+                        .compositingGroup()
                 }
                 .ignoresSafeArea()
-            }
 
             // Central Scanning Frame / Viewfinder HUD
             viewfinderBox
@@ -75,13 +66,16 @@ struct LiveScannerView: View {
 
                 bottomActions
                     .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
+                    .padding(.bottom, 18)
             }
         }
         .preferredColorScheme(.dark)
         .onAppear {
             withAnimation(.easeInOut(duration: 2.2).repeatForever(autoreverses: true)) {
-                scanLineOffset = 130
+                scanLineOffset = 120
+            }
+            withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                isPulsing = true
             }
         }
         .task { await loadRecentPhotos() }
@@ -127,25 +121,38 @@ struct LiveScannerView: View {
         }
     }
 
-    // MARK: - Central Viewfinder Box
+    // MARK: - Central Viewfinder Box (280x280, 16px corner radius)
 
     private var viewfinderBox: some View {
         ZStack {
             // Viewfinder Border Container (16px corner radius, NOT pill)
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                .strokeBorder(Color.white.opacity(0.20), lineWidth: 1)
                 .frame(width: 280, height: 280)
 
-            // Animated Emerald Laser Scan Beam
-            Rectangle()
-                .fill(SlipTheme.upiGreen)
-                .frame(width: 276, height: 2.5)
-                .shadow(color: SlipTheme.upiGreen.opacity(0.8), radius: 8, y: 0)
-                .shadow(color: SlipTheme.upiGreen.opacity(0.4), radius: 16, y: 0)
-                .offset(y: scanLineOffset)
+            // Animated Emerald Laser Scan Beam with Flare
+            ZStack(alignment: .top) {
+                LinearGradient(
+                    colors: [SlipTheme.upiGreen.opacity(0.20), .clear],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(width: 276, height: 36)
 
-            // HUD Targeting Corner Brackets (Exact 16px corner radius contour)
-            cornerBrackets
+                Rectangle()
+                    .fill(SlipTheme.upiGreen)
+                    .frame(width: 276, height: 2.5)
+                    .shadow(color: SlipTheme.upiGreen.opacity(0.85), radius: 8, y: 0)
+                    .shadow(color: SlipTheme.upiGreen.opacity(0.40), radius: 16, y: 0)
+            }
+            .offset(y: scanLineOffset)
+            .clipped()
+
+            // Precision HUD Targeting Corner Brackets (Exact 16px corner radius contour)
+            ViewfinderCornerBrackets(cornerRadius: 16, bracketLength: 28)
+                .stroke(SlipTheme.upiGreen, style: StrokeStyle(lineWidth: 3.5, lineCap: .round))
+                .frame(width: 280, height: 280)
+                .shadow(color: SlipTheme.upiGreen.opacity(0.85), radius: 6)
 
             // Central Subtle Alignment Crosshair
             crosshair
@@ -155,55 +162,44 @@ struct LiveScannerView: View {
                 HStack {
                     Spacer()
                     Text("AUTO-FOCUS")
-                        .font(SlipTheme.labelMono())
-                        .foregroundStyle(SlipTheme.upiGreen.opacity(0.85))
+                        .font(SlipTheme.labelMono(10, weight: .semibold))
+                        .tracking(1.2)
+                        .foregroundStyle(SlipTheme.upiGreen.opacity(0.90))
                 }
                 Spacer()
-                HStack {
+                HStack(alignment: .bottom) {
                     Text("ISO-800 · 4K 60FPS")
-                        .font(SlipTheme.labelMono())
-                        .foregroundStyle(SlipTheme.upiGreen.opacity(0.85))
+                        .font(SlipTheme.labelMono(10, weight: .semibold))
+                        .tracking(1.0)
+                        .foregroundStyle(SlipTheme.upiGreen.opacity(0.90))
+
                     Spacer()
+
+                    // Live Detection Badge (Stitch 2)
+                    HStack(spacing: 4) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.slipSystem(size: 9))
+                            .foregroundStyle(SlipTheme.upiGreen)
+                        Text("BCBP / QR")
+                            .font(SlipTheme.labelMono(9, weight: .semibold))
+                            .tracking(0.5)
+                            .foregroundStyle(Color.white.opacity(0.85))
+                    }
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .fill(Color.black.opacity(0.65))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 0.8)
+                            )
+                    )
                 }
             }
-            .frame(width: 256, height: 256)
+            .frame(width: 254, height: 254)
         }
-    }
-
-    private var cornerBrackets: some View {
-        ZStack {
-            // Top Left
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 0) {
-                    bracketCorner
-                        .rotationEffect(.degrees(0))
-                    Spacer()
-                    bracketCorner
-                        .rotationEffect(.degrees(90))
-                }
-                Spacer()
-                HStack(alignment: .bottom, spacing: 0) {
-                    bracketCorner
-                        .rotationEffect(.degrees(270))
-                    Spacer()
-                    bracketCorner
-                        .rotationEffect(.degrees(180))
-                }
-            }
-            .frame(width: 280, height: 280)
-        }
-    }
-
-    private var bracketCorner: some View {
-        Path { path in
-            path.move(to: CGPoint(x: 0, y: 28))
-            path.addLine(to: CGPoint(x: 0, y: 16))
-            path.addQuadCurve(to: CGPoint(x: 16, y: 0), control: CGPoint(x: 0, y: 0))
-            path.addLine(to: CGPoint(x: 28, y: 0))
-        }
-        .stroke(SlipTheme.upiGreen, style: StrokeStyle(lineWidth: 3.5, lineCap: .round))
-        .frame(width: 28, height: 28)
-        .shadow(color: SlipTheme.upiGreen.opacity(0.8), radius: 4)
+        .frame(width: 280, height: 280)
     }
 
     private var crosshair: some View {
@@ -225,9 +221,9 @@ struct LiveScannerView: View {
                 // Dismiss Button (14px rounded rectangle)
                 Button(action: onCancel) {
                     Image(systemName: "xmark")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.slipSystem(size: 15, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
-                        .frame(width: 42, height: 42)
+                        .frame(width: 44, height: 44)
                         .background(
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
                                 .fill(SlipTheme.cardHigh.opacity(0.65))
@@ -241,46 +237,49 @@ struct LiveScannerView: View {
 
                 Spacer()
 
-                // Status Capsule (10px rounded rectangle, NOT a pill)
+                // Auto-Detect Status Capsule (10px rounded rectangle, NOT a pill)
                 HStack(spacing: 8) {
                     Circle()
                         .fill(SlipTheme.upiGreen)
                         .frame(width: 7, height: 7)
-                        .shadow(color: SlipTheme.upiGreen, radius: 4)
+                        .scaleEffect(isPulsing ? 1.25 : 0.85)
+                        .opacity(isPulsing ? 1.0 : 0.6)
                     Text("SCANNING TICKET / PASS")
-                        .font(SlipTheme.labelMono())
-                        .tracking(0.8)
+                        .font(SlipTheme.labelMono(11, weight: .semibold))
+                        .tracking(1.0)
                         .foregroundStyle(SlipTheme.upiGreen)
                 }
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 14)
                 .padding(.vertical, 7)
                 .background(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(SlipTheme.canvasLowest.opacity(0.8))
+                        .fill(SlipTheme.canvasLowest.opacity(0.85))
                         .overlay(
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
                                 .strokeBorder(SlipTheme.upiGreen.opacity(0.35), lineWidth: 1)
                         )
+                        .shadow(color: .black.opacity(0.3), radius: 6)
                 )
 
                 Spacer()
 
-                // Torch Toggle Button (14px rounded rectangle)
+                // Flash / Torch Toggle Button (14px rounded rectangle)
                 Button {
                     isTorchOn.toggle()
                     SlipHaptics.scrollTick()
                 } label: {
-                    Image(systemName: isTorchOn ? "bolt.fill" : "bolt.slash.fill")
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(isTorchOn ? Color.yellow : SlipTheme.ink)
-                        .frame(width: 42, height: 42)
+                    Image(systemName: isTorchOn ? "bolt.slash.fill" : "bolt.fill")
+                        .font(.slipSystem(size: 16, weight: .semibold))
+                        .foregroundStyle(isTorchOn ? Color.black : SlipTheme.ink)
+                        .frame(width: 44, height: 44)
                         .background(
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .fill(SlipTheme.cardHigh.opacity(0.65))
+                                .fill(isTorchOn ? Color.white : SlipTheme.cardHigh.opacity(0.65))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                        .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                                        .strokeBorder(isTorchOn ? Color.clear : SlipTheme.glassBorder, lineWidth: 1)
                                 )
+                                .shadow(color: isTorchOn ? Color.white.opacity(0.35) : Color.clear, radius: 8)
                         )
                 }
                 .buttonStyle(.plain)
@@ -289,17 +288,17 @@ struct LiveScannerView: View {
             // PassKit AI OCR Active Banner (12px rounded rectangle)
             HStack(spacing: 6) {
                 Image(systemName: "qrcode.viewfinder")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.slipSystem(size: 14, weight: .semibold))
                     .foregroundStyle(SlipTheme.upiGreen)
                 Text("PassKit AI OCR Active")
-                    .font(SlipTheme.labelMono())
+                    .font(SlipTheme.labelMono(11, weight: .medium))
                     .foregroundStyle(SlipTheme.ink)
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(SlipTheme.cardHigh.opacity(0.7))
+                    .fill(SlipTheme.cardHigh.opacity(0.70))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
@@ -337,11 +336,11 @@ struct LiveScannerView: View {
                 recentPhotoThumbStrip
             }
 
-            // Import from Photos (16px rounded rectangle, NOT a pill)
+            // Primary: Import from Photos (16px rounded rectangle, NOT a pill)
             PhotosPicker(selection: $photoItem, matching: .images) {
                 HStack(spacing: 10) {
                     Image(systemName: "photo.on.rectangle.angled")
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.slipSystem(size: 18, weight: .semibold))
                     Text("Import from Photos")
                         .font(SlipTheme.headlineSM())
                         .fontWeight(.semibold)
@@ -356,22 +355,22 @@ struct LiveScannerView: View {
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
                                 .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                         )
+                        .shadow(color: .black.opacity(0.4), radius: 10, y: 4)
                 )
             }
             .buttonStyle(.plain)
 
-            // Split Actions: Enter Details Manually & Cancel
+            // Split Grid: Import from PDF & Enter Details (16px rounded rectangles)
             HStack(spacing: 10) {
                 Button {
-                    // Manual entry
-                    onCancel()
+                    showFileImporter = true
                 } label: {
                     HStack(spacing: 6) {
-                        Image(systemName: "keyboard")
-                            .font(.system(size: 15))
+                        Image(systemName: "doc.text")
+                            .font(.slipSystem(size: 15))
                             .foregroundStyle(SlipTheme.muted)
-                        Text("Enter Details")
-                            .font(SlipTheme.labelMono())
+                        Text("Import PDF")
+                            .font(SlipTheme.labelMono(12, weight: .medium))
                             .foregroundStyle(SlipTheme.ink)
                     }
                     .frame(maxWidth: .infinity)
@@ -379,32 +378,54 @@ struct LiveScannerView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
                             .fill(SlipTheme.cardHigh.opacity(0.65))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                    .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
-                            )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
+                        )
                     )
                 }
                 .buttonStyle(.plain)
 
-                Button(action: onCancel) {
-                    Text("Cancel")
-                        .font(SlipTheme.bodyMD())
-                        .fontWeight(.semibold)
-                        .foregroundStyle(SlipTheme.ink)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 48)
-                        .background(
+                Button {
+                    onManualEntry?() ?? onCancel()
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "keyboard")
+                            .font(.slipSystem(size: 15))
+                            .foregroundStyle(SlipTheme.muted)
+                        Text("Enter Details")
+                            .font(SlipTheme.labelMono(12, weight: .medium))
+                            .foregroundStyle(SlipTheme.ink)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 48)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(SlipTheme.cardHigh.opacity(0.65))
+                        .overlay(
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(SlipTheme.cardHigh.opacity(0.65))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                        .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
-                                )
+                                .strokeBorder(SlipTheme.glassBorder, lineWidth: 1)
                         )
+                    )
                 }
                 .buttonStyle(.plain)
             }
+
+            // Cancel action link
+            Button(action: onCancel) {
+                Text("Cancel")
+                    .font(SlipTheme.inter(14, weight: .semibold))
+                    .foregroundStyle(SlipTheme.muted)
+                    .padding(.vertical, 4)
+            }
+            .buttonStyle(.plain)
+            .buttonStyle(.plain)
+
+            // iOS Home Indicator
+            Capsule()
+                .fill(Color.white.opacity(0.30))
+                .frame(width: 130, height: 4)
+                .padding(.top, 4)
         }
     }
 
@@ -498,7 +519,156 @@ struct LiveScannerView: View {
     }
 }
 
-// MARK: - Camera & Torch Representable
+// MARK: - Viewfinder Corner Brackets Shape (Exact 16px corner radius contour)
+
+struct ViewfinderCornerBrackets: Shape {
+    var cornerRadius: CGFloat = 16
+    var bracketLength: CGFloat = 28
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let r = cornerRadius
+        let l = bracketLength
+        let w = rect.width
+        let h = rect.height
+
+        // Top Left
+        path.move(to: CGPoint(x: 0, y: l))
+        path.addLine(to: CGPoint(x: 0, y: r))
+        path.addQuadCurve(to: CGPoint(x: r, y: 0), control: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: l, y: 0))
+
+        // Top Right
+        path.move(to: CGPoint(x: w - l, y: 0))
+        path.addLine(to: CGPoint(x: w - r, y: 0))
+        path.addQuadCurve(to: CGPoint(x: w, y: r), control: CGPoint(x: w, y: 0))
+        path.addLine(to: CGPoint(x: w, y: l))
+
+        // Bottom Right
+        path.move(to: CGPoint(x: w, y: h - l))
+        path.addLine(to: CGPoint(x: w, y: h - r))
+        path.addQuadCurve(to: CGPoint(x: w - r, y: h), control: CGPoint(x: w, y: h))
+        path.addLine(to: CGPoint(x: w - l, y: h))
+
+        // Bottom Left
+        path.move(to: CGPoint(x: l, y: h))
+        path.addLine(to: CGPoint(x: r, y: h))
+        path.addQuadCurve(to: CGPoint(x: 0, y: h - r), control: CGPoint(x: 0, y: h))
+        path.addLine(to: CGPoint(x: 0, y: h - l))
+
+        return path
+    }
+}
+
+// MARK: - Simulated Camera Feed for Simulator
+
+/// Renders a realistic camera feed with a generic digital ticket / pass under viewfinder when hardware camera is unavailable.
+struct SimulatedCameraFeedView: View {
+    var onSimulateScan: () -> Void
+
+    var body: some View {
+        ZStack {
+            // Ambient camera background
+            LinearGradient(
+                colors: [
+                    Color(hex: 0x121417),
+                    Color(hex: 0x090a0c),
+                    Color(hex: 0x050507)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            // Realistic Generic Pass under the camera lens
+            Button(action: {
+                SlipHaptics.scanSuccess()
+                onSimulateScan()
+            }) {
+                VStack(spacing: 12) {
+                    // Header
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Digital Pass / Ticket")
+                                .font(SlipTheme.headlineSM())
+                                .foregroundStyle(.white)
+                            Text("GENERAL ACCESS · PASS #8492")
+                                .font(SlipTheme.labelMono())
+                                .foregroundStyle(SlipTheme.muted)
+                        }
+                        Spacer()
+                        Image(systemName: "ticket.fill")
+                            .font(.slipSystem(size: 20))
+                            .foregroundStyle(SlipTheme.upiGreen)
+                    }
+
+                    Divider().background(Color.white.opacity(0.15))
+
+                    // Time, Gate, Access
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("TIME").font(.slipSystem(size: 9, weight: .bold)).foregroundStyle(SlipTheme.muted)
+                            Text("18:45").font(SlipTheme.headlineSM()).foregroundStyle(.white)
+                        }
+                        Spacer()
+                        VStack(alignment: .center) {
+                            Text("GATE").font(.slipSystem(size: 9, weight: .bold)).foregroundStyle(SlipTheme.muted)
+                            Text("04B").font(SlipTheme.headlineSM()).foregroundStyle(.white)
+                        }
+                        Spacer()
+                        VStack(alignment: .trailing) {
+                            Text("ACCESS").font(.slipSystem(size: 9, weight: .bold)).foregroundStyle(SlipTheme.muted)
+                            Text("VIP 14A").font(SlipTheme.headlineSM()).foregroundStyle(SlipTheme.upiGreen)
+                        }
+                    }
+
+                    // Simulated 2D Barcode
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .fill(Color.white.opacity(0.95))
+                            .frame(height: 70)
+
+                        VStack(spacing: 4) {
+                            HStack(spacing: 3) {
+                                ForEach(0..<32, id: \.self) { i in
+                                    Rectangle()
+                                        .fill(Color.black)
+                                        .frame(width: (i % 3 == 0 || i % 7 == 0) ? 3 : 1.5, height: 40)
+                                }
+                            }
+                            Text("SLIP-PASS-SAMPLE-ENTRY-CODE-128")
+                                .font(.slipSystem(size: 8, weight: .bold, design: .monospaced))
+                                .foregroundStyle(Color.black.opacity(0.75))
+                        }
+                    }
+
+                    // Simulator Hint
+                    HStack(spacing: 4) {
+                        Image(systemName: "hand.tap.fill")
+                            .font(.slipSystem(size: 11))
+                        Text("Tap pass to simulate barcode scan")
+                            .font(.slipSystem(size: 11, weight: .medium))
+                    }
+                    .foregroundStyle(SlipTheme.upiGreen)
+                    .padding(.top, 4)
+                }
+                .padding(18)
+                .frame(width: 260)
+                .background(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(Color(hex: 0x1c1e24).opacity(0.95))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
+                        )
+                        .shadow(color: .black.opacity(0.6), radius: 20)
+                )
+            }
+            .buttonStyle(.plain)
+        }
+    }
+}
+
+// MARK: - Hardware Camera & Torch Representable
 
 struct ScannerCameraRepresentable: UIViewControllerRepresentable {
     var onCode: (String, String) -> Void

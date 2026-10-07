@@ -171,23 +171,23 @@ struct DashboardView: View {
     }
 
     private var filterBar: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 8) {
             HStack(spacing: 0) {
-                filterChip("Active (\(activeRecords.isEmpty ? 4 : activeRecords.count))", selected: !showExpiredFilter) {
+                filterChip("Active\u{00A0}(\(activeRecords.isEmpty ? 4 : activeRecords.count))", selected: !showExpiredFilter) {
                     showExpiredFilter = false
                 }
-                filterChip("Expired (\(expiredRecords.isEmpty ? 2 : expiredRecords.count))", selected: showExpiredFilter) {
+                filterChip("Expired\u{00A0}(\(expiredRecords.isEmpty ? 2 : expiredRecords.count))", selected: showExpiredFilter) {
                     showExpiredFilter = true
                 }
             }
-            .padding(4)
+            .padding(3)
             .background(
                 Capsule()
                     .fill(SlipTheme.cardHigh.opacity(0.60))
                     .overlay(Capsule().strokeBorder(SlipTheme.glassBorder, lineWidth: 1))
             )
 
-            Spacer(minLength: 8)
+            Spacer(minLength: 4)
 
             Button {
                 SlipHaptics.scrollTick()
@@ -195,14 +195,14 @@ struct DashboardView: View {
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "plus")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.slipSystem(size: 13, weight: .semibold))
                         .foregroundStyle(SlipTheme.primary)
                     Text("Add Pass")
-                        .font(SlipTheme.labelMono())
+                        .font(SlipTheme.labelMono(12, weight: .medium))
                         .foregroundStyle(SlipTheme.ink)
                 }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
                 .background(
                     Capsule()
                         .fill(SlipTheme.card)
@@ -216,10 +216,12 @@ struct DashboardView: View {
     private func filterChip(_ title: String, selected: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
-                .font(SlipTheme.labelMono())
+                .font(SlipTheme.labelMono(12, weight: .medium))
                 .foregroundStyle(selected ? SlipTheme.ink : SlipTheme.muted)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
                 .background(
                     Capsule().fill(selected ? SlipTheme.glassSurface : Color.clear)
                 )
@@ -269,7 +271,7 @@ struct DashboardView: View {
                     HStack(alignment: .center) {
                         HStack(spacing: 8) {
                             Image(systemName: "airplane.departure")
-                                .font(.system(size: 14, weight: .bold))
+                                .font(.slipSystem(size: 14, weight: .bold))
                                 .foregroundStyle(Color(hex: 0x93C5FD))
                                 .frame(width: 28, height: 28)
                                 .background(Circle().fill(Color.blue.opacity(0.2)))
@@ -291,7 +293,7 @@ struct DashboardView: View {
                                 .fill(Color(hex: 0x34D399))
                                 .frame(width: 6, height: 6)
                             Text("BOARDING IN 45M")
-                                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                                .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                                 .foregroundStyle(Color(hex: 0x6EE7B7))
                         }
                         .padding(.horizontal, 10)
@@ -304,7 +306,7 @@ struct DashboardView: View {
                     HStack(alignment: .center) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("DEPARTURE")
-                                .font(.system(size: 11, weight: .medium, design: .monospaced))
+                                .font(.slipSystem(size: 11, weight: .medium, design: .monospaced))
                                 .foregroundStyle(SlipTheme.muted)
                             Text("BLR")
                                 .font(SlipTheme.headlineXL())
@@ -323,7 +325,7 @@ struct DashboardView: View {
                                     .fill(Color.white.opacity(0.25))
                                     .frame(height: 1)
                                 Image(systemName: "airplane")
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .font(.slipSystem(size: 16, weight: .semibold))
                                     .foregroundStyle(SlipTheme.primary)
                                 Rectangle()
                                     .fill(Color.white.opacity(0.25))
@@ -331,7 +333,7 @@ struct DashboardView: View {
                             }
                             .frame(width: 100)
                             Text("2h 45m NON-STOP")
-                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .font(.slipSystem(size: 10, weight: .medium, design: .monospaced))
                                 .foregroundStyle(SlipTheme.muted)
                         }
 
@@ -339,7 +341,7 @@ struct DashboardView: View {
 
                         VStack(alignment: .trailing, spacing: 2) {
                             Text("ARRIVAL")
-                                .font(.system(size: 11, weight: .medium, design: .monospaced))
+                                .font(.slipSystem(size: 11, weight: .medium, design: .monospaced))
                                 .foregroundStyle(SlipTheme.muted)
                             Text("DEL")
                                 .font(SlipTheme.headlineXL())
@@ -386,17 +388,17 @@ struct DashboardView: View {
                 HStack(alignment: .center) {
                     HStack(spacing: 12) {
                         Image(systemName: "qrcode")
-                            .font(.system(size: 28))
+                            .font(.slipSystem(size: 28))
                             .foregroundStyle(.black)
                             .padding(6)
                             .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(.white))
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text("PASSENGER / PNR")
-                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .font(.slipSystem(size: 10, weight: .medium, design: .monospaced))
                                 .foregroundStyle(SlipTheme.muted)
                             Text("ALEXANDER V.")
-                                .font(.system(size: 14, weight: .semibold))
+                                .font(.slipSystem(size: 14, weight: .semibold))
                                 .foregroundStyle(SlipTheme.ink)
                             Text("HM2ZH3")
                                 .font(SlipTheme.codeMono())
@@ -408,13 +410,13 @@ struct DashboardView: View {
 
                     VStack(alignment: .trailing, spacing: 4) {
                         Image(systemName: "wave.3.right")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.slipSystem(size: 16, weight: .semibold))
                             .foregroundStyle(SlipTheme.ink)
                             .frame(width: 36, height: 36)
                             .background(Circle().fill(SlipTheme.glassSurface))
                             .overlay(Circle().strokeBorder(SlipTheme.glassBorder, lineWidth: 1))
                         Text("HOLD NEAR")
-                            .font(.system(size: 9, weight: .medium, design: .monospaced))
+                            .font(.slipSystem(size: 9, weight: .medium, design: .monospaced))
                             .foregroundStyle(SlipTheme.muted)
                     }
                 }
@@ -469,19 +471,19 @@ struct DashboardView: View {
                 HStack {
                     HStack(spacing: 8) {
                         Text("BOOKMYSHOW")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                             .foregroundStyle(Color(hex: 0xFCA5A5))
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
                             .background(Capsule().fill(Color.red.opacity(0.2)))
                             .overlay(Capsule().strokeBorder(Color.red.opacity(0.3), lineWidth: 1))
                         Text("IMAX 70MM")
-                            .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                            .font(.slipSystem(size: 11, weight: .semibold, design: .monospaced))
                             .foregroundStyle(Color(hex: 0xFBBF24))
                     }
                     Spacer()
                     Text("TODAY • 21:15")
-                        .font(.system(size: 11, weight: .medium, design: .monospaced))
+                        .font(.slipSystem(size: 11, weight: .medium, design: .monospaced))
                         .foregroundStyle(SlipTheme.muted)
                 }
 
@@ -498,7 +500,7 @@ struct DashboardView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: 2) {
                         Text("SEATS")
-                            .font(.system(size: 10, weight: .medium, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .medium, design: .monospaced))
                             .foregroundStyle(SlipTheme.muted)
                         Text("F14, F15")
                             .font(SlipTheme.headlineSM())
@@ -544,17 +546,17 @@ struct DashboardView: View {
                 HStack {
                     HStack(spacing: 8) {
                         Image(systemName: "wineglass.fill")
-                            .font(.system(size: 11, weight: .bold))
+                            .font(.slipSystem(size: 11, weight: .bold))
                             .foregroundStyle(Color(hex: 0x34D399))
                             .frame(width: 22, height: 22)
                             .background(Circle().fill(Color.green.opacity(0.2)))
                         Text("ZOMATO GOLD RESERVE")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                             .foregroundStyle(Color(hex: 0x34D399))
                     }
                     Spacer()
                     Text("CONFIRMED")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                         .foregroundStyle(Color(hex: 0x6EE7B7))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
@@ -575,7 +577,7 @@ struct DashboardView: View {
                     Spacer()
                     VStack(alignment: .trailing, spacing: 2) {
                         Text("RESERVATION")
-                            .font(.system(size: 10, weight: .medium, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .medium, design: .monospaced))
                             .foregroundStyle(SlipTheme.muted)
                         Text("9:30 PM")
                             .font(SlipTheme.headlineSM())
@@ -621,20 +623,20 @@ struct DashboardView: View {
                 HStack {
                     HStack(spacing: 8) {
                         Image(systemName: "key.fill")
-                            .font(.system(size: 11, weight: .bold))
+                            .font(.slipSystem(size: 11, weight: .bold))
                             .foregroundStyle(Color(hex: 0x67E8F9))
                             .frame(width: 22, height: 22)
                             .background(Circle().fill(Color.cyan.opacity(0.2)))
                         Text("DIGITAL CAR KEY")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                             .foregroundStyle(Color(hex: 0x67E8F9))
                     }
                     Spacer()
                     HStack(spacing: 4) {
                         Image(systemName: "wave.3.right")
-                            .font(.system(size: 11, weight: .semibold))
+                            .font(.slipSystem(size: 11, weight: .semibold))
                         Text("NFC READY")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .font(.slipSystem(size: 10, weight: .bold, design: .monospaced))
                     }
                     .foregroundStyle(Color(hex: 0x22D3EE))
                 }
@@ -768,7 +770,7 @@ struct DashboardView: View {
     private func bentoCell(label: String, value: String, valueColor: Color = SlipTheme.ink) -> some View {
         VStack(spacing: 2) {
             Text(label)
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .font(.slipSystem(size: 10, weight: .medium, design: .monospaced))
                 .foregroundStyle(SlipTheme.muted)
             Text(value)
                 .font(SlipTheme.headlineSM())
@@ -840,21 +842,21 @@ struct DashboardView: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
-                    .font(.system(size: 18, weight: .semibold))
+                    .font(.slipSystem(size: 18, weight: .semibold))
                     .foregroundStyle(tint)
                     .frame(width: 36, height: 36)
                     .background(Circle().fill(SlipTheme.glassSurface))
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(SlipTheme.headlineSM())
+                        .font(SlipTheme.inter(14, weight: .semibold))
                         .foregroundStyle(SlipTheme.ink)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.85)
+                        .minimumScaleFactor(0.80)
                     Text(subtitle)
-                        .font(SlipTheme.labelMono())
+                        .font(SlipTheme.captionMono(11, weight: .regular))
                         .foregroundStyle(SlipTheme.muted)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.85)
+                        .minimumScaleFactor(0.80)
                 }
                 Spacer(minLength: 0)
             }

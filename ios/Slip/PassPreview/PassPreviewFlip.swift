@@ -45,7 +45,7 @@ struct PassFlipContainer<Front: View>: View {
                     SlipHaptics.scrollTick()
                 } label: {
                     Image(systemName: "info.circle.fill")
-                        .font(.system(size: 24, weight: .semibold))
+                        .font(.slipSystem(size: 24, weight: .semibold))
                         .foregroundStyle(.white.opacity(0.92))
                         .shadow(color: .black.opacity(0.45), radius: 4, y: 1)
                         .padding(20)
@@ -93,14 +93,14 @@ struct PassBackFace: View {
                         Button(action: onOpenFullSheet) {
                             HStack {
                                 Image(systemName: "list.bullet.rectangle.fill")
-                                    .font(.system(size: 14))
+                                    .font(.slipSystem(size: 14))
                                     .foregroundStyle(palette.accentSoft)
                                 Text("Full Pass Details & Logistics")
-                                    .font(.system(size: 13, weight: .semibold))
+                                    .font(.slipSystem(size: 13, weight: .semibold))
                                     .foregroundStyle(.white)
                                 Spacer()
                                 Image(systemName: "chevron.right")
-                                    .font(.system(size: 11, weight: .bold))
+                                    .font(.slipSystem(size: 11, weight: .bold))
                                     .foregroundStyle(.white.opacity(0.5))
                             }
                             .padding(.horizontal, 12)
@@ -197,7 +197,7 @@ struct ExpandableCodeModifier: ViewModifier {
                     Color.white.ignoresSafeArea()
                     VStack(spacing: 24) {
                         Image(systemName: "qrcode")
-                            .font(.system(size: 220, weight: .regular))
+                            .font(.slipSystem(size: 220, weight: .regular))
                             .foregroundStyle(.black)
                         if !alt.isEmpty {
                             Text(alt)

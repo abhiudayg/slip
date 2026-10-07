@@ -47,7 +47,7 @@ struct LoginView: View {
         VStack(spacing: 0) {
             HStack(spacing: 6) {
                 Image(systemName: "lock.fill")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.slipSystem(size: 11, weight: .semibold))
                     .foregroundStyle(SlipTheme.tertiary)
                 Text("PASSKIT VAULT 2.0")
                     .font(SlipTheme.labelMono())
@@ -129,7 +129,7 @@ struct LoginView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .center, spacing: 8) {
                 Image(systemName: icon)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.slipSystem(size: 16, weight: .semibold))
                     .foregroundStyle(SlipTheme.tertiary)
                 Spacer(minLength: 0)
                 Text(meta)
@@ -139,12 +139,12 @@ struct LoginView: View {
                     .lineLimit(1)
             }
             Text(title)
-                .font(.system(size: 14, weight: .semibold))
+                .font(SlipTheme.inter(14, weight: .semibold))
                 .foregroundStyle(SlipTheme.ink)
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
             Text(subtitle)
-                .font(.system(size: 11, weight: .regular))
+                .font(SlipTheme.inter(11, weight: .regular))
                 .foregroundStyle(SlipTheme.muted)
                 .lineLimit(1)
                 .minimumScaleFactor(0.85)
@@ -174,7 +174,7 @@ struct LoginView: View {
             } label: {
                 HStack(spacing: 10) {
                     Image(systemName: "apple.logo")
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.slipSystem(size: 18, weight: .semibold))
                     Text("Sign in with Apple")
                         .font(SlipTheme.headlineSM())
                 }
@@ -219,15 +219,15 @@ struct LoginView: View {
 
             VStack(spacing: 6) {
                 Text("By continuing, you agree to Slip's Terms & Privacy Policy.")
-                    .font(SlipTheme.labelMono())
+                    .font(SlipTheme.labelMono(11, weight: .regular))
                     .foregroundStyle(SlipTheme.outline)
                     .multilineTextAlignment(.center)
 
                 HStack(spacing: 4) {
                     Image(systemName: "lock.fill")
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.slipSystem(size: 10, weight: .semibold))
                     Text("Protected by Secure Enclave & VAS 2.0")
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                        .font(SlipTheme.captionMono(10, weight: .medium))
                 }
                 .foregroundStyle(SlipTheme.outlineVariant)
             }

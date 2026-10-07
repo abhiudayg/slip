@@ -29,7 +29,7 @@ struct BrightQRView: View {
                         .background(Color.white)
                 } else {
                     Image(systemName: "qrcode")
-                        .font(.system(size: 120))
+                        .font(.slipSystem(size: 120))
                         .foregroundStyle(.black)
                 }
                 Text(payload)

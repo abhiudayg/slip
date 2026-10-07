@@ -363,8 +363,8 @@ extension KeylessFaceModel {
             secondaryRight: ("Drop Off", PassFieldBag.value(fields, ["drop_off"], fallback: "Sun, 29 Oct • 21:00")),
             tertiaryLeft: ("Backup PIN", PassFieldBag.value(fields, ["door_pin"], fallback: "7 9 2 4 #")),
             tertiaryRight: ("", ""),
-            footerLeft: nil,
-            footerRight: nil,
+            footerLeft: ("Fuel Level", PassFieldBag.value(fields, ["fuel"], fallback: "85%")),
+            footerRight: ("Est. Range", PassFieldBag.value(fields, ["range"], fallback: "420 km")),
             booking: PassFieldBag.value(fields, ["booking_id", "qr_data"], fallback: ""),
             nfcTitle: "Hold iPhone Near Windshield Reader",
             nfcSubtitle: "Express Mode · Backup PIN available"
