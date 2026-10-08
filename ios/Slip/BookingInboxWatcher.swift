@@ -24,16 +24,7 @@ enum BookingInboxWatcher {
         // when the clipboard clearly doesn't contain a booking (no numbers or URLs).
         let hasPotentialBooking: Bool
         if #available(iOS 15.0, *) {
-            hasPotentialBooking = await withCheckedContinuation { continuation in
-                UIPasteboard.general.detectPatterns(for: [.probableWebURL, .number]) { result in
-                    switch result {
-                    case .success(let patterns):
-                        continuation.resume(returning: !patterns.isEmpty)
-                    case .failure:
-                        continuation.resume(returning: UIPasteboard.general.hasStrings)
-                    }
-                }
-            }
+            hasPotentialBooking = UIPasteboard.general.hasStrings || UIPasteboard.general.hasURLs
         } else {
             hasPotentialBooking = UIPasteboard.general.hasStrings
         }

@@ -46,6 +46,11 @@
 	<string>Slip shows recent screenshots so you can pick a ticket photo, and reads QR codes from images you select.</string>
 	<key>SlipAPIBaseURL</key>
 	<string>http://161.33.86.15:8080</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>SlipAppGroup</key>
 	<string>group.com.aeswibon.slip</string>
 	<key>UILaunchScreen</key>
