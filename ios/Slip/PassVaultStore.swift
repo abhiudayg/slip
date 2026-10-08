@@ -507,8 +507,14 @@ final class PassVaultStore: ObservableObject {
         let existing = try context.fetch(descriptor).first
         let remoteUpdated = (ck["updatedAt"] as? Date) ?? .distantPast
 
-        if let existing, existing.updatedAt >= remoteUpdated {
-            return
+        if let existing {
+            if existing.updatedAt >= remoteUpdated {
+                // Local is newer, this is a conflict if remote was also edited.
+                print("⚠️ [Sync] Conflict detected for \(id). Local is newer, ignoring remote.")
+                return
+            } else {
+                print("⚠️ [Sync] Conflict resolved for \(id). Remote is newer, overwriting local.")
+            }
         }
 
         guard
