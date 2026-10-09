@@ -71,7 +71,7 @@ struct ImportBookingFromClipboardIntent: AppIntent {
 struct ImportBookingFromMailIntent: AppIntent {
     static var title: LocalizedStringResource = "Import Booking Email"
     static var description = IntentDescription(
-        "Import a booking confirmation into Slip. Open the email in Mail, copy the body or Share to Slip, then run with Siri."
+        "Import a booking confirmation into Slip. Open the email in Mail, copy the body or Share to Slip, then run this shortcut."
     )
     static var openAppWhenRun: Bool = true
 
