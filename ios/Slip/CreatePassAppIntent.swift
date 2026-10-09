@@ -60,10 +60,6 @@ struct ImportBookingFromClipboardIntent: AppIntent {
     )
     static var openAppWhenRun: Bool = true
 
-    static var parameterSummary: some ParameterSummary {
-        Summary("Import booking from clipboard into \(.applicationName)")
-    }
-
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let dialog = await BookingMailImport.importBookingBody(nil)
         return .result(dialog: IntentDialog(stringLiteral: dialog))
@@ -81,10 +77,6 @@ struct ImportBookingFromMailIntent: AppIntent {
 
     @Parameter(title: "Booking email text")
     var bookingText: String?
-
-    static var parameterSummary: some ParameterSummary {
-        Summary("Import booking email into \(.applicationName)")
-    }
 
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let dialog = await BookingMailImport.importBookingBody(bookingText)

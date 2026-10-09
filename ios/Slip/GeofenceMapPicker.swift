@@ -70,8 +70,8 @@ struct GeofenceMapPicker: View {
                 }
             }
             .onAppear { bootstrap() }
-            .onChange(of: locator.coordinate) { _, coord in
-                guard let coord, !didSetInitialCamera else { return }
+            .onChange(of: locator.fixToken) { _, _ in
+                guard let coord = locator.coordinate, !didSetInitialCamera else { return }
                 // Only auto-center when no explicit coords were already provided.
                 if hasExistingCoords { return }
                 center(on: coord, spanMeters: 900)
@@ -274,6 +274,8 @@ struct GeofenceMapPicker: View {
 @MainActor
 final class CurrentLocationProvider: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published private(set) var coordinate: CLLocationCoordinate2D?
+    /// Equatable stamp for SwiftUI onChange (CLLocationCoordinate2D is not Equatable).
+    @Published private(set) var fixToken: Int = 0
 
     private let manager = CLLocationManager()
 
@@ -282,8 +284,13 @@ final class CurrentLocationProvider: NSObject, ObservableObject, CLLocationManag
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         if let loc = manager.location {
-            coordinate = loc.coordinate
+            apply(loc.coordinate)
         }
+    }
+
+    private func apply(_ coord: CLLocationCoordinate2D) {
+        coordinate = coord
+        fixToken &+= 1
     }
 
     func request() {
@@ -311,7 +318,7 @@ final class CurrentLocationProvider: NSObject, ObservableObject, CLLocationManag
     nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let loc = locations.last else { return }
         Task { @MainActor in
-            coordinate = loc.coordinate
+            apply(loc.coordinate)
         }
     }
 
