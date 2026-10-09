@@ -111,6 +111,7 @@
 		DC72B6751C1641D760921B2C /* PassDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965ADBF54701435DE6EF84B4 /* PassDetailsView.swift */; };
 		DDE836C9FDC00DCAA2F45274 /* BrandPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3BF95C1D49D909F189B52A8 /* BrandPassHandler.swift */; };
 		E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */; };
+		E234A5C567B6A886700118C6 /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246842EF0AD18EBDF2BA153D /* BackupManager.swift */; };
 		E24066B0F16486A352E9F19B /* RedBusPassHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 970F5BF4906A0EFA9671B339 /* RedBusPassHandler.swift */; };
 		E3B34FD53D7DFA64A10F2DA1 /* PassAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D546508C8E7C30E6DBD207A5 /* PassAccessibility.swift */; };
 		E3E02C57D576CE6086E9BEAF /* PassShareControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06232E38DEC6EF6D62B58748 /* PassShareControls.swift */; };
@@ -192,6 +193,7 @@
 		1DCCCCD09D45675AC2E04EC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		21E940C6702923F5B34291AD /* ImportTicketMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportTicketMenu.swift; sourceTree = "<group>"; };
 		2435339DC7D9D57E3E2B6C04 /* PkpassCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PkpassCache.swift; sourceTree = "<group>"; };
+		246842EF0AD18EBDF2BA153D /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
 		2845D0C580A37F0EB69C5A4A /* PassGeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGeofenceManager.swift; sourceTree = "<group>"; };
 		2B7DB958639C83886632B412 /* DiningPassHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiningPassHandler.swift; sourceTree = "<group>"; };
 		2EA9682869FFEABA0DFF0ACE /* SlipUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipUITests.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				F3C1C88D660F7DCF3E6687E1 /* AppModel.swift */,
 				2EC03091146138679A40E07D /* Assets.xcassets */,
 				00B3D5FC3E2DC6E839327AE4 /* AuthSession.swift */,
+				246842EF0AD18EBDF2BA153D /* BackupManager.swift */,
 				F7984C62C3752817466D8171 /* BookingInboxWatcher.swift */,
 				0FBFC547868D3E8C5D3E06CD /* BookingReminderScheduler.swift */,
 				C47E6C51FBDA2E51346E560B /* BrandConfirmView.swift */,
@@ -690,6 +693,7 @@
 				EFDE2F7251CB2B9C6BDF0545 /* AirlineHintPassHandler.swift in Sources */,
 				5C81F5632709A406A7E12826 /* AppModel.swift in Sources */,
 				E0A813A61CB042CC05C324D8 /* AuthSession.swift in Sources */,
+				E234A5C567B6A886700118C6 /* BackupManager.swift in Sources */,
 				CAA1F9A8DC1DC09DDC030D3F /* BookMyShowPassHandler.swift in Sources */,
 				F9E6E5850FCAC0B384B82D15 /* BookingInboxWatcher.swift in Sources */,
 				FCD0D7F156C466D3751E627A /* BookingReminderScheduler.swift in Sources */,
@@ -872,7 +876,7 @@
 				CODE_SIGN_ENTITLEMENTS = Slip/Slip.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Slip/Info.plist;
@@ -976,7 +980,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SlipWatch/SlipWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipWatch/Info.plist;
@@ -997,7 +1001,7 @@
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
@@ -1034,7 +1038,7 @@
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipWidgets/SlipWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipWidgets/Info.plist;
@@ -1056,7 +1060,7 @@
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipWidgets/SlipWidgets.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipWidgets/Info.plist;
@@ -1077,7 +1081,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SlipWatch/SlipWatch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipWatch/Info.plist;
@@ -1099,7 +1103,7 @@
 				CODE_SIGN_ENTITLEMENTS = Slip/Slip.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Slip/Info.plist;
@@ -1123,7 +1127,7 @@
 				BASE_SDK = iphoneos;
 				CODE_SIGN_ENTITLEMENTS = SlipShareExtension/SlipShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 9HSMVVUMVX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SlipShareExtension/Info.plist;
