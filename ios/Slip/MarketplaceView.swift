@@ -1,12 +1,13 @@
 import PhotosUI
 import SwiftUI
+import UIKit
 
 /// Artboard — Marketplace / Discover (Stitch `marketplace_discover_passes`).
 struct MarketplaceView: View {
     @EnvironmentObject private var model: AppModel
     @State private var query = ""
     @State private var selectedCategory = "All"
-    @State private var showDetectedBanner = true
+    @State private var detectedBooking: DetectedClipboardBooking?
     var onClose: (() -> Void)? = nil
     var onSelectBrand: (BrandSummary) -> Void
     var onScanScreenshot: () -> Void
@@ -25,7 +26,7 @@ struct MarketplaceView: View {
         SlipScreenColumn {
             header.frame(maxWidth: .infinity, alignment: .leading)
 
-            if showDetectedBanner {
+            if detectedBooking != nil {
                 detectedPassesToast
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .transition(.opacity.combined(with: .move(edge: .top)))
@@ -42,6 +43,10 @@ struct MarketplaceView: View {
             }
 
             customPassPromoBanner.frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .onAppear { refreshDetectedBooking() }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            refreshDetectedBooking()
         }
     }
 
@@ -114,27 +119,25 @@ struct MarketplaceView: View {
                 Circle()
                     .fill(SlipTheme.meshTeal.opacity(0.8))
                     .frame(width: 36, height: 36)
-                Image(systemName: "envelope.badge.fill")
+                Image(systemName: "doc.on.clipboard.fill")
                     .font(.slipSystem(size: 16, weight: .semibold))
                     .foregroundStyle(Color(hex: 0x5EEAD4))
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("2 Pass Emails Detected")
+                Text(detectedBooking?.title ?? "Booking detected")
                     .font(SlipTheme.headlineSM())
                     .foregroundStyle(SlipTheme.ink)
-                Text("IndiGo 6E-241 & BookMyShow tickets")
+                Text(detectedBooking?.subtitle ?? "Copied booking text ready to import")
                     .font(.slipSystem(size: 11, weight: .regular))
                     .foregroundStyle(SlipTheme.muted)
+                    .lineLimit(2)
             }
 
             Spacer(minLength: 4)
 
             Button {
-                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                    showDetectedBanner = false
-                }
-                onScanScreenshot()
+                importDetectedBooking()
             } label: {
                 Text("Import")
                     .font(SlipTheme.labelMono())
@@ -159,6 +162,63 @@ struct MarketplaceView: View {
                 )
         )
         .shadow(color: .black.opacity(0.3), radius: 10, y: 4)
+        .contextMenu {
+            Button("Dismiss", role: .destructive) {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    detectedBooking = nil
+                }
+            }
+        }
+    }
+
+    private func refreshDetectedBooking() {
+        if let pending = PendingBookingImport.peek() {
+            let hit = BookingInboxWatcher.detect(in: pending.text)
+            let label = hit?.brandLabel ?? brandLabel(for: pending.brandHint)
+            let title = hit?.notificationTitle ?? "Booking detected"
+            let pretty = label.isEmpty ? "Travel" : label.prefix(1).uppercased() + String(label.dropFirst())
+            detectedBooking = DetectedClipboardBooking(
+                text: pending.text,
+                title: title,
+                subtitle: "\(pretty) booking on clipboard — tap Import"
+            )
+            return
+        }
+        if let clip = BookingInboxWatcher.clipboardBookingIfAvailable() {
+            detectedBooking = DetectedClipboardBooking(
+                text: clip.text,
+                title: clip.hit.notificationTitle,
+                subtitle: "\(clip.hit.brandLabel.prefix(1).uppercased())\(String(clip.hit.brandLabel.dropFirst())) booking copied — tap Import"
+            )
+            return
+        }
+        detectedBooking = nil
+    }
+
+    private func importDetectedBooking() {
+        let text: String?
+        if let pending = PendingBookingImport.consume() {
+            text = pending.text
+        } else {
+            text = detectedBooking?.text
+        }
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            detectedBooking = nil
+        }
+        guard let text, !text.isEmpty else { return }
+        model.classifyBookingText(text)
+        SlipHaptics.scanSuccess()
+    }
+
+    private func brandLabel(for hint: String) -> String {
+        switch hint.lowercased() {
+        case "irctc": return "IRCTC"
+        case "indigo": return "flight"
+        case "airbnb": return "Airbnb"
+        case "bookmyshow": return "movie/event"
+        case "redbus": return "bus"
+        default: return hint.isEmpty ? "travel" : hint
+        }
     }
 
     // MARK: - Search & Filter Bar
@@ -723,3 +783,10 @@ struct MarketplaceView: View {
         )
     }
 }
+
+private struct DetectedClipboardBooking: Equatable {
+    var text: String
+    var title: String
+    var subtitle: String
+}
+

@@ -46,6 +46,15 @@ struct SettingsView: View {
         return "alexander.v@okhdfcbank"
     }
 
+    private var autoLockLabel: String {
+        switch autoLockMinutes {
+        case 0: return "Immediately"
+        case 1: return "After 1 minute"
+        case 15: return "After 15 minutes"
+        default: return "After 5 minutes"
+        }
+    }
+
     var body: some View {
         SlipScreenColumn {
             topHeader.frame(maxWidth: .infinity, alignment: .leading)
@@ -228,7 +237,9 @@ struct SettingsView: View {
                             Image(systemName: "person.badge.key.fill")
                                 .font(.slipSystem(size: 11))
                                 .foregroundStyle(SlipTheme.muted)
-                            Text("Apple ID Linked")
+                            Text(auth.avatarImage == nil
+                                  ? "Apple ID linked · tap photo to set avatar"
+                                  : "Apple ID Linked")
                                 .font(SlipTheme.labelMono())
                                 .foregroundStyle(SlipTheme.muted)
                         }
@@ -298,27 +309,37 @@ struct SettingsView: View {
 
                 if faceIdEnabled {
                     Divider().background(SlipTheme.glassBorder)
-                    
-                    HStack(spacing: 12) {
+
+                    HStack(alignment: .center, spacing: 12) {
                         squircleIcon("clock.fill", color: SlipTheme.upiGreen)
-                        
+
                         Text("Auto-Lock")
                             .font(SlipTheme.bodyMD())
                             .fontWeight(.medium)
                             .foregroundStyle(SlipTheme.ink)
-                        
-                        Spacer()
-                        
-                        Picker("", selection: $autoLockMinutes) {
-                            Text("Immediately").tag(0)
-                            Text("After 1 minute").tag(1)
-                            Text("After 5 minutes").tag(5)
-                            Text("After 15 minutes").tag(15)
+
+                        Spacer(minLength: 8)
+
+                        Menu {
+                            Button("Immediately") { autoLockMinutes = 0 }
+                            Button("After 1 minute") { autoLockMinutes = 1 }
+                            Button("After 5 minutes") { autoLockMinutes = 5 }
+                            Button("After 15 minutes") { autoLockMinutes = 15 }
+                        } label: {
+                            HStack(spacing: 6) {
+                                Text(autoLockLabel)
+                                    .font(SlipTheme.labelMono())
+                                    .foregroundStyle(SlipTheme.muted)
+                                    .lineLimit(1)
+                                Image(systemName: "chevron.up.chevron.down")
+                                    .font(.slipSystem(size: 12, weight: .semibold))
+                                    .foregroundStyle(SlipTheme.muted)
+                            }
                         }
-                        .tint(SlipTheme.muted)
+                        .accessibilityLabel("Auto-Lock")
+                        .accessibilityValue(autoLockLabel)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
+                    .padding(16)
                 }
 
                 Divider().background(SlipTheme.glassBorder)

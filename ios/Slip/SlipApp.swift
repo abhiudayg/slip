@@ -61,15 +61,20 @@ struct SlipApp: App {
                 switch phase {
                 case .background:
                     lastBackgroundedAt = Date()
+                    // "Immediately" locks as soon as the app leaves the foreground.
+                    if faceIdEnabled && autoLockMinutes == 0 {
+                        vault.lock()
+                    }
                 case .active:
                     if let backgroundedAt = lastBackgroundedAt, faceIdEnabled {
-                        let elapsedMinutes = Date().timeIntervalSince(backgroundedAt) / 60
-                        if elapsedMinutes >= Double(autoLockMinutes) {
+                        let elapsedSeconds = Date().timeIntervalSince(backgroundedAt)
+                        let thresholdSeconds = Double(autoLockMinutes) * 60
+                        if elapsedSeconds >= thresholdSeconds {
                             vault.lock()
                         }
                     }
                     lastBackgroundedAt = nil
-                    
+
                     Task {
                         await BookingInboxWatcher.scanClipboardIfNeeded()
                         if vault.isUnlocked {

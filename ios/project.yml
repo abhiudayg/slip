@@ -34,7 +34,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS: Slip/Slip.entitlements
         PRODUCT_NAME: Slip
         MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "4"
+        CURRENT_PROJECT_VERSION: "5"
         GENERATE_INFOPLIST_FILE: false
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1"
@@ -69,7 +69,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS: SlipShareExtension/SlipShareExtension.entitlements
         PRODUCT_NAME: SlipShareExtension
         MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "4"
+        CURRENT_PROJECT_VERSION: "5"
         GENERATE_INFOPLIST_FILE: false
         SKIP_INSTALL: true
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
@@ -92,7 +92,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS: SlipWidgets/SlipWidgets.entitlements
         PRODUCT_NAME: SlipWidgets
         MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "4"
+        CURRENT_PROJECT_VERSION: "5"
         GENERATE_INFOPLIST_FILE: false
         SKIP_INSTALL: true
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
@@ -120,7 +120,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS: SlipWatch/SlipWatch.entitlements
         PRODUCT_NAME: Slip Watch
         MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "4"
+        CURRENT_PROJECT_VERSION: "5"
         GENERATE_INFOPLIST_FILE: false
         SDKROOT: watchos
         TARGETED_DEVICE_FAMILY: "4"

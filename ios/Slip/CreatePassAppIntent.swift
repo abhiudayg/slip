@@ -27,6 +27,30 @@ struct CreatePassFromTextIntent: AppIntent {
     }
 }
 
+/// Shared import path for clipboard / Mail-copy booking bodies.
+enum BookingMailImport {
+    /// Returns a Siri dialog string. Saves classification into SharedInbox for the host app.
+    @MainActor
+    static func importBookingBody(_ preferredText: String? = nil) async -> String {
+        let text: String
+        if let preferred = preferredText?.trimmingCharacters(in: .whitespacesAndNewlines),
+           preferred.count >= 24 {
+            text = preferred
+        } else if let clip = UIPasteboard.general.string?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  clip.count >= 24 {
+            text = clip
+        } else {
+            return "Open the booking in Mail, copy the email body or tap Share → Slip, then try again."
+        }
+
+        let brand = BookingInboxWatcher.detect(in: text)?.brand
+        PendingBookingImport.save(text: text, brandHint: brand ?? "")
+        let extracted = TicketExtractor.extract(payload: "", symbology: "none", surroundingText: text)
+        let classification = await IntelligentBrandClassifier.classify(extracted)
+        SharedInbox.save(classification)
+        return "Slip has a \(classification.displayName) pass ready to confirm."
+    }
+}
 
 /// Pull booking text from the clipboard (Mail / SMS copy) and open confirm.
 struct ImportBookingFromClipboardIntent: AppIntent {
@@ -36,17 +60,35 @@ struct ImportBookingFromClipboardIntent: AppIntent {
     )
     static var openAppWhenRun: Bool = true
 
+    static var parameterSummary: some ParameterSummary {
+        Summary("Import booking from clipboard into \(.applicationName)")
+    }
+
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        guard let text = UIPasteboard.general.string?.trimmingCharacters(in: .whitespacesAndNewlines),
-              text.count >= 24 else {
-            return .result(dialog: IntentDialog(stringLiteral: "Copy a booking email or SMS first, then try again."))
-        }
-        let brand = BookingInboxWatcher.detect(in: text)?.brand
-        PendingBookingImport.save(text: text, brandHint: brand ?? "")
-        let extracted = TicketExtractor.extract(payload: "", symbology: "none", surroundingText: text)
-        let classification = await IntelligentBrandClassifier.classify(extracted)
-        SharedInbox.save(classification)
-        return .result(dialog: IntentDialog(stringLiteral: "Slip has a \(classification.displayName) pass ready to confirm."))
+        let dialog = await BookingMailImport.importBookingBody(nil)
+        return .result(dialog: IntentDialog(stringLiteral: dialog))
+    }
+}
+
+/// Siri phrases for booking emails. Cannot read the Mail inbox — uses clipboard / Shortcuts text /
+/// or the Share → Slip path from Mail.
+struct ImportBookingFromMailIntent: AppIntent {
+    static var title: LocalizedStringResource = "Import Booking Email"
+    static var description = IntentDescription(
+        "Import a booking confirmation into Slip. Open the email in Mail, copy the body or Share to Slip, then run with Siri."
+    )
+    static var openAppWhenRun: Bool = true
+
+    @Parameter(title: "Booking email text")
+    var bookingText: String?
+
+    static var parameterSummary: some ParameterSummary {
+        Summary("Import booking email into \(.applicationName)")
+    }
+
+    func perform() async throws -> some IntentResult & ProvidesDialog {
+        let dialog = await BookingMailImport.importBookingBody(bookingText)
+        return .result(dialog: IntentDialog(stringLiteral: dialog))
     }
 }
 
@@ -99,6 +141,17 @@ struct SlipAppShortcuts: AppShortcutsProvider {
             ],
             shortTitle: "Import Clipboard",
             systemImageName: "doc.on.clipboard"
+        )
+        AppShortcut(
+            intent: ImportBookingFromMailIntent(),
+            phrases: [
+                "Import booking email in \(.applicationName)",
+                "Import this email into \(.applicationName)",
+                "Add this booking email to \(.applicationName)",
+                "Save Mail booking in \(.applicationName)"
+            ],
+            shortTitle: "Import Email",
+            systemImageName: "envelope.badge"
         )
     }
 }

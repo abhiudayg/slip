@@ -31,15 +31,20 @@ struct DashboardView: View {
     }
 
     var body: some View {
-        SlipScreenColumn {
-            topBar
-                .frame(maxWidth: .infinity, alignment: .leading)
-            filterBar
-                .frame(maxWidth: .infinity, alignment: .leading)
-            stackedWalletSection
-                .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(spacing: 0) {
+            SlipScreenColumn(includeDockClearance: false) {
+                topBar
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                filterBar
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                stackedWalletSection
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             utilityRow
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, SlipTheme.Layout.screenMargin)
+                // Dock already lives in safeAreaInset — keep a tight gap above it.
+                .padding(.bottom, 12)
         }
         .onAppear { vault.syncWalletPresence() }
         .sheet(isPresented: $showScrapbook) {

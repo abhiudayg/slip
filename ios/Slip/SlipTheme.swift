@@ -468,8 +468,13 @@ struct FloatingDock: View {
     var onNewPass: () -> Void
     var onImport: (() -> Void)? = nil
 
+    /// Equal inset around each 44pt icon circle (top/bottom/leading/trailing of capsule).
+    private static let iconSize: CGFloat = 44
+    private static let capsulePadding: CGFloat = 8
+    private static let iconSpacing: CGFloat = 10
+
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: Self.iconSpacing) {
             dockIcon("house.fill", selected: tab == .home) { tab = .home }
             dockIcon("doc.viewfinder", selected: false) {
                 onScan()
@@ -477,9 +482,7 @@ struct FloatingDock: View {
             dockIcon("safari.fill", selected: tab == .marketplace) { tab = .marketplace }
             dockIcon("gearshape", selected: tab == .settings) { tab = .settings }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 8)
-        .frame(maxWidth: 320)
+        .padding(Self.capsulePadding) // equal space on all sides of the active circle
         .background {
             Capsule()
                 .fill(.ultraThinMaterial)
@@ -488,7 +491,7 @@ struct FloatingDock: View {
                 .overlay(Capsule().strokeBorder(SlipTheme.glassBorder, lineWidth: 1))
                 .shadow(color: .black.opacity(0.60), radius: 20, y: 10)
         }
-        .frame(maxWidth: .infinity) // center capsule in the safe-area inset
+        .frame(maxWidth: .infinity) // center narrower capsule with equal side margins
         .contextMenu {
             Button("New Pass", systemImage: "plus") { onNewPass() }
             Button("Scan", systemImage: "qrcode.viewfinder") { onScan() }
@@ -504,7 +507,7 @@ struct FloatingDock: View {
             Image(systemName: systemName)
                 .font(.slipSystem(size: 18, weight: .semibold))
                 .foregroundStyle(selected ? SlipTheme.canvasLowest : SlipTheme.muted)
-                .frame(width: 48, height: 48)
+                .frame(width: Self.iconSize, height: Self.iconSize)
                 .background(
                     Circle().fill(selected ? SlipTheme.primary : Color.clear)
                 )
@@ -513,7 +516,6 @@ struct FloatingDock: View {
         .buttonStyle(.plain)
         .accessibilityIdentifier(systemName)
         .accessibilityLabel(systemName)
-        .frame(maxWidth: .infinity) // equal flex hit-targets; icon stays 48pt centered
     }
 }
 

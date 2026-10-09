@@ -91,6 +91,16 @@ enum BookingInboxWatcher {
         return nil
     }
 
+
+    /// Non-notifying clipboard probe for Marketplace UI.
+    @MainActor
+    static func clipboardBookingIfAvailable() -> (text: String, hit: Hit)? {
+        guard isEnabled else { return nil }
+        guard let text = UIPasteboard.general.string, text.count >= 48 else { return nil }
+        guard let hit = detect(in: text) else { return nil }
+        return (text, hit)
+    }
+
     private static func fingerprint(for text: String) -> String {
         let sample = String(text.prefix(400))
         return String(sample.hashValue)
@@ -112,13 +122,23 @@ enum PendingBookingImport {
         defaults.set(brandHint, forKey: brandKey)
     }
 
+    /// Read without clearing — used by Marketplace banner.
+    static func peek() -> (text: String, brandHint: String)? {
+        load(clearing: false)
+    }
+
     static func consume() -> (text: String, brandHint: String)? {
+        load(clearing: true)
+    }
+
+    private static func load(clearing: Bool) -> (text: String, brandHint: String)? {
         let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
         guard let data = defaults.data(forKey: textKey) else { return nil }
-        defaults.removeObject(forKey: textKey)
         let brand = defaults.string(forKey: brandKey) ?? ""
-        defaults.removeObject(forKey: brandKey)
-        // Decrypt the sealed booking text.
+        if clearing {
+            defaults.removeObject(forKey: textKey)
+            defaults.removeObject(forKey: brandKey)
+        }
         guard let box = try? JSONDecoder().decode(VaultCrypto.SealedBox.self, from: data),
               let text = try? VaultCrypto.open(box, as: String.self),
               !text.isEmpty else {
@@ -129,6 +149,6 @@ enum PendingBookingImport {
 
     static var hasPending: Bool {
         let defaults = UserDefaults(suiteName: SharedInbox.appGroupId) ?? .standard
-        return (defaults.string(forKey: textKey) ?? "").isEmpty == false
+        return defaults.data(forKey: textKey) != nil
     }
 }

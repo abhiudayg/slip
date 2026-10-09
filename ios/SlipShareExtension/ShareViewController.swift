@@ -24,62 +24,153 @@ class ShareViewController: UIViewController {
     }
 
     private func processIncoming() async {
-        guard let item = extensionContext?.inputItems.first as? NSExtensionItem,
-              let provider = item.attachments?.first else {
+        let items = extensionContext?.inputItems.compactMap { $0 as? NSExtensionItem } ?? []
+        guard !items.isEmpty else {
             finish()
             return
         }
 
         do {
-            let extracted: ExtractedTicket
-            if provider.hasItemConformingToTypeIdentifier(UTType.pdf.identifier) {
-                let data = try await loadData(from: provider, typeIdentifier: UTType.pdf.identifier)
-                extracted = await TicketExtractor.extract(fromPDF: data)
-            } else if provider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+            // Prefer attributed email body Mail puts on the extension item itself.
+            for item in items {
+                if let body = item.attributedContentText?.string
+                    .trimmingCharacters(in: .whitespacesAndNewlines),
+                   body.count >= 24 {
+                    try await classifyAndHandoff(text: body)
+                    return
+                }
+            }
+
+            let providers = items.flatMap { $0.attachments ?? [] }
+            guard !providers.isEmpty else {
+                presentAlert("Share a ticket PDF, screenshot, or booking email with Slip.")
+                return
+            }
+
+            // Try richest booking signal first: PDF → image → HTML → plain text → URL file.
+            if let provider = providers.first(where: {
+                $0.hasItemConformingToTypeIdentifier(UTType.pdf.identifier)
+                    || $0.hasItemConformingToTypeIdentifier("com.adobe.pdf")
+            }) {
+                let typeId = provider.hasItemConformingToTypeIdentifier(UTType.pdf.identifier)
+                    ? UTType.pdf.identifier : "com.adobe.pdf"
+                let data = try await loadData(from: provider, typeIdentifier: typeId)
+                let extracted = await TicketExtractor.extract(fromPDF: data)
+                try await classifyAndHandoff(extracted: extracted)
+                return
+            }
+
+            if let provider = providers.first(where: {
+                $0.hasItemConformingToTypeIdentifier(UTType.image.identifier)
+            }) {
                 let image = try await loadImage(from: provider)
-                extracted = await TicketExtractor.extract(from: image)
-            } else if provider.hasItemConformingToTypeIdentifier("com.adobe.pdf") {
-                let data = try await loadData(from: provider, typeIdentifier: "com.adobe.pdf")
-                extracted = await TicketExtractor.extract(fromPDF: data)
-            } else if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier)
-                        || provider.hasItemConformingToTypeIdentifier("public.utf8-plain-text")
-                        || provider.hasItemConformingToTypeIdentifier("public.text") {
-                let typeId = provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier)
-                    ? UTType.plainText.identifier
-                    : (provider.hasItemConformingToTypeIdentifier("public.utf8-plain-text")
-                       ? "public.utf8-plain-text" : "public.text")
+                let extracted = await TicketExtractor.extract(from: image)
+                try await classifyAndHandoff(extracted: extracted)
+                return
+            }
+
+            if let provider = providers.first(where: {
+                $0.hasItemConformingToTypeIdentifier(UTType.html.identifier)
+                    || $0.hasItemConformingToTypeIdentifier("public.html")
+            }) {
+                let typeId = provider.hasItemConformingToTypeIdentifier(UTType.html.identifier)
+                    ? UTType.html.identifier : "public.html"
+                let html = try await loadString(from: provider, typeIdentifier: typeId)
+                let text = Self.plainText(fromHTML: html)
+                guard text.count >= 24 else {
+                    presentAlert("That email doesn’t look like a booking confirmation.")
+                    return
+                }
+                try await classifyAndHandoff(text: text)
+                return
+            }
+
+            if let provider = providers.first(where: {
+                $0.hasItemConformingToTypeIdentifier(UTType.plainText.identifier)
+                    || $0.hasItemConformingToTypeIdentifier("public.utf8-plain-text")
+                    || $0.hasItemConformingToTypeIdentifier("public.text")
+            }) {
+                let typeId: String
+                if provider.hasItemConformingToTypeIdentifier(UTType.plainText.identifier) {
+                    typeId = UTType.plainText.identifier
+                } else if provider.hasItemConformingToTypeIdentifier("public.utf8-plain-text") {
+                    typeId = "public.utf8-plain-text"
+                } else {
+                    typeId = "public.text"
+                }
                 let text = try await loadString(from: provider, typeIdentifier: typeId)
-                let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard trimmed.count >= 24 else {
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                guard text.count >= 24 else {
                     presentAlert("That text doesn’t look like a booking confirmation.")
                     return
                 }
-                extracted = TicketExtractor.extract(
-                    payload: "",
-                    symbology: "none",
-                    surroundingText: trimmed
-                )
-            } else {
-                presentAlert("Share a ticket PDF, screenshot, or booking email text with Slip.")
+                try await classifyAndHandoff(text: text)
                 return
             }
 
-            let hasSignal = extracted.qrPayload != nil
-                || extracted.recognizedText.trimmingCharacters(in: .whitespacesAndNewlines).count >= 12
-            guard hasSignal else {
-                presentAlert("Couldn’t read a QR or booking text from that file.")
-                return
+            if let provider = providers.first(where: {
+                $0.hasItemConformingToTypeIdentifier(UTType.url.identifier)
+                    || $0.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier)
+            }) {
+                let typeId = provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier)
+                    ? UTType.fileURL.identifier : UTType.url.identifier
+                let text = try await loadString(from: provider, typeIdentifier: typeId)
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                if text.count >= 24 {
+                    try await classifyAndHandoff(text: text)
+                    return
+                }
             }
 
-            let classification = await IntelligentBrandClassifier.classify(extracted)
-            SharedInbox.save(classification)
-            openHostApp()
-            finish()
+            presentAlert("Share a ticket PDF, screenshot, or booking email text with Slip.")
         } catch {
             presentAlert(error.localizedDescription)
         }
     }
 
+    private func classifyAndHandoff(text: String) async throws {
+        let extracted = TicketExtractor.extract(
+            payload: "",
+            symbology: "none",
+            surroundingText: text
+        )
+        try await classifyAndHandoff(extracted: extracted)
+    }
+
+    private func classifyAndHandoff(extracted: ExtractedTicket) async throws {
+        let hasSignal = extracted.qrPayload != nil
+            || extracted.recognizedText.trimmingCharacters(in: .whitespacesAndNewlines).count >= 12
+        guard hasSignal else {
+            presentAlert("Couldn’t read a QR or booking text from that share.")
+            return
+        }
+
+        let classification = await IntelligentBrandClassifier.classify(extracted)
+        SharedInbox.save(classification)
+        openHostApp()
+        finish()
+    }
+
+    /// Naive HTML → text so Mail HTML bodies still feed TicketExtractor.
+    private static func plainText(fromHTML html: String) -> String {
+        var s = html
+        s = s.replacingOccurrences(of: #"(?is)<(script|style)[^>]*>.*?</\1>"#, with: " ", options: .regularExpression)
+        s = s.replacingOccurrences(of: #"(?i)<br\s*/?>"#, with: "\n", options: .regularExpression)
+        s = s.replacingOccurrences(of: #"(?i)</p>"#, with: "\n", options: .regularExpression)
+        s = s.replacingOccurrences(of: #"(?i)</div>"#, with: "\n", options: .regularExpression)
+        s = s.replacingOccurrences(of: #"<[^>]+>"#, with: " ", options: .regularExpression)
+        s = s
+            .replacingOccurrences(of: "&nbsp;", with: " ")
+            .replacingOccurrences(of: "&amp;", with: "&")
+            .replacingOccurrences(of: "&lt;", with: "<")
+            .replacingOccurrences(of: "&gt;", with: ">")
+            .replacingOccurrences(of: "&quot;", with: "\"")
+        return s
+            .components(separatedBy: .whitespacesAndNewlines)
+            .filter { !$0.isEmpty }
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     private func loadString(from provider: NSItemProvider, typeIdentifier: String) async throws -> String {
         if provider.canLoadObject(ofClass: NSString.self) {

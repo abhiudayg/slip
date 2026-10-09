@@ -100,6 +100,14 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// Import booking body copied from Mail / SMS (no barcode required).
+    func classifyBookingText(_ text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        let extracted = TicketExtractor.extract(payload: "", symbology: "none", surroundingText: trimmed)
+        presentBrandStep(for: extracted)
+    }
+
     func classifyPDF(_ data: Data) async {
         extractingStatus = "Reading ticket"
         isExtracting = true
